@@ -142,7 +142,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -156,7 +156,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -234,12 +234,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 213
-        width: 25
-        height: 25
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -256,12 +256,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_1
       rect:
         serializedVersion: 2
-        x: 99
-        y: 229
-        width: 11
-        height: 11
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -278,12 +278,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_2
       rect:
         serializedVersion: 2
-        x: 165
-        y: 233
-        width: 7
-        height: 8
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -300,12 +300,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_3
       rect:
         serializedVersion: 2
-        x: 231
-        y: 236
-        width: 6
-        height: 6
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -322,12 +322,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_4
       rect:
         serializedVersion: 2
-        x: 277
-        y: 213
-        width: 25
-        height: 30
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -344,12 +344,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_5
       rect:
         serializedVersion: 2
-        x: 341
-        y: 213
-        width: 25
-        height: 30
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -366,12 +366,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_6
       rect:
         serializedVersion: 2
-        x: 85
-        y: 213
-        width: 25
-        height: 20
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -388,12 +388,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_7
       rect:
         serializedVersion: 2
-        x: 149
-        y: 213
-        width: 25
-        height: 21
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -410,12 +410,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_8
       rect:
         serializedVersion: 2
-        x: 213
-        y: 213
-        width: 25
-        height: 21
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -432,12 +432,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_9
       rect:
         serializedVersion: 2
-        x: 19
-        y: 149
-        width: 25
-        height: 25
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -454,12 +454,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_10
       rect:
         serializedVersion: 2
-        x: 83
-        y: 165
-        width: 11
-        height: 11
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -476,12 +476,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_11
       rect:
         serializedVersion: 2
-        x: 149
-        y: 169
-        width: 7
-        height: 8
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -498,12 +498,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_12
       rect:
         serializedVersion: 2
-        x: 212
-        y: 172
-        width: 6
-        height: 6
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -520,12 +520,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_13
       rect:
         serializedVersion: 2
-        x: 275
-        y: 149
-        width: 25
-        height: 30
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -542,12 +542,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_14
       rect:
         serializedVersion: 2
-        x: 339
-        y: 149
-        width: 25
-        height: 30
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -564,12 +564,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_15
       rect:
         serializedVersion: 2
-        x: 83
-        y: 149
-        width: 25
-        height: 20
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -586,12 +586,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_16
       rect:
         serializedVersion: 2
-        x: 147
-        y: 149
-        width: 25
-        height: 21
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -608,12 +608,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_17
       rect:
         serializedVersion: 2
-        x: 211
-        y: 149
-        width: 25
-        height: 21
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -630,12 +630,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_18
       rect:
         serializedVersion: 2
-        x: 23
-        y: 85
-        width: 22
-        height: 25
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -652,12 +652,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_19
       rect:
         serializedVersion: 2
-        x: 99
-        y: 104
-        width: 9
-        height: 10
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -674,12 +674,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_20
       rect:
         serializedVersion: 2
-        x: 165
-        y: 104
-        width: 8
-        height: 11
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -696,12 +696,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_21
       rect:
         serializedVersion: 2
-        x: 230
-        y: 109
-        width: 6
-        height: 6
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -718,12 +718,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_22
       rect:
         serializedVersion: 2
-        x: 279
-        y: 85
-        width: 22
-        height: 31
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -740,12 +740,12 @@ TextureImporter:
       name: Slime2_Idle_with_shadow_23
       rect:
         serializedVersion: 2
-        x: 343
-        y: 85
-        width: 22
-        height: 31
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -758,275 +758,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_24
-      rect:
-        serializedVersion: 2
-        x: 87
-        y: 85
-        width: 22
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 49c94a2cafa9f6e90800000000000000
-      internalID: -7030230091503985516
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_25
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 85
-        width: 21
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9a58bd52f12630380800000000000000
-      internalID: -9006246943892208215
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_26
-      rect:
-        serializedVersion: 2
-        x: 215
-        y: 85
-        width: 19
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b771ff82babe09110800000000000000
-      internalID: 1265770615650850683
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_27
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 21
-        width: 22
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6d790f2e32dd73210800000000000000
-      internalID: 1312760962602801110
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_28
-      rect:
-        serializedVersion: 2
-        x: 85
-        y: 40
-        width: 9
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5b48126b13b846ee0800000000000000
-      internalID: -1268736149386328907
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_29
-      rect:
-        serializedVersion: 2
-        x: 148
-        y: 40
-        width: 8
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6f01c638f499364a0800000000000000
-      internalID: -6601264062008651530
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_30
-      rect:
-        serializedVersion: 2
-        x: 213
-        y: 45
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d2cc315da5627d950800000000000000
-      internalID: 6473685160932133933
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_31
-      rect:
-        serializedVersion: 2
-        x: 276
-        y: 21
-        width: 22
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 80d8fb93e14cc2070800000000000000
-      internalID: 8083051065320115464
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_32
-      rect:
-        serializedVersion: 2
-        x: 340
-        y: 21
-        width: 22
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 66c4d0a87eb941340800000000000000
-      internalID: 4833659718831262822
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_33
-      rect:
-        serializedVersion: 2
-        x: 84
-        y: 21
-        width: 22
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5cb82f7fe2fbb3d40800000000000000
-      internalID: 5565251972995648453
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_34
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 21
-        width: 21
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 284d2b05105dc2ef0800000000000000
-      internalID: -131496087475006334
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime2_Idle_with_shadow_35
-      rect:
-        serializedVersion: 2
-        x: 215
-        y: 21
-        width: 19
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fcb7ae2b2c75eb5f0800000000000000
-      internalID: -739056795105199153
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1bfbaf00d86d985f9884bb3e7201cfed
     internalID: 0
     vertices: []
     indices: 
@@ -1034,7 +770,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Slime2_Idle_with_shadow_0: -60553578185733963
       Slime2_Idle_with_shadow_1: 8241411968219158646
@@ -1053,19 +791,7 @@ TextureImporter:
       Slime2_Idle_with_shadow_21: 3570357796400095402
       Slime2_Idle_with_shadow_22: 2217231599180186136
       Slime2_Idle_with_shadow_23: 2615892460540940350
-      Slime2_Idle_with_shadow_24: -7030230091503985516
-      Slime2_Idle_with_shadow_25: -9006246943892208215
-      Slime2_Idle_with_shadow_26: 1265770615650850683
-      Slime2_Idle_with_shadow_27: 1312760962602801110
-      Slime2_Idle_with_shadow_28: -1268736149386328907
-      Slime2_Idle_with_shadow_29: -6601264062008651530
       Slime2_Idle_with_shadow_3: 6699616980242499640
-      Slime2_Idle_with_shadow_30: 6473685160932133933
-      Slime2_Idle_with_shadow_31: 8083051065320115464
-      Slime2_Idle_with_shadow_32: 4833659718831262822
-      Slime2_Idle_with_shadow_33: 5565251972995648453
-      Slime2_Idle_with_shadow_34: -131496087475006334
-      Slime2_Idle_with_shadow_35: -739056795105199153
       Slime2_Idle_with_shadow_4: 6399896331130503017
       Slime2_Idle_with_shadow_5: -2490049270570020461
       Slime2_Idle_with_shadow_6: -8335110783455543836

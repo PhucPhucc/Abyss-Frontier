@@ -154,7 +154,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -168,7 +168,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -246,12 +246,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 209
-        width: 34
-        height: 34
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -268,12 +268,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_1
       rect:
         serializedVersion: 2
-        x: 68
-        y: 209
-        width: 41
-        height: 31
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -290,12 +290,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_2
       rect:
         serializedVersion: 2
-        x: 133
-        y: 205
-        width: 52
-        height: 31
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -312,12 +312,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_3
       rect:
         serializedVersion: 2
-        x: 200
-        y: 203
-        width: 55
-        height: 41
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -334,12 +334,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_4
       rect:
         serializedVersion: 2
-        x: 274
-        y: 201
-        width: 47
-        height: 25
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -356,12 +356,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_5
       rect:
         serializedVersion: 2
-        x: 277
-        y: 209
-        width: 42
-        height: 34
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -378,12 +378,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_6
       rect:
         serializedVersion: 2
-        x: 341
-        y: 209
-        width: 37
-        height: 32
+        x: 384
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -400,12 +400,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_7
       rect:
         serializedVersion: 2
-        x: 346
-        y: 200
-        width: 33
-        height: 12
+        x: 448
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -422,12 +422,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_8
       rect:
         serializedVersion: 2
-        x: 405
-        y: 209
-        width: 28
-        height: 34
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -444,12 +444,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_9
       rect:
         serializedVersion: 2
-        x: 464
-        y: 209
-        width: 28
-        height: 35
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -466,12 +466,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_10
       rect:
         serializedVersion: 2
-        x: 20
-        y: 145
-        width: 35
-        height: 34
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -488,12 +488,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_11
       rect:
         serializedVersion: 2
-        x: 83
-        y: 145
-        width: 41
-        height: 32
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -510,12 +510,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_12
       rect:
         serializedVersion: 2
-        x: 141
-        y: 145
-        width: 52
-        height: 38
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -532,12 +532,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_13
       rect:
         serializedVersion: 2
-        x: 199
-        y: 145
-        width: 57
-        height: 43
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -554,12 +554,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_14
       rect:
         serializedVersion: 2
-        x: 263
-        y: 163
-        width: 47
-        height: 25
+        x: 384
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -576,12 +576,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_15
       rect:
         serializedVersion: 2
-        x: 264
-        y: 145
-        width: 34
-        height: 34
+        x: 448
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -598,12 +598,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_16
       rect:
         serializedVersion: 2
-        x: 331
-        y: 145
-        width: 31
-        height: 30
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -620,12 +620,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_17
       rect:
         serializedVersion: 2
-        x: 333
-        y: 174
-        width: 33
-        height: 12
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -642,12 +642,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_18
       rect:
         serializedVersion: 2
-        x: 399
-        y: 145
-        width: 27
-        height: 34
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -664,12 +664,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_19
       rect:
         serializedVersion: 2
-        x: 466
-        y: 145
-        width: 30
-        height: 36
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -686,12 +686,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_20
       rect:
         serializedVersion: 2
-        x: 20
-        y: 81
-        width: 23
-        height: 34
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -708,12 +708,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_21
       rect:
         serializedVersion: 2
-        x: 83
-        y: 81
-        width: 29
-        height: 35
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -730,12 +730,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_22
       rect:
         serializedVersion: 2
-        x: 131
-        y: 77
-        width: 49
-        height: 32
+        x: 384
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -752,12 +752,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_23
       rect:
         serializedVersion: 2
-        x: 194
-        y: 74
-        width: 47
-        height: 45
+        x: 448
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -774,12 +774,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_24
       rect:
         serializedVersion: 2
-        x: 255
-        y: 73
-        width: 33
-        height: 41
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -796,12 +796,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_25
       rect:
         serializedVersion: 2
-        x: 261
-        y: 81
-        width: 37
-        height: 39
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -818,12 +818,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_26
       rect:
         serializedVersion: 2
-        x: 319
-        y: 74
-        width: 19
-        height: 25
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -840,12 +840,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_27
       rect:
         serializedVersion: 2
-        x: 329
-        y: 81
-        width: 34
-        height: 32
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -862,12 +862,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_28
       rect:
         serializedVersion: 2
-        x: 391
-        y: 81
-        width: 35
-        height: 35
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -884,12 +884,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_29
       rect:
         serializedVersion: 2
-        x: 461
-        y: 81
-        width: 30
-        height: 35
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -906,12 +906,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_30
       rect:
         serializedVersion: 2
-        x: 21
-        y: 17
-        width: 22
-        height: 34
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -928,12 +928,12 @@ TextureImporter:
       name: orc1_run_attack_front_with_shadow_31
       rect:
         serializedVersion: 2
-        x: 75
-        y: 17
-        width: 35
-        height: 33
+        x: 448
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -946,187 +946,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_32
-      rect:
-        serializedVersion: 2
-        x: 137
-        y: 15
-        width: 51
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a137eeccecf55bdb0800000000000000
-      internalID: -4776806487950462182
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_33
-      rect:
-        serializedVersion: 2
-        x: 206
-        y: 10
-        width: 47
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4d332d85788290e90800000000000000
-      internalID: -7059066379150674988
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_34
-      rect:
-        serializedVersion: 2
-        x: 277
-        y: 17
-        width: 37
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b4a741c36c018b380800000000000000
-      internalID: -8955389415428687285
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_35
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 9
-        width: 33
-        height: 41
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0a0f85963aeba4bb0800000000000000
-      internalID: -4950935231284055904
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_36
-      rect:
-        serializedVersion: 2
-        x: 341
-        y: 17
-        width: 34
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 48e96c07454e9b240800000000000000
-      internalID: 4808125128515165828
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_37
-      rect:
-        serializedVersion: 2
-        x: 366
-        y: 10
-        width: 19
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00798fd9efa1cfb20800000000000000
-      internalID: 3169437918636316416
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_38
-      rect:
-        serializedVersion: 2
-        x: 405
-        y: 17
-        width: 33
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cf54f2d5bd8b27c50800000000000000
-      internalID: 6661590051135112700
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_run_attack_front_with_shadow_39
-      rect:
-        serializedVersion: 2
-        x: 469
-        y: 17
-        width: 26
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 42d8ebd3b140978c0800000000000000
-      internalID: -4001162278895448796
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9855db3bf79afbc958a39e096a6f9144
     internalID: 0
     vertices: []
     indices: 
@@ -1134,7 +958,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       orc1_run_attack_front_with_shadow_0: -5691013758534995565
       orc1_run_attack_front_with_shadow_1: 7936237808742935548
@@ -1162,14 +988,6 @@ TextureImporter:
       orc1_run_attack_front_with_shadow_3: -6782606013945266142
       orc1_run_attack_front_with_shadow_30: -8914305613571242630
       orc1_run_attack_front_with_shadow_31: 1834994149937523751
-      orc1_run_attack_front_with_shadow_32: -4776806487950462182
-      orc1_run_attack_front_with_shadow_33: -7059066379150674988
-      orc1_run_attack_front_with_shadow_34: -8955389415428687285
-      orc1_run_attack_front_with_shadow_35: -4950935231284055904
-      orc1_run_attack_front_with_shadow_36: 4808125128515165828
-      orc1_run_attack_front_with_shadow_37: 3169437918636316416
-      orc1_run_attack_front_with_shadow_38: 6661590051135112700
-      orc1_run_attack_front_with_shadow_39: -4001162278895448796
       orc1_run_attack_front_with_shadow_4: 8223251982008043320
       orc1_run_attack_front_with_shadow_5: 6487632204433358231
       orc1_run_attack_front_with_shadow_6: -1978926971184171524
