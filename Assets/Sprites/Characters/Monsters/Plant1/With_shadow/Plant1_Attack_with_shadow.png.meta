@@ -148,7 +148,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -162,7 +162,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -240,12 +240,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 204
-        width: 31
-        height: 39
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -262,12 +262,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 204
-        width: 31
-        height: 40
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -284,12 +284,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_2
       rect:
         serializedVersion: 2
-        x: 143
-        y: 204
-        width: 33
-        height: 39
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -306,12 +306,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_3
       rect:
         serializedVersion: 2
-        x: 206
-        y: 204
-        width: 35
-        height: 40
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -328,12 +328,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_4
       rect:
         serializedVersion: 2
-        x: 268
-        y: 193
-        width: 39
-        height: 50
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -350,12 +350,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_5
       rect:
         serializedVersion: 2
-        x: 331
-        y: 195
-        width: 11
-        height: 7
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -372,12 +372,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_6
       rect:
         serializedVersion: 2
-        x: 332
+        x: 384
         y: 192
-        width: 37
-        height: 50
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -394,12 +394,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_7
       rect:
         serializedVersion: 2
-        x: 339
-        y: 193
-        width: 7
-        height: 7
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -416,12 +416,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_8
       rect:
         serializedVersion: 2
-        x: 355
-        y: 192
-        width: 8
-        height: 7
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -438,12 +438,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_9
       rect:
         serializedVersion: 2
-        x: 360
-        y: 194
-        width: 8
-        height: 7
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -460,12 +460,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_10
       rect:
         serializedVersion: 2
-        x: 394
-        y: 191
-        width: 40
-        height: 48
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -482,12 +482,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_11
       rect:
         serializedVersion: 2
-        x: 16
-        y: 140
-        width: 31
-        height: 39
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -504,12 +504,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_12
       rect:
         serializedVersion: 2
-        x: 80
-        y: 140
-        width: 31
-        height: 40
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -526,12 +526,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_13
       rect:
         serializedVersion: 2
-        x: 143
-        y: 140
-        width: 33
-        height: 39
+        x: 384
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -548,12 +548,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_14
       rect:
         serializedVersion: 2
-        x: 206
-        y: 140
-        width: 35
-        height: 41
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -570,12 +570,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_15
       rect:
         serializedVersion: 2
-        x: 268
-        y: 138
-        width: 39
-        height: 43
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -592,12 +592,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_16
       rect:
         serializedVersion: 2
-        x: 330
-        y: 137
-        width: 43
-        height: 42
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -614,12 +614,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_17
       rect:
         serializedVersion: 2
-        x: 393
-        y: 136
-        width: 45
-        height: 43
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -636,12 +636,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_18
       rect:
         serializedVersion: 2
-        x: 12
-        y: 76
-        width: 38
-        height: 39
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -658,12 +658,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_19
       rect:
         serializedVersion: 2
-        x: 82
-        y: 76
-        width: 34
-        height: 39
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -680,12 +680,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_20
       rect:
         serializedVersion: 2
-        x: 146
-        y: 76
-        width: 36
-        height: 40
+        x: 384
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -702,12 +702,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_21
       rect:
         serializedVersion: 2
-        x: 210
-        y: 76
-        width: 37
-        height: 41
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -724,12 +724,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_22
       rect:
         serializedVersion: 2
-        x: 255
-        y: 73
-        width: 51
-        height: 42
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -746,12 +746,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_23
       rect:
         serializedVersion: 2
-        x: 319
-        y: 72
-        width: 51
-        height: 42
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -768,12 +768,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_24
       rect:
         serializedVersion: 2
-        x: 327
-        y: 96
-        width: 16
-        height: 15
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -790,12 +790,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_25
       rect:
         serializedVersion: 2
-        x: 383
-        y: 70
-        width: 48
-        height: 43
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -812,12 +812,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_26
       rect:
         serializedVersion: 2
-        x: 319
-        y: 75
-        width: 7
-        height: 9
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -834,12 +834,12 @@ TextureImporter:
       name: Plant1_Attack_with_shadow_27
       rect:
         serializedVersion: 2
-        x: 334
-        y: 71
-        width: 6
-        height: 7
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -852,231 +852,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_28
-      rect:
-        serializedVersion: 2
-        x: 14
-        y: 12
-        width: 38
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d790d5127e7383e20800000000000000
-      internalID: 3330473390277200253
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_29
-      rect:
-        serializedVersion: 2
-        x: 76
-        y: 12
-        width: 34
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0071ed5ce468bb4d0800000000000000
-      internalID: -3117750644138699008
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_30
-      rect:
-        serializedVersion: 2
-        x: 138
-        y: 12
-        width: 36
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3d0e4029da3c84e60800000000000000
-      internalID: 7946816692741791955
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_31
-      rect:
-        serializedVersion: 2
-        x: 201
-        y: 12
-        width: 37
-        height: 41
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 78029deaebeb3ad60800000000000000
-      internalID: 7900367897524510855
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_32
-      rect:
-        serializedVersion: 2
-        x: 270
-        y: 9
-        width: 51
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0f04f31beba301f70800000000000000
-      internalID: 9155882633136128240
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_33
-      rect:
-        serializedVersion: 2
-        x: 334
-        y: 8
-        width: 51
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 53df47121dd6d6a00800000000000000
-      internalID: 751377457817648437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_34
-      rect:
-        serializedVersion: 2
-        x: 361
-        y: 32
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 933a54b4194118c00800000000000000
-      internalID: 901024014716478265
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_35
-      rect:
-        serializedVersion: 2
-        x: 401
-        y: 6
-        width: 47
-        height: 43
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 65a09287184ebf8d0800000000000000
-      internalID: -2811402297644873130
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_36
-      rect:
-        serializedVersion: 2
-        x: 364
-        y: 7
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 783e335cd2e53cbc0800000000000000
-      internalID: -3764061312876551289
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Attack_with_shadow_37
-      rect:
-        serializedVersion: 2
-        x: 378
-        y: 11
-        width: 7
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a1999bba8ba7d5a60800000000000000
-      internalID: 7664417074428090650
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ea3d2773a3edddb7592cdf4127742b19
     internalID: 0
     vertices: []
     indices: 
@@ -1084,7 +864,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Plant1_Attack_with_shadow_0: -2402135936216101365
       Plant1_Attack_with_shadow_1: -6038667843964823351
@@ -1107,17 +889,7 @@ TextureImporter:
       Plant1_Attack_with_shadow_25: -4162283046794811777
       Plant1_Attack_with_shadow_26: -939907378702320727
       Plant1_Attack_with_shadow_27: -4179236142261339855
-      Plant1_Attack_with_shadow_28: 3330473390277200253
-      Plant1_Attack_with_shadow_29: -3117750644138699008
       Plant1_Attack_with_shadow_3: 7430327033859823275
-      Plant1_Attack_with_shadow_30: 7946816692741791955
-      Plant1_Attack_with_shadow_31: 7900367897524510855
-      Plant1_Attack_with_shadow_32: 9155882633136128240
-      Plant1_Attack_with_shadow_33: 751377457817648437
-      Plant1_Attack_with_shadow_34: 901024014716478265
-      Plant1_Attack_with_shadow_35: -2811402297644873130
-      Plant1_Attack_with_shadow_36: -3764061312876551289
-      Plant1_Attack_with_shadow_37: 7664417074428090650
       Plant1_Attack_with_shadow_4: -140501980143122768
       Plant1_Attack_with_shadow_5: -4775808462312390637
       Plant1_Attack_with_shadow_6: -955736302897673912

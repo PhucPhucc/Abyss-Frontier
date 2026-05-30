@@ -166,7 +166,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -180,7 +180,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -258,12 +258,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 208
-        width: 27
-        height: 36
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -280,12 +280,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_1
       rect:
         serializedVersion: 2
-        x: 83
-        y: 218
-        width: 25
-        height: 30
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -302,12 +302,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_2
       rect:
         serializedVersion: 2
-        x: 147
-        y: 220
-        width: 25
-        height: 30
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -324,12 +324,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_3
       rect:
         serializedVersion: 2
-        x: 211
-        y: 218
-        width: 25
-        height: 30
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -346,12 +346,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_4
       rect:
         serializedVersion: 2
-        x: 274
-        y: 208
-        width: 27
-        height: 36
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -368,12 +368,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_5
       rect:
         serializedVersion: 2
-        x: 336
-        y: 208
-        width: 31
-        height: 34
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -390,12 +390,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_6
       rect:
         serializedVersion: 2
-        x: 401
-        y: 208
-        width: 29
-        height: 29
+        x: 384
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -412,12 +412,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_7
       rect:
         serializedVersion: 2
-        x: 463
-        y: 208
-        width: 33
-        height: 34
+        x: 448
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -434,12 +434,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_8
       rect:
         serializedVersion: 2
-        x: 86
-        y: 208
-        width: 19
-        height: 11
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -456,12 +456,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_9
       rect:
         serializedVersion: 2
-        x: 150
-        y: 208
-        width: 19
-        height: 11
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -478,12 +478,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_10
       rect:
         serializedVersion: 2
-        x: 214
-        y: 208
-        width: 19
-        height: 11
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -500,12 +500,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_11
       rect:
         serializedVersion: 2
-        x: 18
-        y: 144
-        width: 27
-        height: 36
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -522,12 +522,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_12
       rect:
         serializedVersion: 2
-        x: 83
-        y: 154
-        width: 25
-        height: 30
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -544,12 +544,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_13
       rect:
         serializedVersion: 2
-        x: 147
-        y: 156
-        width: 25
-        height: 30
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -566,12 +566,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_14
       rect:
         serializedVersion: 2
-        x: 211
-        y: 154
-        width: 25
-        height: 30
+        x: 384
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -588,12 +588,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_15
       rect:
         serializedVersion: 2
-        x: 274
-        y: 144
-        width: 27
-        height: 36
+        x: 448
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -610,12 +610,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_16
       rect:
         serializedVersion: 2
-        x: 336
-        y: 144
-        width: 31
-        height: 34
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -632,12 +632,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_17
       rect:
         serializedVersion: 2
-        x: 401
-        y: 144
-        width: 29
-        height: 28
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -654,12 +654,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_18
       rect:
         serializedVersion: 2
-        x: 463
-        y: 144
-        width: 33
-        height: 34
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -676,12 +676,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_19
       rect:
         serializedVersion: 2
-        x: 86
-        y: 144
-        width: 19
-        height: 11
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -698,12 +698,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_20
       rect:
         serializedVersion: 2
-        x: 150
-        y: 144
-        width: 19
-        height: 11
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -720,12 +720,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_21
       rect:
         serializedVersion: 2
-        x: 214
-        y: 144
-        width: 19
-        height: 11
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -742,12 +742,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_22
       rect:
         serializedVersion: 2
-        x: 21
-        y: 80
-        width: 24
-        height: 36
+        x: 384
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -764,12 +764,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_23
       rect:
         serializedVersion: 2
-        x: 85
-        y: 90
-        width: 21
-        height: 30
+        x: 448
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -786,12 +786,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_24
       rect:
         serializedVersion: 2
-        x: 86
-        y: 80
-        width: 19
-        height: 11
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -808,12 +808,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_25
       rect:
         serializedVersion: 2
-        x: 149
-        y: 91
-        width: 19
-        height: 31
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -830,12 +830,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_26
       rect:
         serializedVersion: 2
-        x: 150
-        y: 80
-        width: 19
-        height: 11
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -852,12 +852,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_27
       rect:
         serializedVersion: 2
-        x: 213
-        y: 90
-        width: 22
-        height: 30
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -874,12 +874,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_28
       rect:
         serializedVersion: 2
-        x: 214
-        y: 80
-        width: 19
-        height: 11
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -896,12 +896,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_29
       rect:
         serializedVersion: 2
-        x: 277
-        y: 80
-        width: 24
-        height: 36
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -918,12 +918,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_30
       rect:
         serializedVersion: 2
-        x: 341
-        y: 80
-        width: 26
-        height: 34
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -940,12 +940,12 @@ TextureImporter:
       name: Vampires1_Run_with_shadow_31
       rect:
         serializedVersion: 2
-        x: 405
-        y: 80
-        width: 25
-        height: 29
+        x: 448
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -958,275 +958,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_32
-      rect:
-        serializedVersion: 2
-        x: 469
-        y: 80
-        width: 27
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7ad5abc0d84d80730800000000000000
-      internalID: 3965653174168739239
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_33
-      rect:
-        serializedVersion: 2
-        x: 18
-        y: 16
-        width: 24
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 573ec69f238ed19e0800000000000000
-      internalID: -1648906582917061771
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_34
-      rect:
-        serializedVersion: 2
-        x: 85
-        y: 26
-        width: 21
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9e2ec949637a7a3e0800000000000000
-      internalID: -2042480053125848343
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_35
-      rect:
-        serializedVersion: 2
-        x: 86
-        y: 16
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d743bbab004e0f560800000000000000
-      internalID: 7345621684025242749
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_36
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 16
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1225866d53c06bd70800000000000000
-      internalID: 9058441125872292385
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_37
-      rect:
-        serializedVersion: 2
-        x: 151
-        y: 27
-        width: 19
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c243b96c820c902f0800000000000000
-      internalID: -1006061760377310164
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_38
-      rect:
-        serializedVersion: 2
-        x: 212
-        y: 26
-        width: 22
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 072a5b1945c5623f0800000000000000
-      internalID: -925951155086450064
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_39
-      rect:
-        serializedVersion: 2
-        x: 214
-        y: 16
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd69661c460573540800000000000000
-      internalID: 4987543506007791323
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_40
-      rect:
-        serializedVersion: 2
-        x: 274
-        y: 16
-        width: 24
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3c38c542a71f9ca30800000000000000
-      internalID: 4236182431417009091
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_41
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 16
-        width: 26
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7e3eda385797d4d60800000000000000
-      internalID: 7876084868968211431
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_42
-      rect:
-        serializedVersion: 2
-        x: 401
-        y: 16
-        width: 25
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 51ec4faf85ef40510800000000000000
-      internalID: 1514615032824253973
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Vampires1_Run_with_shadow_43
-      rect:
-        serializedVersion: 2
-        x: 463
-        y: 16
-        width: 27
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d6b3e91d495881dd0800000000000000
-      internalID: -2515113517667959955
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 59f8a19adb62049368a53f43e12fe972
     internalID: 0
     vertices: []
     indices: 
@@ -1234,7 +970,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Vampires1_Run_with_shadow_0: -3883214357736090018
       Vampires1_Run_with_shadow_1: -9041513180479025230
@@ -1262,19 +1000,7 @@ TextureImporter:
       Vampires1_Run_with_shadow_3: -6975111171047506767
       Vampires1_Run_with_shadow_30: 2376666110173793940
       Vampires1_Run_with_shadow_31: -7527939493610376514
-      Vampires1_Run_with_shadow_32: 3965653174168739239
-      Vampires1_Run_with_shadow_33: -1648906582917061771
-      Vampires1_Run_with_shadow_34: -2042480053125848343
-      Vampires1_Run_with_shadow_35: 7345621684025242749
-      Vampires1_Run_with_shadow_36: 9058441125872292385
-      Vampires1_Run_with_shadow_37: -1006061760377310164
-      Vampires1_Run_with_shadow_38: -925951155086450064
-      Vampires1_Run_with_shadow_39: 4987543506007791323
       Vampires1_Run_with_shadow_4: -7831627931878129024
-      Vampires1_Run_with_shadow_40: 4236182431417009091
-      Vampires1_Run_with_shadow_41: 7876084868968211431
-      Vampires1_Run_with_shadow_42: 1514615032824253973
-      Vampires1_Run_with_shadow_43: -2515113517667959955
       Vampires1_Run_with_shadow_5: -3004800732313720626
       Vampires1_Run_with_shadow_6: -8717368415359069098
       Vampires1_Run_with_shadow_7: 6462177737714573765

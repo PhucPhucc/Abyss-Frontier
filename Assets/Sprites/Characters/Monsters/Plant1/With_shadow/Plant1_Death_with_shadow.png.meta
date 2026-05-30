@@ -400,7 +400,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -414,7 +414,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -492,12 +492,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 204
-        width: 31
-        height: 39
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -514,12 +514,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_1
       rect:
         serializedVersion: 2
-        x: 83
-        y: 204
-        width: 27
-        height: 39
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -536,12 +536,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_2
       rect:
         serializedVersion: 2
-        x: 144
-        y: 204
-        width: 31
-        height: 36
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -558,12 +558,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_3
       rect:
         serializedVersion: 2
-        x: 209
-        y: 222
-        width: 10
-        height: 9
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -580,12 +580,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_4
       rect:
         serializedVersion: 2
-        x: 216
-        y: 216
-        width: 17
-        height: 15
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -602,12 +602,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_5
       rect:
         serializedVersion: 2
-        x: 221
-        y: 228
-        width: 8
-        height: 9
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -624,12 +624,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_6
       rect:
         serializedVersion: 2
-        x: 232
-        y: 222
-        width: 7
-        height: 7
+        x: 384
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -646,12 +646,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_7
       rect:
         serializedVersion: 2
-        x: 285
-        y: 223
-        width: 10
-        height: 12
+        x: 448
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -668,12 +668,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_8
       rect:
         serializedVersion: 2
-        x: 352
-        y: 217
-        width: 11
-        height: 11
+        x: 512
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -690,12 +690,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_9
       rect:
         serializedVersion: 2
-        x: 209
-        y: 202
-        width: 31
-        height: 19
+        x: 576
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -712,12 +712,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_10
       rect:
         serializedVersion: 2
-        x: 269
-        y: 219
-        width: 13
-        height: 8
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -734,12 +734,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_11
       rect:
         serializedVersion: 2
-        x: 269
-        y: 202
-        width: 40
-        height: 20
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -756,12 +756,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_12
       rect:
         serializedVersion: 2
-        x: 284
-        y: 212
-        width: 15
-        height: 14
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -778,12 +778,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_13
       rect:
         serializedVersion: 2
-        x: 299
-        y: 218
-        width: 9
-        height: 7
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -800,12 +800,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_14
       rect:
         serializedVersion: 2
-        x: 334
-        y: 202
-        width: 22
-        height: 21
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -822,12 +822,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_15
       rect:
         serializedVersion: 2
-        x: 367
-        y: 216
-        width: 9
-        height: 6
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -844,12 +844,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_16
       rect:
         serializedVersion: 2
-        x: 418
-        y: 217
-        width: 11
-        height: 7
+        x: 384
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -866,12 +866,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_17
       rect:
         serializedVersion: 2
-        x: 434
-        y: 212
-        width: 8
-        height: 7
+        x: 448
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -888,12 +888,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_18
       rect:
         serializedVersion: 2
-        x: 480
-        y: 202
-        width: 25
-        height: 20
+        x: 512
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -910,12 +910,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_19
       rect:
         serializedVersion: 2
-        x: 356
-        y: 209
-        width: 14
-        height: 9
+        x: 576
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -932,12 +932,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_20
       rect:
         serializedVersion: 2
-        x: 406
-        y: 209
-        width: 12
-        height: 8
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -954,12 +954,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_21
       rect:
         serializedVersion: 2
-        x: 416
-        y: 202
-        width: 27
-        height: 14
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -976,12 +976,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_22
       rect:
         serializedVersion: 2
-        x: 419
-        y: 212
-        width: 6
-        height: 6
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -998,12 +998,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_23
       rect:
         serializedVersion: 2
-        x: 459
-        y: 202
-        width: 21
-        height: 11
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1020,12 +1020,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_24
       rect:
         serializedVersion: 2
-        x: 544
-        y: 202
-        width: 26
-        height: 14
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1042,12 +1042,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_25
       rect:
         serializedVersion: 2
-        x: 608
-        y: 202
-        width: 26
-        height: 11
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1064,12 +1064,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_26
       rect:
         serializedVersion: 2
-        x: 357
-        y: 202
-        width: 20
-        height: 7
+        x: 384
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1086,12 +1086,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_27
       rect:
         serializedVersion: 2
-        x: 396
-        y: 202
-        width: 21
-        height: 9
+        x: 448
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1108,12 +1108,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_28
       rect:
         serializedVersion: 2
-        x: 523
-        y: 202
-        width: 21
-        height: 9
+        x: 512
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1130,12 +1130,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_29
       rect:
         serializedVersion: 2
-        x: 587
-        y: 202
-        width: 21
-        height: 9
+        x: 576
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1152,12 +1152,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_30
       rect:
         serializedVersion: 2
-        x: 16
-        y: 140
-        width: 31
-        height: 39
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1174,12 +1174,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_31
       rect:
         serializedVersion: 2
-        x: 84
-        y: 140
-        width: 23
-        height: 39
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1196,12 +1196,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_32
       rect:
         serializedVersion: 2
-        x: 144
-        y: 140
-        width: 31
-        height: 35
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1218,12 +1218,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_33
       rect:
         serializedVersion: 2
-        x: 209
-        y: 158
-        width: 10
-        height: 9
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1240,12 +1240,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_34
       rect:
         serializedVersion: 2
-        x: 216
-        y: 152
-        width: 17
-        height: 15
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1262,12 +1262,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_35
       rect:
         serializedVersion: 2
-        x: 221
-        y: 164
-        width: 8
-        height: 9
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1284,12 +1284,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_36
       rect:
         serializedVersion: 2
-        x: 232
-        y: 158
-        width: 7
-        height: 7
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1306,12 +1306,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_37
       rect:
         serializedVersion: 2
-        x: 285
-        y: 159
-        width: 10
-        height: 12
+        x: 448
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1328,12 +1328,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_38
       rect:
         serializedVersion: 2
-        x: 352
-        y: 153
-        width: 11
-        height: 11
+        x: 512
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1350,12 +1350,12 @@ TextureImporter:
       name: Plant1_Death_with_shadow_39
       rect:
         serializedVersion: 2
-        x: 209
-        y: 138
-        width: 31
-        height: 19
+        x: 576
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1368,1815 +1368,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_40
-      rect:
-        serializedVersion: 2
-        x: 269
-        y: 155
-        width: 13
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a6f49da0fd321c7f0800000000000000
-      internalID: -594154234969501846
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_41
-      rect:
-        serializedVersion: 2
-        x: 269
-        y: 138
-        width: 40
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 759f25d0449cca3c0800000000000000
-      internalID: -4346878246200870569
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_42
-      rect:
-        serializedVersion: 2
-        x: 284
-        y: 148
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2f159d4db9096ff00800000000000000
-      internalID: 1150265753805083122
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_43
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 154
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 379c66b18e3178330800000000000000
-      internalID: 3712958305403324787
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_44
-      rect:
-        serializedVersion: 2
-        x: 334
-        y: 138
-        width: 22
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6469c457ce8a60950800000000000000
-      internalID: 6415000452769551942
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_45
-      rect:
-        serializedVersion: 2
-        x: 367
-        y: 152
-        width: 9
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: af1b13b8a55ad9230800000000000000
-      internalID: 3647253081540899322
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_46
-      rect:
-        serializedVersion: 2
-        x: 418
-        y: 153
-        width: 11
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8bf3cb13055c58aa0800000000000000
-      internalID: -6159299967136809032
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_47
-      rect:
-        serializedVersion: 2
-        x: 434
-        y: 148
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e15f020c2465b6e40800000000000000
-      internalID: 5650705002157634846
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_48
-      rect:
-        serializedVersion: 2
-        x: 480
-        y: 138
-        width: 25
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 04e31b2f9b4ecb240800000000000000
-      internalID: 4808969989416631872
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_49
-      rect:
-        serializedVersion: 2
-        x: 356
-        y: 145
-        width: 14
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d9d6fc5119830db20800000000000000
-      internalID: 3157085534574046621
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_50
-      rect:
-        serializedVersion: 2
-        x: 406
-        y: 145
-        width: 12
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ef431a8371e1dd910800000000000000
-      internalID: 1863678905884423422
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_51
-      rect:
-        serializedVersion: 2
-        x: 416
-        y: 138
-        width: 27
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3755c4601c4f8ace0800000000000000
-      internalID: -1393594974799637133
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_52
-      rect:
-        serializedVersion: 2
-        x: 419
-        y: 148
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1d1102c5e700ef8e0800000000000000
-      internalID: -1657887070114278959
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_53
-      rect:
-        serializedVersion: 2
-        x: 459
-        y: 138
-        width: 21
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0c413de8c551087d0800000000000000
-      internalID: -2918309071258708800
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_54
-      rect:
-        serializedVersion: 2
-        x: 544
-        y: 138
-        width: 26
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c8a7a9beb483b74d0800000000000000
-      internalID: -3135850816806946164
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_55
-      rect:
-        serializedVersion: 2
-        x: 608
-        y: 138
-        width: 26
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 78c3fc69d53c42940800000000000000
-      internalID: 5270552270659861639
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_56
-      rect:
-        serializedVersion: 2
-        x: 357
-        y: 138
-        width: 20
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b3f3a38bcd01d8570800000000000000
-      internalID: 8470445014323445563
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_57
-      rect:
-        serializedVersion: 2
-        x: 396
-        y: 138
-        width: 21
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a87f550cd38ff8e70800000000000000
-      internalID: 9119780714552096650
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_58
-      rect:
-        serializedVersion: 2
-        x: 523
-        y: 138
-        width: 21
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d6dfa1921b1f28d20800000000000000
-      internalID: 3279449221880282477
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_59
-      rect:
-        serializedVersion: 2
-        x: 587
-        y: 138
-        width: 21
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1ca46eb6488becb60800000000000000
-      internalID: 7768349286146132673
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_60
-      rect:
-        serializedVersion: 2
-        x: 12
-        y: 76
-        width: 38
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: efd3bcbe08e62a260800000000000000
-      internalID: 7107364661934898686
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_61
-      rect:
-        serializedVersion: 2
-        x: 78
-        y: 76
-        width: 33
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4601c557026af13a0800000000000000
-      internalID: -6692447862911135644
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_62
-      rect:
-        serializedVersion: 2
-        x: 139
-        y: 76
-        width: 37
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2487bbc816721b8a0800000000000000
-      internalID: -6291203904533465022
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_63
-      rect:
-        serializedVersion: 2
-        x: 205
-        y: 89
-        width: 28
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bc941fd5d483cd090800000000000000
-      internalID: -8008464132431853109
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_64
-      rect:
-        serializedVersion: 2
-        x: 227
-        y: 92
-        width: 11
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5c7284f291462de60800000000000000
-      internalID: 7985555148611528645
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_65
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 99
-        width: 12
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 04999c37f46c454c0800000000000000
-      internalID: -4299593699684673216
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_66
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 87
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: de022eda9643b6590800000000000000
-      internalID: -7679987111056760595
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_67
-      rect:
-        serializedVersion: 2
-        x: 340
-        y: 96
-        width: 12
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a1fcaae92bf5e8bc0800000000000000
-      internalID: -3778977816546455782
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_68
-      rect:
-        serializedVersion: 2
-        x: 354
-        y: 89
-        width: 13
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5488b21d8d4eb7d00800000000000000
-      internalID: 971621764501833797
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_69
-      rect:
-        serializedVersion: 2
-        x: 404
-        y: 90
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2d74697ae944e24d0800000000000000
-      internalID: -3157510840532973614
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_70
-      rect:
-        serializedVersion: 2
-        x: 204
-        y: 82
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8312dbc0299d1e470800000000000000
-      internalID: 8422251999461712184
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_71
-      rect:
-        serializedVersion: 2
-        x: 213
-        y: 82
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2db0ae0024026a720800000000000000
-      internalID: 2857006481468427218
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_72
-      rect:
-        serializedVersion: 2
-        x: 223
-        y: 84
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b0d237affa9e09200800000000000000
-      internalID: 184904526752591115
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_73
-      rect:
-        serializedVersion: 2
-        x: 267
-        y: 85
-        width: 15
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d67bf4b6ca99e99e0800000000000000
-      internalID: -1612682650738247827
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_74
-      rect:
-        serializedVersion: 2
-        x: 269
-        y: 74
-        width: 38
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d6221ac5de9320270800000000000000
-      internalID: 8215192361901302381
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_75
-      rect:
-        serializedVersion: 2
-        x: 295
-        y: 89
-        width: 13
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 27f9cdc45bb254ab0800000000000000
-      internalID: -5024561751583318158
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_76
-      rect:
-        serializedVersion: 2
-        x: 329
-        y: 83
-        width: 15
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 34089a7043864f080800000000000000
-      internalID: -9154577569861238717
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_77
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 84
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 773ec0fe4c25790b0800000000000000
-      internalID: -5722013795773258889
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_78
-      rect:
-        serializedVersion: 2
-        x: 361
-        y: 84
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 86bd8c3a376b6a6f0800000000000000
-      internalID: -673650486459966616
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_79
-      rect:
-        serializedVersion: 2
-        x: 392
-        y: 74
-        width: 23
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6975cb3d5e9c6e090800000000000000
-      internalID: -8005489298667448426
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_80
-      rect:
-        serializedVersion: 2
-        x: 424
-        y: 85
-        width: 9
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ecd2bef5292044f10800000000000000
-      internalID: 2252928541289819598
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_81
-      rect:
-        serializedVersion: 2
-        x: 467
-        y: 85
-        width: 8
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b2673ece2e49e40d0800000000000000
-      internalID: -3436645763279260117
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_82
-      rect:
-        serializedVersion: 2
-        x: 493
-        y: 80
-        width: 12
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b11ae568e0edad3c0800000000000000
-      internalID: -4333907537425424101
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_83
-      rect:
-        serializedVersion: 2
-        x: 525
-        y: 73
-        width: 43
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3452fbb414ded8c80800000000000000
-      internalID: -8318732071983962813
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_84
-      rect:
-        serializedVersion: 2
-        x: 205
-        y: 75
-        width: 35
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 59507feaad5046a90800000000000000
-      internalID: -7321720657401150059
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_85
-      rect:
-        serializedVersion: 2
-        x: 221
-        y: 81
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 55be21cecdc40f4f0800000000000000
-      internalID: -797052622307398827
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_86
-      rect:
-        serializedVersion: 2
-        x: 330
-        y: 74
-        width: 43
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a28bc13cad25a5e80800000000000000
-      internalID: -8189141872890038230
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_87
-      rect:
-        serializedVersion: 2
-        x: 414
-        y: 73
-        width: 23
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7031605d4c9ab2370800000000000000
-      internalID: 8298913401212900103
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_88
-      rect:
-        serializedVersion: 2
-        x: 459
-        y: 74
-        width: 20
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 393295cfaf7802b60800000000000000
-      internalID: 7719319273358304147
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_89
-      rect:
-        serializedVersion: 2
-        x: 478
-        y: 73
-        width: 27
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b606720071d29b750800000000000000
-      internalID: 6321133128801280107
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_90
-      rect:
-        serializedVersion: 2
-        x: 589
-        y: 73
-        width: 42
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2c15ff39bf330d240800000000000000
-      internalID: 4814405157271851458
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_91
-      rect:
-        serializedVersion: 2
-        x: 14
-        y: 12
-        width: 38
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d5d8b37001dfc9d40800000000000000
-      internalID: 5592623082569960797
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_92
-      rect:
-        serializedVersion: 2
-        x: 81
-        y: 12
-        width: 33
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 92715dd35d0c6b0a0800000000000000
-      internalID: -6866088559781800151
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_93
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 12
-        width: 37
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9d839d5de59166170800000000000000
-      internalID: 8171246469015746777
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_94
-      rect:
-        serializedVersion: 2
-        x: 210
-        y: 28
-        width: 11
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e1850c4677b37e030800000000000000
-      internalID: 3523850617418176542
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_95
-      rect:
-        serializedVersion: 2
-        x: 215
-        y: 25
-        width: 28
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 62fcf8cd1b487baa0800000000000000
-      internalID: -6145297267079262426
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_96
-      rect:
-        serializedVersion: 2
-        x: 279
-        y: 23
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e08368ac39d9efc40800000000000000
-      internalID: 5548045049050576910
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_97
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 35
-        width: 12
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 13f7ff7e82b22ee70800000000000000
-      internalID: 9142917648206495537
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_98
-      rect:
-        serializedVersion: 2
-        x: 337
-        y: 25
-        width: 13
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd5359087430a7150800000000000000
-      internalID: 5871008669865686491
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_99
-      rect:
-        serializedVersion: 2
-        x: 352
-        y: 32
-        width: 12
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 720e37a3f187ad790800000000000000
-      internalID: -7504553753539518425
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_100
-      rect:
-        serializedVersion: 2
-        x: 420
-        y: 26
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ccae38531d7363f20800000000000000
-      internalID: 3401967940210518732
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_101
-      rect:
-        serializedVersion: 2
-        x: 212
-        y: 20
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 536858ba093fff590800000000000000
-      internalID: -7638118640318577099
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_102
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 18
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 563c074ecef7731e0800000000000000
-      internalID: -2218163636035075227
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_103
-      rect:
-        serializedVersion: 2
-        x: 235
-        y: 18
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9ba6a1f35505ec270800000000000000
-      internalID: 8272637892587317945
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_104
-      rect:
-        serializedVersion: 2
-        x: 268
-        y: 25
-        width: 13
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 56a1c5d9b74bc8cd0800000000000000
-      internalID: -2554468445611877787
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_105
-      rect:
-        serializedVersion: 2
-        x: 269
-        y: 10
-        width: 38
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ae4ea74b8d11c2270800000000000000
-      internalID: 8226970241737614570
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_106
-      rect:
-        serializedVersion: 2
-        x: 294
-        y: 21
-        width: 15
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5c1262c1bcf1ed310800000000000000
-      internalID: 1431616688761479621
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_107
-      rect:
-        serializedVersion: 2
-        x: 332
-        y: 20
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ede52a57f928b8d50800000000000000
-      internalID: 6740624888675065566
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_108
-      rect:
-        serializedVersion: 2
-        x: 353
-        y: 20
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 01bdfd5b565235f70800000000000000
-      internalID: 9174717984657103632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_109
-      rect:
-        serializedVersion: 2
-        x: 360
-        y: 19
-        width: 15
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cc560364a62dcd6f0800000000000000
-      internalID: -658420091616991796
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_110
-      rect:
-        serializedVersion: 2
-        x: 399
-        y: 21
-        width: 9
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1683726ae7f123990800000000000000
-      internalID: -7407823808257116063
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_111
-      rect:
-        serializedVersion: 2
-        x: 417
-        y: 10
-        width: 23
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 613864419f6c7c2c0800000000000000
-      internalID: -4411338536896789738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_112
-      rect:
-        serializedVersion: 2
-        x: 455
-        y: 16
-        width: 12
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f78829c46e7b35210800000000000000
-      internalID: 1320601315504719999
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_113
-      rect:
-        serializedVersion: 2
-        x: 485
-        y: 21
-        width: 8
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 04bcbc39bd56d3ce0800000000000000
-      internalID: -1423869913427358912
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_114
-      rect:
-        serializedVersion: 2
-        x: 520
-        y: 9
-        width: 43
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c103dde0d3cab3450800000000000000
-      internalID: 6069634301054234652
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_115
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 11
-        width: 35
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c4c400b1b20798930800000000000000
-      internalID: 4145968262410161228
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_116
-      rect:
-        serializedVersion: 2
-        x: 221
-        y: 17
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7d615d6d1d0c05ef0800000000000000
-      internalID: -121385182454016297
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_117
-      rect:
-        serializedVersion: 2
-        x: 331
-        y: 10
-        width: 43
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1210b7ec9529820c0800000000000000
-      internalID: -4600266104945049311
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_118
-      rect:
-        serializedVersion: 2
-        x: 395
-        y: 9
-        width: 23
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a10c766b9f6f117d0800000000000000
-      internalID: -2949304728583421926
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_119
-      rect:
-        serializedVersion: 2
-        x: 455
-        y: 9
-        width: 27
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e316d21870d40a430800000000000000
-      internalID: 3792115580873302334
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_120
-      rect:
-        serializedVersion: 2
-        x: 481
-        y: 10
-        width: 20
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 53511d7afb9ccbb40800000000000000
-      internalID: 5457458673457632565
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Plant1_Death_with_shadow_121
-      rect:
-        serializedVersion: 2
-        x: 585
-        y: 9
-        width: 42
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 791e4002cdf7fc6d0800000000000000
-      internalID: -2968013046007144041
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9aab59ea51fa2a9d58b7ef854b8784ac
     internalID: 0
     vertices: []
     indices: 
@@ -3184,35 +1380,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Plant1_Death_with_shadow_0: 1442169921112724772
       Plant1_Death_with_shadow_1: -7330951758970465931
       Plant1_Death_with_shadow_10: 2265262324041129466
-      Plant1_Death_with_shadow_100: 3401967940210518732
-      Plant1_Death_with_shadow_101: -7638118640318577099
-      Plant1_Death_with_shadow_102: -2218163636035075227
-      Plant1_Death_with_shadow_103: 8272637892587317945
-      Plant1_Death_with_shadow_104: -2554468445611877787
-      Plant1_Death_with_shadow_105: 8226970241737614570
-      Plant1_Death_with_shadow_106: 1431616688761479621
-      Plant1_Death_with_shadow_107: 6740624888675065566
-      Plant1_Death_with_shadow_108: 9174717984657103632
-      Plant1_Death_with_shadow_109: -658420091616991796
       Plant1_Death_with_shadow_11: -2959201424745211514
-      Plant1_Death_with_shadow_110: -7407823808257116063
-      Plant1_Death_with_shadow_111: -4411338536896789738
-      Plant1_Death_with_shadow_112: 1320601315504719999
-      Plant1_Death_with_shadow_113: -1423869913427358912
-      Plant1_Death_with_shadow_114: 6069634301054234652
-      Plant1_Death_with_shadow_115: 4145968262410161228
-      Plant1_Death_with_shadow_116: -121385182454016297
-      Plant1_Death_with_shadow_117: -4600266104945049311
-      Plant1_Death_with_shadow_118: -2949304728583421926
-      Plant1_Death_with_shadow_119: 3792115580873302334
       Plant1_Death_with_shadow_12: -2703677739569328266
-      Plant1_Death_with_shadow_120: 5457458673457632565
-      Plant1_Death_with_shadow_121: -2968013046007144041
       Plant1_Death_with_shadow_13: -55504151809010434
       Plant1_Death_with_shadow_14: 3922003159680811458
       Plant1_Death_with_shadow_15: -4707256927522832423
@@ -3243,71 +1419,11 @@ TextureImporter:
       Plant1_Death_with_shadow_38: -7193351890229314850
       Plant1_Death_with_shadow_39: 6199173724476584840
       Plant1_Death_with_shadow_4: 4912973071923665047
-      Plant1_Death_with_shadow_40: -594154234969501846
-      Plant1_Death_with_shadow_41: -4346878246200870569
-      Plant1_Death_with_shadow_42: 1150265753805083122
-      Plant1_Death_with_shadow_43: 3712958305403324787
-      Plant1_Death_with_shadow_44: 6415000452769551942
-      Plant1_Death_with_shadow_45: 3647253081540899322
-      Plant1_Death_with_shadow_46: -6159299967136809032
-      Plant1_Death_with_shadow_47: 5650705002157634846
-      Plant1_Death_with_shadow_48: 4808969989416631872
-      Plant1_Death_with_shadow_49: 3157085534574046621
       Plant1_Death_with_shadow_5: -8199009856683076064
-      Plant1_Death_with_shadow_50: 1863678905884423422
-      Plant1_Death_with_shadow_51: -1393594974799637133
-      Plant1_Death_with_shadow_52: -1657887070114278959
-      Plant1_Death_with_shadow_53: -2918309071258708800
-      Plant1_Death_with_shadow_54: -3135850816806946164
-      Plant1_Death_with_shadow_55: 5270552270659861639
-      Plant1_Death_with_shadow_56: 8470445014323445563
-      Plant1_Death_with_shadow_57: 9119780714552096650
-      Plant1_Death_with_shadow_58: 3279449221880282477
-      Plant1_Death_with_shadow_59: 7768349286146132673
       Plant1_Death_with_shadow_6: 1854090356073049324
-      Plant1_Death_with_shadow_60: 7107364661934898686
-      Plant1_Death_with_shadow_61: -6692447862911135644
-      Plant1_Death_with_shadow_62: -6291203904533465022
-      Plant1_Death_with_shadow_63: -8008464132431853109
-      Plant1_Death_with_shadow_64: 7985555148611528645
-      Plant1_Death_with_shadow_65: -4299593699684673216
-      Plant1_Death_with_shadow_66: -7679987111056760595
-      Plant1_Death_with_shadow_67: -3778977816546455782
-      Plant1_Death_with_shadow_68: 971621764501833797
-      Plant1_Death_with_shadow_69: -3157510840532973614
       Plant1_Death_with_shadow_7: 21017220500994726
-      Plant1_Death_with_shadow_70: 8422251999461712184
-      Plant1_Death_with_shadow_71: 2857006481468427218
-      Plant1_Death_with_shadow_72: 184904526752591115
-      Plant1_Death_with_shadow_73: -1612682650738247827
-      Plant1_Death_with_shadow_74: 8215192361901302381
-      Plant1_Death_with_shadow_75: -5024561751583318158
-      Plant1_Death_with_shadow_76: -9154577569861238717
-      Plant1_Death_with_shadow_77: -5722013795773258889
-      Plant1_Death_with_shadow_78: -673650486459966616
-      Plant1_Death_with_shadow_79: -8005489298667448426
       Plant1_Death_with_shadow_8: 1328412772764465704
-      Plant1_Death_with_shadow_80: 2252928541289819598
-      Plant1_Death_with_shadow_81: -3436645763279260117
-      Plant1_Death_with_shadow_82: -4333907537425424101
-      Plant1_Death_with_shadow_83: -8318732071983962813
-      Plant1_Death_with_shadow_84: -7321720657401150059
-      Plant1_Death_with_shadow_85: -797052622307398827
-      Plant1_Death_with_shadow_86: -8189141872890038230
-      Plant1_Death_with_shadow_87: 8298913401212900103
-      Plant1_Death_with_shadow_88: 7719319273358304147
-      Plant1_Death_with_shadow_89: 6321133128801280107
       Plant1_Death_with_shadow_9: -245448798294488739
-      Plant1_Death_with_shadow_90: 4814405157271851458
-      Plant1_Death_with_shadow_91: 5592623082569960797
-      Plant1_Death_with_shadow_92: -6866088559781800151
-      Plant1_Death_with_shadow_93: 8171246469015746777
-      Plant1_Death_with_shadow_94: 3523850617418176542
-      Plant1_Death_with_shadow_95: -6145297267079262426
-      Plant1_Death_with_shadow_96: 5548045049050576910
-      Plant1_Death_with_shadow_97: 9142917648206495537
-      Plant1_Death_with_shadow_98: 5871008669865686491
-      Plant1_Death_with_shadow_99: -7504553753539518425
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -210,10 +210,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 209
-        width: 20
-        height: 27
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -232,10 +232,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 209
-        width: 23
-        height: 26
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,10 +254,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_2
       rect:
         serializedVersion: 2
-        x: 144
-        y: 209
-        width: 25
-        height: 22
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,10 +276,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_3
       rect:
         serializedVersion: 2
-        x: 207
-        y: 209
-        width: 25
-        height: 16
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,10 +298,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_4
       rect:
         serializedVersion: 2
-        x: 271
-        y: 209
-        width: 26
-        height: 18
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,10 +320,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_5
       rect:
         serializedVersion: 2
-        x: 335
-        y: 209
-        width: 26
-        height: 16
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -342,10 +342,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_6
       rect:
         serializedVersion: 2
-        x: 399
-        y: 209
-        width: 26
-        height: 16
+        x: 384
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -364,10 +364,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_7
       rect:
         serializedVersion: 2
-        x: 22
-        y: 145
-        width: 17
-        height: 28
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -386,10 +386,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_8
       rect:
         serializedVersion: 2
-        x: 82
-        y: 145
-        width: 22
-        height: 27
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -408,10 +408,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_9
       rect:
         serializedVersion: 2
-        x: 144
-        y: 145
-        width: 24
-        height: 23
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -430,10 +430,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_10
       rect:
         serializedVersion: 2
-        x: 209
-        y: 145
-        width: 23
-        height: 21
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -452,10 +452,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_11
       rect:
         serializedVersion: 2
-        x: 270
-        y: 145
-        width: 26
-        height: 20
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -474,10 +474,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_12
       rect:
         serializedVersion: 2
-        x: 334
-        y: 145
-        width: 26
-        height: 19
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -496,10 +496,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_13
       rect:
         serializedVersion: 2
-        x: 398
-        y: 145
-        width: 26
-        height: 19
+        x: 384
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -518,10 +518,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_14
       rect:
         serializedVersion: 2
-        x: 24
-        y: 81
-        width: 17
-        height: 28
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -540,10 +540,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_15
       rect:
         serializedVersion: 2
-        x: 88
-        y: 81
-        width: 22
-        height: 27
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -562,10 +562,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_16
       rect:
         serializedVersion: 2
-        x: 152
-        y: 81
-        width: 24
-        height: 23
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -584,10 +584,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_17
       rect:
         serializedVersion: 2
-        x: 216
-        y: 81
-        width: 23
-        height: 21
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -606,10 +606,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_18
       rect:
         serializedVersion: 2
-        x: 280
-        y: 81
-        width: 26
-        height: 20
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -628,10 +628,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_19
       rect:
         serializedVersion: 2
-        x: 344
-        y: 81
-        width: 26
-        height: 19
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -650,10 +650,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_20
       rect:
         serializedVersion: 2
-        x: 408
-        y: 81
-        width: 26
-        height: 19
+        x: 384
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -672,10 +672,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_21
       rect:
         serializedVersion: 2
-        x: 24
-        y: 17
-        width: 20
-        height: 27
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -694,10 +694,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_22
       rect:
         serializedVersion: 2
-        x: 88
-        y: 17
-        width: 23
-        height: 26
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -716,10 +716,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_23
       rect:
         serializedVersion: 2
-        x: 150
-        y: 17
-        width: 25
-        height: 23
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -738,10 +738,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_24
       rect:
         serializedVersion: 2
-        x: 214
-        y: 17
-        width: 26
-        height: 21
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -760,10 +760,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_25
       rect:
         serializedVersion: 2
-        x: 278
-        y: 17
-        width: 26
-        height: 18
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -782,10 +782,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_26
       rect:
         serializedVersion: 2
-        x: 342
-        y: 17
-        width: 26
-        height: 17
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -804,10 +804,10 @@ TextureImporter:
       name: Swordsman_lvl3_Death_with_shadow_27
       rect:
         serializedVersion: 2
-        x: 406
-        y: 17
-        width: 26
-        height: 17
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -836,7 +836,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":true,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      - key: SpriteEditor.SliceOnImport
+        value: True
     nameFileIdTable:
       Swordsman_lvl3_Death_with_shadow_0: 5764923670496587786
       Swordsman_lvl3_Death_with_shadow_1: 9015846299688931753

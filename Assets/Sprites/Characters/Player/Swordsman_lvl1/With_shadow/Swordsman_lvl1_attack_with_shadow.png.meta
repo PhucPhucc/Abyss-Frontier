@@ -228,10 +228,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 209
-        width: 20
-        height: 27
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,10 +250,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_1
       rect:
         serializedVersion: 2
-        x: 79
-        y: 209
-        width: 25
-        height: 27
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -272,10 +272,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_2
       rect:
         serializedVersion: 2
-        x: 143
-        y: 209
-        width: 25
-        height: 28
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,10 +294,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_3
       rect:
         serializedVersion: 2
-        x: 208
-        y: 204
-        width: 25
-        height: 28
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -316,10 +316,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_4
       rect:
         serializedVersion: 2
-        x: 273
-        y: 204
-        width: 34
-        height: 31
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -338,10 +338,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_5
       rect:
         serializedVersion: 2
-        x: 337
-        y: 200
-        width: 32
-        height: 10
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -360,10 +360,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_6
       rect:
         serializedVersion: 2
-        x: 344
-        y: 209
-        width: 27
-        height: 26
+        x: 384
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -382,10 +382,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_7
       rect:
         serializedVersion: 2
-        x: 402
-        y: 200
-        width: 30
-        height: 35
+        x: 448
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -404,10 +404,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_8
       rect:
         serializedVersion: 2
-        x: 472
-        y: 209
-        width: 16
-        height: 26
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -426,10 +426,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_9
       rect:
         serializedVersion: 2
-        x: 23
-        y: 145
-        width: 17
-        height: 28
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -448,10 +448,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_10
       rect:
         serializedVersion: 2
-        x: 83
-        y: 145
-        width: 20
-        height: 29
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -470,10 +470,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_11
       rect:
         serializedVersion: 2
-        x: 152
-        y: 145
-        width: 18
-        height: 30
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -492,10 +492,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_12
       rect:
         serializedVersion: 2
-        x: 210
-        y: 145
-        width: 21
-        height: 28
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -514,10 +514,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_13
       rect:
         serializedVersion: 2
-        x: 265
-        y: 145
-        width: 30
-        height: 28
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -536,10 +536,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_14
       rect:
         serializedVersion: 2
-        x: 329
-        y: 144
-        width: 30
-        height: 32
+        x: 384
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -558,10 +558,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_15
       rect:
         serializedVersion: 2
-        x: 393
-        y: 145
-        width: 30
-        height: 30
+        x: 448
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -580,10 +580,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_16
       rect:
         serializedVersion: 2
-        x: 467
-        y: 145
-        width: 20
-        height: 28
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -602,10 +602,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_17
       rect:
         serializedVersion: 2
-        x: 24
-        y: 81
-        width: 17
-        height: 28
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -624,10 +624,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_18
       rect:
         serializedVersion: 2
-        x: 81
-        y: 81
-        width: 23
-        height: 29
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -646,10 +646,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_19
       rect:
         serializedVersion: 2
-        x: 139
-        y: 81
-        width: 28
-        height: 30
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -668,10 +668,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_20
       rect:
         serializedVersion: 2
-        x: 207
-        y: 81
-        width: 28
-        height: 28
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -690,10 +690,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_21
       rect:
         serializedVersion: 2
-        x: 280
-        y: 81
-        width: 31
-        height: 28
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -712,10 +712,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_22
       rect:
         serializedVersion: 2
-        x: 344
-        y: 80
-        width: 31
-        height: 32
+        x: 384
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -734,10 +734,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_23
       rect:
         serializedVersion: 2
-        x: 408
-        y: 81
-        width: 31
-        height: 30
+        x: 448
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -756,10 +756,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_24
       rect:
         serializedVersion: 2
-        x: 472
-        y: 81
-        width: 22
-        height: 28
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -778,10 +778,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_25
       rect:
         serializedVersion: 2
-        x: 24
-        y: 17
-        width: 20
-        height: 27
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -800,10 +800,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_26
       rect:
         serializedVersion: 2
-        x: 88
-        y: 17
-        width: 23
-        height: 27
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -822,10 +822,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_27
       rect:
         serializedVersion: 2
-        x: 152
-        y: 17
-        width: 23
-        height: 28
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -844,10 +844,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_28
       rect:
         serializedVersion: 2
-        x: 215
-        y: 17
-        width: 26
-        height: 26
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -866,10 +866,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_29
       rect:
         serializedVersion: 2
-        x: 269
-        y: 17
-        width: 34
-        height: 30
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -888,10 +888,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_30
       rect:
         serializedVersion: 2
-        x: 335
-        y: 41
-        width: 32
-        height: 10
+        x: 384
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -910,10 +910,10 @@ TextureImporter:
       name: Swordsman_lvl1_attack_with_shadow_31
       rect:
         serializedVersion: 2
-        x: 335
-        y: 17
-        width: 24
-        height: 27
+        x: 448
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -924,50 +924,6 @@ TextureImporter:
       bones: []
       spriteID: ca7ea58689afdb140800000000000000
       internalID: 4737217915556390828
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swordsman_lvl1_attack_with_shadow_32
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 17
-        width: 30
-        height: 34
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b584dd87d5dca3aa0800000000000000
-      internalID: -6180401737269163941
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Swordsman_lvl1_attack_with_shadow_33
-      rect:
-        serializedVersion: 2
-        x: 471
-        y: 17
-        width: 16
-        height: 26
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6119fcc29005158c0800000000000000
-      internalID: -4012337792673672938
       vertices: []
       indices: 
       edges: []
@@ -986,7 +942,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Swordsman_lvl1_attack_with_shadow_0: -4630383608097960693
       Swordsman_lvl1_attack_with_shadow_1: -5697109156475412589
@@ -1014,8 +970,6 @@ TextureImporter:
       Swordsman_lvl1_attack_with_shadow_3: 4951345882714754162
       Swordsman_lvl1_attack_with_shadow_30: -2482634658803283408
       Swordsman_lvl1_attack_with_shadow_31: 4737217915556390828
-      Swordsman_lvl1_attack_with_shadow_32: -6180401737269163941
-      Swordsman_lvl1_attack_with_shadow_33: -4012337792673672938
       Swordsman_lvl1_attack_with_shadow_4: 2577813885992949001
       Swordsman_lvl1_attack_with_shadow_5: -5254634519378667976
       Swordsman_lvl1_attack_with_shadow_6: 8223207863569218016
