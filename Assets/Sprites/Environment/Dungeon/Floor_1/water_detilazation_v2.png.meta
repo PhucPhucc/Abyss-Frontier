@@ -436,7 +436,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -450,7 +450,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -528,12 +528,12 @@ TextureImporter:
       name: water_detilazation_v2_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 546
-        width: 198
-        height: 25
+        x: 21
+        y: 547
+        width: 196
+        height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -550,12 +550,12 @@ TextureImporter:
       name: water_detilazation_v2_1
       rect:
         serializedVersion: 2
-        x: 249
-        y: 546
-        width: 115
-        height: 21
+        x: 250
+        y: 547
+        width: 113
+        height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -572,12 +572,12 @@ TextureImporter:
       name: water_detilazation_v2_2
       rect:
         serializedVersion: 2
-        x: 394
-        y: 556
-        width: 99
-        height: 14
+        x: 395
+        y: 557
+        width: 97
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -594,12 +594,12 @@ TextureImporter:
       name: water_detilazation_v2_3
       rect:
         serializedVersion: 2
-        x: 521
-        y: 552
-        width: 71
-        height: 17
+        x: 522
+        y: 553
+        width: 69
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -616,12 +616,12 @@ TextureImporter:
       name: water_detilazation_v2_4
       rect:
         serializedVersion: 2
-        x: 623
-        y: 554
-        width: 40
-        height: 11
+        x: 624
+        y: 555
+        width: 38
+        height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -638,12 +638,12 @@ TextureImporter:
       name: water_detilazation_v2_5
       rect:
         serializedVersion: 2
-        x: 644
-        y: 560
-        width: 28
-        height: 7
+        x: 645
+        y: 561
+        width: 26
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -660,12 +660,12 @@ TextureImporter:
       name: water_detilazation_v2_6
       rect:
         serializedVersion: 2
-        x: 474
-        y: 551
-        width: 24
-        height: 7
+        x: 475
+        y: 552
+        width: 22
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -682,12 +682,12 @@ TextureImporter:
       name: water_detilazation_v2_7
       rect:
         serializedVersion: 2
-        x: 19
-        y: 514
-        width: 200
-        height: 25
+        x: 20
+        y: 515
+        width: 198
+        height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -704,12 +704,12 @@ TextureImporter:
       name: water_detilazation_v2_8
       rect:
         serializedVersion: 2
-        x: 248
-        y: 522
-        width: 117
-        height: 13
+        x: 249
+        y: 523
+        width: 115
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -726,12 +726,12 @@ TextureImporter:
       name: water_detilazation_v2_9
       rect:
         serializedVersion: 2
-        x: 393
-        y: 524
-        width: 101
-        height: 13
+        x: 394
+        y: 525
+        width: 99
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -748,12 +748,12 @@ TextureImporter:
       name: water_detilazation_v2_10
       rect:
         serializedVersion: 2
-        x: 520
-        y: 520
-        width: 69
-        height: 13
+        x: 521
+        y: 521
+        width: 67
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -770,12 +770,12 @@ TextureImporter:
       name: water_detilazation_v2_11
       rect:
         serializedVersion: 2
-        x: 563
-        y: 531
-        width: 30
-        height: 6
+        x: 564
+        y: 532
+        width: 28
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -792,12 +792,12 @@ TextureImporter:
       name: water_detilazation_v2_12
       rect:
         serializedVersion: 2
-        x: 622
-        y: 522
-        width: 43
-        height: 11
+        x: 623
+        y: 523
+        width: 41
+        height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -814,12 +814,12 @@ TextureImporter:
       name: water_detilazation_v2_13
       rect:
         serializedVersion: 2
-        x: 643
-        y: 528
-        width: 30
-        height: 7
+        x: 644
+        y: 529
+        width: 28
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -836,12 +836,12 @@ TextureImporter:
       name: water_detilazation_v2_14
       rect:
         serializedVersion: 2
-        x: 281
-        y: 514
-        width: 70
-        height: 9
+        x: 282
+        y: 515
+        width: 68
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -858,12 +858,12 @@ TextureImporter:
       name: water_detilazation_v2_15
       rect:
         serializedVersion: 2
-        x: 473
-        y: 519
-        width: 26
-        height: 7
+        x: 474
+        y: 520
+        width: 24
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -880,12 +880,12 @@ TextureImporter:
       name: water_detilazation_v2_16
       rect:
         serializedVersion: 2
-        x: 18
-        y: 482
-        width: 202
-        height: 25
+        x: 19
+        y: 483
+        width: 200
+        height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -902,12 +902,12 @@ TextureImporter:
       name: water_detilazation_v2_17
       rect:
         serializedVersion: 2
-        x: 247
-        y: 491
-        width: 119
-        height: 12
+        x: 248
+        y: 492
+        width: 117
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -924,12 +924,12 @@ TextureImporter:
       name: water_detilazation_v2_18
       rect:
         serializedVersion: 2
-        x: 392
-        y: 492
-        width: 103
-        height: 12
+        x: 393
+        y: 493
+        width: 101
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -946,12 +946,12 @@ TextureImporter:
       name: water_detilazation_v2_19
       rect:
         serializedVersion: 2
-        x: 519
-        y: 488
-        width: 71
-        height: 12
+        x: 520
+        y: 489
+        width: 69
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -968,12 +968,12 @@ TextureImporter:
       name: water_detilazation_v2_20
       rect:
         serializedVersion: 2
-        x: 562
-        y: 498
-        width: 32
-        height: 7
+        x: 563
+        y: 499
+        width: 30
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -990,12 +990,12 @@ TextureImporter:
       name: water_detilazation_v2_21
       rect:
         serializedVersion: 2
-        x: 621
-        y: 490
-        width: 45
-        height: 10
+        x: 622
+        y: 491
+        width: 43
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1012,12 +1012,12 @@ TextureImporter:
       name: water_detilazation_v2_22
       rect:
         serializedVersion: 2
-        x: 643
-        y: 496
-        width: 31
-        height: 7
+        x: 644
+        y: 497
+        width: 29
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1034,12 +1034,12 @@ TextureImporter:
       name: water_detilazation_v2_23
       rect:
         serializedVersion: 2
-        x: 280
-        y: 482
-        width: 72
-        height: 9
+        x: 281
+        y: 483
+        width: 70
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1056,12 +1056,12 @@ TextureImporter:
       name: water_detilazation_v2_24
       rect:
         serializedVersion: 2
-        x: 472
-        y: 487
-        width: 28
-        height: 6
+        x: 473
+        y: 488
+        width: 26
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1078,12 +1078,12 @@ TextureImporter:
       name: water_detilazation_v2_25
       rect:
         serializedVersion: 2
-        x: 17
-        y: 455
-        width: 204
-        height: 20
+        x: 18
+        y: 456
+        width: 202
+        height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1100,12 +1100,12 @@ TextureImporter:
       name: water_detilazation_v2_26
       rect:
         serializedVersion: 2
-        x: 246
-        y: 459
-        width: 121
-        height: 12
+        x: 247
+        y: 460
+        width: 119
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1122,12 +1122,12 @@ TextureImporter:
       name: water_detilazation_v2_27
       rect:
         serializedVersion: 2
-        x: 391
-        y: 460
-        width: 105
-        height: 12
+        x: 392
+        y: 461
+        width: 103
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1144,12 +1144,12 @@ TextureImporter:
       name: water_detilazation_v2_28
       rect:
         serializedVersion: 2
-        x: 518
-        y: 456
-        width: 77
-        height: 16
+        x: 519
+        y: 457
+        width: 75
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1166,12 +1166,12 @@ TextureImporter:
       name: water_detilazation_v2_29
       rect:
         serializedVersion: 2
-        x: 620
-        y: 462
-        width: 25
-        height: 6
+        x: 621
+        y: 463
+        width: 23
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1188,12 +1188,12 @@ TextureImporter:
       name: water_detilazation_v2_30
       rect:
         serializedVersion: 2
-        x: 644
-        y: 465
-        width: 31
-        height: 6
+        x: 645
+        y: 466
+        width: 29
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1210,12 +1210,12 @@ TextureImporter:
       name: water_detilazation_v2_31
       rect:
         serializedVersion: 2
-        x: 280
-        y: 450
-        width: 73
-        height: 9
+        x: 472
+        y: 456
+        width: 26
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1232,12 +1232,12 @@ TextureImporter:
       name: water_detilazation_v2_32
       rect:
         serializedVersion: 2
-        x: 471
-        y: 455
-        width: 28
-        height: 6
+        x: 627
+        y: 459
+        width: 39
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1254,12 +1254,12 @@ TextureImporter:
       name: water_detilazation_v2_33
       rect:
         serializedVersion: 2
-        x: 626
-        y: 458
-        width: 41
-        height: 6
+        x: 79
+        y: 451
+        width: 53
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1276,12 +1276,12 @@ TextureImporter:
       name: water_detilazation_v2_34
       rect:
         serializedVersion: 2
-        x: 78
-        y: 450
-        width: 55
-        height: 6
+        x: 281
+        y: 451
+        width: 71
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1298,12 +1298,12 @@ TextureImporter:
       name: water_detilazation_v2_35
       rect:
         serializedVersion: 2
-        x: 17
-        y: 418
-        width: 205
-        height: 25
+        x: 18
+        y: 419
+        width: 203
+        height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1320,12 +1320,12 @@ TextureImporter:
       name: water_detilazation_v2_36
       rect:
         serializedVersion: 2
-        x: 246
-        y: 434
-        width: 23
-        height: 6
+        x: 247
+        y: 435
+        width: 21
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1342,12 +1342,12 @@ TextureImporter:
       name: water_detilazation_v2_37
       rect:
         serializedVersion: 2
-        x: 249
-        y: 418
-        width: 118
-        height: 18
+        x: 391
+        y: 429
+        width: 103
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1364,12 +1364,12 @@ TextureImporter:
       name: water_detilazation_v2_38
       rect:
         serializedVersion: 2
-        x: 390
-        y: 428
-        width: 105
-        height: 12
+        x: 562
+        y: 436
+        width: 31
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1386,12 +1386,12 @@ TextureImporter:
       name: water_detilazation_v2_39
       rect:
         serializedVersion: 2
-        x: 518
-        y: 424
-        width: 74
-        height: 12
+        x: 621
+        y: 427
+        width: 45
+        height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1408,12 +1408,12 @@ TextureImporter:
       name: water_detilazation_v2_40
       rect:
         serializedVersion: 2
-        x: 561
-        y: 435
-        width: 33
-        height: 6
+        x: 646
+        y: 433
+        width: 26
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1430,12 +1430,12 @@ TextureImporter:
       name: water_detilazation_v2_41
       rect:
         serializedVersion: 2
-        x: 620
-        y: 426
-        width: 47
-        height: 11
+        x: 250
+        y: 419
+        width: 116
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1452,12 +1452,12 @@ TextureImporter:
       name: water_detilazation_v2_42
       rect:
         serializedVersion: 2
-        x: 645
-        y: 432
-        width: 28
-        height: 7
+        x: 473
+        y: 424
+        width: 23
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1474,12 +1474,12 @@ TextureImporter:
       name: water_detilazation_v2_43
       rect:
         serializedVersion: 2
-        x: 472
-        y: 423
-        width: 25
-        height: 6
+        x: 519
+        y: 425
+        width: 72
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1496,12 +1496,12 @@ TextureImporter:
       name: water_detilazation_v2_44
       rect:
         serializedVersion: 2
-        x: 19
-        y: 387
-        width: 201
-        height: 24
+        x: 20
+        y: 388
+        width: 199
+        height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1518,12 +1518,12 @@ TextureImporter:
       name: water_detilazation_v2_45
       rect:
         serializedVersion: 2
-        x: 249
-        y: 386
-        width: 116
-        height: 21
+        x: 250
+        y: 387
+        width: 114
+        height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1540,12 +1540,12 @@ TextureImporter:
       name: water_detilazation_v2_46
       rect:
         serializedVersion: 2
-        x: 391
-        y: 396
-        width: 103
-        height: 13
+        x: 392
+        y: 397
+        width: 101
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1562,12 +1562,12 @@ TextureImporter:
       name: water_detilazation_v2_47
       rect:
         serializedVersion: 2
-        x: 520
-        y: 392
-        width: 70
-        height: 13
+        x: 521
+        y: 393
+        width: 68
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1584,12 +1584,12 @@ TextureImporter:
       name: water_detilazation_v2_48
       rect:
         serializedVersion: 2
-        x: 563
-        y: 403
-        width: 29
-        height: 6
+        x: 564
+        y: 404
+        width: 27
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1606,12 +1606,12 @@ TextureImporter:
       name: water_detilazation_v2_49
       rect:
         serializedVersion: 2
-        x: 622
-        y: 394
-        width: 42
-        height: 10
+        x: 646
+        y: 401
+        width: 24
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1628,12 +1628,12 @@ TextureImporter:
       name: water_detilazation_v2_50
       rect:
         serializedVersion: 2
-        x: 645
-        y: 400
-        width: 26
-        height: 7
+        x: 474
+        y: 392
+        width: 21
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1650,12 +1650,12 @@ TextureImporter:
       name: water_detilazation_v2_51
       rect:
         serializedVersion: 2
-        x: 473
-        y: 391
-        width: 23
-        height: 6
+        x: 623
+        y: 395
+        width: 40
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1672,12 +1672,12 @@ TextureImporter:
       name: water_detilazation_v2_52
       rect:
         serializedVersion: 2
-        x: 17
-        y: 359
-        width: 19
-        height: 6
+        x: 18
+        y: 360
+        width: 17
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1694,12 +1694,12 @@ TextureImporter:
       name: water_detilazation_v2_53
       rect:
         serializedVersion: 2
-        x: 18
-        y: 350
-        width: 233
-        height: 28
+        x: 19
+        y: 351
+        width: 231
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1716,12 +1716,12 @@ TextureImporter:
       name: water_detilazation_v2_54
       rect:
         serializedVersion: 2
-        x: 220
-        y: 355
-        width: 32
-        height: 8
+        x: 221
+        y: 356
+        width: 30
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1738,12 +1738,12 @@ TextureImporter:
       name: water_detilazation_v2_55
       rect:
         serializedVersion: 2
-        x: 284
-        y: 345
-        width: 179
-        height: 30
+        x: 285
+        y: 346
+        width: 177
+        height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1760,12 +1760,12 @@ TextureImporter:
       name: water_detilazation_v2_56
       rect:
         serializedVersion: 2
-        x: 499
-        y: 359
-        width: 118
-        height: 16
+        x: 500
+        y: 360
+        width: 116
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1782,12 +1782,12 @@ TextureImporter:
       name: water_detilazation_v2_57
       rect:
         serializedVersion: 2
-        x: 578
-        y: 348
-        width: 74
-        height: 16
+        x: 579
+        y: 349
+        width: 72
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1804,12 +1804,12 @@ TextureImporter:
       name: water_detilazation_v2_58
       rect:
         serializedVersion: 2
-        x: 57
-        y: 341
-        width: 64
-        height: 9
+        x: 156
+        y: 347
+        width: 21
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1826,12 +1826,12 @@ TextureImporter:
       name: water_detilazation_v2_59
       rect:
         serializedVersion: 2
-        x: 155
-        y: 346
-        width: 23
+        x: 525
+        y: 350
+        width: 51
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1848,12 +1848,12 @@ TextureImporter:
       name: water_detilazation_v2_60
       rect:
         serializedVersion: 2
-        x: 524
-        y: 349
-        width: 53
-        height: 9
+        x: 58
+        y: 342
+        width: 62
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1870,12 +1870,12 @@ TextureImporter:
       name: water_detilazation_v2_61
       rect:
         serializedVersion: 2
-        x: 549
-        y: 342
-        width: 31
-        height: 7
+        x: 550
+        y: 343
+        width: 29
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1892,12 +1892,12 @@ TextureImporter:
       name: water_detilazation_v2_62
       rect:
         serializedVersion: 2
-        x: 16
-        y: 311
-        width: 21
-        height: 6
+        x: 17
+        y: 312
+        width: 19
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1914,12 +1914,12 @@ TextureImporter:
       name: water_detilazation_v2_63
       rect:
         serializedVersion: 2
-        x: 17
-        y: 298
-        width: 235
-        height: 32
+        x: 18
+        y: 299
+        width: 233
+        height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1936,12 +1936,12 @@ TextureImporter:
       name: water_detilazation_v2_64
       rect:
         serializedVersion: 2
-        x: 219
-        y: 308
-        width: 34
-        height: 7
+        x: 220
+        y: 309
+        width: 32
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1958,12 +1958,12 @@ TextureImporter:
       name: water_detilazation_v2_65
       rect:
         serializedVersion: 2
-        x: 283
-        y: 297
-        width: 182
-        height: 30
+        x: 284
+        y: 298
+        width: 180
+        height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1980,12 +1980,12 @@ TextureImporter:
       name: water_detilazation_v2_66
       rect:
         serializedVersion: 2
-        x: 498
-        y: 311
-        width: 120
-        height: 16
+        x: 499
+        y: 312
+        width: 118
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2002,12 +2002,12 @@ TextureImporter:
       name: water_detilazation_v2_67
       rect:
         serializedVersion: 2
-        x: 577
-        y: 300
-        width: 76
-        height: 16
+        x: 578
+        y: 301
+        width: 74
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2024,12 +2024,12 @@ TextureImporter:
       name: water_detilazation_v2_68
       rect:
         serializedVersion: 2
-        x: 56
-        y: 293
-        width: 66
-        height: 9
+        x: 524
+        y: 303
+        width: 53
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2046,12 +2046,12 @@ TextureImporter:
       name: water_detilazation_v2_69
       rect:
         serializedVersion: 2
-        x: 523
-        y: 302
-        width: 55
+        x: 57
+        y: 294
+        width: 64
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2068,12 +2068,12 @@ TextureImporter:
       name: water_detilazation_v2_70
       rect:
         serializedVersion: 2
-        x: 548
-        y: 294
-        width: 33
-        height: 7
+        x: 549
+        y: 295
+        width: 31
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2090,12 +2090,12 @@ TextureImporter:
       name: water_detilazation_v2_71
       rect:
         serializedVersion: 2
-        x: 15
-        y: 262
-        width: 23
-        height: 7
+        x: 16
+        y: 263
+        width: 21
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2112,12 +2112,12 @@ TextureImporter:
       name: water_detilazation_v2_72
       rect:
         serializedVersion: 2
-        x: 16
-        y: 254
-        width: 237
-        height: 27
+        x: 17
+        y: 255
+        width: 235
+        height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2134,12 +2134,12 @@ TextureImporter:
       name: water_detilazation_v2_73
       rect:
         serializedVersion: 2
-        x: 218
-        y: 260
-        width: 36
-        height: 7
+        x: 219
+        y: 261
+        width: 34
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2156,12 +2156,12 @@ TextureImporter:
       name: water_detilazation_v2_74
       rect:
         serializedVersion: 2
-        x: 282
-        y: 249
-        width: 184
-        height: 30
+        x: 283
+        y: 250
+        width: 182
+        height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2178,12 +2178,12 @@ TextureImporter:
       name: water_detilazation_v2_75
       rect:
         serializedVersion: 2
-        x: 497
-        y: 263
-        width: 122
-        height: 15
+        x: 498
+        y: 264
+        width: 120
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2200,12 +2200,12 @@ TextureImporter:
       name: water_detilazation_v2_76
       rect:
         serializedVersion: 2
-        x: 597
-        y: 261
-        width: 57
-        height: 8
+        x: 598
+        y: 262
+        width: 55
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2222,12 +2222,12 @@ TextureImporter:
       name: water_detilazation_v2_77
       rect:
         serializedVersion: 2
-        x: 55
-        y: 245
-        width: 68
-        height: 9
+        x: 154
+        y: 251
+        width: 25
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2244,12 +2244,12 @@ TextureImporter:
       name: water_detilazation_v2_78
       rect:
         serializedVersion: 2
-        x: 153
-        y: 250
-        width: 27
-        height: 6
+        x: 523
+        y: 255
+        width: 52
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2266,12 +2266,12 @@ TextureImporter:
       name: water_detilazation_v2_79
       rect:
         serializedVersion: 2
-        x: 522
+        x: 579
         y: 254
-        width: 54
-        height: 7
+        width: 61
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2288,12 +2288,12 @@ TextureImporter:
       name: water_detilazation_v2_80
       rect:
         serializedVersion: 2
-        x: 578
-        y: 253
-        width: 63
-        height: 8
+        x: 56
+        y: 246
+        width: 66
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2310,12 +2310,12 @@ TextureImporter:
       name: water_detilazation_v2_81
       rect:
         serializedVersion: 2
-        x: 547
-        y: 246
-        width: 35
-        height: 7
+        x: 548
+        y: 247
+        width: 33
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2332,12 +2332,12 @@ TextureImporter:
       name: water_detilazation_v2_82
       rect:
         serializedVersion: 2
-        x: 14
-        y: 206
-        width: 241
-        height: 28
+        x: 15
+        y: 207
+        width: 239
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2354,12 +2354,12 @@ TextureImporter:
       name: water_detilazation_v2_83
       rect:
         serializedVersion: 2
-        x: 281
-        y: 201
-        width: 186
-        height: 31
+        x: 282
+        y: 202
+        width: 184
+        height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2376,12 +2376,12 @@ TextureImporter:
       name: water_detilazation_v2_84
       rect:
         serializedVersion: 2
-        x: 496
-        y: 215
-        width: 124
-        height: 15
+        x: 497
+        y: 216
+        width: 122
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2398,12 +2398,12 @@ TextureImporter:
       name: water_detilazation_v2_85
       rect:
         serializedVersion: 2
-        x: 597
-        y: 213
-        width: 58
-        height: 7
+        x: 598
+        y: 214
+        width: 56
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2420,12 +2420,12 @@ TextureImporter:
       name: water_detilazation_v2_86
       rect:
         serializedVersion: 2
-        x: 53
-        y: 198
-        width: 71
-        height: 8
+        x: 152
+        y: 203
+        width: 29
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2442,12 +2442,12 @@ TextureImporter:
       name: water_detilazation_v2_87
       rect:
         serializedVersion: 2
-        x: 151
-        y: 202
-        width: 31
-        height: 6
+        x: 522
+        y: 206
+        width: 48
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2464,12 +2464,12 @@ TextureImporter:
       name: water_detilazation_v2_88
       rect:
         serializedVersion: 2
-        x: 521
-        y: 205
-        width: 50
-        height: 9
+        x: 581
+        y: 206
+        width: 61
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2486,12 +2486,12 @@ TextureImporter:
       name: water_detilazation_v2_89
       rect:
         serializedVersion: 2
-        x: 545
-        y: 198
-        width: 38
-        height: 7
+        x: 54
+        y: 199
+        width: 69
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2508,12 +2508,12 @@ TextureImporter:
       name: water_detilazation_v2_90
       rect:
         serializedVersion: 2
-        x: 580
-        y: 205
-        width: 63
-        height: 8
+        x: 546
+        y: 199
+        width: 36
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2530,12 +2530,12 @@ TextureImporter:
       name: water_detilazation_v2_91
       rect:
         serializedVersion: 2
-        x: 14
-        y: 167
-        width: 22
-        height: 6
+        x: 15
+        y: 168
+        width: 20
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2552,12 +2552,12 @@ TextureImporter:
       name: water_detilazation_v2_92
       rect:
         serializedVersion: 2
-        x: 15
-        y: 158
-        width: 239
-        height: 28
+        x: 16
+        y: 159
+        width: 237
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2574,12 +2574,12 @@ TextureImporter:
       name: water_detilazation_v2_93
       rect:
         serializedVersion: 2
-        x: 279
-        y: 153
-        width: 190
-        height: 31
+        x: 280
+        y: 154
+        width: 188
+        height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2596,12 +2596,12 @@ TextureImporter:
       name: water_detilazation_v2_94
       rect:
         serializedVersion: 2
-        x: 497
-        y: 167
-        width: 124
-        height: 16
+        x: 498
+        y: 168
+        width: 122
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2618,12 +2618,12 @@ TextureImporter:
       name: water_detilazation_v2_95
       rect:
         serializedVersion: 2
-        x: 595
-        y: 164
-        width: 61
-        height: 8
+        x: 596
+        y: 165
+        width: 59
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2640,12 +2640,12 @@ TextureImporter:
       name: water_detilazation_v2_96
       rect:
         serializedVersion: 2
-        x: 53
-        y: 149
-        width: 72
-        height: 9
+        x: 153
+        y: 155
+        width: 26
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2662,12 +2662,12 @@ TextureImporter:
       name: water_detilazation_v2_97
       rect:
         serializedVersion: 2
-        x: 152
-        y: 154
-        width: 28
-        height: 6
+        x: 522
+        y: 158
+        width: 50
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2684,12 +2684,12 @@ TextureImporter:
       name: water_detilazation_v2_98
       rect:
         serializedVersion: 2
-        x: 521
+        x: 582
         y: 157
-        width: 52
-        height: 9
+        width: 58
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2706,12 +2706,12 @@ TextureImporter:
       name: water_detilazation_v2_99
       rect:
         serializedVersion: 2
-        x: 547
+        x: 54
         y: 150
-        width: 37
+        width: 70
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2728,12 +2728,12 @@ TextureImporter:
       name: water_detilazation_v2_100
       rect:
         serializedVersion: 2
-        x: 581
-        y: 156
-        width: 60
-        height: 10
+        x: 548
+        y: 151
+        width: 35
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2750,12 +2750,12 @@ TextureImporter:
       name: water_detilazation_v2_101
       rect:
         serializedVersion: 2
-        x: 15
-        y: 119
-        width: 19
-        height: 6
+        x: 16
+        y: 120
+        width: 17
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2772,12 +2772,12 @@ TextureImporter:
       name: water_detilazation_v2_102
       rect:
         serializedVersion: 2
-        x: 16
-        y: 110
-        width: 236
-        height: 28
+        x: 17
+        y: 111
+        width: 234
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2794,12 +2794,12 @@ TextureImporter:
       name: water_detilazation_v2_103
       rect:
         serializedVersion: 2
-        x: 281
-        y: 105
-        width: 185
-        height: 30
+        x: 282
+        y: 106
+        width: 183
+        height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2816,12 +2816,12 @@ TextureImporter:
       name: water_detilazation_v2_104
       rect:
         serializedVersion: 2
-        x: 498
-        y: 119
-        width: 121
-        height: 16
+        x: 499
+        y: 120
+        width: 119
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2838,12 +2838,12 @@ TextureImporter:
       name: water_detilazation_v2_105
       rect:
         serializedVersion: 2
-        x: 579
-        y: 108
-        width: 74
-        height: 16
+        x: 580
+        y: 109
+        width: 72
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2860,12 +2860,12 @@ TextureImporter:
       name: water_detilazation_v2_106
       rect:
         serializedVersion: 2
-        x: 55
-        y: 101
-        width: 68
-        height: 9
+        x: 154
+        y: 107
+        width: 24
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2882,12 +2882,12 @@ TextureImporter:
       name: water_detilazation_v2_107
       rect:
         serializedVersion: 2
-        x: 153
-        y: 106
-        width: 26
-        height: 6
+        x: 523
+        y: 110
+        width: 51
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2904,12 +2904,12 @@ TextureImporter:
       name: water_detilazation_v2_108
       rect:
         serializedVersion: 2
-        x: 522
-        y: 109
-        width: 53
-        height: 9
+        x: 56
+        y: 102
+        width: 66
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2926,12 +2926,12 @@ TextureImporter:
       name: water_detilazation_v2_109
       rect:
         serializedVersion: 2
-        x: 548
-        y: 102
-        width: 34
-        height: 7
+        x: 549
+        y: 103
+        width: 32
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2948,12 +2948,12 @@ TextureImporter:
       name: water_detilazation_v2_110
       rect:
         serializedVersion: 2
-        x: 21
-        y: 86
-        width: 53
-        height: 9
+        x: 22
+        y: 87
+        width: 51
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2970,12 +2970,12 @@ TextureImporter:
       name: water_detilazation_v2_111
       rect:
         serializedVersion: 2
-        x: 54
-        y: 81
-        width: 25
-        height: 7
+        x: 55
+        y: 82
+        width: 23
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2992,12 +2992,12 @@ TextureImporter:
       name: water_detilazation_v2_112
       rect:
         serializedVersion: 2
-        x: 115
-        y: 86
-        width: 42
-        height: 7
+        x: 116
+        y: 87
+        width: 40
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3014,12 +3014,12 @@ TextureImporter:
       name: water_detilazation_v2_113
       rect:
         serializedVersion: 2
-        x: 181
-        y: 85
-        width: 23
-        height: 7
+        x: 182
+        y: 86
+        width: 21
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3036,12 +3036,12 @@ TextureImporter:
       name: water_detilazation_v2_114
       rect:
         serializedVersion: 2
-        x: 20
-        y: 71
-        width: 55
-        height: 9
+        x: 21
+        y: 72
+        width: 53
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3058,12 +3058,12 @@ TextureImporter:
       name: water_detilazation_v2_115
       rect:
         serializedVersion: 2
-        x: 53
-        y: 66
-        width: 25
-        height: 7
+        x: 54
+        y: 67
+        width: 23
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3080,12 +3080,12 @@ TextureImporter:
       name: water_detilazation_v2_116
       rect:
         serializedVersion: 2
-        x: 114
-        y: 70
-        width: 44
-        height: 7
+        x: 115
+        y: 71
+        width: 42
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3102,12 +3102,12 @@ TextureImporter:
       name: water_detilazation_v2_117
       rect:
         serializedVersion: 2
-        x: 180
-        y: 69
-        width: 25
-        height: 6
+        x: 181
+        y: 70
+        width: 23
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3124,12 +3124,12 @@ TextureImporter:
       name: water_detilazation_v2_118
       rect:
         serializedVersion: 2
-        x: 19
-        y: 55
-        width: 57
-        height: 8
+        x: 20
+        y: 56
+        width: 55
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3146,12 +3146,12 @@ TextureImporter:
       name: water_detilazation_v2_119
       rect:
         serializedVersion: 2
-        x: 52
-        y: 49
-        width: 27
-        height: 7
+        x: 114
+        y: 55
+        width: 44
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3168,12 +3168,12 @@ TextureImporter:
       name: water_detilazation_v2_120
       rect:
         serializedVersion: 2
-        x: 113
+        x: 180
         y: 54
-        width: 46
-        height: 7
+        width: 25
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3190,12 +3190,12 @@ TextureImporter:
       name: water_detilazation_v2_121
       rect:
         serializedVersion: 2
-        x: 179
-        y: 53
-        width: 27
-        height: 6
+        x: 53
+        y: 50
+        width: 25
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3212,12 +3212,12 @@ TextureImporter:
       name: water_detilazation_v2_122
       rect:
         serializedVersion: 2
-        x: 18
-        y: 40
-        width: 59
-        height: 7
+        x: 19
+        y: 41
+        width: 57
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3234,12 +3234,12 @@ TextureImporter:
       name: water_detilazation_v2_123
       rect:
         serializedVersion: 2
-        x: 112
-        y: 38
-        width: 48
-        height: 7
+        x: 113
+        y: 39
+        width: 46
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3256,12 +3256,12 @@ TextureImporter:
       name: water_detilazation_v2_124
       rect:
         serializedVersion: 2
-        x: 178
-        y: 37
-        width: 29
-        height: 6
+        x: 179
+        y: 38
+        width: 27
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3278,12 +3278,12 @@ TextureImporter:
       name: water_detilazation_v2_125
       rect:
         serializedVersion: 2
-        x: 51
-        y: 33
-        width: 29
-        height: 6
+        x: 52
+        y: 34
+        width: 27
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3300,12 +3300,12 @@ TextureImporter:
       name: water_detilazation_v2_126
       rect:
         serializedVersion: 2
-        x: 18
-        y: 23
-        width: 61
-        height: 8
+        x: 19
+        y: 24
+        width: 59
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3322,12 +3322,12 @@ TextureImporter:
       name: water_detilazation_v2_127
       rect:
         serializedVersion: 2
-        x: 51
-        y: 17
-        width: 30
-        height: 7
+        x: 113
+        y: 23
+        width: 46
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3344,12 +3344,12 @@ TextureImporter:
       name: water_detilazation_v2_128
       rect:
         serializedVersion: 2
-        x: 112
+        x: 179
         y: 22
-        width: 48
-        height: 7
+        width: 27
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3366,12 +3366,12 @@ TextureImporter:
       name: water_detilazation_v2_129
       rect:
         serializedVersion: 2
-        x: 178
-        y: 21
-        width: 29
-        height: 6
+        x: 52
+        y: 18
+        width: 28
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3388,12 +3388,12 @@ TextureImporter:
       name: water_detilazation_v2_130
       rect:
         serializedVersion: 2
-        x: 20
-        y: 6
-        width: 56
-        height: 9
+        x: 21
+        y: 7
+        width: 54
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3410,12 +3410,12 @@ TextureImporter:
       name: water_detilazation_v2_131
       rect:
         serializedVersion: 2
-        x: 54
-        y: 1
-        width: 26
-        height: 7
+        x: 55
+        y: 2
+        width: 24
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3432,12 +3432,12 @@ TextureImporter:
       name: water_detilazation_v2_132
       rect:
         serializedVersion: 2
-        x: 114
-        y: 6
-        width: 44
-        height: 7
+        x: 115
+        y: 7
+        width: 42
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3454,12 +3454,12 @@ TextureImporter:
       name: water_detilazation_v2_133
       rect:
         serializedVersion: 2
-        x: 180
-        y: 5
-        width: 25
-        height: 6
+        x: 181
+        y: 6
+        width: 23
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3476,7 +3476,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e6981a027f2fb2be4ba9fa0dbf71a4e7
     internalID: 0
     vertices: []
     indices: 
@@ -3484,7 +3484,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       water_detilazation_v2_0: -6487848460486613316
       water_detilazation_v2_1: -6176151524402178121
