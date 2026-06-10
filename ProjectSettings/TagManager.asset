@@ -44,17 +44,23 @@ TagManager:
   - name: Background
     uniqueID: 2450562583
     locked: 0
-  - name: Ground
+  - name: GroundDecoration
     uniqueID: 187147421
     locked: 0
-  - name: Environment_Base
+  - name: Wall
+    uniqueID: 1174151501
+    locked: 0
+  - name: Character
+    uniqueID: 769353063
+    locked: 0
+  - name: Object
     uniqueID: 2642823435
     locked: 0
-  - name: Environment_Top
+  - name: WallFront
     uniqueID: 704458273
     locked: 0
-  - name: Entities
-    uniqueID: 769353063
+  - name: WordUI
+    uniqueID: 3160821
     locked: 0
   m_RenderingLayers:
   - Default
