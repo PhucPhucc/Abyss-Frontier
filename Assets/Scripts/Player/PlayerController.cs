@@ -17,9 +17,9 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputValue value)
     {
-        moveInput = context.ReadValue<Vector2>();
+        moveInput = value.Get<Vector2>();
     }
 
     private void Update()
