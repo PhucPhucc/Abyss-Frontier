@@ -50,17 +50,26 @@ TagManager:
   - name: Wall
     uniqueID: 1174151501
     locked: 0
+  - name: Props
+    uniqueID: 1353514465
+    locked: 0
   - name: Character
     uniqueID: 769353063
     locked: 0
   - name: Object
     uniqueID: 2642823435
     locked: 0
+  - name: Effects
+    uniqueID: 3276028779
+    locked: 0
   - name: WallFront
     uniqueID: 704458273
     locked: 0
-  - name: WordUI
-    uniqueID: 3160821
+  - name: Overlay
+    uniqueID: 1292847667
+    locked: 0
+  - name: UI
+    uniqueID: 2745862053
     locked: 0
   m_RenderingLayers:
   - Default
