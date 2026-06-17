@@ -2938,6 +2938,7 @@ GameObject:
   - component: {fileID: 1289768829}
   - component: {fileID: 1289768830}
   - component: {fileID: 1289768831}
+  - component: {fileID: 1289768832}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2958,6 +2959,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
+  sprintSpeed: 8
+  maxStamina: 100
+  staminaDrainRate: 20
+  staminaRegenRate: 15
 --- !u!50 &1289768826
 Rigidbody2D:
   serializedVersion: 5
@@ -3148,6 +3153,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1289768832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289768823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a16d0e340a8a2645b725e21fc329101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  attackDamage: 10
+  attackRange: 0.8
+  attackCooldown: 0.5
+  hitboxOffset: 0.6
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &1322374225
 GameObject:
   m_ObjectHideFlags: 0
