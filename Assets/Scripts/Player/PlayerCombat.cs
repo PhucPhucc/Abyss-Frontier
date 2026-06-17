@@ -16,6 +16,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerController playerController;
     private InputAction attackAction;
     private float nextAttackTime = 0f;
+    public bool IsAttacking => Time.time < nextAttackTime;
 
     private void Awake()
     {
