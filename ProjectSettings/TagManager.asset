@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Hub
   layers:
   - Default
   - TransparentFX
@@ -47,7 +48,7 @@ TagManager:
   - name: GroundDecoration
     uniqueID: 187147421
     locked: 0
-  - name: Wall
+  - name: Wall_base
     uniqueID: 1174151501
     locked: 0
   - name: Props
@@ -70,6 +71,9 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2745862053
+    locked: 0
+  - name: wall_top
+    uniqueID: 647831623
     locked: 0
   m_RenderingLayers:
   - Default
