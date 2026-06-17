@@ -80,10 +80,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Tìm component PlayerCombat trên Player
         PlayerCombat combat = GetComponent<PlayerCombat>();
 
-        // Nếu đang trong trạng thái tấn công, không cho di chuyển (vận tốc bằng 0)
         if (combat != null && combat.IsAttacking)
         {
             rb.linearVelocity = Vector2.zero;
