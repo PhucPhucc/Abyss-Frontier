@@ -14,15 +14,21 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float chaseSpeed = 3.5f;
 
     [Header("Detection")]
-    [SerializeField] private float detectionRange = 6f;
-    [SerializeField] private float loseRange = 10f;
+    [SerializeField] private float detectionRange = 4f;
+    [SerializeField] private float loseRange = 6f;
 
     [Header("Patrol")]
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private float waitTime = 1.5f;
 
+    [Header("Attack")]
+    [SerializeField] private float attackRange = 1f;
+    [SerializeField] private float attackCooldown = 1.5f;
+    private float attackTimer = 0f;
+
     private Rigidbody2D rb;
     private Transform target;
+    private Animator anim;
 
     private EnemyState state = EnemyState.Idle;
     private Vector2 lastDirection = Vector2.down;
@@ -38,6 +44,7 @@ public class EnemyAI : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     private void Start()
@@ -60,8 +67,13 @@ public class EnemyAI : MonoBehaviour
     private void FixedUpdate()
     {
         if (target == null) FindTarget();
+
+        if (attackTimer > 0f)
+            attackTimer -= Time.fixedDeltaTime;
+
         Tick();
         ApplyMovement();
+        UpdateAnimator();
     }
 
     private void Tick()
@@ -93,7 +105,7 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case EnemyState.Chase:
-                Chase();
+                Chase(dist);
                 if (target == null || dist > loseRange)
                     SetState(waypoints.Length > 0 ? EnemyState.Patrol : EnemyState.Idle);
                 break;
@@ -128,13 +140,34 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
-
-    private void Chase()
+    private void Chase(float distanceToPlayer)
     {
         if (target == null) return;
+
         Vector2 dir = (target.position - transform.position).normalized;
-        moveVelocity = dir * chaseSpeed;
-        lastDirection = dir;
+
+        if (distanceToPlayer <= attackRange)
+        {
+            moveVelocity = Vector2.zero;
+
+            lastDirection = dir;
+            if (anim != null)
+            {
+                anim.SetFloat("lastMoveX", dir.x);
+                anim.SetFloat("lastMoveY", dir.y);
+            }
+
+            if (attackTimer <= 0f)
+            {
+                TriggerAttackAnimation();
+                attackTimer = attackCooldown;
+            }
+        }
+        else
+        {
+            moveVelocity = dir * chaseSpeed;
+            lastDirection = dir;
+        }
     }
 
     private void SetState(EnemyState newState)
@@ -149,11 +182,45 @@ public class EnemyAI : MonoBehaviour
         rb.linearVelocity = moveVelocity;
     }
 
+    private void UpdateAnimator()
+    {
+        if (anim == null) return;
+
+        if (moveVelocity.sqrMagnitude > 0.01f)
+        {
+            Vector2 animDir = moveVelocity.normalized;
+
+            anim.SetFloat("moveX", animDir.x);
+            anim.SetFloat("moveY", animDir.y);
+            anim.SetBool("isMoving", true);
+
+            anim.SetFloat("lastMoveX", animDir.x);
+            anim.SetFloat("lastMoveY", animDir.y);
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
+        }
+    }
+
+    public void TriggerAttackAnimation()
+    {
+        if (anim != null) anim.SetTrigger("attack");
+    }
+
+    public void TriggerHurtAnimation()
+    {
+        if (anim != null) anim.SetTrigger("hurt");
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, loseRange);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
