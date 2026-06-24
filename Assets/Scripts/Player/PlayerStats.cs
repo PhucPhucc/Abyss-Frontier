@@ -47,6 +47,17 @@ public class PlayerStats : MonoBehaviour
     private const float ENDURANCE_FACTOR = 0.1f;
     private const float EXP_PER_INT = 0.1f;
 
+    private PlayerHealth _playerHealth;
+
+    public bool IsDead => _playerHealth != null && _playerHealth.CurrentHealth <= 0;
+
+    public void TakeDamage(int damage)
+    {
+        if (_playerHealth == null)
+            _playerHealth = GetComponent<PlayerHealth>();
+        _playerHealth?.TakeDamage(damage);
+    }
+
     public int Level => level;
     public int CurrentExp => currentExp;
     public int ExpToNextLevel => expToNextLevel;

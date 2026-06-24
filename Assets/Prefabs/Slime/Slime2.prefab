@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2354044817874569404}
   - component: {fileID: 7272395317770741862}
   - component: {fileID: 4960787548665706354}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Slime2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   waitTime: 3
   attackRange: 1
   attackCooldown: 1.5
+  attackPrepDuration: 1
 --- !u!50 &7272395317770741862
 Rigidbody2D:
   serializedVersion: 5
