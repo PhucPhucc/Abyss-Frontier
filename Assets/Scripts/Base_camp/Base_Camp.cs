@@ -1,19 +1,24 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Khu vực Base Camp (Hub) — nơi Player nghỉ ngơi, hồi máu và phân bổ stat points.
+/// Chỉ có thể mở Stat Screen khi ở trong vùng này.
+/// </summary>
 public class Base_Camp : MonoBehaviour
 {
     [Header("UI Reference")]
-    [SerializeField] private GameObject statScreenUI;
-    [SerializeField] private GameObject interactPromptUI;
+    [SerializeField] private GameObject statScreenUI;      // UI Stat Screen (nếu dùng Canvas, null nếu dùng OnGUI)
+    [SerializeField] private GameObject interactPromptUI;  // UI nhắc nhấn [E] (nếu dùng Canvas)
 
-    private bool isPlayerInRange = false;
-    private bool isStatsOpen = false;
+    private bool isPlayerInRange = false; // Player có đang trong vùng Base Camp không?
+    private bool isStatsOpen = false;     // Stat Screen có đang mở không?
     private Transform playerTransform;
     private PlayerStats playerStats;
     private PlayerHealth playerHealth;
     private PlayerController playerController;
 
+    // Tên hiển thị cho từng stat (tiếng Việt)
     private static readonly string[] StatNames = {
         "Sức mạnh (Strength)",
         "Khéo léo (Dexterity)",
@@ -23,6 +28,7 @@ public class Base_Camp : MonoBehaviour
         "Trí lực (Intelligence)"
     };
 
+    // Mô tả hiệu ứng từng stat
     private static readonly string[] StatEffects = {
         "ATK: +2 mỗi điểm",
         "Né: +2% mỗi điểm",
@@ -32,6 +38,7 @@ public class Base_Camp : MonoBehaviour
         "EXP nhận: +10% mỗi điểm"
     };
 
+    // Ánh xạ index → StatType
     private static readonly StatType[] StatTypes = {
         StatType.Strength,
         StatType.Dexterity,
@@ -43,6 +50,7 @@ public class Base_Camp : MonoBehaviour
 
     private void Start()
     {
+        // Ẩn các UI khi bắt đầu
         if (statScreenUI != null) statScreenUI.SetActive(false);
         if (interactPromptUI != null) interactPromptUI.SetActive(false);
     }
@@ -51,11 +59,13 @@ public class Base_Camp : MonoBehaviour
     {
         if (!isPlayerInRange) return;
 
+        // Nhấn [E] để mở/đóng Stat Screen
         if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
         {
             ToggleStats();
         }
 
+        // Nếu Stat Screen đang mở và có điểm stat: nhấn [1]-[6] để phân bổ
         if (isStatsOpen && playerStats != null && playerStats.AvailableStatPoints > 0 && Keyboard.current != null)
         {
             if (Keyboard.current.digit1Key.wasPressedThisFrame) AllocateStat(0);
@@ -67,6 +77,9 @@ public class Base_Camp : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Phân bổ điểm stat tương ứng với phím số được nhấn.
+    /// </summary>
     private void AllocateStat(int index)
     {
         if (playerStats == null || playerStats.AvailableStatPoints <= 0) return;
@@ -76,6 +89,9 @@ public class Base_Camp : MonoBehaviour
             playerController.RefreshStats();
     }
 
+    /// <summary>
+    /// Mở hoặc đóng Stat Screen. Khi mở, Player được hồi đầy máu (nghỉ ngơi).
+    /// </summary>
     private void ToggleStats()
     {
         isStatsOpen = !isStatsOpen;
@@ -85,6 +101,7 @@ public class Base_Camp : MonoBehaviour
 
         if (isStatsOpen)
         {
+            // Lấy component từ Player Transform
             if (playerTransform != null)
             {
                 playerStats = playerTransform.GetComponent<PlayerStats>();
@@ -95,6 +112,9 @@ public class Base_Camp : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Hồi đầy máu và refresh stats khi Player nghỉ ngơi.
+    /// </summary>
     private void RestPlayer()
     {
         Debug.Log("Player is resting at the Base Camp... HP restored!");
@@ -130,8 +150,12 @@ public class Base_Camp : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Vẽ UI bằng GUI (dùng khi không có Canvas UI).
+    /// </summary>
     private void OnGUI()
     {
+        // Prompt nhấn [E] khi Player trong vùng
         if (isPlayerInRange && !isStatsOpen && interactPromptUI == null)
         {
             GUIStyle promptStyle = new GUIStyle(GUI.skin.box);
@@ -141,6 +165,7 @@ public class Base_Camp : MonoBehaviour
             GUI.Box(new Rect(Screen.width / 2 - 160, Screen.height - 60, 320, 40), "Nhấn [E] để nghỉ ngơi / Xem chỉ số", promptStyle);
         }
 
+        // Stat Screen (dùng GUI fallback)
         if (isStatsOpen && statScreenUI == null && playerStats != null)
         {
             int[] statValues = {

@@ -23,8 +23,9 @@ public class FixEnemyPrefabs
         if (go.GetComponent<CapsuleCollider2D>() == null)
         {
             CapsuleCollider2D col = go.AddComponent<CapsuleCollider2D>();
+            col.direction = CapsuleDirection2D.Horizontal;
             col.offset = Vector2.zero;
-            col.size = new Vector2(0.6f, 0.8f);
+            col.size = new Vector2(1.1f, 0.7f);
             changed = true;
             Debug.Log($"Added CapsuleCollider2D to {path}");
         }
