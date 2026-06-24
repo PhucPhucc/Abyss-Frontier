@@ -1,42 +1,50 @@
 using UnityEngine;
 
+/// <summary>
+/// Các loại chỉ số (stat) mà Player có thể nâng cấp.
+/// </summary>
 public enum StatType
 {
-    Strength,
-    Dexterity,
-    Vitality,
-    Agility,
-    Endurance,
-    Intelligence
+    Strength,     // Sức mạnh → ATK
+    Dexterity,    // Khéo léo → Né tránh
+    Vitality,     // Sinh lực → Máu
+    Agility,      // Nhanh nhẹn → Tốc độ di chuyển
+    Endurance,    // Bền bỉ → Hiệu suất stamina
+    Intelligence  // Trí lực → Hệ số EXP
 }
 
+/// <summary>
+/// Quản lý cấp độ, EXP, chỉ số cơ bản và chỉ số dẫn xuất của Player.
+/// Chỉ số dẫn xuất được tính lại mỗi khi có thay đổi.
+/// </summary>
 public class PlayerStats : MonoBehaviour
 {
     [Header("Level")]
-    [SerializeField] private int level = 1;
-    [SerializeField] private int currentExp = 0;
-    [SerializeField] private int expToNextLevel = 100;
-    [SerializeField] private int statPointsPerLevel = 5;
+    [SerializeField] private int level = 1;                   // Cấp độ hiện tại
+    [SerializeField] private int currentExp = 0;              // EXP hiện có
+    [SerializeField] private int expToNextLevel = 100;        // EXP cần để lên cấp tiếp theo
+    [SerializeField] private int statPointsPerLevel = 5;      // Số điểm chỉ số nhận được mỗi cấp
 
     [Header("Base Stats")]
-    [SerializeField] private int strength = 1;
-    [SerializeField] private int dexterity = 1;
-    [SerializeField] private int vitality = 1;
-    [SerializeField] private int agility = 1;
-    [SerializeField] private int endurance = 1;
-    [SerializeField] private int intelligence = 1;
+    [SerializeField] private int strength = 1;     // Sức mạnh
+    [SerializeField] private int dexterity = 1;    // Khéo léo
+    [SerializeField] private int vitality = 1;     // Sinh lực
+    [SerializeField] private int agility = 1;      // Nhanh nhẹn
+    [SerializeField] private int endurance = 1;    // Bền bỉ
+    [SerializeField] private int intelligence = 1; // Trí lực
 
     [Header("Stat Points")]
-    [SerializeField] private int availableStatPoints = 5;
+    [SerializeField] private int availableStatPoints = 5; // Điểm chỉ số có thể phân bổ
 
     [Header("Derived Stats (Read Only)")]
-    [SerializeField] private int derivedMaxHealth = 70;
-    [SerializeField] private int derivedAttackDamage = 7;
-    [SerializeField] private float derivedDodgeChance = 0.02f;
-    [SerializeField] private float derivedMoveSpeed = 2.65f;
-    [SerializeField] private float derivedStaminaEfficiency = 1.1f;
-    [SerializeField] private float derivedExpMultiplier = 1.1f;
+    [SerializeField] private int derivedMaxHealth = 70;           // Máu tối đa
+    [SerializeField] private int derivedAttackDamage = 7;         // Sát thương
+    [SerializeField] private float derivedDodgeChance = 0.02f;     // Tỷ lệ né tránh
+    [SerializeField] private float derivedMoveSpeed = 2.65f;      // Tốc độ di chuyển
+    [SerializeField] private float derivedStaminaEfficiency = 1.1f; // Hiệu suất stamina
+    [SerializeField] private float derivedExpMultiplier = 1.1f;    // Hệ số EXP
 
+    // Hằng số công thức tính chỉ số dẫn xuất
     private const int BASE_HP = 50;
     private const int HP_PER_VIT = 20;
     private const int BASE_ATK = 5;
@@ -51,6 +59,7 @@ public class PlayerStats : MonoBehaviour
 
     public bool IsDead => _playerHealth != null && _playerHealth.CurrentHealth <= 0;
 
+    /// <summary>Cầu nối để PlayerHealth nhận sát thương.</summary>
     public void TakeDamage(int damage)
     {
         if (_playerHealth == null)
@@ -58,6 +67,7 @@ public class PlayerStats : MonoBehaviour
         _playerHealth?.TakeDamage(damage);
     }
 
+    // --- Public Properties ---
     public int Level => level;
     public int CurrentExp => currentExp;
     public int ExpToNextLevel => expToNextLevel;
@@ -79,24 +89,33 @@ public class PlayerStats : MonoBehaviour
 
     private void Awake()
     {
+        // Tính chỉ số dẫn xuất ngay khi khởi tạo
         RecalculateDerivedStats();
     }
 
+    /// <summary>
+    /// Tính lại tất cả chỉ số dẫn xuất dựa trên chỉ số cơ bản hiện tại.
+    /// Gọi sau mỗi lần phân bổ stat point.
+    /// </summary>
     public void RecalculateDerivedStats()
     {
         derivedMaxHealth = BASE_HP + (vitality * HP_PER_VIT);
         derivedAttackDamage = BASE_ATK + (strength * ATK_PER_STR);
-        derivedDodgeChance = Mathf.Min(dexterity * DODGE_PER_DEX, 0.5f);
+        derivedDodgeChance = Mathf.Min(dexterity * DODGE_PER_DEX, 0.5f); // Giới hạn 50%
         derivedMoveSpeed = BASE_SPEED + (agility * SPEED_PER_AGI);
         derivedStaminaEfficiency = 1f + (endurance * ENDURANCE_FACTOR);
         derivedExpMultiplier = 1f + (intelligence * EXP_PER_INT);
     }
 
+    /// <summary>
+    /// Cộng EXP (đã nhân hệ số). Nếu đủ EXP để lên cấp, tự động level up.
+    /// </summary>
     public void AddExp(int amount)
     {
         int finalExp = Mathf.RoundToInt(amount * derivedExpMultiplier);
         currentExp += finalExp;
 
+        // Có thể lên nhiều cấp cùng lúc nếu nhận nhiều EXP
         while (currentExp >= expToNextLevel)
         {
             currentExp -= expToNextLevel;
@@ -104,6 +123,9 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Lên cấp: tăng level, yêu cầu EXP cho cấp sau, cộng điểm stat.
+    /// </summary>
     private void LevelUp()
     {
         level++;
@@ -112,6 +134,10 @@ public class PlayerStats : MonoBehaviour
         Debug.Log($"Level up! Now level {level}. Stat points: {availableStatPoints}");
     }
 
+    /// <summary>
+    /// Phân bổ một điểm chỉ số vào stat tương ứng.
+    /// </summary>
+    /// <returns>True nếu phân bổ thành công, false nếu không đủ điểm.</returns>
     public bool AllocateStat(StatType statType)
     {
         if (availableStatPoints <= 0) return false;
@@ -132,6 +158,9 @@ public class PlayerStats : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Reset EXP về 0 (gọi khi Player chết).
+    /// </summary>
     public void ResetExpToZero()
     {
         currentExp = 0;
