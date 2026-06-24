@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
@@ -14,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private PlayerStats playerStats;
+    private PlayerCombat combat;
 
     private Vector2 moveInput;
     private Vector2 lastDirection = Vector2.down;
@@ -28,6 +31,13 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerStats = GetComponent<PlayerStats>();
+        if (playerStats == null)
+        {
+            playerStats = gameObject.AddComponent<PlayerStats>();
+        }
+
+        combat = GetComponent<PlayerCombat>();
         currentStamina = maxStamina;
     }
 
@@ -52,15 +62,24 @@ public class PlayerController : MonoBehaviour
 
         HandleStamina(isMoving);
 
-        animator.SetFloat("moveX", lastDirection.x);
-        animator.SetFloat("moveY", lastDirection.y);
-        animator.SetBool("isWalk", isMoving);
-        animator.SetBool("isRun", isSprinting);
+        if (animator != null)
+        {
+            animator.SetFloat("moveX", lastDirection.x);
+            animator.SetFloat("moveY", lastDirection.y);
+            animator.SetBool("isWalk", isMoving);
+            animator.SetBool("isRun", isSprinting);
+        }
 
     }
 
     private void HandleStamina(bool isMoving)
     {
+        if (playerStats != null)
+        {
+            HandlePlayerStatsStamina(isMoving);
+            return;
+        }
+
         if (isSprintInputPressed && isMoving && currentStamina > 0)
         {
             isSprinting = true;
@@ -78,10 +97,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void HandlePlayerStatsStamina(bool isMoving)
+    {
+        if (isSprintInputPressed && isMoving && playerStats.CurrentStamina > 0f)
+        {
+            isSprinting = true;
+            float staminaCost = Mathf.Min(staminaDrainRate * Time.deltaTime, playerStats.CurrentStamina);
+            playerStats.SpendStamina(staminaCost);
+        }
+        else
+        {
+            isSprinting = false;
+            playerStats.RecoverStamina(staminaRegenRate * Time.deltaTime);
+        }
+    }
+
     private void FixedUpdate()
     {
-        PlayerCombat combat = GetComponent<PlayerCombat>();
-
         if (combat != null && combat.IsAttacking)
         {
             rb.linearVelocity = Vector2.zero;

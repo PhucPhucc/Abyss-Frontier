@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Combat Stats")]
@@ -14,6 +15,7 @@ public class PlayerCombat : MonoBehaviour
 
     private Animator animator;
     private PlayerController playerController;
+    private PlayerStats playerStats;
     private InputAction attackAction;
     private float nextAttackTime = 0f;
     public bool IsAttacking => Time.time < nextAttackTime;
@@ -22,6 +24,11 @@ public class PlayerCombat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
+        playerStats = GetComponent<PlayerStats>();
+        if (playerStats == null)
+        {
+            playerStats = gameObject.AddComponent<PlayerStats>();
+        }
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
@@ -41,16 +48,20 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformAttack()
     {
-        animator.SetTrigger("Attack");
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
 
-        Vector2 facingDirection = playerController.LastDirection;
+        Vector2 facingDirection = playerController != null ? playerController.LastDirection : Vector2.down;
         Vector2 attackPoint = (Vector2)transform.position + (facingDirection * hitboxOffset);
+        int currentDamage = playerStats != null ? playerStats.AttackDamage : attackDamage;
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, attackRange, enemyLayers);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log($"Hit: {enemy.name}");
+            Debug.Log($"Hit: {enemy.name} for {currentDamage} damage");
         }
     }
 

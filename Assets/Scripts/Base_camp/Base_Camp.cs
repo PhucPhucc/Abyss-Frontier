@@ -13,10 +13,13 @@ public class Base_Camp : MonoBehaviour
     private bool isPlayerInRange = false;
     private bool isStatsOpen = false;
     private Transform playerTransform;
+    private PlayerStats playerStats;
+    private StatScreenUI statScreen;
 
     private void Start()
     {
-        // Đảm bảo ban đầu UI ở trạng thái ẩn
+        CacheStatScreen();
+
         if (statScreenUI != null)
         {
             statScreenUI.SetActive(false);
@@ -43,19 +46,34 @@ public class Base_Camp : MonoBehaviour
     {
         isStatsOpen = !isStatsOpen;
 
-        if (statScreenUI != null)
-        {
-            statScreenUI.SetActive(isStatsOpen);
-        }
-
         if (isStatsOpen)
         {
+            playerStats = EnsurePlayerStats();
             RestPlayer();
+            EnsureStatScreen();
+
+            if (statScreen != null)
+            {
+                statScreen.Open(playerStats);
+            }
+            else if (statScreenUI != null)
+            {
+                statScreenUI.SetActive(true);
+            }
+        }
+        else
+        {
+            CloseStats();
         }
     }
 
     private void RestPlayer()
     {
+        if (playerStats != null)
+        {
+            playerStats.RestoreVitals();
+        }
+
         Debug.Log("Player is resting at the Base Camp... HP and Stamina restored!");
         
         // Quái vật chỉ hồi sinh khi người chơi nghỉ ngơi tại Hub (Base Camp)
@@ -66,11 +84,11 @@ public class Base_Camp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Nhận diện Player thông qua Tag hoặc Component PlayerController
         if (other.CompareTag("Player") || other.GetComponent<PlayerController>() != null)
         {
             isPlayerInRange = true;
             playerTransform = other.transform;
+            playerStats = EnsurePlayerStats();
 
             if (interactPromptUI != null)
             {
@@ -86,15 +104,73 @@ public class Base_Camp : MonoBehaviour
             isPlayerInRange = false;
             isStatsOpen = false;
             playerTransform = null;
+            playerStats = null;
 
             if (interactPromptUI != null)
             {
                 interactPromptUI.SetActive(false);
             }
-            if (statScreenUI != null)
-            {
-                statScreenUI.SetActive(false);
-            }
+
+            CloseStats();
+        }
+    }
+
+    private void CacheStatScreen()
+    {
+        if (statScreenUI == null)
+        {
+            return;
+        }
+
+        statScreen = statScreenUI.GetComponent<StatScreenUI>();
+        if (statScreen == null)
+        {
+            statScreen = statScreenUI.AddComponent<StatScreenUI>();
+        }
+    }
+
+    private void EnsureStatScreen()
+    {
+        if (statScreen != null)
+        {
+            return;
+        }
+
+        if (statScreenUI != null)
+        {
+            CacheStatScreen();
+            return;
+        }
+
+        statScreen = StatScreenUI.CreateRuntimeScreen();
+        statScreenUI = statScreen.gameObject;
+    }
+
+    private PlayerStats EnsurePlayerStats()
+    {
+        if (playerTransform == null)
+        {
+            return null;
+        }
+
+        PlayerStats stats = playerTransform.GetComponent<PlayerStats>();
+        if (stats == null)
+        {
+            stats = playerTransform.gameObject.AddComponent<PlayerStats>();
+        }
+
+        return stats;
+    }
+
+    private void CloseStats()
+    {
+        if (statScreen != null)
+        {
+            statScreen.Close();
+        }
+        else if (statScreenUI != null)
+        {
+            statScreenUI.SetActive(false);
         }
     }
 
@@ -112,35 +188,32 @@ public class Base_Camp : MonoBehaviour
             GUI.Box(new Rect(Screen.width / 2 - 150, Screen.height - 60, 300, 40), "Nhấn [E] để nghỉ ngơi / Xem chỉ số", promptStyle);
         }
 
-        // Khi mở bảng chỉ số, hiện panel chỉ số dự phòng nếu không có statScreenUI
         if (isStatsOpen && statScreenUI == null)
         {
             Rect boxRect = new Rect(20, 20, 320, 260);
-            GUI.Box(boxRect, "=== THÔNG SỐ BẢN THÂN ===");
+            GUI.Box(boxRect, "=== THONG SO BAN THAN ===");
 
             GUILayout.BeginArea(new Rect(30, 50, 300, 220));
-            
-            // Lấy thông tin từ PlayerController nếu có thể
-            string staminaInfo = "100 / 100";
-            if (playerTransform != null)
+
+            PlayerStats stats = playerStats != null ? playerStats : EnsurePlayerStats();
+            if (stats != null)
             {
-                PlayerController controller = playerTransform.GetComponent<PlayerController>();
-                if (controller != null)
-                {
-                    // Lấy các giá trị hiển thị demo
-                    staminaInfo = "Hồi phục hoàn toàn";
-                }
+                GUILayout.Label($"<b>Mau (HP):</b> {stats.CurrentHealth} / {stats.MaxHealth}");
+                GUILayout.Label($"<b>The luc (Stamina):</b> {Mathf.CeilToInt(stats.CurrentStamina)} / {Mathf.CeilToInt(stats.MaxStamina)}");
+                GUILayout.Label($"<b>Sat thuong (ATK):</b> {stats.AttackDamage}");
+                GUILayout.Label($"<b>Phong thu (DEF):</b> {stats.Defense}");
+                GUILayout.Label($"<b>Kinh nghiem (EXP):</b> {stats.CurrentExperience} / {stats.ExperiencePerStatPoint}");
+                GUILayout.Label($"<b>Diem nang cap:</b> {stats.StatPoints}");
+            }
+            else
+            {
+                GUILayout.Label("<b>Khong tim thay PlayerStats.</b>");
             }
 
-            GUILayout.Label("<b>Máu (HP):</b> 100 / 100");
-            GUILayout.Label("<b>Thể lực (Stamina):</b> " + staminaInfo);
-            GUILayout.Label("<b>Sức mạnh (ATK):</b> 10");
-            GUILayout.Label("<b>Phòng thủ (DEF):</b> 5");
-            GUILayout.Label("<b>Kinh nghiệm (EXP):</b> 0");
             GUILayout.Space(10);
-            GUILayout.Label("<i>(Đang nghỉ ngơi tại Hub...)</i>");
+            GUILayout.Label("<i>(Dang nghi ngoi tai Hub...)</i>");
             GUILayout.Space(10);
-            GUILayout.Label("<color=yellow>Nhấn [E] để đóng bảng chỉ số</color>");
+            GUILayout.Label("<color=yellow>Nhan [E] de dong bang chi so</color>");
 
             GUILayout.EndArea();
         }

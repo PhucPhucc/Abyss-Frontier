@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1308403056504983927}
   - component: {fileID: 6262154688093288755}
   - component: {fileID: 7002116468040302319}
+  - component: {fileID: 7886736025081932567}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -141,6 +142,27 @@ MonoBehaviour:
   maxStamina: 100
   staminaDrainRate: 20
   staminaRegenRate: 15
+--- !u!114 &7886736025081932567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739308693934486430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63cc704c0003a4438970516e0fcc1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  maxHealth: 100
+  maxStamina: 100
+  attackDamage: 10
+  defense: 5
+  experiencePerStatPoint: 100
+  healthUpgradeAmount: 10
+  staminaUpgradeAmount: 10
+  attackUpgradeAmount: 2
+  defenseUpgradeAmount: 1
 --- !u!70 &6141142586090194675
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
