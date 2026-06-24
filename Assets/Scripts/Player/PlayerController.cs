@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private PlayerStats playerStats;
 
     private Vector2 moveInput;
     private Vector2 lastDirection = Vector2.down;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerStats = GetComponent<PlayerStats>();
         currentStamina = maxStamina;
     }
 
@@ -43,6 +45,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Chặn input khi Player đã chết
+        if (playerStats != null && playerStats.IsDead)
+        {
+            animator.SetBool("isWalk", false);
+            animator.SetBool("isRun", false);
+            return;
+        }
+
         bool isMoving = moveInput.sqrMagnitude > 0.01f;
 
         if (isMoving)
@@ -56,7 +66,6 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("moveY", lastDirection.y);
         animator.SetBool("isWalk", isMoving);
         animator.SetBool("isRun", isSprinting);
-
     }
 
     private void HandleStamina(bool isMoving)
@@ -65,6 +74,7 @@ public class PlayerController : MonoBehaviour
         {
             isSprinting = true;
             currentStamina -= staminaDrainRate * Time.deltaTime;
+            Debug.Log(currentStamina);
             if (currentStamina < 0) currentStamina = 0f;
         }
         else
@@ -80,6 +90,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Chặn movement khi Player đã chết
+        if (playerStats != null && playerStats.IsDead)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         PlayerCombat combat = GetComponent<PlayerCombat>();
 
         if (combat != null && combat.IsAttacking)
