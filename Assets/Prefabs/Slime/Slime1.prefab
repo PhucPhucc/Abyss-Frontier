@@ -138,8 +138,13 @@ MonoBehaviour:
   waypoints: []
   waitTime: 3
   attackRange: 1
+  attackDamage: 8
+  attackHitDelay: 0.2
   attackCooldown: 1.5
   attackPrepDuration: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!50 &4479384023647057937
 Rigidbody2D:
   serializedVersion: 5
