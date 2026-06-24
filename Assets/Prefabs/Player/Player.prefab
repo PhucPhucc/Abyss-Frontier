@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 1308403056504983927}
   - component: {fileID: 6262154688093288755}
   - component: {fileID: 7002116468040302319}
+  - component: {fileID: 8333483861894123471}
+  - component: {fileID: 2706591662197857887}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -249,3 +251,45 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8333483861894123471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739308693934486430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d827e0e6875aa7efcbaf2f51da8d8654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  level: 1
+  currentExp: 0
+  expToNextLevel: 100
+  statPointsPerLevel: 3
+  strength: 1
+  dexterity: 1
+  vitality: 1
+  agility: 1
+  endurance: 1
+  intelligence: 1
+  availableStatPoints: 3
+  derivedMaxHealth: 70
+  derivedAttackDamage: 7
+  derivedDodgeChance: 0.02
+  derivedMoveSpeed: 2.65
+  derivedStaminaEfficiency: 1.1
+  derivedExpMultiplier: 1.1
+--- !u!114 &2706591662197857887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739308693934486430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f345ba28a0e649338a36e7815c2ccd6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  currentHealth: 0
