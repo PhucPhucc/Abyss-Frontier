@@ -1,80 +1,132 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [Header("Stats Definition")]
     [SerializeField] private EnemyLevel enemyLevel = EnemyLevel.Level1;
     [SerializeField] private EnemyStats statsDefinition;
 
-    private int currentHP;
+    [Header("Health")]
+    [SerializeField] private int maxHealth = 30;
+    [SerializeField] private int currentHealth;
+
+    [Header("Death")]
+    [SerializeField] private float destroyDelay = 1.5f;
+    [Header("Flash on Hit")]
+    [SerializeField] private bool enableHitFlash = true;
+    [SerializeField] private float flashDuration = 0.1f;
+    [SerializeField] private Color flashColor = Color.red;
+    [Header("Stun")]
+    [SerializeField] private float defaultStunDuration = 0.5f;
+
     private int def;
-    private int maxHP;
+    private bool isDead = false;
 
+    private Animator anim;
     private EnemyAI enemyAI;
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private KnockbackHandler knockbackHandler;
 
-    public int CurrentHP => currentHP;
-    public int MaxHP => maxHP;
-    public int DEF => def;
+    public bool IsDead => isDead;
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
     public EnemyLevel EnemyLevel => enemyLevel;
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
         enemyAI = GetComponent<EnemyAI>();
-    }
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        knockbackHandler = GetComponent<KnockbackHandler>();
 
-    private void Start()
-    {
         if (statsDefinition != null)
         {
             int level = (int)enemyLevel;
-            maxHP = statsDefinition.GetHP(level);
+            maxHealth = statsDefinition.GetHP(level);
             def = statsDefinition.GetDEF(level);
-            currentHP = maxHP;
 
             if (enemyAI != null)
-            {
                 enemyAI.SetStatsFromDefinition(statsDefinition, level);
-            }
         }
-        else
-        {
-            maxHP = 30;
-            def = 0;
-            currentHP = maxHP;
-        }
+
+        currentHealth = maxHealth;
+
+        if (spriteRenderer != null)
+            originalColor = spriteRenderer.color;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackDuration = 0.15f, float stunDuration = -1f)
     {
+        if (isDead) return;
+
         int actualDamage = Mathf.Max(1, damage - def);
-        currentHP -= actualDamage;
-        currentHP = Mathf.Max(0, currentHP);
+        currentHealth -= actualDamage;
+        currentHealth = Mathf.Max(currentHealth, 0);
 
-        if (enemyAI != null)
+        Debug.Log($"[EnemyHealth] {name} nhận {actualDamage} sát thương — HP còn: {currentHealth}/{maxHealth}");
+
+        if (knockbackHandler != null)
         {
-            enemyAI.TriggerHurtAnimation();
+            float actualStun = stunDuration >= 0f ? stunDuration : defaultStunDuration;
+            knockbackHandler.PlayKnockback(knockbackDirection, knockbackDuration, actualStun);
         }
 
-        if (currentHP <= 0)
-        {
+        if (currentHealth <= 0)
             Die();
-        }
+        else
+            PlayHurt();
+    }
+
+    private void PlayHurt()
+    {
+        if (anim != null)
+            anim.SetTrigger("hurt");
+
+        if (enableHitFlash && spriteRenderer != null)
+            StartCoroutine(HitFlashRoutine());
     }
 
     private void Die()
     {
-        if (statsDefinition != null)
+        if (isDead) return;
+        isDead = true;
+
+        if (enemyAI != null)
+            enemyAI.OnDeath();
+
+        if (anim != null)
+            anim.SetTrigger("die");
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+
+        GrantExpToPlayer();
+
+        Destroy(gameObject, destroyDelay);
+        Debug.Log($"[EnemyHealth] {name} đã chết.");
+    }
+
+    private void GrantExpToPlayer()
+    {
+        if (statsDefinition == null) return;
+
+        int expReward = statsDefinition.GetExpReward((int)enemyLevel);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            int expReward = statsDefinition.GetExpReward((int)enemyLevel);
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                PlayerStats ps = player.GetComponent<PlayerStats>();
-                if (ps != null)
-                {
-                    ps.AddExp(expReward);
-                }
-            }
+            PlayerStats ps = player.GetComponent<PlayerStats>();
+            if (ps != null)
+                ps.AddExp(expReward);
         }
-        Destroy(gameObject);
+    }
+
+    private IEnumerator HitFlashRoutine()
+    {
+        spriteRenderer.color = flashColor;
+        yield return new WaitForSeconds(flashDuration);
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalColor;
     }
 }

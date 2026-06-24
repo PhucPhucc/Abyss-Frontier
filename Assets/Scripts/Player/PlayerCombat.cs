@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour
     [Header("Hitbox Setup")]
     [SerializeField] private float hitboxOffset = 0.6f;
     [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private float attackHitDelay = 0.2f;
 
     private Animator animator;
     private PlayerController playerController;
@@ -45,6 +46,26 @@ public class PlayerCombat : MonoBehaviour
     {
         animator.SetTrigger("Attack");
 
+        if (attackHitDelay > 0f)
+        {
+            StartCoroutine(AttackDelayRoutine());
+        }
+        else
+        {
+            TriggerAttackDamage();
+        }
+    }
+
+    private System.Collections.IEnumerator AttackDelayRoutine()
+    {
+        yield return new WaitForSeconds(attackHitDelay);
+        TriggerAttackDamage();
+    }
+
+    public void TriggerAttackDamage()
+    {
+        if (playerController == null) return;
+
         Vector2 facingDirection = playerController.LastDirection;
         Vector2 attackPoint = (Vector2)transform.position + (facingDirection * hitboxOffset);
 
@@ -57,7 +78,11 @@ public class PlayerCombat : MonoBehaviour
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damage);
+                Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
+                if (knockbackDir == Vector2.zero)
+                    knockbackDir = facingDirection;
+
+                enemyHealth.TakeDamage(damage, knockbackDir);
             }
         }
     }

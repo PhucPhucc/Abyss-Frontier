@@ -73,9 +73,7 @@ public class Base_Camp : MonoBehaviour
 
         playerStats.AllocateStat(StatTypes[index]);
         if (playerController != null)
-        {
             playerController.RefreshStats();
-        }
     }
 
     private void ToggleStats()
@@ -83,9 +81,7 @@ public class Base_Camp : MonoBehaviour
         isStatsOpen = !isStatsOpen;
 
         if (statScreenUI != null)
-        {
             statScreenUI.SetActive(isStatsOpen);
-        }
 
         if (isStatsOpen)
         {
@@ -114,9 +110,7 @@ public class Base_Camp : MonoBehaviour
             playerTransform = other.transform;
 
             if (interactPromptUI != null)
-            {
                 interactPromptUI.SetActive(true);
-            }
         }
     }
 
@@ -197,7 +191,6 @@ public class Base_Camp : MonoBehaviour
                     ? $"[{key}] {StatNames[i]}: {statValues[i]}"
                     : $"  {StatNames[i]}: {statValues[i]}";
                 GUILayout.Label(label, GUILayout.Width(260));
-
                 GUILayout.Label(StatEffects[i], GUILayout.Width(160));
 
                 GUILayout.EndHorizontal();

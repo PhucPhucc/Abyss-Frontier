@@ -61,8 +61,21 @@ public class PlayerController : MonoBehaviour
         isSprintInputPressed = value.isPressed;
     }
 
+    public void TriggerHurt()
+    {
+        if (animator != null)
+            animator.SetTrigger("hurt");
+    }
+
     private void Update()
     {
+        if (playerStats != null && playerStats.IsDead)
+        {
+            animator.SetBool("isWalk", false);
+            animator.SetBool("isRun", false);
+            return;
+        }
+
         bool isMoving = moveInput.sqrMagnitude > 0.01f;
 
         if (isMoving)
@@ -76,7 +89,6 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("moveY", lastDirection.y);
         animator.SetBool("isWalk", isMoving);
         animator.SetBool("isRun", isSprinting);
-
     }
 
     private void HandleStamina(bool isMoving)
@@ -106,16 +118,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TriggerHurt()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("hurt");
-        }
-    }
-
     private void FixedUpdate()
     {
+        if (playerStats != null && playerStats.IsDead)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         PlayerCombat combat = GetComponent<PlayerCombat>();
 
         if (combat != null && combat.IsAttacking)
