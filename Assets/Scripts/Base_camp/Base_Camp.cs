@@ -8,7 +8,9 @@ using UnityEngine.InputSystem;
 public class Base_Camp : MonoBehaviour
 {
     [Header("UI Reference")]
+    [Tooltip("UI Panel display player stats. Toggle on/off on interaction.")]
     [SerializeField] private GameObject statScreenUI;      // UI Stat Screen (nếu dùng Canvas, null nếu dùng OnGUI)
+    [Tooltip("UI Prompt text showing 'Press E to Interact'.")]
     [SerializeField] private GameObject interactPromptUI;  // UI nhắc nhấn [E] (nếu dùng Canvas)
 
     private bool isPlayerInRange = false; // Player có đang trong vùng Base Camp không?
@@ -17,6 +19,7 @@ public class Base_Camp : MonoBehaviour
     private PlayerStats playerStats;
     private PlayerHealth playerHealth;
     private PlayerController playerController;
+    private StatScreenUI statScreen;      // Caching StatScreenUI component
 
     // Tên hiển thị cho từng stat (tiếng Việt)
     private static readonly string[] StatNames = {
@@ -50,6 +53,8 @@ public class Base_Camp : MonoBehaviour
 
     private void Start()
     {
+        CacheStatScreen();
+
         // Ẩn các UI khi bắt đầu
         if (statScreenUI != null) statScreenUI.SetActive(false);
         if (interactPromptUI != null) interactPromptUI.SetActive(false);
@@ -87,6 +92,12 @@ public class Base_Camp : MonoBehaviour
         playerStats.AllocateStat(StatTypes[index]);
         if (playerController != null)
             playerController.RefreshStats();
+        
+        // Cập nhật lại UI Panel nếu đang mở
+        if (statScreen != null)
+        {
+            statScreen.Refresh();
+        }
     }
 
     /// <summary>
@@ -95,9 +106,6 @@ public class Base_Camp : MonoBehaviour
     private void ToggleStats()
     {
         isStatsOpen = !isStatsOpen;
-
-        if (statScreenUI != null)
-            statScreenUI.SetActive(isStatsOpen);
 
         if (isStatsOpen)
         {
@@ -108,7 +116,26 @@ public class Base_Camp : MonoBehaviour
                 playerHealth = playerTransform.GetComponent<PlayerHealth>();
                 playerController = playerTransform.GetComponent<PlayerController>();
             }
+            else
+            {
+                playerStats = EnsurePlayerStats();
+            }
+
             RestPlayer();
+            EnsureStatScreen();
+
+            if (statScreen != null)
+            {
+                statScreen.Open(playerStats);
+            }
+            else if (statScreenUI != null)
+            {
+                statScreenUI.SetActive(true);
+            }
+        }
+        else
+        {
+            CloseStats();
         }
     }
 
@@ -117,9 +144,21 @@ public class Base_Camp : MonoBehaviour
     /// </summary>
     private void RestPlayer()
     {
-        Debug.Log("Player is resting at the Base Camp... HP restored!");
-        if (playerHealth != null) playerHealth.RestoreFullHealth();
-        if (playerController != null) playerController.RefreshStats();
+        if (playerStats != null)
+        {
+            playerStats.RestoreVitals();
+        }
+        else if (playerHealth != null)
+        {
+            playerHealth.RestoreFullHealth();
+        }
+
+        if (playerController != null)
+        {
+            playerController.RefreshStats();
+        }
+
+        Debug.Log("Player is resting at the Base Camp... HP and Stamina restored!");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -128,6 +167,7 @@ public class Base_Camp : MonoBehaviour
         {
             isPlayerInRange = true;
             playerTransform = other.transform;
+            playerStats = EnsurePlayerStats();
 
             if (interactPromptUI != null)
                 interactPromptUI.SetActive(true);
@@ -147,6 +187,57 @@ public class Base_Camp : MonoBehaviour
 
             if (interactPromptUI != null) interactPromptUI.SetActive(false);
             if (statScreenUI != null) statScreenUI.SetActive(false);
+
+            CloseStats();
+        }
+    }
+
+    private void CacheStatScreen()
+    {
+        if (statScreenUI == null) return;
+
+        statScreen = statScreenUI.GetComponent<StatScreenUI>();
+        if (statScreen == null)
+        {
+            statScreen = statScreenUI.AddComponent<StatScreenUI>();
+        }
+    }
+
+    private void EnsureStatScreen()
+    {
+        if (statScreen != null) return;
+
+        if (statScreenUI != null)
+        {
+            CacheStatScreen();
+            return;
+        }
+
+        statScreen = StatScreenUI.CreateRuntimeScreen();
+        statScreenUI = statScreen.gameObject;
+    }
+
+    private PlayerStats EnsurePlayerStats()
+    {
+        if (playerTransform == null) return null;
+
+        PlayerStats stats = playerTransform.GetComponent<PlayerStats>();
+        if (stats == null)
+        {
+            stats = playerTransform.gameObject.AddComponent<PlayerStats>();
+        }
+        return stats;
+    }
+
+    private void CloseStats()
+    {
+        if (statScreen != null)
+        {
+            statScreen.Close();
+        }
+        else if (statScreenUI != null)
+        {
+            statScreenUI.SetActive(false);
         }
     }
 
@@ -178,7 +269,7 @@ public class Base_Camp : MonoBehaviour
             };
 
             int points = playerStats.AvailableStatPoints;
-            int hp = playerHealth != null ? playerHealth.CurrentHealth : 0;
+            int hp = playerStats.CurrentHealth;
             int maxHp = playerStats.MaxHealth;
             int atk = playerStats.AttackDamage;
             float dodge = playerStats.DodgeChance * 100;

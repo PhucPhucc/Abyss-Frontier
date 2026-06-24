@@ -15,7 +15,6 @@ public enum StatType
 
 /// <summary>
 /// Quản lý cấp độ, EXP, chỉ số cơ bản và chỉ số dẫn xuất của Player.
-/// Chỉ số dẫn xuất được tính lại mỗi khi có thay đổi.
 /// </summary>
 public class PlayerStats : MonoBehaviour
 {
@@ -35,6 +34,10 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Stat Points")]
     [SerializeField] private int availableStatPoints = 5; // Điểm chỉ số có thể phân bổ
+
+    [Header("Stamina State")]
+    [SerializeField] private float maxStamina = 100f;
+    [SerializeField] private float currentStamina;
 
     [Header("Derived Stats (Read Only)")]
     [SerializeField] private int derivedMaxHealth = 70;           // Máu tối đa
@@ -57,21 +60,16 @@ public class PlayerStats : MonoBehaviour
 
     private PlayerHealth _playerHealth;
 
-    public bool IsDead => _playerHealth != null && _playerHealth.CurrentHealth <= 0;
+    public event System.Action StatsChanged;
 
-    /// <summary>Cầu nối để PlayerHealth nhận sát thương.</summary>
-    public void TakeDamage(int damage)
-    {
-        if (_playerHealth == null)
-            _playerHealth = GetComponent<PlayerHealth>();
-        _playerHealth?.TakeDamage(damage);
-    }
+    public bool IsDead => _playerHealth != null && _playerHealth.CurrentHealth <= 0;
 
     // --- Public Properties ---
     public int Level => level;
     public int CurrentExp => currentExp;
     public int ExpToNextLevel => expToNextLevel;
     public int AvailableStatPoints => availableStatPoints;
+    public int StatPoints => availableStatPoints; // Alias cho UI/Tests
 
     public int Strength => strength;
     public int Dexterity => dexterity;
@@ -81,16 +79,34 @@ public class PlayerStats : MonoBehaviour
     public int Intelligence => intelligence;
 
     public int MaxHealth => derivedMaxHealth;
+    public int CurrentHealth
+    {
+        get
+        {
+            if (_playerHealth == null)
+                _playerHealth = GetComponent<PlayerHealth>();
+            return _playerHealth != null ? _playerHealth.CurrentHealth : derivedMaxHealth;
+        }
+    }
+
+    public float MaxStamina => maxStamina;
+    public float CurrentStamina => currentStamina;
+
     public int AttackDamage => derivedAttackDamage;
     public float DodgeChance => derivedDodgeChance;
     public float MoveSpeed => derivedMoveSpeed;
     public float StaminaEfficiency => derivedStaminaEfficiency;
     public float ExpMultiplier => derivedExpMultiplier;
 
+    public int CurrentExperience => currentExp; // Alias cho UI/Tests
+    public int ExperiencePerStatPoint => expToNextLevel; // Alias cho UI/Tests
+    public int Defense => 0; // Tương thích ngược
+
     private void Awake()
     {
-        // Tính chỉ số dẫn xuất ngay khi khởi tạo
         RecalculateDerivedStats();
+        currentStamina = maxStamina;
+        _playerHealth = GetComponent<PlayerHealth>();
     }
 
     /// <summary>
@@ -112,16 +128,19 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     public void AddExp(int amount)
     {
+        if (amount <= 0) return;
         int finalExp = Mathf.RoundToInt(amount * derivedExpMultiplier);
         currentExp += finalExp;
 
-        // Có thể lên nhiều cấp cùng lúc nếu nhận nhiều EXP
         while (currentExp >= expToNextLevel)
         {
             currentExp -= expToNextLevel;
             LevelUp();
         }
+        NotifyChanged();
     }
+
+    public void AddExperience(int amount) => AddExp(amount); // Alias cho UI/Tests
 
     /// <summary>
     /// Lên cấp: tăng level, yêu cầu EXP cho cấp sau, cộng điểm stat.
@@ -137,7 +156,6 @@ public class PlayerStats : MonoBehaviour
     /// <summary>
     /// Phân bổ một điểm chỉ số vào stat tương ứng.
     /// </summary>
-    /// <returns>True nếu phân bổ thành công, false nếu không đủ điểm.</returns>
     public bool AllocateStat(StatType statType)
     {
         if (availableStatPoints <= 0) return false;
@@ -155,7 +173,37 @@ public class PlayerStats : MonoBehaviour
 
         availableStatPoints--;
         RecalculateDerivedStats();
+        NotifyChanged();
         return true;
+    }
+
+    /// <summary>
+    /// Hồi phục đầy Máu và Stamina.
+    /// </summary>
+    public void RestoreVitals()
+    {
+        if (_playerHealth == null)
+            _playerHealth = GetComponent<PlayerHealth>();
+        
+        if (_playerHealth != null)
+            _playerHealth.RestoreFullHealth();
+            
+        currentStamina = maxStamina;
+        NotifyChanged();
+    }
+
+    /// <summary>
+    /// Gây sát thương lên Player.
+    /// </summary>
+    public void TakeDamage(int damage)
+    {
+        if (_playerHealth == null)
+            _playerHealth = GetComponent<PlayerHealth>();
+        
+        if (_playerHealth != null)
+            _playerHealth.TakeDamage(damage);
+            
+        NotifyChanged();
     }
 
     /// <summary>
@@ -164,5 +212,41 @@ public class PlayerStats : MonoBehaviour
     public void ResetExpToZero()
     {
         currentExp = 0;
+        NotifyChanged();
+    }
+
+    public void ResetExperienceOnDeath() => ResetExpToZero(); // Alias cho UI/Tests
+
+    /// <summary>
+    /// Tiêu hao Stamina.
+    /// </summary>
+    public bool SpendStamina(float amount)
+    {
+        if (amount <= 0f) return true;
+        if (currentStamina < amount) return false;
+
+        currentStamina -= amount;
+        NotifyChanged();
+        return true;
+    }
+
+    /// <summary>
+    /// Hồi phục Stamina.
+    /// </summary>
+    public void RecoverStamina(float amount)
+    {
+        if (amount <= 0f || currentStamina >= maxStamina) return;
+
+        float newStamina = Mathf.Min(maxStamina, currentStamina + amount);
+        if (!Mathf.Approximately(newStamina, currentStamina))
+        {
+            currentStamina = newStamina;
+            NotifyChanged();
+        }
+    }
+
+    private void NotifyChanged()
+    {
+        StatsChanged?.Invoke();
     }
 }
