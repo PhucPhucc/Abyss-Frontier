@@ -1,59 +1,68 @@
 using UnityEngine;
 
+/// <summary>
+/// Các trạng thái hành vi của Enemy.
+/// </summary>
 public enum EnemyState
 {
-    Idle,
-    Patrol,
-    Chase,
-    Dead
+    Idle,    // Đứng yên, chờ
+    Patrol,  // Đi tuần tra theo waypoint
+    Chase,   // Đuổi theo Player
+    Dead     // Đã chết
 }
 
+/// <summary>
+/// Điều khiển hành vi AI cho Enemy: di chuyển, tuần tra, đuổi theo và tấn công Player.
+/// </summary>
 public class EnemyAI : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private float chaseSpeed = 2f;
+    [SerializeField] private float moveSpeed = 1f;       // Tốc độ di chuyển khi tuần tra
+    [SerializeField] private float chaseSpeed = 2f;      // Tốc độ khi đuổi theo Player
 
     [Header("Detection")]
-    [SerializeField] private float detectionRange = 4f;
-    [SerializeField] private float loseRange = 6f;
+    [SerializeField] private float detectionRange = 4f;  // Khoảng cách phát hiện Player
+    [SerializeField] private float loseRange = 6f;       // Khoảng cách mất dấu Player
 
     [Header("Patrol")]
-    [SerializeField] private Transform[] waypoints;
-    [SerializeField] private float waitTime = 1.5f;
+    [SerializeField] private Transform[] waypoints;      // Danh sách điểm tuần tra
+    [SerializeField] private float waitTime = 1.5f;      // Thời gian chờ tại mỗi waypoint
 
     [Header("Attack")]
-    [SerializeField] private float attackRange = 1f;
-    [SerializeField] private int attackDamage = 8;
-    [SerializeField] private float attackHitDelay = 0.2f;  // Độ trễ từ lúc trigger animation đến lúc quét hitbox (giây)
-    [SerializeField] private float attackCooldown = 1.4f;
-    [SerializeField] private float attackPrepDuration = 0.4f;
-    [SerializeField] private LayerMask playerLayer;        // Layer của Player để quét hitbox
-    private float attackTimer = 0f;
-    private float prepTimer = 0f;
-    private bool wasInAttackRange = false;
+    [SerializeField] private float attackRange = 1f;                     // Tầm đánh
+    [SerializeField] private int attackDamage = 8;                      // Sát thương mỗi đòn
+    [SerializeField] private float attackHitDelay = 0.2f;                // Độ trễ từ lúc trigger animation đến lúc quét hitbox (giây)
+    [SerializeField] private float attackCooldown = 1.4f;               // Thời gian hồi giữa các đòn đánh
+    [SerializeField] private float attackPrepDuration = 0.4f;           // Thời gian chuẩn bị trước đòn đầu tiên
+    [SerializeField] private LayerMask playerLayer;                     // Layer của Player để quét hitbox
 
-    private Rigidbody2D rb;
-    private Transform target;
-    private Animator anim;
+    private float attackTimer = 0f;      // Đếm ngược cooldown tấn công
+    private float prepTimer = 0f;        // Đếm ngược thời gian chuẩn bị đòn đánh
+    private bool wasInAttackRange = false; // Đánh dấu đã từng trong tầm đánh để tránh reset prepTimer
 
-    private EnemyState state = EnemyState.Idle;
-    private Vector2 lastDirection = Vector2.down;
-    private Vector2 moveVelocity;
-    private int waypointIndex = 0;
-    private float timer = 0f;
-    private bool isDead = false;
+    private Rigidbody2D rb;        // Tham chiếu Rigidbody2D để di chuyển
+    private Transform target;      // Mục tiêu (Player) hiện tại
+    private Animator anim;         // Tham chiếu Animator để điều khiển hoạt ảnh
 
+    private EnemyState state = EnemyState.Idle;       // Trạng thái hiện tại của Enemy
+    private Vector2 lastDirection = Vector2.down;     // Hướng cuối cùng (dùng cho attack hitbox)
+    private Vector2 moveVelocity;                      // Vector vận tốc di chuyển
+    private int waypointIndex = 0;                     // Chỉ số waypoint hiện tại
+    private float timer = 0f;                          // Bộ đếm thời gian đa năng (chờ waypoint, chuyển trạng thái)
+    private bool isDead = false;                       // Cờ chết
+
+    // Public properties để các component khác (Animator, EnemyHealth...) truy xuất
     public Vector2 MoveVelocity => moveVelocity;
     public Vector2 LastDirection => lastDirection;
     public EnemyState CurrentState => state;
     public bool IsMoving => moveVelocity.sqrMagnitude > 0.01f;
     public bool IsDead => isDead;
 
-    private KnockbackHandler knockback;
+    private KnockbackHandler knockback; // Xử lý hiệu ứng knockback
 
     private void Awake()
     {
+        // Cache các component ngay khi khởi tạo
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         knockback = GetComponent<KnockbackHandler>();
@@ -61,10 +70,14 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        // Khởi tạo timer và tìm Player
         timer = 2f;
         FindTarget();
     }
 
+    /// <summary>
+    /// Tìm kiếm đối tượng Player trong scene thông qua Tag hoặc Component.
+    /// </summary>
     private void FindTarget()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -96,8 +109,10 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
+        // Nếu chưa có mục tiêu thì tìm lại
         if (target == null) FindTarget();
 
+        // Giảm dần cooldown tấn công
         if (attackTimer > 0f)
             attackTimer -= Time.fixedDeltaTime;
 
@@ -106,6 +121,9 @@ public class EnemyAI : MonoBehaviour
         UpdateAnimator();
     }
 
+    /// <summary>
+    /// Logic chính của FSM: xử lý chuyển đổi giữa các trạng thái Idle / Patrol / Chase.
+    /// </summary>
     private void Tick()
     {
         float dist = target != null
@@ -115,6 +133,7 @@ public class EnemyAI : MonoBehaviour
         switch (state)
         {
             case EnemyState.Idle:
+                // Đứng yên, sau 2 giây thì chuyển sang Patrol hoặc Chase nếu có Player trong tầm
                 moveVelocity = Vector2.zero;
                 timer += Time.fixedDeltaTime;
                 if (timer >= 2f)
@@ -124,24 +143,30 @@ public class EnemyAI : MonoBehaviour
                     else if (waypoints.Length > 0)
                         SetState(EnemyState.Patrol);
                     else
-                        timer = 0f;
+                        timer = 0f; // Không có waypoint, tiếp tục Idle
                 }
                 break;
 
             case EnemyState.Patrol:
                 Patrol();
+                // Nếu phát hiện Player trong tầm thì chuyển sang Chase
                 if (target != null && dist <= detectionRange)
                     SetState(EnemyState.Chase);
                 break;
 
             case EnemyState.Chase:
                 Chase(dist);
+                // Nếu mất dấu Player thì quay về Patrol (nếu có waypoint) hoặc Idle
                 if (target == null || dist > loseRange)
                     SetState(waypoints.Length > 0 ? EnemyState.Patrol : EnemyState.Idle);
                 break;
         }
     }
 
+    /// <summary>
+    /// Di chuyển Enemy lần lượt qua các waypoint đã định nghĩa.
+    /// Khi đến waypoint, chờ một khoảng thời gian rồi đi tiếp.
+    /// </summary>
     private void Patrol()
     {
         if (waypoints.Length == 0)
@@ -156,11 +181,13 @@ public class EnemyAI : MonoBehaviour
 
         if (d > 0.2f)
         {
+            // Còn cách waypoint xa thì di chuyển về phía nó
             moveVelocity = dir * moveSpeed;
             lastDirection = dir;
         }
         else
         {
+            // Đã đến waypoint — chờ waitTime rồi chuyển sang waypoint tiếp theo
             moveVelocity = Vector2.zero;
             timer += Time.fixedDeltaTime;
             if (timer >= waitTime)
@@ -170,6 +197,11 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Đuổi theo Player. Khi ở trong tầm đánh thì dừng lại và thực hiện tấn công.
+    /// Có cơ chế prepTimer cho đòn đánh đầu tiên để tránh tấn công ngay lập tức.
+    /// </summary>
     private void Chase(float distanceToPlayer)
     {
         if (target == null) return;
@@ -178,34 +210,37 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer <= attackRange)
         {
-            moveVelocity = Vector2.zero; // Đứng yên khi vào tầm đánh
+            // Đã vào tầm đánh — dừng lại và chuẩn bị tấn công
+            moveVelocity = Vector2.zero;
             lastDirection = dir;
 
+            // Cập nhật hướng mặt cho Animator (quan trọng để hitbox trùng hướng)
             if (anim != null)
             {
                 anim.SetFloat("lastMoveX", dir.x);
                 anim.SetFloat("lastMoveY", dir.y);
             }
 
-            // Nếu vừa mới bước vào tầm tấn công
+            // Lần đầu vào tầm — kích hoạt prepTimer
             if (!wasInAttackRange)
             {
                 wasInAttackRange = true;
-                prepTimer = attackPrepDuration; // Kích hoạt thời gian chuẩn bị 1s
+                prepTimer = attackPrepDuration;
             }
 
             if (prepTimer > 0f)
             {
-                // Đang chuẩn bị cho đòn đánh đầu tiên
+                // Đang trong giai đoạn chuẩn bị trước đòn đánh đầu tiên
                 prepTimer -= Time.fixedDeltaTime;
                 if (prepTimer <= 0f)
                 {
                     TriggerAttackAnimation();
-                    attackTimer = attackCooldown; // Đặt cooldown 2s
+                    attackTimer = attackCooldown;
                 }
             }
             else
             {
+                // Đòn đánh theo chu kỳ — chờ cooldown xong mới đánh tiếp
                 if (attackTimer <= 0f)
                 {
                     TriggerAttackAnimation();
@@ -215,6 +250,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            // Ngoài tầm đánh — di chuyển về phía Player
             moveVelocity = dir * chaseSpeed;
             lastDirection = dir;
 
@@ -223,12 +259,19 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Chuyển đổi trạng thái và reset timer.
+    /// </summary>
     private void SetState(EnemyState newState)
     {
         state = newState;
         timer = 0f;
     }
 
+    /// <summary>
+    /// Áp dụng vận tốc di chuyển lên Rigidbody2D.
+    /// Bỏ qua nếu đang trong trạng thái knockback (để knockback handler tự xử lý).
+    /// </summary>
     private void ApplyMovement()
     {
         if (rb == null) return;
@@ -236,6 +279,9 @@ public class EnemyAI : MonoBehaviour
         rb.linearVelocity = moveVelocity;
     }
 
+    /// <summary>
+    /// Cập nhật các tham số Animator dựa trên hướng di chuyển và trạng thái.
+    /// </summary>
     private void UpdateAnimator()
     {
         if (anim == null) return;
@@ -248,6 +294,7 @@ public class EnemyAI : MonoBehaviour
             anim.SetFloat("moveY", animDir.y);
             anim.SetBool("isMoving", true);
 
+            // Lưu hướng cuối cùng để Animator dùng khi idle
             anim.SetFloat("lastMoveX", animDir.x);
             anim.SetFloat("lastMoveY", animDir.y);
         }
@@ -257,13 +304,19 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Kích hoạt animation tấn công và bắt đầu Coroutine quét hitbox sau một độ trễ.
+    /// </summary>
     public void TriggerAttackAnimation()
     {
         if (anim != null) anim.SetTrigger("attack");
-        // Quét hitbox sau một độ trễ nhỏ để đồng bộ với hoạt ảnh
         StartCoroutine(AttackHitRoutine());
     }
 
+    /// <summary>
+    /// Coroutine chờ attackHitDelay giây rồi mới quét hitbox gây sát thương.
+    /// Giúp đồng bộ sát thương với khung hình hoạt ảnh.
+    /// </summary>
     private System.Collections.IEnumerator AttackHitRoutine()
     {
         if (attackHitDelay > 0f)
@@ -273,12 +326,12 @@ public class EnemyAI : MonoBehaviour
     }
 
     /// <summary>
-    /// Quét hitbox xung quanh Enemy để gây sát thương cho Player.
+    /// Quét hitbox hình tròn phía trước mặt Enemy (theo lastDirection) để gây sát thương cho Player.
     /// Có thể gọi qua Animation Event thay cho Coroutine nếu cần chính xác theo frame.
     /// </summary>
     public void TriggerAttackDamage()
     {
-        // Quét vùng hình tròn xung quanh enemy theo lastDirection
+        // Tính toán vị trí trung tâm của hitbox, lệch về phía trước mặt enemy
         Vector2 hitPoint = (Vector2)transform.position + lastDirection.normalized * attackRange * 0.6f;
         Collider2D hit = Physics2D.OverlapCircle(hitPoint, attackRange * 0.5f, playerLayer);
 
@@ -293,6 +346,9 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Kích hoạt animation bị trúng đòn (hurt).
+    /// </summary>
     public void TriggerHurtAnimation()
     {
         if (anim != null) anim.SetTrigger("hurt");
@@ -308,6 +364,16 @@ public class EnemyAI : MonoBehaviour
     }
 
     /// <summary>
+    /// Thiết lập chỉ số từ ScriptableObject EnemyStats theo cấp độ tương ứng.
+    /// </summary>
+    public void SetStatsFromDefinition(EnemyStats stats, int level)
+    {
+        moveSpeed = stats.GetSpeed(level);
+        chaseSpeed = moveSpeed * 1.5f;
+        attackDamage = stats.GetATK(level);
+    }
+
+    /// <summary>
     /// Gọi bởi EnemyHealth khi enemy chết — dừng toàn bộ AI và physics.
     /// </summary>
     public void OnDeath()
@@ -318,6 +384,9 @@ public class EnemyAI : MonoBehaviour
         if (rb != null) rb.linearVelocity = Vector2.zero;
     }
 
+    /// <summary>
+    /// Vẽ Gizmos trong Editor để hỗ trợ debug: detection range, lose range, attack range.
+    /// </summary>
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -325,13 +394,7 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, loseRange);
 
-        // Attack range (outer circle)
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, attackRange);
-
-        // Attack hitbox (inner hit point)
-        Vector2 hitPoint = (Vector2)transform.position + lastDirection.normalized * attackRange * 0.6f;
-        Gizmos.color = new Color(1f, 0.4f, 0f, 0.8f); // Orange
-        Gizmos.DrawWireSphere(hitPoint, attackRange * 0.5f);
     }
 }
