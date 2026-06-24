@@ -110,19 +110,30 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleStamina(bool isMoving)
     {
-        float effectiveDrain = staminaDrainRate;
-        float effectiveRegen = staminaRegenRate;
         if (playerStats != null)
         {
-            // Endurance ảnh hưởng đến hiệu suất stamina
-            effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
-            effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
+            float effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
+            float effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
+
+            if (isSprintInputPressed && isMoving && playerStats.CurrentStamina > 0f)
+            {
+                isSprinting = true;
+                float staminaCost = Mathf.Min(effectiveDrain * Time.deltaTime, playerStats.CurrentStamina);
+                playerStats.SpendStamina(staminaCost);
+            }
+            else
+            {
+                isSprinting = false;
+                playerStats.RecoverStamina(effectiveRegen * Time.deltaTime);
+            }
+            return;
         }
 
+        // Fallback nếu không có PlayerStats
         if (isSprintInputPressed && isMoving && currentStamina > 0)
         {
             isSprinting = true;
-            currentStamina -= effectiveDrain * Time.deltaTime;
+            currentStamina -= staminaDrainRate * Time.deltaTime;
             if (currentStamina < 0) currentStamina = 0f;
         }
         else
@@ -130,7 +141,7 @@ public class PlayerController : MonoBehaviour
             isSprinting = false;
             if (currentStamina < maxStamina)
             {
-                currentStamina += effectiveRegen * Time.deltaTime;
+                currentStamina += staminaRegenRate * Time.deltaTime;
                 if (currentStamina > maxStamina) currentStamina = maxStamina;
             }
         }

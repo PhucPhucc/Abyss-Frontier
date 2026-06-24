@@ -54,7 +54,10 @@ public class PlayerCombat : MonoBehaviour
     /// </summary>
     private void PerformAttack()
     {
-        animator.SetTrigger("Attack");
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
 
         if (attackHitDelay > 0f)
         {
@@ -85,7 +88,6 @@ public class PlayerCombat : MonoBehaviour
 
         Vector2 facingDirection = playerController.LastDirection;
         Vector2 attackPoint = (Vector2)transform.position + (facingDirection * hitboxOffset);
-
         // Quét tất cả Enemy trong vùng đòn đánh
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, attackRange, enemyLayers);
 
