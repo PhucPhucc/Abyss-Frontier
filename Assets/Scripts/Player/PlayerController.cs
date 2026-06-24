@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private PlayerStats playerStats;
 
     private Vector2 moveInput;
     private Vector2 lastDirection = Vector2.down;
@@ -28,7 +29,26 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerStats = GetComponent<PlayerStats>();
         currentStamina = maxStamina;
+    }
+
+    private void Start()
+    {
+        if (playerStats != null)
+        {
+            moveSpeed = playerStats.MoveSpeed;
+            sprintSpeed = moveSpeed * 2f;
+        }
+    }
+
+    public void RefreshStats()
+    {
+        if (playerStats != null)
+        {
+            moveSpeed = playerStats.MoveSpeed;
+            sprintSpeed = moveSpeed * 2f;
+        }
     }
 
     public void OnMove(InputValue value)
@@ -61,10 +81,18 @@ public class PlayerController : MonoBehaviour
 
     private void HandleStamina(bool isMoving)
     {
+        float effectiveDrain = staminaDrainRate;
+        float effectiveRegen = staminaRegenRate;
+        if (playerStats != null)
+        {
+            effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
+            effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
+        }
+
         if (isSprintInputPressed && isMoving && currentStamina > 0)
         {
             isSprinting = true;
-            currentStamina -= staminaDrainRate * Time.deltaTime;
+            currentStamina -= effectiveDrain * Time.deltaTime;
             if (currentStamina < 0) currentStamina = 0f;
         }
         else
@@ -72,9 +100,17 @@ public class PlayerController : MonoBehaviour
             isSprinting = false;
             if (currentStamina < maxStamina)
             {
-                currentStamina += staminaRegenRate * Time.deltaTime;
+                currentStamina += effectiveRegen * Time.deltaTime;
                 if (currentStamina > maxStamina) currentStamina = maxStamina;
             }
+        }
+    }
+
+    public void TriggerHurt()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("hurt");
         }
     }
 
