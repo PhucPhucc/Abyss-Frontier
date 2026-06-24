@@ -16,7 +16,6 @@ public class Base_Camp : MonoBehaviour
 
     private void Start()
     {
-        // Đảm bảo ban đầu UI ở trạng thái ẩn
         if (statScreenUI != null)
         {
             statScreenUI.SetActive(false);
