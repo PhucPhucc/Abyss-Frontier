@@ -7,13 +7,14 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private int attackDamage = 10;
     [SerializeField] private float attackRange = 0.8f;
     [SerializeField] private float attackCooldown = 0.5f;
-    
+
     [Header("Hitbox Setup")]
     [SerializeField] private float hitboxOffset = 0.6f;
     [SerializeField] private LayerMask enemyLayers;
 
     private Animator animator;
     private PlayerController playerController;
+    private PlayerStats playerStats;
     private InputAction attackAction;
     private float nextAttackTime = 0f;
     public bool IsAttacking => Time.time < nextAttackTime;
@@ -22,6 +23,7 @@ public class PlayerCombat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
+        playerStats = GetComponent<PlayerStats>();
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
@@ -48,9 +50,15 @@ public class PlayerCombat : MonoBehaviour
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, attackRange, enemyLayers);
 
+        int damage = playerStats != null ? playerStats.AttackDamage : attackDamage;
+
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log($"Hit: {enemy.name}");
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damage);
+            }
         }
     }
 

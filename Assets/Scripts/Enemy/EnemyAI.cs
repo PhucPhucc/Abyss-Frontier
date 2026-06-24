@@ -24,11 +24,13 @@ public class EnemyAI : MonoBehaviour
     [Header("Attack")]
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private int attackDamage = 5;
     private float attackTimer = 0f;
 
     private Rigidbody2D rb;
     private Transform target;
     private Animator anim;
+    private PlayerHealth targetHealth;
 
     private EnemyState state = EnemyState.Idle;
     private Vector2 lastDirection = Vector2.down;
@@ -53,6 +55,13 @@ public class EnemyAI : MonoBehaviour
         FindTarget();
     }
 
+    public void SetStatsFromDefinition(EnemyStats stats, int level)
+    {
+        moveSpeed = stats.GetSpeed(level);
+        chaseSpeed = moveSpeed * 1.5f;
+        attackDamage = stats.GetATK(level);
+    }
+
     private void FindTarget()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -61,7 +70,11 @@ public class EnemyAI : MonoBehaviour
             PlayerController pc = FindFirstObjectByType<PlayerController>();
             if (pc != null) player = pc.gameObject;
         }
-        if (player != null) target = player.transform;
+        if (player != null)
+        {
+            target = player.transform;
+            targetHealth = player.GetComponent<PlayerHealth>();
+        }
     }
 
     private void FixedUpdate()
@@ -140,6 +153,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
     private void Chase(float distanceToPlayer)
     {
         if (target == null) return;
@@ -160,6 +174,7 @@ public class EnemyAI : MonoBehaviour
             if (attackTimer <= 0f)
             {
                 TriggerAttackAnimation();
+                DealDamageToPlayer();
                 attackTimer = attackCooldown;
             }
         }
@@ -167,6 +182,14 @@ public class EnemyAI : MonoBehaviour
         {
             moveVelocity = dir * chaseSpeed;
             lastDirection = dir;
+        }
+    }
+
+    private void DealDamageToPlayer()
+    {
+        if (targetHealth != null)
+        {
+            targetHealth.TakeDamage(attackDamage);
         }
     }
 
