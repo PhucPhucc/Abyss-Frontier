@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7524177375245347947}
   - component: {fileID: 5849131402363210748}
   - component: {fileID: 815163973073046181}
+  - component: {fileID: -317718698557684458}
   m_Layer: 0
   m_Name: Player_3
   m_TagString: Untagged
@@ -235,9 +236,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   currentHealth: 0
-  invincibilityDuration: 0.8
-  flashInterval: 0.1
-  deathSequenceDuration: 2
 --- !u!114 &5849131402363210748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,3 +297,15 @@ MonoBehaviour:
   derivedMoveSpeed: 2.65
   derivedStaminaEfficiency: 1.1
   derivedExpMultiplier: 1.1
+--- !u!114 &-317718698557684458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3522419570311356727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209f11b3b4fa1e108527e98a7558ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StandardAnimatorDriver

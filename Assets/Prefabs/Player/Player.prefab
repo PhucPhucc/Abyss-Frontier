@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7002116468040302319}
   - component: {fileID: 8333483861894123471}
   - component: {fileID: 2706591662197857887}
+  - component: {fileID: 7687774391523392455}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -296,6 +297,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   currentHealth: 0
-  invincibilityDuration: 0.8
-  flashInterval: 0.1
-  deathSequenceDuration: 2
+--- !u!114 &7687774391523392455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739308693934486430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209f11b3b4fa1e108527e98a7558ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StandardAnimatorDriver

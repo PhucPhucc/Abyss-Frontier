@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5832657337712563749}
   - component: {fileID: 5564898359184139257}
   - component: {fileID: 7679464155234004363}
+  - component: {fileID: -5221713097497802979}
   m_Layer: 6
   m_Name: Player_2
   m_TagString: Player
@@ -240,7 +241,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -265,9 +266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   currentHealth: 0
-  invincibilityDuration: 0.8
-  flashInterval: 0.1
-  deathSequenceDuration: 2
 --- !u!114 &7679464155234004363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,3 +297,15 @@ MonoBehaviour:
   derivedMoveSpeed: 2.65
   derivedStaminaEfficiency: 1.1
   derivedExpMultiplier: 1.1
+--- !u!114 &-5221713097497802979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2298918221287413200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209f11b3b4fa1e108527e98a7558ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StandardAnimatorDriver
