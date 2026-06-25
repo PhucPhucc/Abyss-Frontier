@@ -16,9 +16,11 @@ GameObject:
   - component: {fileID: 704396673793984516}
   - component: {fileID: 2445279269600826216}
   - component: {fileID: 5832657337712563749}
-  m_Layer: 0
+  - component: {fileID: 5564898359184139257}
+  - component: {fileID: 7679464155234004363}
+  m_Layer: 6
   m_Name: Player_2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,8 +139,8 @@ MonoBehaviour:
   hitboxOffset: 0.6
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
-  attackHitDelay: 0.2
+    m_Bits: 8
+  attackHitDelay: 0.5
 --- !u!114 &1074900882456425078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,3 +252,50 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5564898359184139257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2298918221287413200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f345ba28a0e649338a36e7815c2ccd6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  currentHealth: 0
+  invincibilityDuration: 0.8
+  flashInterval: 0.1
+  deathSequenceDuration: 2
+--- !u!114 &7679464155234004363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2298918221287413200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d827e0e6875aa7efcbaf2f51da8d8654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  level: 1
+  currentExp: 0
+  expToNextLevel: 100
+  statPointsPerLevel: 5
+  strength: 1
+  dexterity: 1
+  vitality: 1
+  agility: 1
+  endurance: 1
+  intelligence: 1
+  availableStatPoints: 5
+  maxStamina: 100
+  currentStamina: 0
+  derivedMaxHealth: 70
+  derivedAttackDamage: 7
+  derivedDodgeChance: 0.02
+  derivedMoveSpeed: 2.65
+  derivedStaminaEfficiency: 1.1
+  derivedExpMultiplier: 1.1

@@ -62,7 +62,7 @@ public class PlayerStats : MonoBehaviour
 
     public event System.Action StatsChanged;
 
-    public bool IsDead => _playerHealth != null && _playerHealth.CurrentHealth <= 0;
+    public bool IsDead => _playerHealth != null && _playerHealth.IsDead;
 
     // --- Public Properties ---
     public int Level => level;

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2591917890411809276}
   - component: {fileID: 4812083449281597989}
   - component: {fileID: 3374014891321090725}
-  - component: {fileID: 2669465823136502267}
   - component: {fileID: 7617527516151591987}
   - component: {fileID: 6467893197719930706}
+  - component: {fileID: 8293036111766269051}
   m_Layer: 3
   m_Name: Plant2
   m_TagString: Enemy
@@ -181,31 +181,12 @@ MonoBehaviour:
   waitTime: 1.5
   attackRange: 1
   attackDamage: 8
-  attackHitDelay: 0.2
+  attackHitDelay: 0.5
   attackCooldown: 1.4
   attackPrepDuration: 0.4
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
---- !u!114 &2669465823136502267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6924604550436147154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03a7bea821065da409140a4ae3d16025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 30
-  currentHealth: 0
-  destroyDelay: 1.5
-  enableHitFlash: 1
-  flashDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
-  defaultStunDuration: 0.5
+    m_Bits: 64
 --- !u!114 &7617527516151591987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,3 +222,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8293036111766269051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6924604550436147154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262d2a8427f8846848f479ce4c056396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  enemyLevel: 1
+  statsDefinition: {fileID: 0}
+  maxHealth: 30
+  currentHealth: 0
+  destroyDelay: 1.5
+  enableHitFlash: 1
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultStunDuration: 0.5

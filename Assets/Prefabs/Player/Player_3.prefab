@@ -114,7 +114,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -203,8 +203,8 @@ MonoBehaviour:
   hitboxOffset: 0.6
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
-  attackHitDelay: 0.2
+    m_Bits: 8
+  attackHitDelay: 0.5
 --- !u!114 &913242379645838641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +235,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   currentHealth: 0
+  invincibilityDuration: 0.8
+  flashInterval: 0.1
+  deathSequenceDuration: 2
 --- !u!114 &5849131402363210748
 MonoBehaviour:
   m_ObjectHideFlags: 0
