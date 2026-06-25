@@ -9,6 +9,19 @@ public class StatScreenUI : MonoBehaviour
 {
     private const float PopupScreenFill = 0.8f;
     private const float PopupScreenInset = (1f - PopupScreenFill) * 0.5f;
+    private const int TitleFontSize = 32;
+    private const int SectionFontSize = 22;
+    private const int StatFontSize = 20;
+    private const int ButtonFontSize = 20;
+    private const int StatusFontSize = 18;
+    private const int CloseHintFontSize = 17;
+    private const float TitleHeight = 56f;
+    private const float SectionHeight = 38f;
+    private const float StatLineHeight = 34f;
+    private const float UpgradeButtonHeight = 46f;
+    private const float UpgradeButtonTextHeight = 44f;
+    private const float StatusHeight = 54f;
+    private const float CloseHintHeight = 30f;
 
     [Header("Root")]
     [SerializeField] private GameObject rootPanel;
@@ -200,8 +213,8 @@ public class StatScreenUI : MonoBehaviour
             layout = rootPanel.AddComponent<VerticalLayoutGroup>();
         }
 
-        layout.padding = new RectOffset(24, 24, 24, 24);
-        layout.spacing = 14f;
+        layout.padding = new RectOffset(28, 28, 28, 28);
+        layout.spacing = 16f;
         layout.childAlignment = TextAnchor.UpperCenter;
         layout.childControlWidth = true;
         layout.childControlHeight = true;
@@ -209,30 +222,30 @@ public class StatScreenUI : MonoBehaviour
         layout.childForceExpandHeight = true;
 
         Font font = GetDefaultFont();
-        CreateLabel(rootPanel.transform, "CHI SO NHAN VAT", 26, FontStyle.Bold, TextAnchor.MiddleCenter, font, 42f);
+        CreateLabel(rootPanel.transform, "CHI SO NHAN VAT", TitleFontSize, FontStyle.Bold, TextAnchor.MiddleCenter, font, TitleHeight);
 
         Transform contentRow = CreateContentRow(rootPanel.transform);
         Transform statsColumn = CreateColumn(contentRow, "Stats Column", 3f);
         Transform upgradeColumn = CreateColumn(contentRow, "Upgrade Column", 2f);
         
-        CreateLabel(statsColumn, "THONG TIN HIEN TAI", 18, FontStyle.Bold, TextAnchor.MiddleLeft, font, 30f);
-        healthText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
-        staminaText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
-        attackText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
-        defenseText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
-        experienceText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
-        statPointsText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Bold, TextAnchor.MiddleLeft, font, 30f);
+        CreateLabel(statsColumn, "THONG TIN HIEN TAI", SectionFontSize, FontStyle.Bold, TextAnchor.MiddleLeft, font, SectionHeight);
+        healthText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        staminaText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        attackText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        defenseText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        experienceText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        statPointsText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Bold, TextAnchor.MiddleLeft, font, SectionHeight);
 
         CreateSpacer(statsColumn, 10f);
-        CreateLabel(statsColumn, "CHI SO CO BAN", 17, FontStyle.Bold, TextAnchor.MiddleLeft, font, 28f);
-        strengthText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
-        dexterityText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
-        vitalityText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
-        agilityText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
-        enduranceText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
-        intelligenceText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
+        CreateLabel(statsColumn, "CHI SO CO BAN", SectionFontSize, FontStyle.Bold, TextAnchor.MiddleLeft, font, SectionHeight);
+        strengthText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        dexterityText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        vitalityText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        agilityText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        enduranceText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
+        intelligenceText = CreateLabel(statsColumn, string.Empty, StatFontSize, FontStyle.Normal, TextAnchor.MiddleLeft, font, StatLineHeight);
 
-        CreateLabel(upgradeColumn, "TANG CHI SO", 18, FontStyle.Bold, TextAnchor.MiddleCenter, font, 32f);
+        CreateLabel(upgradeColumn, "TANG CHI SO", SectionFontSize, FontStyle.Bold, TextAnchor.MiddleCenter, font, SectionHeight);
         upgradeStrengthButton = CreateButton(upgradeColumn, "+ Suc manh (Strength)", font, () => Upgrade(StatType.Strength));
         upgradeDexterityButton = CreateButton(upgradeColumn, "+ Kheo leo (Dexterity)", font, () => Upgrade(StatType.Dexterity));
         upgradeVitalityButton = CreateButton(upgradeColumn, "+ Sinh luc (Vitality)", font, () => Upgrade(StatType.Vitality));
@@ -241,8 +254,8 @@ public class StatScreenUI : MonoBehaviour
         upgradeIntelligenceButton = CreateButton(upgradeColumn, "+ Tri luc (Intelligence)", font, () => Upgrade(StatType.Intelligence));
 
         CreateSpacer(upgradeColumn, 12f);
-        statusText = CreateLabel(upgradeColumn, string.Empty, 15, FontStyle.Italic, TextAnchor.MiddleCenter, font, 42f);
-        CreateLabel(upgradeColumn, "Nhan [E] de dong", 14, FontStyle.Normal, TextAnchor.MiddleCenter, font, 24f);
+        statusText = CreateLabel(upgradeColumn, string.Empty, StatusFontSize, FontStyle.Italic, TextAnchor.MiddleCenter, font, StatusHeight);
+        CreateLabel(upgradeColumn, "Nhan [E] de dong", CloseHintFontSize, FontStyle.Normal, TextAnchor.MiddleCenter, font, CloseHintHeight);
     }
 
     private void WireButtons()
@@ -393,7 +406,7 @@ public class StatScreenUI : MonoBehaviour
 
         HorizontalLayoutGroup layout = rowObject.GetComponent<HorizontalLayoutGroup>();
         layout.padding = new RectOffset(0, 0, 0, 0);
-        layout.spacing = 22f;
+        layout.spacing = 28f;
         layout.childAlignment = TextAnchor.UpperCenter;
         layout.childControlWidth = true;
         layout.childControlHeight = true;
@@ -418,7 +431,7 @@ public class StatScreenUI : MonoBehaviour
 
         VerticalLayoutGroup layout = columnObject.GetComponent<VerticalLayoutGroup>();
         layout.padding = new RectOffset(8, 8, 4, 4);
-        layout.spacing = 8f;
+        layout.spacing = 10f;
         layout.childAlignment = TextAnchor.UpperLeft;
         layout.childControlWidth = true;
         layout.childControlHeight = true;
@@ -469,13 +482,13 @@ public class StatScreenUI : MonoBehaviour
         image.color = new Color(0.18f, 0.22f, 0.24f, 1f);
 
         LayoutElement layoutElement = buttonObject.GetComponent<LayoutElement>();
-        layoutElement.preferredHeight = 30f; // Nhỏ hơn chút cho vừa màn hình
+        layoutElement.preferredHeight = UpgradeButtonHeight;
 
         Button button = buttonObject.GetComponent<Button>();
         button.targetGraphic = image;
         button.onClick.AddListener(onClick);
 
-        Text text = CreateLabel(buttonObject.transform, label, 14, FontStyle.Bold, TextAnchor.MiddleCenter, font, 28f);
+        Text text = CreateLabel(buttonObject.transform, label, ButtonFontSize, FontStyle.Bold, TextAnchor.MiddleCenter, font, UpgradeButtonTextHeight);
         RectTransform textRect = text.GetComponent<RectTransform>();
         textRect.anchorMin = Vector2.zero;
         textRect.anchorMax = Vector2.one;
