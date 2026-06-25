@@ -108,3 +108,6 @@ InitTestScene*.unity*
 
 /.omx
 /.vs
+.vsconfig
+
+/Assets/Tests

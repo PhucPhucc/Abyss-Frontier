@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class StatScreenUI : MonoBehaviour
 {
+    private const float PopupScreenFill = 0.8f;
+    private const float PopupScreenInset = (1f - PopupScreenFill) * 0.5f;
+
     [Header("Root")]
     [SerializeField] private GameObject rootPanel;
     [SerializeField] private bool buildDefaultLayoutIfEmpty = true;
@@ -62,6 +67,8 @@ public class StatScreenUI : MonoBehaviour
 
     public static StatScreenUI CreateRuntimeScreen()
     {
+        EnsureEventSystem();
+
         GameObject canvasObject = new GameObject(
             "Stat Screen Canvas",
             typeof(Canvas),
@@ -90,6 +97,8 @@ public class StatScreenUI : MonoBehaviour
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         rectTransform.pivot = new Vector2(0.5f, 0.5f);
         rectTransform.sizeDelta = new Vector2(480f, 680f); // Tăng chiều cao để đủ chỗ cho 6 stats
+
+        ApplyExpandedLayout(rectTransform);
 
         Image panelImage = panelObject.GetComponent<Image>();
         panelImage.color = new Color(0.05f, 0.05f, 0.06f, 0.94f);
@@ -172,6 +181,8 @@ public class StatScreenUI : MonoBehaviour
             rootPanel = gameObject;
         }
 
+        ApplyExpandedLayout(rootPanel.GetComponent<RectTransform>());
+
         if (buildDefaultLayoutIfEmpty && healthText == null)
         {
             BuildDefaultLayout();
@@ -189,50 +200,49 @@ public class StatScreenUI : MonoBehaviour
             layout = rootPanel.AddComponent<VerticalLayoutGroup>();
         }
 
-        layout.padding = new RectOffset(18, 18, 18, 18);
-        layout.spacing = 6f;
-        layout.childAlignment = TextAnchor.UpperLeft;
+        layout.padding = new RectOffset(24, 24, 24, 24);
+        layout.spacing = 14f;
+        layout.childAlignment = TextAnchor.UpperCenter;
         layout.childControlWidth = true;
         layout.childControlHeight = true;
         layout.childForceExpandWidth = true;
-        layout.childForceExpandHeight = false;
+        layout.childForceExpandHeight = true;
 
         Font font = GetDefaultFont();
-        CreateLabel(rootPanel.transform, "CHI SO NHAN VAT", 22, FontStyle.Bold, TextAnchor.MiddleCenter, font, 34f);
+        CreateLabel(rootPanel.transform, "CHI SO NHAN VAT", 26, FontStyle.Bold, TextAnchor.MiddleCenter, font, 42f);
+
+        Transform contentRow = CreateContentRow(rootPanel.transform);
+        Transform statsColumn = CreateColumn(contentRow, "Stats Column", 3f);
+        Transform upgradeColumn = CreateColumn(contentRow, "Upgrade Column", 2f);
         
-        // Derived stats
-        healthText = CreateLabel(rootPanel.transform, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 24f);
-        staminaText = CreateLabel(rootPanel.transform, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 24f);
-        attackText = CreateLabel(rootPanel.transform, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 24f);
-        defenseText = CreateLabel(rootPanel.transform, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 24f);
-        experienceText = CreateLabel(rootPanel.transform, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 24f);
-        statPointsText = CreateLabel(rootPanel.transform, string.Empty, 16, FontStyle.Bold, TextAnchor.MiddleLeft, font, 26f);
+        CreateLabel(statsColumn, "THONG TIN HIEN TAI", 18, FontStyle.Bold, TextAnchor.MiddleLeft, font, 30f);
+        healthText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
+        staminaText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
+        attackText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
+        defenseText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
+        experienceText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Normal, TextAnchor.MiddleLeft, font, 28f);
+        statPointsText = CreateLabel(statsColumn, string.Empty, 17, FontStyle.Bold, TextAnchor.MiddleLeft, font, 30f);
 
-        CreateSpacer(rootPanel.transform, 6f);
-        CreateLabel(rootPanel.transform, "CHI SO CO BAN:", 15, FontStyle.Bold, TextAnchor.MiddleLeft, font, 22f);
+        CreateSpacer(statsColumn, 10f);
+        CreateLabel(statsColumn, "CHI SO CO BAN", 17, FontStyle.Bold, TextAnchor.MiddleLeft, font, 28f);
+        strengthText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
+        dexterityText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
+        vitalityText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
+        agilityText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
+        enduranceText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
+        intelligenceText = CreateLabel(statsColumn, string.Empty, 16, FontStyle.Normal, TextAnchor.MiddleLeft, font, 26f);
 
-        // Base stats labels
-        strengthText = CreateLabel(rootPanel.transform, string.Empty, 15, FontStyle.Normal, TextAnchor.MiddleLeft, font, 20f);
-        dexterityText = CreateLabel(rootPanel.transform, string.Empty, 15, FontStyle.Normal, TextAnchor.MiddleLeft, font, 20f);
-        vitalityText = CreateLabel(rootPanel.transform, string.Empty, 15, FontStyle.Normal, TextAnchor.MiddleLeft, font, 20f);
-        agilityText = CreateLabel(rootPanel.transform, string.Empty, 15, FontStyle.Normal, TextAnchor.MiddleLeft, font, 20f);
-        enduranceText = CreateLabel(rootPanel.transform, string.Empty, 15, FontStyle.Normal, TextAnchor.MiddleLeft, font, 20f);
-        intelligenceText = CreateLabel(rootPanel.transform, string.Empty, 15, FontStyle.Normal, TextAnchor.MiddleLeft, font, 20f);
+        CreateLabel(upgradeColumn, "TANG CHI SO", 18, FontStyle.Bold, TextAnchor.MiddleCenter, font, 32f);
+        upgradeStrengthButton = CreateButton(upgradeColumn, "+ Suc manh (Strength)", font, () => Upgrade(StatType.Strength));
+        upgradeDexterityButton = CreateButton(upgradeColumn, "+ Kheo leo (Dexterity)", font, () => Upgrade(StatType.Dexterity));
+        upgradeVitalityButton = CreateButton(upgradeColumn, "+ Sinh luc (Vitality)", font, () => Upgrade(StatType.Vitality));
+        upgradeAgilityButton = CreateButton(upgradeColumn, "+ Nhanh nhen (Agility)", font, () => Upgrade(StatType.Agility));
+        upgradeEnduranceButton = CreateButton(upgradeColumn, "+ Ben bi (Endurance)", font, () => Upgrade(StatType.Endurance));
+        upgradeIntelligenceButton = CreateButton(upgradeColumn, "+ Tri luc (Intelligence)", font, () => Upgrade(StatType.Intelligence));
 
-        CreateSpacer(rootPanel.transform, 6f);
-
-        // Buttons grid (we will just add them vertically for simplicity, styled neatly)
-        upgradeStrengthButton = CreateButton(rootPanel.transform, "+ Suc manh (Strength)", font, () => Upgrade(StatType.Strength));
-        upgradeDexterityButton = CreateButton(rootPanel.transform, "+ Kheo leo (Dexterity)", font, () => Upgrade(StatType.Dexterity));
-        upgradeVitalityButton = CreateButton(rootPanel.transform, "+ Sinh luc (Vitality)", font, () => Upgrade(StatType.Vitality));
-        upgradeAgilityButton = CreateButton(rootPanel.transform, "+ Nhanh nhen (Agility)", font, () => Upgrade(StatType.Agility));
-        upgradeEnduranceButton = CreateButton(rootPanel.transform, "+ Ben bi (Endurance)", font, () => Upgrade(StatType.Endurance));
-        upgradeIntelligenceButton = CreateButton(rootPanel.transform, "+ Tri luc (Intelligence)", font, () => Upgrade(StatType.Intelligence));
-
-        CreateSpacer(rootPanel.transform, 6f);
-
-        statusText = CreateLabel(rootPanel.transform, string.Empty, 14, FontStyle.Italic, TextAnchor.MiddleCenter, font, 36f);
-        CreateLabel(rootPanel.transform, "Nhan [E] de dong", 13, FontStyle.Normal, TextAnchor.MiddleCenter, font, 22f);
+        CreateSpacer(upgradeColumn, 12f);
+        statusText = CreateLabel(upgradeColumn, string.Empty, 15, FontStyle.Italic, TextAnchor.MiddleCenter, font, 42f);
+        CreateLabel(upgradeColumn, "Nhan [E] de dong", 14, FontStyle.Normal, TextAnchor.MiddleCenter, font, 24f);
     }
 
     private void WireButtons()
@@ -267,7 +277,55 @@ public class StatScreenUI : MonoBehaviour
     {
         if (playerStats != null && playerStats.AllocateStat(statType))
         {
+            PlayerController controller = playerStats.GetComponent<PlayerController>();
+            if (controller != null)
+            {
+                controller.RefreshStats();
+            }
+
             Refresh();
+        }
+    }
+
+    private static void ApplyExpandedLayout(RectTransform rectTransform)
+    {
+        if (rectTransform == null)
+        {
+            return;
+        }
+
+        rectTransform.anchorMin = new Vector2(PopupScreenInset, PopupScreenInset);
+        rectTransform.anchorMax = new Vector2(1f - PopupScreenInset, 1f - PopupScreenInset);
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.offsetMin = Vector2.zero;
+        rectTransform.offsetMax = Vector2.zero;
+        rectTransform.anchoredPosition = Vector2.zero;
+        rectTransform.sizeDelta = Vector2.zero;
+    }
+
+    private static void EnsureEventSystem()
+    {
+        EventSystem eventSystem = EventSystem.current;
+        if (eventSystem == null)
+        {
+            eventSystem = FindFirstObjectByType<EventSystem>();
+        }
+
+        if (eventSystem == null)
+        {
+            GameObject eventSystemObject = new GameObject("EventSystem", typeof(EventSystem));
+            eventSystem = eventSystemObject.GetComponent<EventSystem>();
+        }
+
+        InputSystemUIInputModule inputModule = eventSystem.GetComponent<InputSystemUIInputModule>();
+        if (inputModule == null)
+        {
+            inputModule = eventSystem.gameObject.AddComponent<InputSystemUIInputModule>();
+        }
+
+        if (inputModule.actionsAsset == null)
+        {
+            inputModule.AssignDefaultActions();
         }
     }
 
@@ -322,6 +380,56 @@ public class StatScreenUI : MonoBehaviour
         {
             text.text = value;
         }
+    }
+
+    private Transform CreateContentRow(Transform parent)
+    {
+        GameObject rowObject = new GameObject(
+            "Stat Screen Content Row",
+            typeof(RectTransform),
+            typeof(HorizontalLayoutGroup),
+            typeof(LayoutElement));
+        rowObject.transform.SetParent(parent, false);
+
+        HorizontalLayoutGroup layout = rowObject.GetComponent<HorizontalLayoutGroup>();
+        layout.padding = new RectOffset(0, 0, 0, 0);
+        layout.spacing = 22f;
+        layout.childAlignment = TextAnchor.UpperCenter;
+        layout.childControlWidth = true;
+        layout.childControlHeight = true;
+        layout.childForceExpandWidth = true;
+        layout.childForceExpandHeight = true;
+
+        LayoutElement layoutElement = rowObject.GetComponent<LayoutElement>();
+        layoutElement.flexibleHeight = 1f;
+        layoutElement.flexibleWidth = 1f;
+
+        return rowObject.transform;
+    }
+
+    private Transform CreateColumn(Transform parent, string name, float flexibleWidth)
+    {
+        GameObject columnObject = new GameObject(
+            name,
+            typeof(RectTransform),
+            typeof(VerticalLayoutGroup),
+            typeof(LayoutElement));
+        columnObject.transform.SetParent(parent, false);
+
+        VerticalLayoutGroup layout = columnObject.GetComponent<VerticalLayoutGroup>();
+        layout.padding = new RectOffset(8, 8, 4, 4);
+        layout.spacing = 8f;
+        layout.childAlignment = TextAnchor.UpperLeft;
+        layout.childControlWidth = true;
+        layout.childControlHeight = true;
+        layout.childForceExpandWidth = true;
+        layout.childForceExpandHeight = false;
+
+        LayoutElement layoutElement = columnObject.GetComponent<LayoutElement>();
+        layoutElement.flexibleWidth = flexibleWidth;
+        layoutElement.flexibleHeight = 1f;
+
+        return columnObject.transform;
     }
 
     private Text CreateLabel(
