@@ -68,7 +68,7 @@ public class PlayerController : CharacterMotor
             float effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
             float effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
 
-            if (isSprintInputPressed && isMoving && playerStats.CurrentStamina > 0f)
+            if (isSprintInputPressed && IsMoving && playerStats.CurrentStamina > 0f)
             {
                 isSprinting = true;
                 float staminaCost = Mathf.Min(effectiveDrain * Time.deltaTime, playerStats.CurrentStamina);
@@ -83,7 +83,7 @@ public class PlayerController : CharacterMotor
         }
 
         // Fallback nếu không có PlayerStats
-        if (isSprintInputPressed && isMoving && currentStamina > 0)
+        if (isSprintInputPressed && IsMoving && currentStamina > 0)
         {
             isSprinting = true;
             currentStamina -= staminaDrainRate * Time.deltaTime;

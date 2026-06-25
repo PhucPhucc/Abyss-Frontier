@@ -45,10 +45,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformAttack()
     {
-        if (animator != null)
-        {
-            animator.SetTrigger("Attack");
-        }
+        animHandler?.TriggerAttack();
 
         if (attackHitDelay > 0f)
         {
