@@ -159,7 +159,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 180878871}
-  - component: {fileID: 180878872}
   m_Layer: 0
   m_Name: MazeManager
   m_TagString: Untagged
@@ -182,29 +181,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1200621581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &180878872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180878870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b1dc244133747e46b87b29f5f1f4e1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  mazeWidth: 13
-  mazeHeight: 9
-  seed: 0
-  tilemapGround: {fileID: 909882929}
-  tilemapWalls: {fileID: 341582035}
-  tileFloor: {fileID: 11400000, guid: c2c06df719e26724f8ab190315315931, type: 2}
-  tileWall: {fileID: 11400000, guid: f36a73c7b8e0a1049b35d4ef415452ce, type: 2}
-  playerSpawnPoint: {fileID: 2297685361253039649, guid: f5455bd2c21fdf541b43dc82343804b3, type: 3}
-  exitPoint: {fileID: 0}
-  _tileWidth: 0
-  _tileHeight: 0
+
 --- !u!1 &341582032
 GameObject:
   m_ObjectHideFlags: 0
