@@ -127,14 +127,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4989799176808002008}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -142,9 +142,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &5015358310317600076
 CircleCollider2D:
@@ -194,20 +194,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1ffa6e14f72268e9f90c64774cae5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  moveSpeed: 2
-  chaseSpeed: 3.5
+  moveSpeed: 1
+  chaseSpeed: 2
   detectionRange: 4
   loseRange: 6
   waypoints: []
   waitTime: 1.5
   attackRange: 1
   attackDamage: 8
-  attackHitDelay: 0.2
-  attackCooldown: 0.4
-  attackPrepDuration: 0.1
+  attackHitDelay: 0.5
+  attackCooldown: 1.4
+  attackPrepDuration: 0.4
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &5765546219165721432
 MonoBehaviour:
   m_ObjectHideFlags: 0

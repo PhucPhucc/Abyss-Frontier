@@ -136,15 +136,15 @@ MonoBehaviour:
   detectionRange: 4
   loseRange: 6
   waypoints: []
-  waitTime: 3
+  waitTime: 1.5
   attackRange: 1
   attackDamage: 8
-  attackHitDelay: 0.2
-  attackCooldown: 1.5
-  attackPrepDuration: 1
+  attackHitDelay: 0.5
+  attackCooldown: 1.4
+  attackPrepDuration: 0.4
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!50 &4479384023647057937
 Rigidbody2D:
   serializedVersion: 5
@@ -153,14 +153,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2205235732766913}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

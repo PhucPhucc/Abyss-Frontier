@@ -41,6 +41,9 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        // Không cho phép tấn công khi đã chết
+        if (playerStats != null && playerStats.IsDead) return;
+
         // Kiểm tra input Attack và cooldown
         if (attackAction != null && attackAction.WasPressedThisFrame() && Time.time >= nextAttackTime)
         {
@@ -75,7 +78,9 @@ public class PlayerCombat : MonoBehaviour
     private System.Collections.IEnumerator AttackDelayRoutine()
     {
         yield return new WaitForSeconds(attackHitDelay);
-        TriggerAttackDamage();
+        // Hủy gây sát thương nếu Player đã chết trong lúc chờ
+        if (playerStats == null || !playerStats.IsDead)
+            TriggerAttackDamage();
     }
 
     /// <summary>
