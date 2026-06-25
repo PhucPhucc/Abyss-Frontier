@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1504686160869979473}
   - component: {fileID: 5015358310317600076}
   - component: {fileID: 1364763456596164944}
+  - component: {fileID: 5765546219165721432}
+  - component: {fileID: 8749015218132390099}
   m_Layer: 3
   m_Name: Slime3
   m_TagString: Enemy
@@ -199,5 +201,44 @@ MonoBehaviour:
   waypoints: []
   waitTime: 1.5
   attackRange: 1
+  attackDamage: 8
+  attackHitDelay: 0.2
   attackCooldown: 0.4
   attackPrepDuration: 0.1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &5765546219165721432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989799176808002008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71246ab6138beb04d98599fba162e45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnockbackHandler
+  knockbackForceInit: 12
+--- !u!114 &8749015218132390099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989799176808002008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262d2a8427f8846848f479ce4c056396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  enemyLevel: 1
+  statsDefinition: {fileID: 0}
+  maxHealth: 30
+  currentHealth: 0
+  destroyDelay: 1.5
+  enableHitFlash: 1
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultStunDuration: 0.5

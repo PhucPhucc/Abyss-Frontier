@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 4404879843604720096}
   - component: {fileID: 4479384023647057937}
   - component: {fileID: 5848958206133786323}
-  - component: {fileID: 1364392678942001567}
   - component: {fileID: -8765647703725641815}
+  - component: {fileID: 2932294109437897583}
   m_Layer: 3
   m_Name: Slime1
   m_TagString: Enemy
@@ -138,8 +138,13 @@ MonoBehaviour:
   waypoints: []
   waitTime: 3
   attackRange: 1
+  attackDamage: 8
+  attackHitDelay: 0.2
   attackCooldown: 1.5
   attackPrepDuration: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!50 &4479384023647057937
 Rigidbody2D:
   serializedVersion: 5
@@ -203,25 +208,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.015577763, y: -0.038944334}
   m_Radius: 0.27563795
---- !u!114 &1364392678942001567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2205235732766913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03a7bea821065da409140a4ae3d16025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 100
-  currentHealth: 0
-  destroyDelay: 1.5
-  enableHitFlash: 1
-  flashDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
-  defaultStunDuration: 0.5
 --- !u!114 &-8765647703725641815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,3 +221,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackHandler
   knockbackForceInit: 12
+--- !u!114 &2932294109437897583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2205235732766913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262d2a8427f8846848f479ce4c056396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  enemyLevel: 1
+  statsDefinition: {fileID: 0}
+  maxHealth: 30
+  currentHealth: 0
+  destroyDelay: 1.5
+  enableHitFlash: 1
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultStunDuration: 0.5
