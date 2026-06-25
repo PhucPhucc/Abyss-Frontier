@@ -1,37 +1,32 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Xử lý tấn công của Player: quét hitbox, gây sát thương, knockback.
-/// </summary>
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Combat Stats")]
-    [SerializeField] private int attackDamage = 10;     // Sát thương cơ bản (dùng khi không có PlayerStats)
-    [SerializeField] private float attackRange = 0.8f;  // Bán kính hitbox tấn công
-    [SerializeField] private float attackCooldown = 0.5f; // Thời gian hồi giữa các đòn
+    [SerializeField] private int attackDamage = 10;
+    [SerializeField] private float attackRange = 0.8f;
+    [SerializeField] private float attackCooldown = 0.5f;
 
     [Header("Hitbox Setup")]
-    [SerializeField] private float hitboxOffset = 0.6f;    // Khoảng cách hitbox so với Player (theo hướng mặt)
-    [SerializeField] private LayerMask enemyLayers;         // Layer chứa Enemy để quét hitbox
-    [SerializeField] private float attackHitDelay = 0.2f;   // Độ trễ giữa trigger animation và quét hitbox
+    [SerializeField] private float hitboxOffset = 0.6f;
+    [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private float attackHitDelay = 0.2f;
 
-    private Animator animator;
     private PlayerController playerController;
     private PlayerStats playerStats;
+    private CharacterAnimationHandler animHandler;
     private InputAction attackAction;
-    private float nextAttackTime = 0f;   // Thời điểm được phép tấn công tiếp theo (cooldown)
+    private float nextAttackTime = 0f;
 
-    /// <summary>Player có đang trong thời gian cooldown tấn công không?</summary>
     public bool IsAttacking => Time.time < nextAttackTime;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
         playerStats = GetComponent<PlayerStats>();
+        animHandler = GetComponent<CharacterAnimationHandler>();
 
-        // Lấy InputAction "Attack" từ PlayerInput
         PlayerInput playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
         {
@@ -41,7 +36,6 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
-        // Kiểm tra input Attack và cooldown
         if (attackAction != null && attackAction.WasPressedThisFrame() && Time.time >= nextAttackTime)
         {
             PerformAttack();
@@ -49,9 +43,6 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Thực hiện tấn công: kích hoạt animation, sau delay sẽ quét hitbox.
-    /// </summary>
     private void PerformAttack()
     {
         if (animator != null)
@@ -69,19 +60,12 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Coroutine chờ attackHitDelay giây rồi quét hitbox.
-    /// </summary>
     private System.Collections.IEnumerator AttackDelayRoutine()
     {
         yield return new WaitForSeconds(attackHitDelay);
         TriggerAttackDamage();
     }
 
-    /// <summary>
-    /// Quét hitbox hình tròn phía trước mặt Player và gây sát thương cho Enemy trúng đòn.
-    /// Có thể gọi từ Animation Event nếu cần chính xác theo frame.
-    /// </summary>
     public void TriggerAttackDamage()
     {
         if (playerController == null) return;
@@ -98,7 +82,6 @@ public class PlayerCombat : MonoBehaviour
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                // Tính hướng knockback từ Player đến Enemy
                 Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
                 if (knockbackDir == Vector2.zero)
                     knockbackDir = facingDirection;
@@ -110,7 +93,6 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Vẽ hitbox trong Editor (chỉ khi đang play)
         if (Application.isPlaying && playerController != null)
         {
             Vector2 attackPoint = (Vector2)transform.position + (playerController.LastDirection * hitboxOffset);

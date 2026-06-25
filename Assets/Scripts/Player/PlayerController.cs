@@ -1,39 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Điều khiển chuyển động, stamina và hoạt ảnh của Player.
-/// Sử dụng PlayerInput component và Input System mới.
-/// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterMotor
 {
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed = 3f;    // Tốc độ đi bộ
-    [SerializeField] private float sprintSpeed = 6f;  // Tốc độ chạy nước rút
+    [Header("Sprint")]
+    [SerializeField] private float sprintSpeed = 6f;
 
     [Header("Stamina")]
-    [SerializeField] private float maxStamina = 100f;       // Stamina tối đa
-    [SerializeField] private float staminaDrainRate = 20f;  // Tốc độ tiêu hao stamina khi sprint
-    [SerializeField] private float staminaRegenRate = 15f;  // Tốc độ hồi stamina
+    [SerializeField] private float maxStamina = 100f;
+    [SerializeField] private float staminaDrainRate = 20f;
+    [SerializeField] private float staminaRegenRate = 15f;
 
-    private Rigidbody2D rb;
-    private Animator animator;
     private PlayerStats playerStats;
+    private float currentStamina;
+    private bool isSprintInputPressed;
+    private bool isSprinting;
 
-    private Vector2 moveInput;                     // Input di chuyển (x, y)
-    private Vector2 lastDirection = Vector2.down;  // Hướng cuối cùng (dùng cho animation idle)
+    public bool IsSprinting => isSprinting;
 
-    private float currentStamina;         // Stamina hiện tại
-    private bool isSprintInputPressed;    // Trạng thái nút Sprint
-    private bool isSprinting;             // Player có đang chạy hay không
-
-    /// <summary>Hướng di chuyển cuối cùng (dùng bởi PlayerCombat để xác định hướng tấn công)</summary>
-    public Vector2 LastDirection => lastDirection;
-
-    private void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        base.Awake();
         playerStats = GetComponent<PlayerStats>();
         currentStamina = maxStamina;
     }
@@ -42,73 +29,39 @@ public class PlayerController : MonoBehaviour
     {
         if (playerStats != null)
         {
-            moveSpeed = playerStats.MoveSpeed;
-            sprintSpeed = moveSpeed * 2f;
+            MoveSpeed = playerStats.MoveSpeed;
+            sprintSpeed = MoveSpeed * 2f;
         }
     }
 
-    /// <summary>
-    /// Làm mới tốc độ từ PlayerStats (gọi khi nâng cấp chỉ số ở Hub).
-    /// </summary>
     public void RefreshStats()
     {
         if (playerStats != null)
         {
-            moveSpeed = playerStats.MoveSpeed;
-            sprintSpeed = moveSpeed * 2f;
+            MoveSpeed = playerStats.MoveSpeed;
+            sprintSpeed = MoveSpeed * 2f;
         }
     }
 
-    /// <summary>Nhận input di chuyển từ PlayerInput.</summary>
     public void OnMove(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
+        MoveInput = value.Get<Vector2>();
     }
 
-    /// <summary>Nhận input sprint từ PlayerInput.</summary>
     public void OnSprint(InputValue value)
     {
         isSprintInputPressed = value.isPressed;
     }
 
-    /// <summary>Kích hoạt animation bị thương (hurt).</summary>
-    public void TriggerHurt()
-    {
-        if (animator != null)
-            animator.SetTrigger("hurt");
-    }
-
     private void Update()
     {
-        // Nếu Player chết, dừng mọi hoạt ảnh di chuyển
         if (playerStats != null && playerStats.IsDead)
-        {
-            animator.SetBool("isWalk", false);
-            animator.SetBool("isRun", false);
             return;
-        }
 
-        bool isMoving = moveInput.sqrMagnitude > 0.01f;
-
-        if (isMoving)
-        {
-            lastDirection = moveInput.normalized;
-        }
-
-        HandleStamina(isMoving);
-
-        // Cập nhật tham số Animator
-        animator.SetFloat("moveX", lastDirection.x);
-        animator.SetFloat("moveY", lastDirection.y);
-        animator.SetBool("isWalk", isMoving);
-        animator.SetBool("isRun", isSprinting);
+        HandleStamina();
     }
 
-    /// <summary>
-    /// Xử lý stamina: tiêu hao khi sprint, hồi phục khi không sprint.
-    /// Stamina dùng chung cho cả Sprint và Dodge.
-    /// </summary>
-    private void HandleStamina(bool isMoving)
+    private void HandleStamina()
     {
         if (playerStats != null)
         {
@@ -147,24 +100,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected override Vector2 GetVelocity()
     {
-        // Khi chết, đứng im
+        return MoveInput * (isSprinting ? sprintSpeed : MoveSpeed);
+    }
+
+    protected override void FixedUpdate()
+    {
         if (playerStats != null && playerStats.IsDead)
         {
-            rb.linearVelocity = Vector2.zero;
+            Rb.linearVelocity = Vector2.zero;
             return;
         }
 
-        // Khi đang tấn công, đứng im (không cho di chuyển)
         PlayerCombat combat = GetComponent<PlayerCombat>();
         if (combat != null && combat.IsAttacking)
         {
-            rb.linearVelocity = Vector2.zero;
+            Rb.linearVelocity = Vector2.zero;
             return;
         }
 
-        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
-        rb.linearVelocity = moveInput * currentSpeed;
+        base.FixedUpdate();
     }
 }
