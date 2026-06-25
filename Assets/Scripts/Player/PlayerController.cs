@@ -17,6 +17,8 @@ public class PlayerController : CharacterMotor
     private bool isSprinting;
 
     public bool IsSprinting => isSprinting;
+    public float CurrentStamina => currentStamina;
+    public float MaxStamina => maxStamina;
 
     protected override void Awake()
     {
@@ -43,6 +45,26 @@ public class PlayerController : CharacterMotor
         }
     }
 
+    public void RestoreStamina()
+    {
+        currentStamina = maxStamina;
+    }
+
+    public bool SpendStamina(float amount)
+    {
+        if (amount <= 0f) return true;
+        if (currentStamina < amount) return false;
+
+        currentStamina -= amount;
+        return true;
+    }
+
+    public void RecoverStamina(float amount)
+    {
+        if (amount <= 0f || currentStamina >= maxStamina) return;
+        currentStamina = Mathf.Min(maxStamina, currentStamina + amount);
+    }
+
     public void OnMove(InputValue value)
     {
         MoveInput = value.Get<Vector2>();
@@ -63,30 +85,18 @@ public class PlayerController : CharacterMotor
 
     private void HandleStamina()
     {
+        float effectiveDrain = staminaDrainRate;
+        float effectiveRegen = staminaRegenRate;
         if (playerStats != null)
         {
-            float effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
-            float effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
-
-            if (isSprintInputPressed && IsMoving && playerStats.CurrentStamina > 0f)
-            {
-                isSprinting = true;
-                float staminaCost = Mathf.Min(effectiveDrain * Time.deltaTime, playerStats.CurrentStamina);
-                playerStats.SpendStamina(staminaCost);
-            }
-            else
-            {
-                isSprinting = false;
-                playerStats.RecoverStamina(effectiveRegen * Time.deltaTime);
-            }
-            return;
+            effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
+            effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
         }
 
-        // Fallback nếu không có PlayerStats
         if (isSprintInputPressed && IsMoving && currentStamina > 0)
         {
             isSprinting = true;
-            currentStamina -= staminaDrainRate * Time.deltaTime;
+            currentStamina -= effectiveDrain * Time.deltaTime;
             if (currentStamina < 0) currentStamina = 0f;
         }
         else
@@ -94,7 +104,7 @@ public class PlayerController : CharacterMotor
             isSprinting = false;
             if (currentStamina < maxStamina)
             {
-                currentStamina += staminaRegenRate * Time.deltaTime;
+                currentStamina += effectiveRegen * Time.deltaTime;
                 if (currentStamina > maxStamina) currentStamina = maxStamina;
             }
         }

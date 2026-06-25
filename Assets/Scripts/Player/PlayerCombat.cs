@@ -69,7 +69,7 @@ public class PlayerCombat : MonoBehaviour
 
         Vector2 facingDirection = playerController.LastDirection;
         Vector2 attackPoint = (Vector2)transform.position + (facingDirection * hitboxOffset);
-        // Quét tất cả Enemy trong vùng đòn đánh
+
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, attackRange, enemyLayers);
 
         int damage = playerStats != null ? playerStats.AttackDamage : attackDamage;
