@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ea95734c488a5fa9a1113acceca787, type: 3}
   m_Name: BossStats
   m_EditorClassIdentifier: 
-  enemyName: Boss
-  enemyType: 4
-  baseHP: 150
-  baseATK: 18
-  baseDEF: 6
-  baseSpeed: 2.5
-  baseExpReward: 100
+  enemyName: Minotaur
+  enemyType: 7
+  baseHP: 500
+  baseATK: 25
+  baseDEF: 5
+  baseSpeed: 1.5
+  baseExpReward: 200
   hpScale: 1.5
   atkScale: 1.4
-  defScale: 1.4
+  defScale: 1.3
   speedScale: 1.1
   expScale: 1.7

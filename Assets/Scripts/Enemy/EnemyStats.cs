@@ -5,11 +5,14 @@ using UnityEngine;
 /// </summary>
 public enum EnemyType
 {
-    Plant,    // Tầng 1
-    Slime,    // Tầng 2–3
-    Orc,      // Tầng 3–4
-    Vampire,  // Tầng 4
-    Boss      // Tầng 5
+    Plant,      // Tầng 1
+    Meep,       // Tầng 1 — PinkMeep (2-hướng: Right/Left)
+    OwletMeep,  // Tầng 1 — OwletMeep (2-hướng: Right/Left)
+    DudeMeep,   // Tầng 1 — DudeMeep (2-hướng: Right/Left)
+    Slime,      // Tầng 2–3
+    Orc,        // Tầng 3–4
+    Vampire,    // Tầng 4
+    Boss        // Tầng 5
 }
 
 /// <summary>

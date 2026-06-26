@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   enemyLevel: 1
-  statsDefinition: {fileID: 0}
+  statsDefinition: {fileID: 11400000, guid: cbcaf985f508e76a68cf82fb618b3826, type: 2}
   maxHealth: 30
   currentHealth: 0
   destroyDelay: 1.5

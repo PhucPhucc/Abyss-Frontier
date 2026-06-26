@@ -33,6 +33,7 @@ public class EnemyHealth : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private KnockbackHandler knockbackHandler;
+    private bool hasMoveParams;
 
     public bool IsDead => isDead;
     public int CurrentHealth => currentHealth;
@@ -46,6 +47,18 @@ public class EnemyHealth : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         knockbackHandler = GetComponent<KnockbackHandler>();
+
+        if (anim != null)
+        {
+            foreach (var param in anim.parameters)
+            {
+                if (param.name == "lastMoveX")
+                {
+                    hasMoveParams = true;
+                    break;
+                }
+            }
+        }
 
         // Nếu có statsDefinition, lấy chỉ số theo cấp độ
         if (statsDefinition != null)
@@ -100,7 +113,7 @@ public class EnemyHealth : MonoBehaviour
         if (anim != null)
         {
          
-            if (knockbackDirection != Vector2.zero)
+            if (knockbackDirection != Vector2.zero && hasMoveParams)
             {
                 anim.SetFloat("lastMoveX", knockbackDirection.normalized.x * -1);
                 anim.SetFloat("lastMoveY", knockbackDirection.normalized.y * -1);
