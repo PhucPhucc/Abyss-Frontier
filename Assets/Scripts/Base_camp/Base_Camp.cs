@@ -244,6 +244,99 @@ public class Base_Camp : MonoBehaviour
     /// <summary>
     /// Vẽ UI bằng GUI (dùng khi không có Canvas UI).
     /// </summary>
+    private void DrawWideStatScreen()
+    {
+        int[] statValues = {
+            playerStats.Strength,
+            playerStats.Dexterity,
+            playerStats.Vitality,
+            playerStats.Agility,
+            playerStats.Endurance,
+            playerStats.Intelligence
+        };
+
+        int points = playerStats.AvailableStatPoints;
+        float panelWidth = Screen.width * 0.8f;
+        float panelHeight = Screen.height * 0.8f;
+        Rect panelRect = new Rect(
+            (Screen.width - panelWidth) * 0.5f,
+            (Screen.height - panelHeight) * 0.5f,
+            panelWidth,
+            panelHeight);
+
+        GUI.Box(panelRect, "BASE CAMP - STAT SCREEN");
+
+        float padding = Mathf.Max(18f, panelWidth * 0.025f);
+        float titleHeight = 34f;
+        float contentTop = panelRect.y + padding + titleHeight;
+        float contentHeight = panelRect.height - (padding * 2f) - titleHeight;
+        float gap = Mathf.Max(18f, panelWidth * 0.025f);
+        float leftWidth = (panelRect.width - (padding * 2f) - gap) * 0.58f;
+        float rightWidth = (panelRect.width - (padding * 2f) - gap) - leftWidth;
+
+        Rect leftRect = new Rect(panelRect.x + padding, contentTop, leftWidth, contentHeight);
+        Rect rightRect = new Rect(leftRect.xMax + gap, contentTop, rightWidth, contentHeight);
+
+        GUIStyle headerStyle = new GUIStyle(GUI.skin.label)
+        {
+            fontSize = 18,
+            fontStyle = FontStyle.Bold
+        };
+        headerStyle.normal.textColor = Color.white;
+
+        GUIStyle statStyle = new GUIStyle(GUI.skin.label)
+        {
+            fontSize = 15
+        };
+        statStyle.normal.textColor = Color.white;
+
+        GUIStyle pointsStyle = new GUIStyle(statStyle)
+        {
+            fontStyle = FontStyle.Bold
+        };
+        pointsStyle.normal.textColor = points > 0 ? Color.green : Color.white;
+
+        GUILayout.BeginArea(leftRect);
+        GUILayout.Label("THONG TIN CHIEN DAU", headerStyle);
+        GUILayout.Space(8f);
+        GUILayout.Label($"Level: {playerStats.Level}  |  EXP: {playerStats.CurrentExp}/{playerStats.ExpToNextLevel}", statStyle);
+        GUILayout.Label($"HP: {playerStats.CurrentHealth}/{playerStats.MaxHealth}", statStyle);
+        GUILayout.Label($"The luc: {Mathf.CeilToInt(playerStats.CurrentStamina)}/{Mathf.CeilToInt(playerStats.MaxStamina)}", statStyle);
+        GUILayout.Label($"ATK: {playerStats.AttackDamage}  |  Dodge: {playerStats.DodgeChance * 100:F0}%  |  Speed: {playerStats.MoveSpeed:F2}", statStyle);
+        GUILayout.Label($"EXP Multi: x{playerStats.ExpMultiplier:F1}", statStyle);
+        GUILayout.Label($"Available Stat Points: {points}", pointsStyle);
+        GUILayout.Space(18f);
+        GUILayout.Label("CHI SO CO BAN", headerStyle);
+        GUILayout.Space(8f);
+
+        for (int i = 0; i < StatNames.Length; i++)
+        {
+            GUILayout.Label($"{StatNames[i]}: {statValues[i]}    {StatEffects[i]}", statStyle);
+        }
+
+        GUILayout.EndArea();
+
+        GUILayout.BeginArea(rightRect);
+        GUILayout.Label("NANG CAP CHI SO", headerStyle);
+        GUILayout.Space(12f);
+
+        GUI.enabled = points > 0;
+        for (int i = 0; i < StatNames.Length; i++)
+        {
+            if (GUILayout.Button($"+ {StatNames[i]}", GUILayout.Height(42f)))
+            {
+                AllocateStat(i);
+            }
+            GUILayout.Space(8f);
+        }
+        GUI.enabled = true;
+
+        GUILayout.FlexibleSpace();
+        GUILayout.Label(points > 0 ? "Chon nut de nang cap chi so." : "Can them EXP de co diem nang cap.", statStyle);
+        GUILayout.Label("Nhan [E] de dong", statStyle);
+        GUILayout.EndArea();
+    }
+
     private void OnGUI()
     {
         // Prompt nhấn [E] khi Player trong vùng
@@ -257,6 +350,12 @@ public class Base_Camp : MonoBehaviour
         }
 
         // Stat Screen (dùng GUI fallback)
+        if (isStatsOpen && statScreenUI == null && playerStats != null)
+        {
+            DrawWideStatScreen();
+            return;
+        }
+
         if (isStatsOpen && statScreenUI == null && playerStats != null)
         {
             int[] statValues = {
