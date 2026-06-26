@@ -35,10 +35,14 @@ public class EnemyHealth : MonoBehaviour
     private KnockbackHandler knockbackHandler;
     private bool hasMoveParams;
 
+    public event System.Action<int, int> HealthChanged;
+    public event System.Action Died;
+
     public bool IsDead => isDead;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public EnemyLevel EnemyLevel => enemyLevel;
+    public float HealthFraction => maxHealth <= 0 ? 0f : currentHealth / (float)maxHealth;
 
     private void Awake()
     {
@@ -72,6 +76,7 @@ public class EnemyHealth : MonoBehaviour
         }
 
         currentHealth = maxHealth;
+        NotifyHealthChanged();
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
@@ -92,6 +97,7 @@ public class EnemyHealth : MonoBehaviour
         int actualDamage = Mathf.Max(1, damage - def);
         currentHealth -= actualDamage;
         currentHealth = Mathf.Max(currentHealth, 0);
+        NotifyHealthChanged();
 
         Debug.Log($"[EnemyHealth] {name} nhận {actualDamage} sát thương — HP còn: {currentHealth}/{maxHealth}");
 
@@ -142,6 +148,7 @@ public class EnemyHealth : MonoBehaviour
         if (col != null) col.enabled = false;
 
         GrantExpToPlayer();
+        Died?.Invoke();
 
         Destroy(gameObject, destroyDelay);
         Debug.Log($"[EnemyHealth] {name} đã chết.");
@@ -167,5 +174,10 @@ public class EnemyHealth : MonoBehaviour
         yield return new WaitForSeconds(flashDuration);
         if (spriteRenderer != null)
             spriteRenderer.color = originalColor;
+    }
+
+    private void NotifyHealthChanged()
+    {
+        HealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }
