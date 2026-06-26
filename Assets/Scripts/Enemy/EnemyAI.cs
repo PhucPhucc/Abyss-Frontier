@@ -323,6 +323,7 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     public void TriggerAttackAnimation()
     {
+        AudioManager.Instance?.PlayEnemyAttack();
         if (anim != null) anim.SetTrigger("attack");
         StartCoroutine(AttackHitRoutine());
     }
