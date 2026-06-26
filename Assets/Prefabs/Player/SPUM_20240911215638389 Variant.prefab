@@ -20,6 +20,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 608448142479425505, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 608448142479425505, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 769353063
+      objectReference: {fileID: 0}
     - target: {fileID: 611777783247582656, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -154,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3431018974941178782, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.00015256465
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 3431018974941178782, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -174,11 +182,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3431018974941178782, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2.0682225
+      value: -2.64
       objectReference: {fileID: 0}
     - target: {fileID: 3431018974941178782, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.3774505
+      value: -0.69
       objectReference: {fileID: 0}
     - target: {fileID: 3431018974941178782, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -600,7 +608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   level: 1
   currentExp: 0
-  expToNextLevel: 100
+  expToNextLevel: 5
   statPointsPerLevel: 5
   strength: 1
   dexterity: 1
@@ -611,7 +619,7 @@ MonoBehaviour:
   availableStatPoints: 5
   maxStamina: 100
   currentStamina: 0
-  derivedMaxHealth: 70
+  derivedMaxHealth: 100
   derivedAttackDamage: 7
   derivedDodgeChance: 0.02
   derivedMoveSpeed: 2.65
