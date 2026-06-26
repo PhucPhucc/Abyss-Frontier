@@ -149,7 +149,7 @@ MonoBehaviour:
   attackPrepDuration: 1
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!95 &6365761298863767128
 Animator:
   serializedVersion: 7
