@@ -92,37 +92,37 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
             Die();
         else
-            PlayHurt();
+            PlayHurt(knockbackDirection);
     }
 
-    /// <summary>
-    /// Phát hoạt ảnh bị thương và hiệu ứng flash.
-    /// </summary>
-    private void PlayHurt()
+    private void PlayHurt(Vector2 knockbackDirection)
     {
         if (anim != null)
+        {
+         
+            if (knockbackDirection != Vector2.zero)
+            {
+                anim.SetFloat("lastMoveX", knockbackDirection.normalized.x * -1);
+                anim.SetFloat("lastMoveY", knockbackDirection.normalized.y * -1);
+            }
             anim.SetTrigger("hurt");
+        }
 
         if (enableHitFlash && spriteRenderer != null)
             StartCoroutine(HitFlashRoutine());
     }
 
-    /// <summary>
-    /// Xử lý khi enemy chết: dừng AI, phát hoạt ảnh chết, tắt collider, cộng EXP cho Player.
-    /// </summary>
     private void Die()
     {
         if (isDead) return;
         isDead = true;
 
-        // Báo cho AI biết để dừng mọi hành vi
         if (enemyAI != null)
             enemyAI.OnDeath();
 
         if (anim != null)
             anim.SetTrigger("die");
 
-        // Tắt collider để không bị tương tác thêm
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
 
@@ -132,9 +132,6 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log($"[EnemyHealth] {name} đã chết.");
     }
 
-    /// <summary>
-    /// Trao thưởng EXP cho Player dựa trên statsDefinition và cấp độ.
-    /// </summary>
     private void GrantExpToPlayer()
     {
         if (statsDefinition == null) return;
@@ -149,9 +146,6 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Coroutine nhấp nháy màu đỏ khi trúng đòn.
-    /// </summary>
     private IEnumerator HitFlashRoutine()
     {
         spriteRenderer.color = flashColor;
