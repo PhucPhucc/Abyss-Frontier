@@ -12,9 +12,12 @@ public class PlayerController : CharacterMotor
     [SerializeField] private float staminaRegenRate = 15f;
 
     private PlayerStats playerStats;
+    private PlayerCombat cachedCombat;
     private float currentStamina;
     private bool isSprintInputPressed;
     private bool isSprinting;
+
+    public void SetSprintInput(bool pressed) => isSprintInputPressed = pressed;
 
     public bool IsSprinting => isSprinting;
 
@@ -22,6 +25,7 @@ public class PlayerController : CharacterMotor
     {
         base.Awake();
         playerStats = GetComponent<PlayerStats>();
+        cachedCombat = GetComponent<PlayerCombat>();
         currentStamina = maxStamina;
     }
 
@@ -101,8 +105,7 @@ public class PlayerController : CharacterMotor
             return;
         }
 
-        PlayerCombat combat = GetComponent<PlayerCombat>();
-        if (combat != null && combat.IsAttacking)
+        if (cachedCombat != null && cachedCombat.IsAttacking)
         {
             Rb.linearVelocity = Vector2.zero;
             return;

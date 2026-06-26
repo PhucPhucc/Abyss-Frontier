@@ -20,6 +20,8 @@ public class PlayerCombat : MonoBehaviour
     private float nextAttackTime = 0f;
 
     public bool IsAttacking => Time.time < nextAttackTime;
+    public bool UseNetworkInput { get; set; }
+    public void SetAttackCooldown(float duration) => nextAttackTime = Time.time + duration;
 
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        if (UseNetworkInput) return;
         if (attackAction != null && attackAction.WasPressedThisFrame() && Time.time >= nextAttackTime)
         {
             PerformAttack();
@@ -61,6 +64,11 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(attackHitDelay);
         TriggerAttackDamage();
+    }
+
+    public void TriggerAttackAnimationOnly()
+    {
+        animHandler?.TriggerAttack();
     }
 
     public void TriggerAttackDamage()
