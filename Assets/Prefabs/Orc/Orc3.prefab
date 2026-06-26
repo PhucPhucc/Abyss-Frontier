@@ -205,7 +205,7 @@ MonoBehaviour:
   attackPrepDuration: 1
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
 --- !u!70 &416716130762936599
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
