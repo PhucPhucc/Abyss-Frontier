@@ -33,11 +33,16 @@ public class EnemyHealth : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private KnockbackHandler knockbackHandler;
+    private bool hasMoveParams;
+
+    public event System.Action<int, int> HealthChanged;
+    public event System.Action Died;
 
     public bool IsDead => isDead;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public EnemyLevel EnemyLevel => enemyLevel;
+    public float HealthFraction => maxHealth <= 0 ? 0f : currentHealth / (float)maxHealth;
 
     private void Awake()
     {
@@ -46,6 +51,18 @@ public class EnemyHealth : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         knockbackHandler = GetComponent<KnockbackHandler>();
+
+        if (anim != null)
+        {
+            foreach (var param in anim.parameters)
+            {
+                if (param.name == "lastMoveX")
+                {
+                    hasMoveParams = true;
+                    break;
+                }
+            }
+        }
 
         // Nếu có statsDefinition, lấy chỉ số theo cấp độ
         if (statsDefinition != null)
@@ -59,6 +76,7 @@ public class EnemyHealth : MonoBehaviour
         }
 
         currentHealth = maxHealth;
+        NotifyHealthChanged();
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
@@ -79,6 +97,7 @@ public class EnemyHealth : MonoBehaviour
         int actualDamage = Mathf.Max(1, damage - def);
         currentHealth -= actualDamage;
         currentHealth = Mathf.Max(currentHealth, 0);
+        NotifyHealthChanged();
 
         Debug.Log($"[EnemyHealth] {name} nhận {actualDamage} sát thương — HP còn: {currentHealth}/{maxHealth}");
 
@@ -92,71 +111,68 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
             Die();
         else
-            PlayHurt();
+            PlayHurt(knockbackDirection);
     }
 
-    /// <summary>
-    /// Phát hoạt ảnh bị thương và hiệu ứng flash.
-    /// </summary>
-    private void PlayHurt()
+    private void PlayHurt(Vector2 knockbackDirection)
     {
+        AudioManager.Instance?.PlayEnemyHurt();
+
         if (anim != null)
+        {
+         
+            if (knockbackDirection != Vector2.zero && hasMoveParams)
+            {
+                anim.SetFloat("lastMoveX", knockbackDirection.normalized.x * -1);
+                anim.SetFloat("lastMoveY", knockbackDirection.normalized.y * -1);
+            }
             anim.SetTrigger("hurt");
+        }
 
         if (enableHitFlash && spriteRenderer != null)
             StartCoroutine(HitFlashRoutine());
     }
 
-    /// <summary>
-    /// Xử lý khi enemy chết: dừng AI, phát hoạt ảnh chết, tắt collider, cộng EXP cho Player.
-    /// </summary>
     private void Die()
     {
         if (isDead) return;
         isDead = true;
 
-        // Báo cho AI biết để dừng mọi hành vi
         if (enemyAI != null)
             enemyAI.OnDeath();
 
         if (anim != null)
             anim.SetTrigger("die");
 
-        // Tắt collider để không bị tương tác thêm
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
 
-        GrantExpToPlayer();
+        DropExpOrbs();
+        // GrantExpToPlayer();
+        Died?.Invoke();
 
         Destroy(gameObject, destroyDelay);
         Debug.Log($"[EnemyHealth] {name} đã chết.");
     }
 
-    /// <summary>
-    /// Trao thưởng EXP cho Player dựa trên statsDefinition và cấp độ.
-    /// </summary>
-    private void GrantExpToPlayer()
+    private void DropExpOrbs()
     {
         if (statsDefinition == null) return;
 
         int expReward = statsDefinition.GetExpReward((int)enemyLevel);
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            PlayerStats ps = player.GetComponent<PlayerStats>();
-            if (ps != null)
-                ps.AddExp(expReward);
-        }
+        ExpDropSpawner.Spawn(transform.position, expReward);
     }
 
-    /// <summary>
-    /// Coroutine nhấp nháy màu đỏ khi trúng đòn.
-    /// </summary>
     private IEnumerator HitFlashRoutine()
     {
         spriteRenderer.color = flashColor;
         yield return new WaitForSeconds(flashDuration);
         if (spriteRenderer != null)
             spriteRenderer.color = originalColor;
+    }
+
+    private void NotifyHealthChanged()
+    {
+        HealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }

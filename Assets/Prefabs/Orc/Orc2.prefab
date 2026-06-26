@@ -192,20 +192,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1ffa6e14f72268e9f90c64774cae5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  moveSpeed: 2
-  chaseSpeed: 3.5
+  moveSpeed: 1
+  chaseSpeed: 2
   detectionRange: 4
   loseRange: 6
   waypoints: []
   waitTime: 1.5
   attackRange: 1
-  attackDamage: 5
+  attackDamage: 8
   attackHitDelay: 0.2
-  attackCooldown: 1.5
-  attackPrepDuration: 1
+  attackCooldown: 1.4
+  attackPrepDuration: 0.4
   playerLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 64
 --- !u!70 &2300850302535131986
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

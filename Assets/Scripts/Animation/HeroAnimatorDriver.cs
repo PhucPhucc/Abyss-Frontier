@@ -6,6 +6,7 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
     private CharacterMotor motor;
     private PlayerStats playerStats;
     private PlayerController playerController;
+    private PlayerDash playerDash;
 
     [Header("Cấu hình Combo & Tấn công")]
     [Tooltip("Khoảng thời gian tối đa giữa 2 lần bấm để được tính là combo (giây).")]
@@ -23,6 +24,7 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
         motor = GetComponent<CharacterMotor>();
         playerStats = GetComponent<PlayerStats>();
         playerController = GetComponent<PlayerController>();
+        playerDash = GetComponent<PlayerDash>();
     }
 
     private void Update()
@@ -43,6 +45,7 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
         animator.SetFloat("moveY", motor.LastDirection.y);
         animator.SetFloat("lastMoveX", motor.LastDirection.x);
         animator.SetFloat("lastMoveY", motor.LastDirection.y);
+
 
         // XỬ LÝ LOGIC DI CHUYỂN (WALK & RUN)
         bool isMoving = motor.IsMoving;
@@ -117,11 +120,14 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
         animator.SetTrigger("death");
     }
 
-    /// <summary>
-    /// Hàm hỗ trợ reset trạng thái combo về ban đầu
-    /// </summary>
     public void ResetCombo()
     {
         comboStep = 0;
+    }
+
+    public override void TriggerRespawn()
+    {
+        if (animator != null)
+            animator.speed = 1f;
     }
 }

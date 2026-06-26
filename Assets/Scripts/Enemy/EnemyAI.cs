@@ -59,6 +59,7 @@ public class EnemyAI : MonoBehaviour
     public bool IsDead => isDead;
 
     private KnockbackHandler knockback; // Xử lý hiệu ứng knockback
+    private bool hasMoveParams;         // Cờ kiểm tra Animator có các tham số hướng (moveX, lastMoveX...) hay không
 
     private void Awake()
     {
@@ -66,6 +67,18 @@ public class EnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         knockback = GetComponent<KnockbackHandler>();
+
+        if (anim != null)
+        {
+            foreach (var param in anim.parameters)
+            {
+                if (param.name == "lastMoveX")
+                {
+                    hasMoveParams = true;
+                    break;
+                }
+            }
+        }
     }
 
     private void Start()
@@ -215,7 +228,7 @@ public class EnemyAI : MonoBehaviour
             lastDirection = dir;
 
             // Cập nhật hướng mặt cho Animator (quan trọng để hitbox trùng hướng)
-            if (anim != null)
+            if (anim != null && hasMoveParams)
             {
                 anim.SetFloat("lastMoveX", dir.x);
                 anim.SetFloat("lastMoveY", dir.y);
@@ -290,13 +303,14 @@ public class EnemyAI : MonoBehaviour
         {
             Vector2 animDir = moveVelocity.normalized;
 
-            anim.SetFloat("moveX", animDir.x);
-            anim.SetFloat("moveY", animDir.y);
+            if (hasMoveParams)
+            {
+                anim.SetFloat("moveX", animDir.x);
+                anim.SetFloat("moveY", animDir.y);
+                anim.SetFloat("lastMoveX", animDir.x);
+                anim.SetFloat("lastMoveY", animDir.y);
+            }
             anim.SetBool("isMoving", true);
-
-            // Lưu hướng cuối cùng để Animator dùng khi idle
-            anim.SetFloat("lastMoveX", animDir.x);
-            anim.SetFloat("lastMoveY", animDir.y);
         }
         else
         {
@@ -309,6 +323,7 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     public void TriggerAttackAnimation()
     {
+        AudioManager.Instance?.PlayEnemyAttack();
         if (anim != null) anim.SetTrigger("attack");
         StartCoroutine(AttackHitRoutine());
     }
@@ -322,7 +337,9 @@ public class EnemyAI : MonoBehaviour
         if (attackHitDelay > 0f)
             yield return new WaitForSeconds(attackHitDelay);
 
-        TriggerAttackDamage();
+        // Không gây sát thương nếu enemy đã chết trong lúc chờ
+        if (!isDead)
+            TriggerAttackDamage();
     }
 
     /// <summary>
@@ -331,17 +348,26 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     public void TriggerAttackDamage()
     {
+        if (isDead) return;
+
         // Tính toán vị trí trung tâm của hitbox, lệch về phía trước mặt enemy
         Vector2 hitPoint = (Vector2)transform.position + lastDirection.normalized * attackRange * 0.6f;
         Collider2D hit = Physics2D.OverlapCircle(hitPoint, attackRange * 0.5f, playerLayer);
 
         if (hit != null)
         {
-            PlayerStats playerStats = hit.GetComponent<PlayerStats>();
+            // Tìm PlayerStats trên chính object hoặc object cha (phòng trường hợp Player dùng child collider)
+            PlayerStats playerStats = hit.GetComponent<PlayerStats>()
+                                   ?? hit.GetComponentInParent<PlayerStats>();
+
             if (playerStats != null)
             {
                 playerStats.TakeDamage(attackDamage);
                 Debug.Log($"[EnemyAI] {name} đánh trúng Player — {attackDamage} sát thương.");
+            }
+            else
+            {
+                Debug.LogWarning($"[EnemyAI] Hit {hit.name} nhưng không tìm thấy PlayerStats!");
             }
         }
     }
@@ -394,7 +420,13 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, loseRange);
 
+        // Vòng tròn tầm đánh (outer)
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        // Vị trí hitbox thực tế khi tấn công (inner — phía trước mặt)
+        Vector2 hitPoint = (Vector2)transform.position + lastDirection.normalized * attackRange * 0.6f;
+        Gizmos.color = new Color(1f, 0.45f, 0f, 0.9f); // Cam
+        Gizmos.DrawWireSphere(hitPoint, attackRange * 0.5f);
     }
 }

@@ -15,6 +15,7 @@ public class PlayerCombat : MonoBehaviour
 
     private PlayerController playerController;
     private PlayerStats playerStats;
+    private PlayerDash playerDash;
     private CharacterAnimationHandler animHandler;
     private InputAction attackAction;
     private float nextAttackTime = 0f;
@@ -27,6 +28,7 @@ public class PlayerCombat : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         playerStats = GetComponent<PlayerStats>();
+        playerDash = GetComponent<PlayerDash>();
         animHandler = GetComponent<CharacterAnimationHandler>();
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
@@ -39,6 +41,8 @@ public class PlayerCombat : MonoBehaviour
     private void Update()
     {
         if (UseNetworkInput) return;
+        if (playerDash != null && playerDash.IsDashing)
+            return;
         if (attackAction != null && attackAction.WasPressedThisFrame() && Time.time >= nextAttackTime)
         {
             PerformAttack();
@@ -48,6 +52,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformAttack()
     {
+        AudioManager.Instance?.PlayPlayerAttack();
         animHandler?.TriggerAttack();
 
         if (attackHitDelay > 0f)
@@ -63,7 +68,9 @@ public class PlayerCombat : MonoBehaviour
     private System.Collections.IEnumerator AttackDelayRoutine()
     {
         yield return new WaitForSeconds(attackHitDelay);
-        TriggerAttackDamage();
+        // Hủy gây sát thương nếu Player đã chết trong lúc chờ
+        if (playerStats == null || !playerStats.IsDead)
+            TriggerAttackDamage();
     }
 
     public void TriggerAttackAnimationOnly()
@@ -77,7 +84,6 @@ public class PlayerCombat : MonoBehaviour
 
         Vector2 facingDirection = playerController.LastDirection;
         Vector2 attackPoint = (Vector2)transform.position + (facingDirection * hitboxOffset);
-
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, attackRange, enemyLayers);
 
         int damage = playerStats != null ? playerStats.AttackDamage : attackDamage;

@@ -13,6 +13,7 @@ public class PlayerController : CharacterMotor
 
     private PlayerStats playerStats;
     private PlayerCombat cachedCombat;
+    private PlayerDash playerDash;
     private float currentStamina;
     private bool isSprintInputPressed;
     private bool isSprinting;
@@ -20,12 +21,18 @@ public class PlayerController : CharacterMotor
     public void SetSprintInput(bool pressed) => isSprintInputPressed = pressed;
 
     public bool IsSprinting => isSprinting;
+    public bool IsDashing => playerDash != null && playerDash.IsDashing;
+    public float CurrentStamina => playerStats != null ? playerStats.CurrentStamina : currentStamina;
+    public float MaxStamina => playerStats != null ? playerStats.MaxStamina : maxStamina;
 
     protected override void Awake()
     {
         base.Awake();
         playerStats = GetComponent<PlayerStats>();
         cachedCombat = GetComponent<PlayerCombat>();
+        playerDash = GetComponent<PlayerDash>();
+        if (playerDash == null)
+            playerDash = gameObject.AddComponent<PlayerDash>();
         currentStamina = maxStamina;
     }
 
@@ -67,29 +74,48 @@ public class PlayerController : CharacterMotor
 
     private void HandleStamina()
     {
-        float effectiveDrain = staminaDrainRate;
-        float effectiveRegen = staminaRegenRate;
-        if (playerStats != null)
+        float effectiveDrain = playerStats != null ? staminaDrainRate / playerStats.StaminaEfficiency : staminaDrainRate;
+        float effectiveRegen = playerStats != null ? staminaRegenRate * playerStats.StaminaEfficiency : staminaRegenRate;
+
+        if (IsDashing)
         {
-            effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
-            effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
+            isSprinting = false;
+            RecoverStamina(effectiveRegen * Time.deltaTime);
+            return;
         }
 
-        if (isSprintInputPressed && IsMoving && currentStamina > 0)
+        if (isSprintInputPressed && IsMoving && CurrentStamina > 0f)
         {
             isSprinting = true;
-            currentStamina -= effectiveDrain * Time.deltaTime;
-            if (currentStamina < 0) currentStamina = 0f;
+            SpendStamina(effectiveDrain * Time.deltaTime);
         }
         else
         {
             isSprinting = false;
-            if (currentStamina < maxStamina)
-            {
-                currentStamina += effectiveRegen * Time.deltaTime;
-                if (currentStamina > maxStamina) currentStamina = maxStamina;
-            }
+            RecoverStamina(effectiveRegen * Time.deltaTime);
         }
+    }
+
+    private void SpendStamina(float amount)
+    {
+        if (playerStats != null)
+        {
+            playerStats.SpendStamina(Mathf.Min(amount, playerStats.CurrentStamina));
+            return;
+        }
+
+        currentStamina = Mathf.Max(0f, currentStamina - amount);
+    }
+
+    private void RecoverStamina(float amount)
+    {
+        if (playerStats != null)
+        {
+            playerStats.RecoverStamina(amount);
+            return;
+        }
+
+        currentStamina = Mathf.Min(maxStamina, currentStamina + amount);
     }
 
     protected override Vector2 GetVelocity()
@@ -104,6 +130,9 @@ public class PlayerController : CharacterMotor
             Rb.linearVelocity = Vector2.zero;
             return;
         }
+
+        if (IsDashing)
+            return;
 
         if (cachedCombat != null && cachedCombat.IsAttacking)
         {
