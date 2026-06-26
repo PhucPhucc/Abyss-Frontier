@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class StandardAnimatorDriver : CharacterAnimationHandler
@@ -6,6 +7,7 @@ public class StandardAnimatorDriver : CharacterAnimationHandler
     private CharacterMotor motor;
     private PlayerStats playerStats;
     private PlayerController playerController;
+    private PlayerDash playerDash;
 
     private void Awake()
     {
@@ -13,6 +15,7 @@ public class StandardAnimatorDriver : CharacterAnimationHandler
         motor = GetComponent<CharacterMotor>();
         playerStats = GetComponent<PlayerStats>();
         playerController = GetComponent<PlayerController>();
+        playerDash = GetComponent<PlayerDash>();
     }
 
     private void Update()
@@ -21,30 +24,111 @@ public class StandardAnimatorDriver : CharacterAnimationHandler
             return;
 
         if (playerStats != null && playerStats.IsDead)
-        {
-            animator.SetBool("isWalk", false);
-            animator.SetBool("isRun", false);
             return;
-        }
 
         animator.SetFloat("moveX", motor.LastDirection.x);
         animator.SetFloat("moveY", motor.LastDirection.y);
-        animator.SetBool("isWalk", motor.IsMoving);
-        animator.SetBool("isRun", playerController != null && playerController.IsSprinting);
+        animator.SetBool("isWalk", motor.IsMoving || (playerDash != null && playerDash.IsDashing));
+        animator.SetBool("isRun", IsDashOrSprintActive());
+    }
+
+    private bool IsDashOrSprintActive()
+    {
+        if (playerDash != null && playerDash.IsDashing)
+            return true;
+
+        return playerController != null && playerController.IsSprinting;
     }
 
     public override void TriggerHurt()
     {
-        animator?.SetTrigger("hurt");
+        SetTriggerIfExists("hurt");
     }
 
     public override void TriggerAttack()
     {
-        animator?.SetTrigger("Attack");
+        SetTriggerIfExists("Attack");
+        SetTriggerIfExists("attack");
     }
 
     public override void TriggerDeath()
     {
-        animator?.SetTrigger("death");
+        SetTriggerIfExists("die");
+        SetTriggerIfExists("death");
+    }
+
+    public override IEnumerator WaitForDeathAnimationRoutine()
+    {
+        if (animator == null)
+        {
+            yield return new WaitForSeconds(1f);
+            yield break;
+        }
+
+        const float enterTimeout = 0.5f;
+        float enterElapsed = 0f;
+        while (enterElapsed < enterTimeout && !IsInDeathState())
+        {
+            enterElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        while (IsInDeathState() && GetDeathNormalizedTime() < 1f)
+            yield return null;
+
+        if (animator != null)
+            animator.speed = 0f;
+    }
+
+    private bool IsInDeathState()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.IsName("Death") || stateInfo.IsName("die");
+    }
+
+    private float GetDeathNormalizedTime()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.normalizedTime;
+    }
+
+    public override void TriggerRespawn()
+    {
+        if (animator == null)
+            return;
+
+        animator.speed = 1f;
+        ResetTriggerIfExists("die");
+        ResetTriggerIfExists("death");
+        ResetTriggerIfExists("hurt");
+        ResetTriggerIfExists("Attack");
+        ResetTriggerIfExists("attack");
+    }
+
+    private void SetTriggerIfExists(string parameterName)
+    {
+        if (animator == null || !HasParameter(parameterName))
+            return;
+
+        animator.SetTrigger(parameterName);
+    }
+
+    private void ResetTriggerIfExists(string parameterName)
+    {
+        if (animator == null || !HasParameter(parameterName))
+            return;
+
+        animator.ResetTrigger(parameterName);
+    }
+
+    private bool HasParameter(string parameterName)
+    {
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if (parameter.name == parameterName)
+                return true;
+        }
+
+        return false;
     }
 }

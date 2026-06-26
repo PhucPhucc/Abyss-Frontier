@@ -15,6 +15,7 @@ public class PlayerCombat : MonoBehaviour
 
     private PlayerController playerController;
     private PlayerStats playerStats;
+    private PlayerDash playerDash;
     private CharacterAnimationHandler animHandler;
     private InputAction attackAction;
     private float nextAttackTime = 0f;
@@ -25,6 +26,7 @@ public class PlayerCombat : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         playerStats = GetComponent<PlayerStats>();
+        playerDash = GetComponent<PlayerDash>();
         animHandler = GetComponent<CharacterAnimationHandler>();
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
@@ -36,6 +38,9 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        if (playerDash != null && playerDash.IsDashing)
+            return;
+
         if (attackAction != null && attackAction.WasPressedThisFrame() && Time.time >= nextAttackTime)
         {
             PerformAttack();

@@ -6,6 +6,7 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
     private CharacterMotor motor;
     private PlayerStats playerStats;
     private PlayerController playerController;
+    private PlayerDash playerDash;
 
     private void Awake()
     {
@@ -13,6 +14,7 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
         motor = GetComponent<CharacterMotor>();
         playerStats = GetComponent<PlayerStats>();
         playerController = GetComponent<PlayerController>();
+        playerDash = GetComponent<PlayerDash>();
     }
 
     private void Update()
@@ -21,18 +23,22 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
             return;
 
         if (playerStats != null && playerStats.IsDead)
-        {
-            // animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", false);
             return;
-        }
 
         animator.SetFloat("moveX", motor.LastDirection.x);
         animator.SetFloat("moveY", motor.LastDirection.y);
         animator.SetFloat("lastMoveX", motor.LastDirection.x);
         animator.SetFloat("lastMoveY", motor.LastDirection.y);
         // animator.SetBool("isWalking", motor.IsMoving);
-        animator.SetBool("isRunning", playerController != null && playerController.IsSprinting);
+        animator.SetBool("isRunning", IsDashOrSprintActive());
+    }
+
+    private bool IsDashOrSprintActive()
+    {
+        if (playerDash != null && playerDash.IsDashing)
+            return true;
+
+        return playerController != null && playerController.IsSprinting;
     }
 
     public override void TriggerHurt()
@@ -48,5 +54,11 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
     public override void TriggerDeath()
     {
         // animator?.SetTrigger("death");
+    }
+
+    public override void TriggerRespawn()
+    {
+        if (animator != null)
+            animator.speed = 1f;
     }
 }
