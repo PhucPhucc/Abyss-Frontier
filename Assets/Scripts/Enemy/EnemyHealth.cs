@@ -141,24 +141,18 @@ public class EnemyHealth : MonoBehaviour
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
 
-        GrantExpToPlayer();
+        DropExpOrbs();
 
         Destroy(gameObject, destroyDelay);
         Debug.Log($"[EnemyHealth] {name} đã chết.");
     }
 
-    private void GrantExpToPlayer()
+    private void DropExpOrbs()
     {
         if (statsDefinition == null) return;
 
         int expReward = statsDefinition.GetExpReward((int)enemyLevel);
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            PlayerStats ps = player.GetComponent<PlayerStats>();
-            if (ps != null)
-                ps.AddExp(expReward);
-        }
+        ExpDropSpawner.Spawn(transform.position, expReward);
     }
 
     private IEnumerator HitFlashRoutine()
