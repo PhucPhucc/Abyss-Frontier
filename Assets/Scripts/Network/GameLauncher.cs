@@ -1,3 +1,4 @@
+using System.Linq;
 using Fusion;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ public class GameLauncher : MonoBehaviour
     {
         if (runner != null && runner.IsRunning)
         {
-            GUILayout.Label($"Connected as {runner.GameMode} | Players: {runner.ActivePlayers.Count}");
+            GUILayout.Label($"Connected as {runner.GameMode} | Players: {runner.ActivePlayers.Count()}");
             if (GUILayout.Button("Disconnect"))
             {
                 runner.Shutdown();

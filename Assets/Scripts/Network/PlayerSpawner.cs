@@ -10,6 +10,7 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private Vector3 spawnOffset = Vector3.zero;
 
     private NetworkRunner runner;
+    private int playerCount;
 
     private void Awake()
     {
@@ -33,17 +34,18 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             return;
         }
 
-        Vector3 spawnPos = new Vector3(player.RawIndex * 2f, 0, 0) + spawnOffset;
+        Vector3 spawnPos = new Vector3(playerCount * 2f, 0, 0) + spawnOffset;
         NetworkObject spawned = runner.Spawn(playerPrefab, spawnPos, Quaternion.identity, player);
 
-        Debug.Log($"Spawned Player {player.RawIndex}");
+        Debug.Log($"Spawned Player {playerCount}");
+        playerCount++;
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         if (!runner.IsServer) return;
 
-        foreach (var obj in runner.GetAllObjects())
+        foreach (var obj in runner.GetAllNetworkObjects())
         {
             if (obj != null && obj.InputAuthority == player)
             {
