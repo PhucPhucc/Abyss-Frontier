@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -7,6 +8,9 @@ public class PlayerHealth : MonoBehaviour
     private PlayerStats playerStats;
     private CharacterAnimationHandler animHandler;
     private bool isDead;
+    private bool isInvulnerable;
+    private Coroutine invulnerabilityFlashRoutine;
+    private Coroutine deathSequenceRoutine;
 
     public event System.Action<int, int> HealthChanged;
     public event System.Action Died;
@@ -14,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public int MaxHealth => playerStats != null ? playerStats.MaxHealth : 70;
     public bool IsDead => isDead;
+    public bool IsInvulnerable => isInvulnerable;
     public float HealthFraction => MaxHealth <= 0 ? 0f : currentHealth / (float)MaxHealth;
 
     private void Awake()
@@ -30,7 +35,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isDead || damage <= 0) return;
+        if (isDead || damage <= 0 || isInvulnerable) return;
 
         if (playerStats != null && Random.value < playerStats.DodgeChance)
         {
@@ -58,13 +63,100 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("Player has died.");
         AudioManager.Instance?.PlayPlayerDeath();
-        animHandler?.TriggerDeath();
         if (playerStats != null)
-        {
             playerStats.ResetExpToZero();
+
+        if (deathSequenceRoutine != null)
+            StopCoroutine(deathSequenceRoutine);
+        deathSequenceRoutine = StartCoroutine(DeathSequenceRoutine());
+    }
+
+    private IEnumerator DeathSequenceRoutine()
+    {
+        animHandler?.TriggerDeath();
+        Died?.Invoke();
+
+        if (animHandler != null)
+            yield return animHandler.WaitForDeathAnimationRoutine();
+        else
+            yield return new WaitForSeconds(1f);
+
+        DeathScreenUI.ShowDeath(this);
+        deathSequenceRoutine = null;
+    }
+
+    public void Respawn()
+    {
+        if (deathSequenceRoutine != null)
+        {
+            StopCoroutine(deathSequenceRoutine);
+            deathSequenceRoutine = null;
         }
 
-        Died?.Invoke();
+        isDead = false;
+        SetInvulnerable(false);
+        currentHealth = MaxHealth;
+        NotifyHealthChanged();
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
+        animHandler?.TriggerRespawn();
+
+        PlayerStats stats = GetComponent<PlayerStats>();
+        stats?.RestoreVitals();
+    }
+
+    public void SetInvulnerable(bool value)
+    {
+        if (isInvulnerable == value)
+            return;
+
+        isInvulnerable = value;
+
+        if (invulnerabilityFlashRoutine != null)
+        {
+            StopCoroutine(invulnerabilityFlashRoutine);
+            invulnerabilityFlashRoutine = null;
+        }
+
+        if (isInvulnerable)
+            invulnerabilityFlashRoutine = StartCoroutine(InvulnerabilityFlashRoutine());
+        else
+            ResetSpriteAlpha();
+    }
+
+    private IEnumerator InvulnerabilityFlashRoutine()
+    {
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+        float flashInterval = 0.06f;
+
+        while (isInvulnerable)
+        {
+            float alpha = Mathf.PingPong(Time.time / flashInterval, 1f) > 0.5f ? 0.45f : 1f;
+            SetSpriteAlpha(renderers, alpha);
+            yield return null;
+        }
+
+        ResetSpriteAlpha();
+        invulnerabilityFlashRoutine = null;
+    }
+
+    private static void SetSpriteAlpha(SpriteRenderer[] renderers, float alpha)
+    {
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (renderer == null) continue;
+            Color color = renderer.color;
+            color.a = alpha;
+            renderer.color = color;
+        }
+    }
+
+    private void ResetSpriteAlpha()
+    {
+        SetSpriteAlpha(GetComponentsInChildren<SpriteRenderer>(), 1f);
     }
 
     public void Heal(int amount)

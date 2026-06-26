@@ -12,6 +12,12 @@ public class CharacterMotor : MonoBehaviour
     public bool IsMoving => MoveInput.sqrMagnitude > 0.01f;
     public Rigidbody2D Rb => rb;
 
+    public void SetLastDirection(Vector2 direction)
+    {
+        if (direction.sqrMagnitude > 0.01f)
+            LastDirection = direction.normalized;
+    }
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
