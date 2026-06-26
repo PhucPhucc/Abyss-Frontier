@@ -37,6 +37,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Max(0, currentHealth);
 
+        AudioManager.Instance?.PlayPlayerHurt();
         animHandler?.TriggerHurt();
 
         if (currentHealth <= 0)
@@ -51,6 +52,7 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
 
         Debug.Log("Player has died.");
+        AudioManager.Instance?.PlayPlayerDeath();
         animHandler?.TriggerDeath();
         if (playerStats != null)
         {

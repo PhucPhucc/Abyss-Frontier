@@ -110,6 +110,8 @@ public class EnemyHealth : MonoBehaviour
 
     private void PlayHurt(Vector2 knockbackDirection)
     {
+        AudioManager.Instance?.PlayEnemyHurt();
+
         if (anim != null)
         {
          

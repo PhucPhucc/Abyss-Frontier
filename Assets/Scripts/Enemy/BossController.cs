@@ -121,6 +121,7 @@ public class BossController : MonoBehaviour
         state = BossState.Attack;
         isAttacking = true;
         rb.linearVelocity = Vector2.zero;
+        AudioManager.Instance?.PlayEnemyAttack();
         if (anim != null)
         {
             anim.SetBool("isMoving", false);

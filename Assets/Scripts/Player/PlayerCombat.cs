@@ -45,6 +45,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformAttack()
     {
+        AudioManager.Instance?.PlayPlayerAttack();
         animHandler?.TriggerAttack();
 
         if (attackHitDelay > 0f)
