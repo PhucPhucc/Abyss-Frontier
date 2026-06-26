@@ -59,6 +59,7 @@ public class EnemyAI : MonoBehaviour
     public bool IsDead => isDead;
 
     private KnockbackHandler knockback; // Xử lý hiệu ứng knockback
+    private bool hasMoveParams;         // Cờ kiểm tra Animator có các tham số hướng (moveX, lastMoveX...) hay không
 
     private void Awake()
     {
@@ -66,6 +67,18 @@ public class EnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         knockback = GetComponent<KnockbackHandler>();
+
+        if (anim != null)
+        {
+            foreach (var param in anim.parameters)
+            {
+                if (param.name == "lastMoveX")
+                {
+                    hasMoveParams = true;
+                    break;
+                }
+            }
+        }
     }
 
     private void Start()
@@ -215,7 +228,7 @@ public class EnemyAI : MonoBehaviour
             lastDirection = dir;
 
             // Cập nhật hướng mặt cho Animator (quan trọng để hitbox trùng hướng)
-            if (anim != null)
+            if (anim != null && hasMoveParams)
             {
                 anim.SetFloat("lastMoveX", dir.x);
                 anim.SetFloat("lastMoveY", dir.y);
@@ -290,13 +303,14 @@ public class EnemyAI : MonoBehaviour
         {
             Vector2 animDir = moveVelocity.normalized;
 
-            anim.SetFloat("moveX", animDir.x);
-            anim.SetFloat("moveY", animDir.y);
+            if (hasMoveParams)
+            {
+                anim.SetFloat("moveX", animDir.x);
+                anim.SetFloat("moveY", animDir.y);
+                anim.SetFloat("lastMoveX", animDir.x);
+                anim.SetFloat("lastMoveY", animDir.y);
+            }
             anim.SetBool("isMoving", true);
-
-            // Lưu hướng cuối cùng để Animator dùng khi idle
-            anim.SetFloat("lastMoveX", animDir.x);
-            anim.SetFloat("lastMoveY", animDir.y);
         }
         else
         {
