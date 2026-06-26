@@ -8,25 +8,29 @@ public class PlayerHealth : MonoBehaviour
     private CharacterAnimationHandler animHandler;
     private bool isDead;
 
+    public event System.Action<int, int> HealthChanged;
+    public event System.Action Died;
+
     public int CurrentHealth => currentHealth;
     public int MaxHealth => playerStats != null ? playerStats.MaxHealth : 70;
     public bool IsDead => isDead;
+    public float HealthFraction => MaxHealth <= 0 ? 0f : currentHealth / (float)MaxHealth;
 
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
         animHandler = GetComponent<CharacterAnimationHandler>();
+        ResetHealthState();
     }
 
     private void Start()
     {
-        currentHealth = MaxHealth;
-        isDead = false;
+        ResetHealthState();
     }
 
     public void TakeDamage(int damage)
     {
-        if (isDead) return;
+        if (isDead || damage <= 0) return;
 
         if (playerStats != null && Random.value < playerStats.DodgeChance)
         {
@@ -36,6 +40,7 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= damage;
         currentHealth = Mathf.Max(0, currentHealth);
+        NotifyHealthChanged();
 
         animHandler?.TriggerHurt();
 
@@ -56,17 +61,37 @@ public class PlayerHealth : MonoBehaviour
         {
             playerStats.ResetExpToZero();
         }
+
+        Died?.Invoke();
     }
 
     public void Heal(int amount)
     {
-        if (isDead) return;
-        currentHealth = Mathf.Min(currentHealth + amount, MaxHealth);
+        if (isDead || amount <= 0) return;
+
+        int newHealth = Mathf.Min(currentHealth + amount, MaxHealth);
+        if (newHealth == currentHealth) return;
+
+        currentHealth = newHealth;
+        NotifyHealthChanged();
     }
 
     public void RestoreFullHealth()
     {
         currentHealth = MaxHealth;
         isDead = false;
+        NotifyHealthChanged();
+    }
+
+    private void ResetHealthState()
+    {
+        currentHealth = MaxHealth;
+        isDead = false;
+        NotifyHealthChanged();
+    }
+
+    private void NotifyHealthChanged()
+    {
+        HealthChanged?.Invoke(currentHealth, MaxHealth);
     }
 }

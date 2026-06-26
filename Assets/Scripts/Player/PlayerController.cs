@@ -17,6 +17,8 @@ public class PlayerController : CharacterMotor
     private bool isSprinting;
 
     public bool IsSprinting => isSprinting;
+    public float CurrentStamina => playerStats != null ? playerStats.CurrentStamina : currentStamina;
+    public float MaxStamina => playerStats != null ? playerStats.MaxStamina : maxStamina;
 
     protected override void Awake()
     {
@@ -63,27 +65,41 @@ public class PlayerController : CharacterMotor
 
     private void HandleStamina()
     {
-        if (playerStats != null)
-        {
-            float effectiveDrain = staminaDrainRate / playerStats.StaminaEfficiency;
-            float effectiveRegen = staminaRegenRate * playerStats.StaminaEfficiency;
-        }
+        float effectiveDrain = playerStats != null ? staminaDrainRate / playerStats.StaminaEfficiency : staminaDrainRate;
+        float effectiveRegen = playerStats != null ? staminaRegenRate * playerStats.StaminaEfficiency : staminaRegenRate;
 
-        if (isSprintInputPressed && IsMoving && currentStamina > 0)
+        if (isSprintInputPressed && IsMoving && CurrentStamina > 0f)
         {
             isSprinting = true;
-            currentStamina -= staminaDrainRate * Time.deltaTime;
-            if (currentStamina < 0) currentStamina = 0f;
+            SpendStamina(effectiveDrain * Time.deltaTime);
         }
         else
         {
             isSprinting = false;
-            if (currentStamina < maxStamina)
-            {
-                currentStamina += staminaRegenRate * Time.deltaTime;
-                if (currentStamina > maxStamina) currentStamina = maxStamina;
-            }
+            RecoverStamina(effectiveRegen * Time.deltaTime);
         }
+    }
+
+    private void SpendStamina(float amount)
+    {
+        if (playerStats != null)
+        {
+            playerStats.SpendStamina(Mathf.Min(amount, playerStats.CurrentStamina));
+            return;
+        }
+
+        currentStamina = Mathf.Max(0f, currentStamina - amount);
+    }
+
+    private void RecoverStamina(float amount)
+    {
+        if (playerStats != null)
+        {
+            playerStats.RecoverStamina(amount);
+            return;
+        }
+
+        currentStamina = Mathf.Min(maxStamina, currentStamina + amount);
     }
 
     protected override Vector2 GetVelocity()
