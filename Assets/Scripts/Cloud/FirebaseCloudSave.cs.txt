@@ -1,0 +1,124 @@
+/*
+ * HƯỚNG DẪN CÀI FIREBASE (làm sau khi code ổn định)
+ *
+ * 1. Download Firebase Unity SDK: https://firebase.google.com/docs/unity/setup
+ * 2. Import package: Assets → Import Package → Custom Package → FirebaseAuth + FirebaseFirestore
+ * 3. Kéo file google-services.json vào Assets/
+ * 4. Tạo file này thành .cs, code dưới đây:
+
+using Firebase;
+using Firebase.Auth;
+using Firebase.Extensions;
+using System.Threading.Tasks;
+using UnityEngine;
+using System.Collections.Generic;
+
+public class FirebaseCloudSave : MonoBehaviour, IAuthService, ICloudSaveService, ILeaderboardService
+{
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
+    private string _userId;
+
+    public bool IsLoggedIn => auth != null && auth.CurrentUser != null;
+    public string UserId => _userId;
+    public string DisplayName => auth?.CurrentUser?.DisplayName ?? "";
+
+    void Start()
+    {
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Result == DependencyStatus.Available)
+            {
+                auth = FirebaseAuth.DefaultInstance;
+                db = FirebaseFirestore.DefaultInstance;
+                Debug.Log("Firebase ready");
+            }
+        });
+    }
+
+    public async Task<AuthResult> LoginAnonymously()
+    {
+        var result = await auth.SignInAnonymouslyAsync();
+        _userId = result.User.UserId;
+        return new AuthResult { Success = true, UserId = _userId };
+    }
+
+    public async Task<AuthResult> LoginWithEmail(string email, string password)
+    {
+        var result = await auth.SignInWithEmailAndPasswordAsync(email, password);
+        _userId = result.User.UserId;
+        return new AuthResult { Success = true, UserId = _userId };
+    }
+
+    public async Task<AuthResult> RegisterWithEmail(string email, string password)
+    {
+        var result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
+        _userId = result.User.UserId;
+        return new AuthResult { Success = true, UserId = _userId };
+    }
+
+    public void Logout() { auth.SignOut(); _userId = null; }
+
+    public async Task<bool> SavePlayerData(string userId, string json)
+    {
+        var doc = db.Collection("users").Document(userId);
+        var data = new Dictionary<string, object> { { "data", json }, { "updatedAt", Timestamp.GetCurrentTimestamp() } };
+        await doc.SetAsync(data);
+        return true;
+    }
+
+    public async Task<string> LoadPlayerData(string userId)
+    {
+        var doc = await db.Collection("users").Document(userId).GetSnapshotAsync();
+        return doc.Exists && doc.TryGetValue("data", out string json) ? json : null;
+    }
+
+    public async Task<bool> SavePlayerStats(string userId, int level, int exp, int[] stats)
+    {
+        var doc = db.Collection("users").Document(userId);
+        var data = new Dictionary<string, object> { { "level", level }, { "exp", exp }, { "stats", stats } };
+        await doc.UpdateAsync(data);
+        return true;
+    }
+
+    public async Task<bool> SubmitScore(string userId, string displayName, int score)
+    {
+        var doc = db.Collection("leaderboard").Document(userId);
+        await doc.SetAsync(new Dictionary<string, object> { { "name", displayName }, { "score", score } });
+        return true;
+    }
+
+    public async Task<List<LeaderboardEntry>> GetTopScores(int count = 10)
+    {
+        var query = db.Collection("leaderboard").OrderByDescending("score").Limit(count);
+        var snap = await query.GetSnapshotAsync();
+        var list = new List<LeaderboardEntry>();
+        int rank = 1;
+        foreach (var doc in snap.Documents)
+        {
+            list.Add(new LeaderboardEntry
+            {
+                UserId = doc.Id,
+                DisplayName = doc.GetValue<string>("name"),
+                Score = doc.GetValue<int>("score"),
+                Rank = rank++
+            });
+        }
+        return list;
+    }
+
+    public async Task<int> GetPlayerRank(string userId)
+    {
+        var all = await db.Collection("leaderboard").OrderByDescending("score").GetSnapshotAsync();
+        int rank = 1;
+        foreach (var doc in all.Documents)
+        {
+            if (doc.Id == userId) return rank;
+            rank++;
+        }
+        return -1;
+    }
+}
+*/
+
+// Xoá comment ở trên và đổi tên file thành FirebaseCloudSave.cs sau khi import SDK

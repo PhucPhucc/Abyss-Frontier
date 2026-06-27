@@ -21,7 +21,6 @@ public static class SetupPhotonFusion
 
         go.AddComponent<NetworkRunner>();
         go.AddComponent<NetworkSceneManagerDefault>();
-        go.AddComponent<NetworkObjectProviderDefault>();
         go.AddComponent<PlayerSpawner>();
         go.AddComponent<InputHandler>();
 
@@ -35,7 +34,7 @@ public static class SetupPhotonFusion
     [MenuItem("Tools/Fusion/Setup Player Prefab")]
     public static void SetupPlayerPrefab()
     {
-        string path = "Assets/Prefabs/Player.prefab";
+        string path = "Assets/Prefabs/Player/Player.prefab";
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
         if (prefab == null) { Debug.LogError($"Player prefab not found at {path}"); return; }
 

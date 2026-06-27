@@ -1,4 +1,5 @@
 using Fusion;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,6 +32,16 @@ public class NetworkPlayer : NetworkBehaviour
 
         if (playerCombat != null)
             playerCombat.UseNetworkInput = true;
+
+        if (Object.HasInputAuthority)
+            AssignCameraTarget();
+    }
+
+    private void AssignCameraTarget()
+    {
+        var cam = FindFirstObjectByType<CinemachineCamera>();
+        if (cam != null)
+            cam.Follow = transform;
     }
 
     public override void FixedUpdateNetwork()

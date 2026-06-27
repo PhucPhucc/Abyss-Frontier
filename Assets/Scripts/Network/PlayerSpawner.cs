@@ -6,17 +6,22 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField] private NetworkObject playerPrefab;
-    [SerializeField] private Vector3 spawnOffset = Vector3.zero;
+    [SerializeField] private NetworkObject[] playerPrefabs;
+    [SerializeField] private string spawnPointTag = "SpawnPoint";
 
     private NetworkRunner runner;
-    private int playerCount;
+    private Transform[] spawnPoints;
 
     private void Awake()
     {
         runner = GetComponent<NetworkRunner>();
         if (runner != null)
             runner.AddCallbacks(this);
+
+        var found = GameObject.FindGameObjectsWithTag(spawnPointTag);
+        spawnPoints = new Transform[found.Length];
+        for (int i = 0; i < found.Length; i++)
+            spawnPoints[i] = found[i].transform;
     }
 
     private void OnDestroy()
@@ -28,17 +33,19 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         if (!runner.IsServer) return;
-        if (playerPrefab == null)
+        if (playerPrefabs == null || playerPrefabs.Length == 0)
         {
-            Debug.LogError("PlayerSpawner: playerPrefab not assigned!");
+            Debug.LogError("PlayerSpawner: No player prefabs assigned!");
             return;
         }
 
-        Vector3 spawnPos = new Vector3(playerCount * 2f, 0, 0) + spawnOffset;
-        NetworkObject spawned = runner.Spawn(playerPrefab, spawnPos, Quaternion.identity, player);
+        NetworkObject prefab = playerPrefabs[player.PlayerId % playerPrefabs.Length];
+        Vector3 spawnPos = spawnPoints.Length > 0
+            ? spawnPoints[player.PlayerId % spawnPoints.Length].position
+            : Vector3.zero;
+        NetworkObject spawned = runner.Spawn(prefab, spawnPos, Quaternion.identity, player);
 
-        Debug.Log($"Spawned Player {playerCount}");
-        playerCount++;
+        Debug.Log($"Spawned {prefab.name} for Player {player.PlayerId} at {spawnPos}");
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

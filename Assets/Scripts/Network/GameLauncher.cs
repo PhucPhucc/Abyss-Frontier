@@ -7,8 +7,16 @@ public class GameLauncher : MonoBehaviour
 {
     [SerializeField] private NetworkRunner runnerPrefab;
     [SerializeField] private string sessionName = "AbyssFrontier";
+    [SerializeField] private bool autoStartAsHost = true;
+    [SerializeField] private int maxPlayers = 4;
 
     private NetworkRunner runner;
+
+    private void Start()
+    {
+        if (autoStartAsHost)
+            _ = StartConnection(GameMode.Host);
+    }
 
     private void OnGUI()
     {
@@ -65,7 +73,6 @@ public class GameLauncher : MonoBehaviour
             SessionName = sessionName,
             Scene = sceneRef,
             SceneManager = sceneManager,
-            ObjectProvider = runner.GetComponent<INetworkObjectProvider>(),
         };
 
         var result = await runner.StartGame(args);
