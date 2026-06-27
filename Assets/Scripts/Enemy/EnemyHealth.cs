@@ -47,6 +47,7 @@ public class EnemyHealth : MonoBehaviour
     public event System.Action Died;
 
     public bool IsDead => isDead;
+    public bool CanTakeDamage { get; set; } = true;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public EnemyLevel EnemyLevel => enemyLevel;
@@ -102,7 +103,7 @@ public class EnemyHealth : MonoBehaviour
     /// <param name="stunDuration">Thời gian choáng (‑1 = dùng default)</param>
     public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackDuration = 0.15f, float stunDuration = -1f, Transform source = null)
     {
-        if (isDead) return;
+        if (isDead || !CanTakeDamage) return;
 
         // Tính sát thương thực tế sau khi trừ phòng thủ (tối thiểu 1)
         int actualDamage = Mathf.Max(1, damage - def);
