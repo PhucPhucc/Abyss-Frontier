@@ -7105,16 +7105,6 @@ Transform:
   - {fileID: 220581109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &850006498 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6128751287789344534, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
-  m_PrefabInstance: {fileID: 2035545426}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &850006499 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 685809648111881464, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
-  m_PrefabInstance: {fileID: 2035545426}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &900000200
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7434,7 +7424,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 390619798272326007, guid: b460535d2a29c410393a5eaf86940fa6, type: 3}
       insertIndex: 2
-      addedObject: {fileID: 850006499}
+      addedObject: {fileID: 2068089199}
     - targetCorrespondingSourceObject: {fileID: 390619798272326007, guid: b460535d2a29c410393a5eaf86940fa6, type: 3}
       insertIndex: 3
       addedObject: {fileID: 1224740662}
@@ -9030,7 +9020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   pausePanel: {fileID: 1856881967}
-  settingsPanel: {fileID: 850006498}
+  settingsPanel: {fileID: 2068089198}
   winPanel: {fileID: 1224740661}
   losePanel: {fileID: 359459653}
 --- !u!4 &1945331982
@@ -9328,6 +9318,18 @@ PrefabInstance:
     - target: {fileID: 2328958886456262492, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617933233363186572, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1945331981}
+    - target: {fileID: 2617933233363186572, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToPause
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617933233363186572, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3077134029618221558, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9653,6 +9655,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8060163013112264973, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1945331981}
+    - target: {fileID: 8060163013112264973, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToPause
+      objectReference: {fileID: 0}
+    - target: {fileID: 8060163013112264973, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8093758998350416384, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9723,6 +9737,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+--- !u!1 &2068089198 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3433717048838902542, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+  m_PrefabInstance: {fileID: 2035545426}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2068089199 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5990922560143428242, guid: c168a4fbfb6234de0a26b4f1dbfb82e2, type: 3}
+  m_PrefabInstance: {fileID: 2035545426}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2142063024
 GameObject:
   m_ObjectHideFlags: 0
