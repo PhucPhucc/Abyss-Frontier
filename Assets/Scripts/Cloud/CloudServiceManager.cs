@@ -35,7 +35,16 @@ public class CloudServiceManager : MonoBehaviour
 
     private void InitializeFirebase()
     {
-        Debug.LogError("Firebase chưa được import. Đặt useFirebase = false hoặc cài Firebase SDK.");
+#if FB_SDK
+        var fb = new FirebaseCloudSave();
+        fb.Initialize();
+        Auth = fb;
+        Save = fb;
+        Leaderboard = fb;
+        Debug.Log("CloudService: Firebase mode");
+#else
+        Debug.LogError("FB_SDK chưa được define. Đặt useFirebase = false hoặc thêm FB_SDK vào Scripting Define Symbols.");
         InitializeDummy();
+#endif
     }
 }

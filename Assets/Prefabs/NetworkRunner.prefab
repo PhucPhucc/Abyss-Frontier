@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawner
   playerPrefabs:
   - {fileID: 9208008763610891285, guid: e322d32492427030981dd7867f830602, type: 3}
-  - {fileID: 8209169786295263925, guid: eb830a45103d68105bded8750206c52e, type: 3}
+  - {fileID: 9208008763610891285, guid: e322d32492427030981dd7867f830602, type: 3}
   - {fileID: 4202224350288137877, guid: bd6a6936ca0a66b4eb5d69254d3108e9, type: 3}
   spawnPointTag: SpawnPoint
 --- !u!114 &3902067582174227131

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,9 +7,13 @@ using UnityEngine;
 /// </summary>
 public class EnemyHealth : MonoBehaviour
 {
+    public static HashSet<string> KilledEnemyIds { get; } = new HashSet<string>();
     [Header("Stats Definition")]
     [SerializeField] private EnemyLevel enemyLevel = EnemyLevel.Level1;   // Cấp độ của enemy (1-3)
     [SerializeField] private EnemyStats statsDefinition;                   // ScriptableObject chứa chỉ số gốc
+
+    [Header("Save")]
+    [SerializeField] private string saveId;             // ID duy nhất để lưu trạng thái (cần set trên prefab/scene instance)
 
     [Header("Health")]
     [SerializeField] private int maxHealth = 30;       // Máu tối đa (sẽ được ghi đè bởi statsDefinition nếu có)
@@ -38,8 +43,16 @@ public class EnemyHealth : MonoBehaviour
     public event System.Action<int, int> HealthChanged;
     public event System.Action Died;
 
+    public string SaveId => saveId;
     public bool IsDead => isDead;
     public int CurrentHealth => currentHealth;
+
+    public void SetCurrentHealth(int value)
+    {
+        currentHealth = Mathf.Clamp(value, 0, maxHealth);
+        isDead = currentHealth <= 0;
+        NotifyHealthChanged();
+    }
     public int MaxHealth => maxHealth;
     public EnemyLevel EnemyLevel => enemyLevel;
     public float HealthFraction => maxHealth <= 0 ? 0f : currentHealth / (float)maxHealth;
@@ -137,6 +150,9 @@ public class EnemyHealth : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        if (!string.IsNullOrEmpty(saveId))
+            KilledEnemyIds.Add(saveId);
 
         if (enemyAI != null)
             enemyAI.OnDeath();
