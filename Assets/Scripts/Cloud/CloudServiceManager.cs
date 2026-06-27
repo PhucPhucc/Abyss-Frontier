@@ -9,6 +9,9 @@ public class CloudServiceManager : MonoBehaviour
     public ICloudSaveService Save { get; private set; }
     public ILeaderboardService Leaderboard { get; private set; }
 
+    public bool IsAuthReady { get; private set; }
+    public event System.Action AuthReady;
+
     private static CloudServiceManager _instance;
     public static CloudServiceManager Instance => _instance;
 
@@ -22,6 +25,22 @@ public class CloudServiceManager : MonoBehaviour
             InitializeFirebase();
         else
             InitializeDummy();
+    }
+
+    private async void Start()
+    {
+        if (Auth != null)
+        {
+            var result = await Auth.LoginAnonymously();
+            IsAuthReady = result.Success;
+            if (result.Success)
+            {
+                Debug.Log($"Auth OK: {result.UserId}");
+                AuthReady?.Invoke();
+            }
+            else
+                Debug.LogError($"Auth failed: {result.ErrorMessage}");
+        }
     }
 
     private void InitializeDummy()

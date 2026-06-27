@@ -9,6 +9,28 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        if (CloudServiceManager.Instance != null)
+            CloudServiceManager.Instance.AuthReady += OnAuthReady;
+        else
+            UpdateContinueButton();
+
+        if (ContinueButton != null)
+            ContinueButton.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (CloudServiceManager.Instance != null)
+            CloudServiceManager.Instance.AuthReady -= OnAuthReady;
+    }
+
+    private void OnAuthReady()
+    {
+        UpdateContinueButton();
+    }
+
+    private void UpdateContinueButton()
+    {
         if (ContinueButton != null)
             ContinueButton.SetActive(SaveManager.Instance != null && SaveManager.Instance.HasSavedGame);
     }
