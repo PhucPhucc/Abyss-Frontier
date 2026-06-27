@@ -48,6 +48,9 @@ MonoBehaviour:
   statsDefinition: {fileID: 11400000, guid: 8a9dbbd45d5f4135b298e10a9e50d986, type: 2}
   maxHealth: 120
   destroyDelay: 2
+  respawnOnDeath: 0
+  respawnDelay: 5
+  respawnAtInitialPosition: 1
   defaultStunDuration: 0
 --- !u!114 &11400002
 MonoBehaviour:

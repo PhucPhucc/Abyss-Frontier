@@ -17,6 +17,11 @@ public class EnemyHealth : MonoBehaviour
     [Header("Death")]
     [SerializeField] private float destroyDelay = 1.5f; // Thời gian trước khi xóa object sau khi chết
 
+    [Header("Respawn")]
+    [SerializeField] private bool respawnOnDeath = true;
+    [SerializeField, Min(0f)] private float respawnDelay = 5f;
+    [SerializeField] private bool respawnAtInitialPosition = true;
+
     [Header("Flash on Hit")]
     [SerializeField] private bool enableHitFlash = true; // Bật/tắt hiệu ứng nhấp nháy khi trúng đòn
     [SerializeField] private float flashDuration = 0.1f; // Thời gian flash
@@ -34,6 +39,9 @@ public class EnemyHealth : MonoBehaviour
     private Color originalColor;
     private KnockbackHandler knockbackHandler;
     private bool hasMoveParams;
+    private Vector3 initialRespawnPosition;
+    private Quaternion initialRespawnRotation;
+    private Transform initialRespawnParent;
 
     public event System.Action<int, int> HealthChanged;
     public event System.Action Died;
@@ -51,6 +59,9 @@ public class EnemyHealth : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         knockbackHandler = GetComponent<KnockbackHandler>();
+        initialRespawnPosition = transform.position;
+        initialRespawnRotation = transform.rotation;
+        initialRespawnParent = transform.parent;
 
         if (anim != null)
         {
@@ -136,6 +147,7 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         if (isDead) return;
+        ScheduleRespawn();
         isDead = true;
 
         if (enemyAI != null)
@@ -153,6 +165,45 @@ public class EnemyHealth : MonoBehaviour
 
         Destroy(gameObject, destroyDelay);
         Debug.Log($"[EnemyHealth] {name} đã chết.");
+    }
+
+    private void ScheduleRespawn()
+    {
+        if (!respawnOnDeath)
+            return;
+
+        Vector3 respawnPosition = respawnAtInitialPosition ? initialRespawnPosition : transform.position;
+        Quaternion respawnRotation = respawnAtInitialPosition ? initialRespawnRotation : transform.rotation;
+        Transform respawnParent = initialRespawnParent != null ? initialRespawnParent : transform.parent;
+
+        GameObject respawnClone = Instantiate(gameObject, respawnPosition, respawnRotation, respawnParent);
+        respawnClone.name = gameObject.name;
+        PrepareRespawnClone(respawnClone);
+        respawnClone.SetActive(false);
+
+        EnemyRespawnRunner.Schedule(respawnClone, Mathf.Max(0f, respawnDelay));
+        Debug.Log($"[EnemyHealth] {name} respawn scheduled in {respawnDelay:0.##} seconds.");
+    }
+
+    private void PrepareRespawnClone(GameObject respawnClone)
+    {
+        Rigidbody2D cloneRigidbody = respawnClone.GetComponent<Rigidbody2D>();
+        if (cloneRigidbody != null)
+        {
+            cloneRigidbody.linearVelocity = Vector2.zero;
+            cloneRigidbody.angularVelocity = 0f;
+        }
+
+        Animator cloneAnimator = respawnClone.GetComponent<Animator>();
+        if (cloneAnimator != null)
+        {
+            cloneAnimator.Rebind();
+            cloneAnimator.Update(0f);
+        }
+
+        SpriteRenderer cloneSpriteRenderer = respawnClone.GetComponent<SpriteRenderer>();
+        if (cloneSpriteRenderer != null)
+            cloneSpriteRenderer.color = originalColor;
     }
 
     private void DropExpOrbs()
@@ -174,5 +225,46 @@ public class EnemyHealth : MonoBehaviour
     private void NotifyHealthChanged()
     {
         HealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+}
+
+internal sealed class EnemyRespawnRunner : MonoBehaviour
+{
+    private static EnemyRespawnRunner instance;
+
+    public static void Schedule(GameObject enemyToRespawn, float delay)
+    {
+        if (enemyToRespawn == null)
+            return;
+
+        Instance.StartCoroutine(Instance.RespawnRoutine(enemyToRespawn, delay));
+    }
+
+    private static EnemyRespawnRunner Instance
+    {
+        get
+        {
+            if (instance != null)
+                return instance;
+
+            GameObject runnerObject = new GameObject("Enemy Respawn Runner");
+            instance = runnerObject.AddComponent<EnemyRespawnRunner>();
+            return instance;
+        }
+    }
+
+    private IEnumerator RespawnRoutine(GameObject enemyToRespawn, float delay)
+    {
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
+
+        if (enemyToRespawn != null)
+            enemyToRespawn.SetActive(true);
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 }

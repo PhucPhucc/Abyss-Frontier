@@ -198,6 +198,9 @@ MonoBehaviour:
   maxHealth: 500
   currentHealth: 0
   destroyDelay: 2.0
+  respawnOnDeath: 0
+  respawnDelay: 5
+  respawnAtInitialPosition: 1
   enableHitFlash: 1
   flashDuration: 0.12
   flashColor: {r: 1, g: 0.1, b: 0.1, a: 1}
