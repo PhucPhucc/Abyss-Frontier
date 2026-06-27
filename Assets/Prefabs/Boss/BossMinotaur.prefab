@@ -214,10 +214,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11110000222200003333000044440000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
+  bossDisplayName: Minotaur
+  triggerVictoryOnDeath: 1
+  introDuration: 1.5
+  facingHitOffset: 0.8
+  spriteFacesLeftByDefault: 1
   moveSpeed: 1.5
   attackRange: 1.8
   attackDamage: 25
   attackHitDelay: 0.5
+  attackAnimTailDuration: 0.6
   attackCooldown: 1.8
   attackAoERadius: 1.8
   playerLayer:
