@@ -175,12 +175,14 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
 {curve}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {{fileID: 0}}
+    flags: 2
   m_SampleRate: {SAMPLE_RATE}
   m_WrapMode: 0
   m_Bounds:
