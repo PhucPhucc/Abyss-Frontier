@@ -90,7 +90,7 @@ public class PlayerCombat : MonoBehaviour
                 if (knockbackDir == Vector2.zero)
                     knockbackDir = facingDirection;
 
-                enemyHealth.TakeDamage(damage, knockbackDir);
+                enemyHealth.TakeDamage(damage, knockbackDir, source: transform);
             }
         }
     }

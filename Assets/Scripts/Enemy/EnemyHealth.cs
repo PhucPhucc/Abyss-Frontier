@@ -100,7 +100,7 @@ public class EnemyHealth : MonoBehaviour
     /// <param name="knockbackDirection">Hướng đẩy lùi</param>
     /// <param name="knockbackDuration">Thời gian đẩy lùi</param>
     /// <param name="stunDuration">Thời gian choáng (‑1 = dùng default)</param>
-    public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackDuration = 0.15f, float stunDuration = -1f)
+    public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackDuration = 0.15f, float stunDuration = -1f, Transform source = null)
     {
         if (isDead) return;
 
@@ -118,6 +118,10 @@ public class EnemyHealth : MonoBehaviour
             float actualStun = stunDuration >= 0f ? stunDuration : defaultStunDuration;
             knockbackHandler.PlayKnockback(knockbackDirection, knockbackDuration, actualStun);
         }
+
+        // Khi bị tấn công, báo cho EnemyAI để chuyển sang trạng thái Chase
+        if (source != null && enemyAI != null)
+            enemyAI.OnHit(source);
 
         if (currentHealth <= 0)
             Die();
