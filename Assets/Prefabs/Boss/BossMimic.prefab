@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_Component:
+  - component: {fileID: 400000}
+  - component: {fileID: 21200000}
+  - component: {fileID: 9500000}
+  - component: {fileID: 5000000}
+  - component: {fileID: 6100000}
+  - component: {fileID: 11400001}
+  - component: {fileID: 11400002}
+  m_Layer: 3
+  m_Name: BossMimic
+  m_TagString: Enemy
+--- !u!4 &400000
+Transform:
+  m_GameObject: {fileID: 100000}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
+--- !u!212 &21200000
+SpriteRenderer:
+  m_GameObject: {fileID: 100000}
+  m_Sprite: {fileID: -8398500527302845922, guid: ddabc777bebb15642a62c7be014d8f24, type: 3}
+  m_SortingLayerID: 769353063
+  m_SortingLayer: 5
+--- !u!95 &9500000
+Animator:
+  m_GameObject: {fileID: 100000}
+  m_Controller: {fileID: 9100000, guid: 18ba109cc8d44ef7969efc5a43494493, type: 2}
+--- !u!50 &5000000
+Rigidbody2D:
+  m_GameObject: {fileID: 100000}
+  m_BodyType: 0
+  m_GravityScale: 0
+  m_Constraints: 4
+  m_Mass: 8
+--- !u!61 &6100000
+BoxCollider2D:
+  m_GameObject: {fileID: 100000}
+  m_Offset: {x: 0, y: 0.3}
+  m_Size: {x: 0.9, y: 0.7}
+--- !u!114 &11400001
+MonoBehaviour:
+  m_GameObject: {fileID: 100000}
+  m_Script: {fileID: 11500000, guid: 262d2a8427f8846848f479ce4c056396, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  enemyLevel: 1
+  statsDefinition: {fileID: 11400000, guid: 9f21801c9bff4031b5de2de7983f809e, type: 2}
+  maxHealth: 220
+  destroyDelay: 2
+  defaultStunDuration: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_GameObject: {fileID: 100000}
+  m_Script: {fileID: 11500000, guid: aabbccdd11223344556677889900aabb, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::MimicBossController
+  bossDisplayName: Mimic Boss
+  triggerVictoryOnDeath: 0
+  introDuration: 0
+  facingHitOffset: 0.65
+  spriteFacesLeftByDefault: 1
+  moveSpeed: 1.4
+  attackRange: 1.7
+  attackDamage: 18
+  attackHitDelay: 0.45
+  attackAnimTailDuration: 0.55
+  attackCooldown: 1.7
+  attackAoERadius: 1.6
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  openingAnimDuration: 0.8
+  transformAnimDuration: 0.7
+  secondAttackTrigger: attack2

@@ -46,7 +46,6 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
         animator.SetFloat("lastMoveX", motor.LastDirection.x);
         animator.SetFloat("lastMoveY", motor.LastDirection.y);
 
-
         // XỬ LÝ LOGIC DI CHUYỂN (WALK & RUN)
         bool isMoving = motor.IsMoving;
         bool isSprinting = playerController != null && playerController.IsSprinting;
