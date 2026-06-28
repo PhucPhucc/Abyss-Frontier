@@ -21,6 +21,8 @@ public class PlayerCombat : MonoBehaviour
     private float nextAttackTime = 0f;
 
     public bool IsAttacking => Time.time < nextAttackTime;
+    public bool UseNetworkInput { get; set; }
+    public void SetAttackCooldown(float duration) => nextAttackTime = Time.time + duration;
 
     private void Awake()
     {
@@ -38,9 +40,9 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        if (UseNetworkInput) return;
         if (playerDash != null && playerDash.IsDashing)
             return;
-
         if (attackAction != null && attackAction.WasPressedThisFrame() && Time.time >= nextAttackTime)
         {
             PerformAttack();
@@ -69,6 +71,11 @@ public class PlayerCombat : MonoBehaviour
         // Hủy gây sát thương nếu Player đã chết trong lúc chờ
         if (playerStats == null || !playerStats.IsDead)
             TriggerAttackDamage();
+    }
+
+    public void TriggerAttackAnimationOnly()
+    {
+        animHandler?.TriggerAttack();
     }
 
     public void TriggerAttackDamage()

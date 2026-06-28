@@ -38,28 +38,28 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
             animator.SetBool("isWalking", false);
             animator.SetBool("isRunning", false);
             return;
+        }
 
-            // Cập nhật các tham số hướng di chuyển cho Blend Tree
-            animator.SetFloat("moveX", motor.LastDirection.x);
-            animator.SetFloat("moveY", motor.LastDirection.y);
-            animator.SetFloat("lastMoveX", motor.LastDirection.x);
-            animator.SetFloat("lastMoveY", motor.LastDirection.y);
+        // Cập nhật các tham số hướng di chuyển cho Blend Tree
+        animator.SetFloat("moveX", motor.LastDirection.x);
+        animator.SetFloat("moveY", motor.LastDirection.y);
+        animator.SetFloat("lastMoveX", motor.LastDirection.x);
+        animator.SetFloat("lastMoveY", motor.LastDirection.y);
 
-            // XỬ LÝ LOGIC DI CHUYỂN (WALK & RUN)
-            bool isMoving = motor.IsMoving;
-            bool isSprinting = playerController != null && playerController.IsSprinting;
+        // XỬ LÝ LOGIC DI CHUYỂN (WALK & RUN)
+        bool isMoving = motor.IsMoving;
+        bool isSprinting = playerController != null && playerController.IsSprinting;
 
-            // Đi bộ: Khi có di chuyển nhưng KHÔNG bấm giữ nút chạy nhanh
-            animator.SetBool("isWalking", isMoving && !isSprinting);
+        // Đi bộ: Khi có di chuyển nhưng KHÔNG bấm giữ nút chạy nhanh
+        animator.SetBool("isWalking", isMoving && !isSprinting);
 
-            // Chạy nhanh: Khi có di chuyển VÀ có bấm giữ nút chạy nhanh
-            animator.SetBool("isRunning", isMoving && isSprinting);
+        // Chạy nhanh: Khi có di chuyển VÀ có bấm giữ nút chạy nhanh
+        animator.SetBool("isRunning", isMoving && isSprinting);
 
-            // TỰ ĐỘNG RESET COMBO: Nếu người chơi đứng yên quá thời gian comboWindow, đưa combo về ban đầu
-            if (comboStep > 0 && Time.time - lastAttackTime > comboWindow)
-            {
-                ResetCombo();
-            }
+        // TỰ ĐỘNG RESET COMBO: Nếu người chơi đứng yên quá thời gian comboWindow, đưa combo về ban đầu
+        if (comboStep > 0 && Time.time - lastAttackTime > comboWindow)
+        {
+            ResetCombo();
         }
     }
 
@@ -119,11 +119,14 @@ public class HeroAnimatorDriver : CharacterAnimationHandler
         animator.SetTrigger("death");
     }
 
-    /// <summary>
-    /// Hàm hỗ trợ reset trạng thái combo về ban đầu
-    /// </summary>
     public void ResetCombo()
     {
         comboStep = 0;
+    }
+
+    public override void TriggerRespawn()
+    {
+        if (animator != null)
+            animator.speed = 1f;
     }
 }
