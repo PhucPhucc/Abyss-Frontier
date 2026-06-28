@@ -151,7 +151,7 @@ public class SaveManager : MonoBehaviour
         EnemyHealth.KilledEnemyIds.Clear();
         UnlockedFloors.Clear();
         UnlockedFloors.Add("floor_1");
-        SceneManager.LoadScene("floor_1");
+        SceneManager.LoadScene("quiz");
     }
 
     private GameSaveData _pendingRestoreData;

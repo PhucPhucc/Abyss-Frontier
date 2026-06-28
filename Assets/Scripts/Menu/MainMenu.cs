@@ -3,9 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject SettingsPanel;
-    public GameObject ContinueButton;
-    public GameObject LevelSelectPanel;
+    [SerializeField] private GameObject SettingsPanel;
+    [SerializeField] private GameObject ContinueButton;
+    [SerializeField] private GameObject LevelSelectPanel;
 
     private void Start()
     {
@@ -46,7 +46,7 @@ public class MainMenu : MonoBehaviour
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
         SaveManager.UnlockedFloors.Add("floor_1");
-        SceneManager.LoadScene("floor_1");
+        SceneManager.LoadScene("quiz");
     }
 
     public void OpenLevelSelect()
@@ -82,11 +82,13 @@ public class MainMenu : MonoBehaviour
 
     public void OpenSettings()
     {
-        SettingsPanel.SetActive(true);
+        if (SettingsPanel != null)
+            SettingsPanel.SetActive(true);
     }
 
     public void CloseSettings()
     {
-        SettingsPanel.SetActive(false);
+        if (SettingsPanel != null)
+            SettingsPanel.SetActive(false);
     }
 }

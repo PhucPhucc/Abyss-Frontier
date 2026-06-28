@@ -118,7 +118,6 @@ public class MenuFlowController : MonoBehaviour
         }
         else
         {
-            // Nếu chưa có bảng chọn nhân vật thì có thể vào thẳng Game hoặc báo lỗi
             Debug.LogWarning("[MenuFlow] Chưa gán CharacterSelectPanel! Tiến hành vào thẳng Game...");
             StartGame();
         }
@@ -158,8 +157,9 @@ public class MenuFlowController : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        Debug.Log($"[MenuFlow] Loading Scene: {GameSessionData.SelectedMapScene} | Mode: {(GameSessionData.IsMultiplayer ? "Multi" : "Single")} | CharIndex: {GameSessionData.SelectedCharacterIndex}");
-        SceneManager.LoadScene(GameSessionData.SelectedMapScene);
+        string scene = GameSessionData.SelectedMapScene == "floor_1" ? "quiz" : GameSessionData.SelectedMapScene;
+        Debug.Log($"[MenuFlow] Loading Scene: {scene} | Mode: {(GameSessionData.IsMultiplayer ? "Multi" : "Single")} | CharIndex: {GameSessionData.SelectedCharacterIndex}");
+        SceneManager.LoadScene(scene);
     }
     #endregion
 }
