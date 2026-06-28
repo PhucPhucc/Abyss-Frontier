@@ -48,6 +48,14 @@ MonoBehaviour:
   statsDefinition: {fileID: 11400000, guid: c98b8e1047cb497bbb56babec00cb169, type: 2}
   maxHealth: 160
   destroyDelay: 2
+  respawnOnDeath: 0
+  respawnDelay: 5
+  respawnAtInitialPosition: 1
+  currentHealth: 0
+  destroyDelay: 2.0
+  enableHitFlash: 1
+  flashDuration: 0.12
+  flashColor: {r: 1, g: 0.1, b: 0.1, a: 1}
   defaultStunDuration: 0
 --- !u!114 &11400002
 MonoBehaviour:
