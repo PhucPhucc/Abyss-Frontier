@@ -12,10 +12,13 @@ public class PlayerController : CharacterMotor
     [SerializeField] private float staminaRegenRate = 15f;
 
     private PlayerStats playerStats;
+    private PlayerCombat cachedCombat;
     private PlayerDash playerDash;
     private float currentStamina;
     private bool isSprintInputPressed;
     private bool isSprinting;
+
+    public void SetSprintInput(bool pressed) => isSprintInputPressed = pressed;
 
     public bool IsSprinting => isSprinting;
     public bool IsDashing => playerDash != null && playerDash.IsDashing;
@@ -26,6 +29,7 @@ public class PlayerController : CharacterMotor
     {
         base.Awake();
         playerStats = GetComponent<PlayerStats>();
+        cachedCombat = GetComponent<PlayerCombat>();
         playerDash = GetComponent<PlayerDash>();
         if (playerDash == null)
             playerDash = gameObject.AddComponent<PlayerDash>();
@@ -130,8 +134,7 @@ public class PlayerController : CharacterMotor
         if (IsDashing)
             return;
 
-        PlayerCombat combat = GetComponent<PlayerCombat>();
-        if (combat != null && combat.IsAttacking)
+        if (cachedCombat != null && cachedCombat.IsAttacking)
         {
             Rb.linearVelocity = Vector2.zero;
             return;

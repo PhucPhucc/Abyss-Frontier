@@ -21,6 +21,8 @@ public class PlayerCombat : MonoBehaviour
     private float nextAttackTime = 0f;
 
     public bool IsAttacking => Time.time < nextAttackTime;
+    public bool UseNetworkInput { get; set; }
+    public void SetAttackCooldown(float duration) => nextAttackTime = Time.time + duration;
 
     private void Awake()
     {
@@ -38,9 +40,9 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        if (UseNetworkInput) return;
         if (playerDash != null && playerDash.IsDashing)
             return;
-
         if (attackAction != null && attackAction.WasPressedThisFrame() && Time.time >= nextAttackTime)
         {
             PerformAttack();
@@ -71,6 +73,11 @@ public class PlayerCombat : MonoBehaviour
             TriggerAttackDamage();
     }
 
+    public void TriggerAttackAnimationOnly()
+    {
+        animHandler?.TriggerAttack();
+    }
+
     public void TriggerAttackDamage()
     {
         if (playerController == null) return;
@@ -90,7 +97,7 @@ public class PlayerCombat : MonoBehaviour
                 if (knockbackDir == Vector2.zero)
                     knockbackDir = facingDirection;
 
-                enemyHealth.TakeDamage(damage, knockbackDir);
+                enemyHealth.TakeDamage(damage, knockbackDir, source: transform);
             }
         }
     }

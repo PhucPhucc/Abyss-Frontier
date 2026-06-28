@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,9 +7,13 @@ using UnityEngine;
 /// </summary>
 public class EnemyHealth : MonoBehaviour
 {
+    public static HashSet<string> KilledEnemyIds { get; } = new HashSet<string>();
     [Header("Stats Definition")]
     [SerializeField] private EnemyLevel enemyLevel = EnemyLevel.Level1;   // Cấp độ của enemy (1-3)
     [SerializeField] private EnemyStats statsDefinition;                   // ScriptableObject chứa chỉ số gốc
+
+    [Header("Save")]
+    [SerializeField] private string saveId;             // ID duy nhất để lưu trạng thái (cần set trên prefab/scene instance)
 
     [Header("Health")]
     [SerializeField] private int maxHealth = 30;       // Máu tối đa (sẽ được ghi đè bởi statsDefinition nếu có)
@@ -16,6 +21,11 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Death")]
     [SerializeField] private float destroyDelay = 1.5f; // Thời gian trước khi xóa object sau khi chết
+
+    [Header("Respawn")]
+    [SerializeField] private bool respawnOnDeath = true;
+    [SerializeField, Min(0f)] private float respawnDelay = 5f;
+    [SerializeField] private bool respawnAtInitialPosition = true;
 
     [Header("Flash on Hit")]
     [SerializeField] private bool enableHitFlash = true; // Bật/tắt hiệu ứng nhấp nháy khi trúng đòn
@@ -34,13 +44,23 @@ public class EnemyHealth : MonoBehaviour
     private Color originalColor;
     private KnockbackHandler knockbackHandler;
     private bool hasMoveParams;
+    private Vector3 initialRespawnPosition;
+    private Quaternion initialRespawnRotation;
+    private Transform initialRespawnParent;
 
     public event System.Action<int, int> HealthChanged;
     public event System.Action Died;
 
+    public string SaveId => saveId;
     public bool IsDead => isDead;
-    public bool CanTakeDamage { get; set; } = true;
     public int CurrentHealth => currentHealth;
+
+    public void SetCurrentHealth(int value)
+    {
+        currentHealth = Mathf.Clamp(value, 0, maxHealth);
+        isDead = currentHealth <= 0;
+        NotifyHealthChanged();
+    }
     public int MaxHealth => maxHealth;
     public EnemyLevel EnemyLevel => enemyLevel;
     public float HealthFraction => maxHealth <= 0 ? 0f : currentHealth / (float)maxHealth;
@@ -52,6 +72,9 @@ public class EnemyHealth : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         knockbackHandler = GetComponent<KnockbackHandler>();
+        initialRespawnPosition = transform.position;
+        initialRespawnRotation = transform.rotation;
+        initialRespawnParent = transform.parent;
 
         if (anim != null)
         {
@@ -90,9 +113,9 @@ public class EnemyHealth : MonoBehaviour
     /// <param name="knockbackDirection">Hướng đẩy lùi</param>
     /// <param name="knockbackDuration">Thời gian đẩy lùi</param>
     /// <param name="stunDuration">Thời gian choáng (‑1 = dùng default)</param>
-    public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackDuration = 0.15f, float stunDuration = -1f)
+    public void TakeDamage(int damage, Vector2 knockbackDirection, float knockbackDuration = 0.15f, float stunDuration = -1f, Transform source = null)
     {
-        if (isDead || !CanTakeDamage) return;
+        if (isDead) return;
 
         // Tính sát thương thực tế sau khi trừ phòng thủ (tối thiểu 1)
         int actualDamage = Mathf.Max(1, damage - def);
@@ -108,6 +131,10 @@ public class EnemyHealth : MonoBehaviour
             float actualStun = stunDuration >= 0f ? stunDuration : defaultStunDuration;
             knockbackHandler.PlayKnockback(knockbackDirection, knockbackDuration, actualStun);
         }
+
+        // Khi bị tấn công, báo cho EnemyAI để chuyển sang trạng thái Chase
+        if (source != null && enemyAI != null)
+            enemyAI.OnHit(source);
 
         if (currentHealth <= 0)
             Die();
@@ -137,7 +164,11 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         if (isDead) return;
+        ScheduleRespawn();
         isDead = true;
+
+        if (!string.IsNullOrEmpty(saveId))
+            KilledEnemyIds.Add(saveId);
 
         if (enemyAI != null)
             enemyAI.OnDeath();
@@ -154,6 +185,45 @@ public class EnemyHealth : MonoBehaviour
 
         Destroy(gameObject, destroyDelay);
         Debug.Log($"[EnemyHealth] {name} đã chết.");
+    }
+
+    private void ScheduleRespawn()
+    {
+        if (!respawnOnDeath)
+            return;
+
+        Vector3 respawnPosition = respawnAtInitialPosition ? initialRespawnPosition : transform.position;
+        Quaternion respawnRotation = respawnAtInitialPosition ? initialRespawnRotation : transform.rotation;
+        Transform respawnParent = initialRespawnParent != null ? initialRespawnParent : transform.parent;
+
+        GameObject respawnClone = Instantiate(gameObject, respawnPosition, respawnRotation, respawnParent);
+        respawnClone.name = gameObject.name;
+        PrepareRespawnClone(respawnClone);
+        respawnClone.SetActive(false);
+
+        EnemyRespawnRunner.Schedule(respawnClone, Mathf.Max(0f, respawnDelay));
+        Debug.Log($"[EnemyHealth] {name} respawn scheduled in {respawnDelay:0.##} seconds.");
+    }
+
+    private void PrepareRespawnClone(GameObject respawnClone)
+    {
+        Rigidbody2D cloneRigidbody = respawnClone.GetComponent<Rigidbody2D>();
+        if (cloneRigidbody != null)
+        {
+            cloneRigidbody.linearVelocity = Vector2.zero;
+            cloneRigidbody.angularVelocity = 0f;
+        }
+
+        Animator cloneAnimator = respawnClone.GetComponent<Animator>();
+        if (cloneAnimator != null)
+        {
+            cloneAnimator.Rebind();
+            cloneAnimator.Update(0f);
+        }
+
+        SpriteRenderer cloneSpriteRenderer = respawnClone.GetComponent<SpriteRenderer>();
+        if (cloneSpriteRenderer != null)
+            cloneSpriteRenderer.color = originalColor;
     }
 
     private void DropExpOrbs()
@@ -175,5 +245,46 @@ public class EnemyHealth : MonoBehaviour
     private void NotifyHealthChanged()
     {
         HealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+}
+
+internal sealed class EnemyRespawnRunner : MonoBehaviour
+{
+    private static EnemyRespawnRunner instance;
+
+    public static void Schedule(GameObject enemyToRespawn, float delay)
+    {
+        if (enemyToRespawn == null)
+            return;
+
+        Instance.StartCoroutine(Instance.RespawnRoutine(enemyToRespawn, delay));
+    }
+
+    private static EnemyRespawnRunner Instance
+    {
+        get
+        {
+            if (instance != null)
+                return instance;
+
+            GameObject runnerObject = new GameObject("Enemy Respawn Runner");
+            instance = runnerObject.AddComponent<EnemyRespawnRunner>();
+            return instance;
+        }
+    }
+
+    private IEnumerator RespawnRoutine(GameObject enemyToRespawn, float delay)
+    {
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
+
+        if (enemyToRespawn != null)
+            enemyToRespawn.SetActive(true);
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 }

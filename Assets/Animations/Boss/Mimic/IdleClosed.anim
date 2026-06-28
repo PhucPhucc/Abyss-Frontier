@@ -18,15 +18,13 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - serializedVersion: 2
-    curve:
+  - curve:
     - time: 0.0
       value: {fileID: 6925981976626110918, guid: 6d28207c9ad3ccd42beec6ce517f81c3, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-    flags: 2
   m_SampleRate: 12
   m_WrapMode: 0
   m_Bounds:
@@ -50,7 +48,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.0833333
+    m_StopTime: 0.08333333333333333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

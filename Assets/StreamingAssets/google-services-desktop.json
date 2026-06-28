@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700690684157",
+    "project_id": "abyss-frontier",
+    "storage_bucket": "abyss-frontier.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700690684157:android:443807c9e57d88e0eec694",
+        "android_client_info": {
+          "package_name": "com.defaultcompany.abyssfrontier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkU1Ym_VXag_WQ_Omd8wOCS2j2IDUtW6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

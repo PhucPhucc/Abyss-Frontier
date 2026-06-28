@@ -8,6 +8,7 @@ public enum EnemyState
     Idle,    // Đứng yên, chờ
     Patrol,  // Đi tuần tra theo waypoint
     Chase,   // Đuổi theo Player
+    ReturnHome,
     Dead     // Đã chết
 }
 
@@ -23,6 +24,10 @@ public class EnemyAI : MonoBehaviour
     [Header("Detection")]
     [SerializeField] private float detectionRange = 4f;  // Khoảng cách phát hiện Player
     [SerializeField] private float loseRange = 6f;       // Khoảng cách mất dấu Player
+
+    [Header("Leash")]
+    [SerializeField, Min(0.1f)] private float leashRadius = 6f;
+    [SerializeField, Min(0.01f)] private float homeStoppingDistance = 0.15f;
 
     [Header("Patrol")]
     [SerializeField] private Transform[] waypoints;      // Danh sách điểm tuần tra
@@ -50,6 +55,7 @@ public class EnemyAI : MonoBehaviour
     private int waypointIndex = 0;                     // Chỉ số waypoint hiện tại
     private float timer = 0f;                          // Bộ đếm thời gian đa năng (chờ waypoint, chuyển trạng thái)
     private bool isDead = false;                       // Cờ chết
+    private Vector2 homePosition;
 
     // Public properties để các component khác (Animator, EnemyHealth...) truy xuất
     public Vector2 MoveVelocity => moveVelocity;
@@ -67,6 +73,7 @@ public class EnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         knockback = GetComponent<KnockbackHandler>();
+        homePosition = transform.position;
 
         if (anim != null)
         {
@@ -151,7 +158,7 @@ public class EnemyAI : MonoBehaviour
                 timer += Time.fixedDeltaTime;
                 if (timer >= 2f)
                 {
-                    if (target != null && dist <= detectionRange)
+                    if (target != null && dist <= detectionRange && IsTargetInsideLeash())
                         SetState(EnemyState.Chase);
                     else if (waypoints.Length > 0)
                         SetState(EnemyState.Patrol);
@@ -163,15 +170,22 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Patrol:
                 Patrol();
                 // Nếu phát hiện Player trong tầm thì chuyển sang Chase
-                if (target != null && dist <= detectionRange)
+                if (target != null && dist <= detectionRange && IsTargetInsideLeash())
                     SetState(EnemyState.Chase);
                 break;
 
             case EnemyState.Chase:
+                if (target == null || dist > loseRange || !IsTargetInsideLeash())
+                {
+                    BeginReturnHome();
+                    break;
+                }
+
                 Chase(dist);
-                // Nếu mất dấu Player thì quay về Patrol (nếu có waypoint) hoặc Idle
-                if (target == null || dist > loseRange)
-                    SetState(waypoints.Length > 0 ? EnemyState.Patrol : EnemyState.Idle);
+                break;
+
+            case EnemyState.ReturnHome:
+                ReturnHome();
                 break;
         }
     }
@@ -408,6 +422,77 @@ public class EnemyAI : MonoBehaviour
         state = EnemyState.Dead;
         moveVelocity = Vector2.zero;
         if (rb != null) rb.linearVelocity = Vector2.zero;
+    }
+
+    /// <summary>
+    /// Kiểm tra xem Player có còn trong phạm vi leash (dây xích) so với vị trí home hay không.
+    /// </summary>
+    private bool IsTargetInsideLeash()
+    {
+        if (target == null) return false;
+        float distFromHome = Vector2.Distance(target.position, homePosition);
+        return distFromHome <= leashRadius;
+    }
+
+    /// <summary>
+    /// Bắt đầu trạng thái quay về vị trí ban đầu (home).
+    /// </summary>
+    private void BeginReturnHome()
+    {
+        SetState(EnemyState.ReturnHome);
+        moveVelocity = Vector2.zero;
+        wasInAttackRange = false;
+        prepTimer = 0f;
+    }
+
+    /// <summary>
+    /// Di chuyển Enemy về vị trí home. Khi đến nơi thì chuyển sang Idle (hoặc Patrol nếu có waypoint).
+    /// </summary>
+    private void ReturnHome()
+    {
+        Vector2 dir = (homePosition - (Vector2)transform.position).normalized;
+        float dist = Vector2.Distance(transform.position, homePosition);
+
+        if (dist > homeStoppingDistance)
+        {
+            moveVelocity = dir * moveSpeed;
+            lastDirection = dir;
+        }
+        else
+        {
+            // Đã về đến home — dừng lại và chuyển về Idle (hoặc Patrol)
+            moveVelocity = Vector2.zero;
+            SetState(waypoints.Length > 0 ? EnemyState.Patrol : EnemyState.Idle);
+
+            // Reset lại timer để có khoảng dừng trước khi hành động tiếp
+            timer = 0f;
+        }
+
+        // Trong khi đang về nhà, nếu phát hiện Player lại trong tầm thì chase tiếp
+        if (target != null)
+        {
+            float distToPlayer = Vector2.Distance(transform.position, target.position);
+            if (distToPlayer <= detectionRange && IsTargetInsideLeash())
+                SetState(EnemyState.Chase);
+        }
+    }
+
+    /// <summary>
+    /// Gọi khi Enemy bị Player tấn công — chuyển sang trạng thái Chase ngay lập tức.
+    /// </summary>
+    public void OnHit(Transform attacker)
+    {
+        if (isDead) return;
+
+        target = attacker;
+
+        // Chỉ chuyển sang Chase nếu không đang trong trạng thái Dead
+        if (state != EnemyState.Dead)
+        {
+            SetState(EnemyState.Chase);
+            wasInAttackRange = false;
+            prepTimer = 0f;
+        }
     }
 
     /// <summary>
