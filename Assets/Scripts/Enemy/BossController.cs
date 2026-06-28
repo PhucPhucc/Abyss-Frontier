@@ -102,11 +102,6 @@ public class BossController : MonoBehaviour
         state = BossState.Chase;
     }
 
-    private void Update()
-    {
-        UpdateAnimator();
-    }
-
     protected virtual void FixedUpdate()
     {
         if (health != null && health.IsDead)
@@ -135,30 +130,16 @@ public class BossController : MonoBehaviour
         else if (state == BossState.Cooldown)
         {
             rb.linearVelocity = Vector2.zero;
+            if (anim != null) anim.SetBool("isMoving", false);
             if (cooldownTimer <= 0f) state = BossState.Chase;
         }
-    }
-
-    protected virtual void UpdateAnimator()
-    {
-        if (anim == null || state == BossState.Dead) return;
-
-        if (state == BossState.Intro)
-        {
-            anim.SetBool("isMoving", false);
-            return;
-        }
-
-        bool moving = state == BossState.Chase
-            && rb != null
-            && rb.linearVelocity.sqrMagnitude > 0.01f;
-        anim.SetBool("isMoving", moving);
     }
 
     protected virtual void ChaseTarget()
     {
         Vector2 dir = (target.position - transform.position).normalized;
         rb.linearVelocity = dir * moveSpeed;
+        if (anim != null) anim.SetBool("isMoving", true);
     }
 
     protected virtual void UpdateFacing()

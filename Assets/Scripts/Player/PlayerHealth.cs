@@ -170,6 +170,13 @@ public class PlayerHealth : MonoBehaviour
         NotifyHealthChanged();
     }
 
+    public void SetCurrentHealth(int value)
+    {
+        currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+        isDead = currentHealth <= 0;
+        NotifyHealthChanged();
+    }
+
     public void RestoreFullHealth()
     {
         currentHealth = MaxHealth;
