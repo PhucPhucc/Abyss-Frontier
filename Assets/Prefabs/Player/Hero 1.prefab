@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 9208008763610891285}
   - component: {fileID: -1241896850893788079}
   - component: {fileID: -6180724500082653247}
+  - component: {fileID: 7501734530995858348}
   m_Layer: 0
   m_Name: Hero 1
   m_TagString: Untagged
@@ -229,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70bac8a7f868b74b809f0e8ec85775f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 3
+  moveSpeed: 5
   sprintSpeed: 6
   maxStamina: 100
   staminaDrainRate: 20
@@ -363,3 +364,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e84eed862478411a563358a476e43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkPlayer
+--- !u!114 &7501734530995858348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023408540220568394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d0dce9dc3eb1a429413aa981ed2be9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashDistance: 2.5
+  dashDuration: 0.2
+  staminaCost: 20
+  cooldown: 0.4
+  invulnerabilityDuration: 0.25
+  afterimageInterval: 0.04
+  dashAnimatorSpeed: 1.75

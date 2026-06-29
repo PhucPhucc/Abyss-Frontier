@@ -40,12 +40,14 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log($"[PlayerSpawner] Player joined: {player.PlayerId}, Local: {runner.LocalPlayer.PlayerId}");
-        if (player != runner.LocalPlayer)
+
+        if (!runner.IsServer)
             return;
-        TrySpawnLocalPlayer();
+
+        TrySpawnPlayer(player);
     }
 
-    private async void TrySpawnLocalPlayer()
+    private async void TrySpawnPlayer(PlayerRef player)
     {
         if (alreadySpawning) return;
         alreadySpawning = true;
@@ -64,10 +66,18 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         var points = FindSpawnPoints();
-        NetworkObject prefab = playerPrefabs[0];
+
+        int prefabIndex;
+        if (player == runner.LocalPlayer)
+            prefabIndex = Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1);
+        else
+            prefabIndex = player.PlayerId % playerPrefabs.Length;
+
+        NetworkObject prefab = playerPrefabs[prefabIndex];
         Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;
-        await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, runner.LocalPlayer);
-        Debug.Log($"Spawned {prefab.name} at {spawnPos}");
+
+        await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, player);
+        Debug.Log($"Spawned {prefab.name} for player {player.PlayerId} at {spawnPos}");
 
         alreadySpawning = false;
     }
