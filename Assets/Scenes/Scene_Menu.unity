@@ -6890,6 +6890,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6901140029194636516, guid: 7d5c3b9ade52a384b9eba70c4359b101, type: 3}
+      propertyPath: m_Name
+      value: CloseBtn
+      objectReference: {fileID: 0}
     - target: {fileID: 7165145822263176452, guid: 7d5c3b9ade52a384b9eba70c4359b101, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7021,6 +7025,14 @@ PrefabInstance:
     - target: {fileID: 8197121312712596695, guid: 7d5c3b9ade52a384b9eba70c4359b101, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305058762279479310, guid: 7d5c3b9ade52a384b9eba70c4359b101, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1623541921}
+    - target: {fileID: 8305058762279479310, guid: 7d5c3b9ade52a384b9eba70c4359b101, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmExitByNo
       objectReference: {fileID: 0}
     - target: {fileID: 8397414137358161773, guid: 7d5c3b9ade52a384b9eba70c4359b101, type: 3}
       propertyPath: m_AnchorMax.y
