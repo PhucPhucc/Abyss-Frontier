@@ -47,9 +47,9 @@ public class MainMenu : MonoBehaviour
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
         SaveManager.UnlockedFloors.Add("floor_1");
-        var launcher = FindObjectOfType<GameLauncher>();
+        var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
-            _ = launcher.LaunchAsHost("quiz");
+            _ = launcher.LaunchAsSingleplayer("quiz");
         else
             SceneManager.LoadScene("quiz");
     }

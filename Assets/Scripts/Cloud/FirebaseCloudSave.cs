@@ -122,9 +122,17 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
     public async Task<bool> SavePlayerData(string userId, string json)
     {
 #if FB_SDK
+        var data = JsonUtility.FromJson<GameSaveData>(json);
+        if (data == null)
+        {
+            Debug.LogError("FirebaseCloudSave: Failed to parse save JSON");
+            return false;
+        }
+
         var doc = db.Collection("users").Document(userId);
-        var data = new Dictionary<string, object> { { "data", json }, { "updatedAt", Timestamp.GetCurrentTimestamp() } };
-        await doc.SetAsync(data);
+        var fields = DataToDict(data);
+        fields["updatedAt"] = Timestamp.GetCurrentTimestamp();
+        await doc.SetAsync(fields);
         return true;
 #else
         await Task.Yield();
@@ -135,13 +143,169 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
     public async Task<string> LoadPlayerData(string userId)
     {
 #if FB_SDK
-        var doc = await db.Collection("users").Document(userId).GetSnapshotAsync();
-        return doc.Exists && doc.TryGetValue("data", out string json) ? json : null;
+        var snap = await db.Collection("users").Document(userId).GetSnapshotAsync();
+        if (!snap.Exists)
+            return null;
+
+        var data = new GameSaveData
+        {
+            sceneName = snap.TryGetValue("sceneName", out string s) ? s : null,
+            saveTime = snap.TryGetValue("saveTime", out string t) ? t : null,
+            player = ReadPlayerData(snap),
+            enemies = ReadEnemyList(snap),
+            killedEnemyIds = ReadStringList(snap, "killedEnemyIds"),
+            unlockedFloors = ReadStringList(snap, "unlockedFloors"),
+        };
+
+        if (data.player == null)
+            return null;
+
+        return JsonUtility.ToJson(data);
 #else
         await Task.Yield();
         return null;
 #endif
     }
+
+#if FB_SDK
+    private Dictionary<string, object> DataToDict(GameSaveData data)
+    {
+        return new Dictionary<string, object>
+        {
+            ["sceneName"] = data.sceneName ?? "",
+            ["saveTime"] = data.saveTime ?? "",
+            ["player"] = PlayerToDict(data.player),
+            ["enemies"] = EnemiesToList(data.enemies),
+            ["killedEnemyIds"] = data.killedEnemyIds ?? new List<string>(),
+            ["unlockedFloors"] = data.unlockedFloors ?? new List<string>(),
+        };
+    }
+
+    private Dictionary<string, object> PlayerToDict(PlayerSaveData p)
+    {
+        return new Dictionary<string, object>
+        {
+            ["posX"] = p.posX,
+            ["posY"] = p.posY,
+            ["level"] = p.level,
+            ["currentExp"] = p.currentExp,
+            ["expToNextLevel"] = p.expToNextLevel,
+            ["availableStatPoints"] = p.availableStatPoints,
+            ["strength"] = p.strength,
+            ["dexterity"] = p.dexterity,
+            ["vitality"] = p.vitality,
+            ["agility"] = p.agility,
+            ["endurance"] = p.endurance,
+            ["intelligence"] = p.intelligence,
+            ["currentHealth"] = p.currentHealth,
+            ["maxHealth"] = p.maxHealth,
+            ["currentStamina"] = p.currentStamina,
+            ["maxStamina"] = p.maxStamina,
+            ["currentScene"] = p.currentScene ?? "",
+        };
+    }
+
+    private List<object> EnemiesToList(List<EnemySaveData> enemies)
+    {
+        var list = new List<object>();
+        if (enemies == null) return list;
+        foreach (var e in enemies)
+        {
+            list.Add(new Dictionary<string, object>
+            {
+                ["saveId"] = e.saveId ?? "",
+                ["isDead"] = e.isDead,
+                ["posX"] = e.posX,
+                ["posY"] = e.posY,
+                ["currentHealth"] = e.currentHealth,
+            });
+        }
+        return list;
+    }
+
+    private PlayerSaveData ReadPlayerData(DocumentSnapshot snap)
+    {
+        var player = new PlayerSaveData();
+
+        if (!snap.ContainsField("player"))
+            return null;
+
+        player.posX = snap.GetValue<float>("player.posX");
+        player.posY = snap.GetValue<float>("player.posY");
+        player.level = snap.GetValue<int>("player.level");
+        player.currentExp = snap.GetValue<int>("player.currentExp");
+        player.expToNextLevel = snap.GetValue<int>("player.expToNextLevel");
+        player.availableStatPoints = snap.GetValue<int>("player.availableStatPoints");
+        player.strength = snap.GetValue<int>("player.strength");
+        player.dexterity = snap.GetValue<int>("player.dexterity");
+        player.vitality = snap.GetValue<int>("player.vitality");
+        player.agility = snap.GetValue<int>("player.agility");
+        player.endurance = snap.GetValue<int>("player.endurance");
+        player.intelligence = snap.GetValue<int>("player.intelligence");
+        player.currentHealth = snap.GetValue<int>("player.currentHealth");
+        player.maxHealth = snap.GetValue<int>("player.maxHealth");
+        player.currentStamina = snap.GetValue<float>("player.currentStamina");
+        player.maxStamina = snap.GetValue<float>("player.maxStamina");
+        player.currentScene = snap.GetValue<string>("player.currentScene");
+
+        return player;
+    }
+
+    private List<EnemySaveData> ReadEnemyList(DocumentSnapshot snap)
+    {
+        var list = new List<EnemySaveData>();
+        if (!snap.ContainsField("enemies"))
+            return list;
+
+        var raw = snap.GetValue<List<object>>("enemies");
+        if (raw == null) return list;
+
+        foreach (var item in raw)
+        {
+            if (item is Dictionary<string, object> map)
+            {
+                list.Add(new EnemySaveData
+                {
+                    saveId = GetDictStr(map, "saveId"),
+                    isDead = GetDictBool(map, "isDead"),
+                    posX = GetDictFloat(map, "posX"),
+                    posY = GetDictFloat(map, "posY"),
+                    currentHealth = GetDictInt(map, "currentHealth"),
+                });
+            }
+        }
+        return list;
+    }
+
+    private List<string> ReadStringList(DocumentSnapshot snap, string field)
+    {
+        var list = new List<string>();
+        if (!snap.ContainsField(field))
+            return list;
+
+        var raw = snap.GetValue<List<object>>(field);
+        if (raw == null) return list;
+
+        foreach (var item in raw)
+        {
+            if (item is string s)
+                list.Add(s);
+        }
+        return list;
+    }
+
+    private string GetDictStr(Dictionary<string, object> dict, string key)
+        => dict.TryGetValue(key, out var v) && v is string s ? s : "";
+
+    private int GetDictInt(Dictionary<string, object> dict, string key)
+        => dict.TryGetValue(key, out var v) && v is long l ? (int)l : 0;
+
+    private float GetDictFloat(Dictionary<string, object> dict, string key)
+        => dict.TryGetValue(key, out var v) ? System.Convert.ToSingle(v) : 0f;
+
+    private bool GetDictBool(Dictionary<string, object> dict, string key)
+        => dict.TryGetValue(key, out var v) && v is bool b && b;
+#endif
 
     public async Task<bool> SavePlayerStats(string userId, int level, int exp, int[] stats)
     {

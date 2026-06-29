@@ -170,7 +170,7 @@ public class MenuFlowController : MonoBehaviour
         string scene = GameSessionData.SelectedMapScene == "floor_1" ? "quiz" : GameSessionData.SelectedMapScene;
         Debug.Log($"[MenuFlow] Scene: {scene} | Multiplayer: {GameSessionData.IsMultiplayer} | CharIndex: {GameSessionData.SelectedCharacterIndex}");
 
-        var launcher = FindObjectOfType<GameLauncher>();
+        var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher == null)
         {
             Debug.LogError("[MenuFlow] No GameLauncher found!");

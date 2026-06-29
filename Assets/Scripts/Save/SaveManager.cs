@@ -153,12 +153,12 @@ public class SaveManager : MonoBehaviour
 
         _pendingRestoreData = data;
 
-        var launcher = FindObjectOfType<GameLauncher>();
+        var launcher = FindFirstObjectByType<GameLauncher>();
         Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
         if (launcher != null)
         {
             SceneManager.sceneLoaded += OnSceneLoadedForRestore;
-            await launcher.LaunchAsHost(sceneName);
+            await launcher.LaunchAsSingleplayer(sceneName);
         }
         else
         {
@@ -173,10 +173,10 @@ public class SaveManager : MonoBehaviour
         EnemyHealth.KilledEnemyIds.Clear();
         UnlockedFloors.Clear();
         UnlockedFloors.Add("floor_1");
-        var launcher = FindObjectOfType<GameLauncher>();
+        var launcher = FindFirstObjectByType<GameLauncher>();
         Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
         if (launcher != null)
-            _ = launcher.LaunchAsHost("quiz");
+            _ = launcher.LaunchAsSingleplayer("quiz");
         else
             SceneManager.LoadScene("quiz");
     }

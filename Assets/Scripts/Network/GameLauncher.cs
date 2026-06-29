@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class GameLauncher : MonoBehaviour
 {
     [SerializeField] private NetworkRunner runnerPrefab;
-    [SerializeField] private string defaultSessionName = "AbyssFrontier";
     [SerializeField] private int maxPlayers = 4;
 
     private NetworkRunner runner;

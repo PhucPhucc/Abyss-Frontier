@@ -53,7 +53,7 @@ public class PauseManager : MonoBehaviour
             yield return new WaitUntil(() => task.IsCompleted);
         }
 
-        var launcher = FindObjectOfType<GameLauncher>();
+        var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
         {
             Debug.Log("[PauseManager] Destroying stale GameLauncher before returning to menu");
