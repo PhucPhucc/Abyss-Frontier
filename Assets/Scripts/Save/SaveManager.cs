@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,10 +49,16 @@ public class SaveManager : MonoBehaviour
     public void SaveGame()
     {
         if (CloudServiceManager.Instance?.Save == null) return;
-        _ = SaveAsync();
+        _ = SaveInternalAsync();
     }
 
-    private async System.Threading.Tasks.Task SaveAsync()
+    public async System.Threading.Tasks.Task SaveGameAsync()
+    {
+        if (CloudServiceManager.Instance?.Save == null) return;
+        await SaveInternalAsync();
+    }
+
+    private async System.Threading.Tasks.Task SaveInternalAsync()
     {
         var data = new GameSaveData();
         data.saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -108,22 +115,26 @@ public class SaveManager : MonoBehaviour
 
     public void ContinueGame()
     {
-        _ = LoadAsync();
+        _ = ContinueAsync();
     }
 
-    private async System.Threading.Tasks.Task LoadAsync()
+    private async System.Threading.Tasks.Task ContinueAsync()
     {
         var auth = CloudServiceManager.Instance?.Auth;
         var save = CloudServiceManager.Instance?.Save;
+        Debug.Log($"[SaveManager] ContinueAsync: auth={auth != null}, save={save != null}, userId={auth?.UserId}");
         if (auth == null || save == null)
         {
+            Debug.Log("[SaveManager] Auth or Save null → FallbackNewGame");
             FallbackNewGame();
             return;
         }
 
         string json = await save.LoadPlayerData(auth.UserId);
+        Debug.Log($"[SaveManager] LoadPlayerData: json={(json != null ? json.Substring(0, Mathf.Min(80, json.Length)) : "null")}");
         if (string.IsNullOrEmpty(json))
         {
+            Debug.Log("[SaveManager] No saved data → FallbackNewGame");
             FallbackNewGame();
             return;
         }
@@ -131,49 +142,59 @@ public class SaveManager : MonoBehaviour
         var data = JsonUtility.FromJson<GameSaveData>(json);
         if (data.player == null)
         {
+            Debug.Log("[SaveManager] Invalid save data (player=null) → FallbackNewGame");
             FallbackNewGame();
             return;
         }
 
-        if (!string.IsNullOrEmpty(data.sceneName) && data.sceneName != SceneManager.GetActiveScene().name)
+        string sceneName = data.sceneName;
+        if (string.IsNullOrEmpty(sceneName))
+            sceneName = "quiz";
+
+        _pendingRestoreData = data;
+
+        var launcher = FindObjectOfType<GameLauncher>();
+        Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
+        if (launcher != null)
         {
             SceneManager.sceneLoaded += OnSceneLoadedForRestore;
-            _pendingRestoreData = data;
-            SceneManager.LoadScene(data.sceneName);
-            return;
+            await launcher.LaunchAsHost(sceneName);
         }
-
-        ApplyRestore(data);
+        else
+        {
+            SceneManager.sceneLoaded += OnSceneLoadedForRestore;
+            SceneManager.LoadScene(sceneName);
+        }
     }
 
     private void FallbackNewGame()
     {
+        Debug.Log("[SaveManager] FallbackNewGame");
         EnemyHealth.KilledEnemyIds.Clear();
         UnlockedFloors.Clear();
         UnlockedFloors.Add("floor_1");
-        SceneManager.LoadScene("quiz");
+        var launcher = FindObjectOfType<GameLauncher>();
+        Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
+        if (launcher != null)
+            _ = launcher.LaunchAsHost("quiz");
+        else
+            SceneManager.LoadScene("quiz");
     }
 
     private GameSaveData _pendingRestoreData;
 
-    private void OnSceneLoadedForRestore(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    private void OnSceneLoadedForRestore(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnSceneLoadedForRestore;
-        if (_pendingRestoreData != null)
-        {
-            ApplyRestore(_pendingRestoreData);
-            _pendingRestoreData = null;
-        }
-    }
+        if (_pendingRestoreData == null) return;
 
-    private void ApplyRestore(GameSaveData data)
-    {
+        var data = _pendingRestoreData;
+        _pendingRestoreData = null;
+
         EnemyHealth.KilledEnemyIds.Clear();
         if (data.killedEnemyIds != null)
-        {
             foreach (var id in data.killedEnemyIds)
                 EnemyHealth.KilledEnemyIds.Add(id);
-        }
 
         UnlockedFloors.Clear();
         if (data.unlockedFloors != null && data.unlockedFloors.Count > 0)
@@ -181,21 +202,8 @@ public class SaveManager : MonoBehaviour
         else
             UnlockedFloors.Add("floor_1");
 
-        RestorePlayer(data);
         RestoreEnemies(data);
-    }
-
-    private void RestorePlayer(GameSaveData data)
-    {
-        var p = data.player;
-        var player = Object.FindFirstObjectByType<PlayerStats>();
-        if (player == null) return;
-
-        var health = player.GetComponent<PlayerHealth>();
-        if (health != null)
-            health.SetCurrentHealth(p.currentHealth);
-
-        player.transform.position = new Vector3(p.posX, p.posY, 0);
+        StartCoroutine(WaitForPlayerAndRestore(data));
     }
 
     private void RestoreEnemies(GameSaveData data)
@@ -206,14 +214,12 @@ public class SaveManager : MonoBehaviour
         {
             if (string.IsNullOrEmpty(enemy.SaveId)) continue;
 
-            // Destroy enemies that were killed and tracked
             if (EnemyHealth.KilledEnemyIds.Contains(enemy.SaveId))
             {
                 Destroy(enemy.gameObject);
                 continue;
             }
 
-            // Restore health for enemies that were alive
             if (data.enemies != null)
             {
                 foreach (var saveEnemy in data.enemies)
@@ -229,5 +235,23 @@ public class SaveManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator WaitForPlayerAndRestore(GameSaveData data)
+    {
+        PlayerStats player = null;
+        while (player == null)
+        {
+            player = Object.FindFirstObjectByType<PlayerStats>();
+            yield return null;
+        }
+
+        var p = data.player;
+        var health = player.GetComponent<PlayerHealth>();
+        if (health != null)
+            health.SetCurrentHealth(p.currentHealth);
+
+        player.transform.position = new Vector3(p.posX, p.posY, 0);
+        Debug.Log($"[SaveManager] Player restored: HP={p.currentHealth}, pos=({p.posX},{p.posY})");
     }
 }

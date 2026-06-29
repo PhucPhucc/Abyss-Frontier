@@ -93,7 +93,7 @@ public class MenuFlowController : MonoBehaviour
         GameSessionData.IsMultiplayer = (modeIndex == 1);
         Debug.Log($"[MenuFlow] Đã chọn chế độ chơi: {(GameSessionData.IsMultiplayer ? "Multiplayer" : "Singleplayer")}");
 
-        if (playModeNextButton != null) playModeNextButton.interactable = true;
+        OnPlayModeNextClicked();
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class MenuFlowController : MonoBehaviour
         GameSessionData.IsMultiplayer = isMultiplayer;
         Debug.Log($"[MenuFlow] Đã chọn chế độ chơi: {(GameSessionData.IsMultiplayer ? "Multiplayer" : "Singleplayer")}");
 
-        if (playModeNextButton != null) playModeNextButton.interactable = true;
+        OnPlayModeNextClicked();
     }
 
     /// <summary>
@@ -159,7 +159,12 @@ public class MenuFlowController : MonoBehaviour
     {
         string scene = GameSessionData.SelectedMapScene == "floor_1" ? "quiz" : GameSessionData.SelectedMapScene;
         Debug.Log($"[MenuFlow] Loading Scene: {scene} | Mode: {(GameSessionData.IsMultiplayer ? "Multi" : "Single")} | CharIndex: {GameSessionData.SelectedCharacterIndex}");
-        SceneManager.LoadScene(scene);
+
+        var launcher = FindObjectOfType<GameLauncher>();
+        if (launcher != null)
+            _ = launcher.LaunchAsHost(scene);
+        else
+            SceneManager.LoadScene(scene);
     }
     #endregion
 }

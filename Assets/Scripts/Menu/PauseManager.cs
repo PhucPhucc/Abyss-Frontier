@@ -1,6 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
@@ -8,15 +10,15 @@ public class PauseManager : MonoBehaviour
     private bool isPaused;
 
     private void Update()
-{
-    if (Keyboard.current.escapeKey.wasPressedThisFrame)
     {
-        if (isPaused)
-            ResumeGame();
-        else
-            PauseGame();
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            if (isPaused)
+                ResumeGame();
+            else
+                PauseGame();
+        }
     }
-}
 
     public void PauseGame()
     {
@@ -38,7 +40,26 @@ public class PauseManager : MonoBehaviour
 
     public void MainMenu()
     {
-    Time.timeScale = 1f;
-    SceneManager.LoadScene("Scene_Menu");
+        Debug.Log("PauseManager.MainMenu called - saving then quitting");
+        Time.timeScale = 1f;
+        StartCoroutine(SaveThenQuitRoutine());
+    }
+
+    private IEnumerator SaveThenQuitRoutine()
+    {
+        if (SaveManager.Instance != null)
+        {
+            var task = SaveManager.Instance.SaveGameAsync();
+            yield return new WaitUntil(() => task.IsCompleted);
+        }
+
+        var launcher = FindObjectOfType<GameLauncher>();
+        if (launcher != null)
+        {
+            Debug.Log("[PauseManager] Destroying stale GameLauncher before returning to menu");
+            Destroy(launcher.gameObject);
+        }
+
+        SceneManager.LoadScene("Scene_Menu");
     }
 }

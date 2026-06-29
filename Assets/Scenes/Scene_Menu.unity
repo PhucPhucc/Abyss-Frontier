@@ -5621,7 +5621,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 970175385}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1623541922}
+        m_TargetAssemblyTypeName: MenuFlowController, Assembly-CSharp
+        m_MethodName: SelectPlayMode
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &970175385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7723,6 +7735,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   SettingsPanel: {fileID: 0}
+  ContinueButton: {fileID: 0}
+  LevelSelectPanel: {fileID: 0}
 --- !u!114 &1250683972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7981,7 +7995,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1292368002}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1623541922}
+        m_TargetAssemblyTypeName: MenuFlowController, Assembly-CSharp
+        m_MethodName: SelectPlayMode
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1292368002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9640,6 +9666,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   SettingsPanel: {fileID: 0}
+  ContinueButton: {fileID: 0}
+  LevelSelectPanel: {fileID: 0}
 --- !u!114 &1623541922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10965,6 +10993,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1816619602}
   m_CullTransparentMesh: 1
+--- !u!1 &1828165600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1828165602}
+  - component: {fileID: 1828165601}
+  m_Layer: 0
+  m_Name: CloudManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1828165601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828165600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d7c7f5bbb66a3c1fa0ee313183fccce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloudServiceManager
+  useFirebase: 1
+--- !u!4 &1828165602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828165600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 422.95367, y: 428.08856, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1863793045
 GameObject:
   m_ObjectHideFlags: 0
@@ -11209,7 +11282,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.000061, y: -1.5049438}
+  m_AnchoredPosition: {x: -1.0001221, y: -1.5049438}
   m_SizeDelta: {x: -2, y: 3.02063}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888697221
@@ -11614,6 +11687,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004006310}
   m_CullTransparentMesh: 1
+--- !u!1 &2021635903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2021635905}
+  - component: {fileID: 2021635904}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2021635904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021635903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfeeb789000c7d4b98700423200ff79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameLauncher
+  runnerPrefab: {fileID: 7460146303897412028, guid: cae1c58cc6e421661973151e0bce55d6, type: 3}
+  sessionName: AbyssFrontier
+  maxPlayers: 4
+--- !u!4 &2021635905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021635903}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 422.95367, y: 428.08856, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2046112253
 GameObject:
   m_ObjectHideFlags: 0
@@ -12304,6 +12424,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -14.7614975
       objectReference: {fileID: 0}
+    - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1623541921}
+    - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9137069295283322271, guid: b71244f484d750349a93e6cb6203c523, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -12413,3 +12561,5 @@ SceneRoots:
   - {fileID: 1096761481}
   - {fileID: 711937839}
   - {fileID: 323065623}
+  - {fileID: 2021635905}
+  - {fileID: 1828165602}

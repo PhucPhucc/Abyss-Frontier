@@ -13,6 +13,7 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
 #if FB_SDK
     private FirebaseAuth auth;
     private FirebaseFirestore db;
+    private TaskCompletionSource<bool> initTcs = new TaskCompletionSource<bool>();
 #endif
     private string _userId;
 
@@ -41,6 +42,17 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
         }
     }
 
+    public bool IsReady { get; private set; }
+
+    public Task WaitForInit()
+    {
+#if FB_SDK
+        return initTcs.Task;
+#else
+        return Task.CompletedTask;
+#endif
+    }
+
     public void Initialize()
     {
 #if FB_SDK
@@ -51,6 +63,13 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
                 auth = FirebaseAuth.DefaultInstance;
                 db = FirebaseFirestore.DefaultInstance;
                 Debug.Log("Firebase ready");
+                IsReady = true;
+                initTcs.TrySetResult(true);
+            }
+            else
+            {
+                Debug.LogError($"Firebase init failed: {task.Result}");
+                initTcs.TrySetResult(false);
             }
         });
 #endif

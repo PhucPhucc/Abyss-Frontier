@@ -40,8 +40,30 @@ public class NetworkPlayer : NetworkBehaviour
     private void AssignCameraTarget()
     {
         var cam = FindFirstObjectByType<CinemachineCamera>();
-        if (cam != null)
+        if (cam == null)
+        {
+            GameObject camObj = new GameObject("PlayerCamera", typeof(CinemachineCamera));
+            cam = camObj.GetComponent<CinemachineCamera>();
+
+            cam.transform.SetPositionAndRotation(
+                new Vector3(transform.position.x, transform.position.y, -10f),
+                Quaternion.identity);
+            cam.Lens.OrthographicSize = 8f;
+
+            var follow = camObj.AddComponent<CinemachineFollow>();
+            follow.FollowOffset = new Vector3(0, 0, -10);
             cam.Follow = transform;
+
+            var brain = FindFirstObjectByType<CinemachineBrain>();
+            if (brain == null)
+            {
+                var mainCam = Camera.main;
+                if (mainCam != null)
+                    mainCam.gameObject.AddComponent<CinemachineBrain>();
+            }
+            return;
+        }
+        cam.Follow = transform;
     }
 
     public override void FixedUpdateNetwork()

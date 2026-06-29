@@ -58,8 +58,9 @@ public class UIManager : MonoBehaviour
 
     public void MainMenu()
     {
-    Time.timeScale = 1f;
-    SceneManager.LoadScene("Scene_Menu");
+        Debug.Log("UIManager.MainMenu called - loading Scene_Menu");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Scene_Menu");
     }
 
     public void OpenSettings()

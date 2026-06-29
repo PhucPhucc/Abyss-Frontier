@@ -34,10 +34,12 @@ public class LevelSelectUI : MonoBehaviour
     public void LoadLevel(string sceneName)
     {
         if (!SaveManager.IsFloorUnlocked(sceneName)) return;
-        if (sceneName == "floor_1")
-            SceneManager.LoadScene("quiz");
+        string target = sceneName == "floor_1" ? "quiz" : sceneName;
+        var launcher = FindObjectOfType<GameLauncher>();
+        if (launcher != null)
+            _ = launcher.LaunchAsHost(target);
         else
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadScene(target);
     }
 
     public void Close()

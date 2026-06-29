@@ -37,6 +37,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
+        Debug.Log($"[MainMenu] PlayGame called. SaveManager.Instance={(SaveManager.Instance != null)}, CloudAuth={CloudServiceManager.Instance?.Auth?.UserId}");
         SaveManager.Instance?.ContinueGame();
     }
 
@@ -46,7 +47,11 @@ public class MainMenu : MonoBehaviour
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
         SaveManager.UnlockedFloors.Add("floor_1");
-        SceneManager.LoadScene("quiz");
+        var launcher = FindObjectOfType<GameLauncher>();
+        if (launcher != null)
+            _ = launcher.LaunchAsHost("quiz");
+        else
+            SceneManager.LoadScene("quiz");
     }
 
     public void OpenLevelSelect()

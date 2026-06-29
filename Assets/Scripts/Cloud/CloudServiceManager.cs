@@ -29,18 +29,44 @@ public class CloudServiceManager : MonoBehaviour
 
     private async void Start()
     {
-        if (Auth != null)
+        if (Auth == null) return;
+
+        if (Auth is FirebaseCloudSave fb)
         {
-            var result = await Auth.LoginAnonymously();
-            IsAuthReady = result.Success;
-            if (result.Success)
+            await fb.WaitForInit();
+            if (!fb.IsReady)
             {
-                Debug.Log($"Auth OK: {result.UserId}");
-                AuthReady?.Invoke();
+                Debug.LogWarning("Firebase init failed, fallback to Dummy mode");
+                InitializeDummy();
             }
-            else
-                Debug.LogError($"Auth failed: {result.ErrorMessage}");
         }
+
+        AuthResult result;
+        try
+        {
+            result = await Auth.LoginAnonymously();
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log($"Auth exception (normal if Firebase not configured): {e.Message}");
+            result = new AuthResult { Success = false, ErrorMessage = e.Message };
+        }
+
+        if (!result.Success && Auth is FirebaseCloudSave)
+        {
+            Debug.LogWarning("Firebase login failed, fallback to Dummy mode");
+            InitializeDummy();
+            result = await Auth.LoginAnonymously();
+        }
+
+        IsAuthReady = result.Success;
+        if (result.Success)
+        {
+            Debug.Log($"Auth OK: {result.UserId}");
+            AuthReady?.Invoke();
+        }
+        else
+            Debug.LogError($"Auth failed: {result.ErrorMessage}");
     }
 
     private void InitializeDummy()

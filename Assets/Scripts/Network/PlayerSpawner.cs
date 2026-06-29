@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -11,17 +13,13 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private NetworkRunner runner;
     private Transform[] spawnPoints;
+    private bool alreadySpawning;
 
     private void Awake()
     {
         runner = GetComponent<NetworkRunner>();
         if (runner != null)
             runner.AddCallbacks(this);
-
-        var found = GameObject.FindGameObjectsWithTag(spawnPointTag);
-        spawnPoints = new Transform[found.Length];
-        for (int i = 0; i < found.Length; i++)
-            spawnPoints[i] = found[i].transform;
     }
 
     private void OnDestroy()
@@ -30,22 +28,48 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             runner.RemoveCallbacks(this);
     }
 
+    private Transform[] FindSpawnPoints()
+    {
+        var found = GameObject.FindGameObjectsWithTag(spawnPointTag);
+        var points = new Transform[found.Length];
+        for (int i = 0; i < found.Length; i++)
+            points[i] = found[i].transform;
+        return points;
+    }
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        if (!runner.IsServer) return;
-        if (playerPrefabs == null || playerPrefabs.Length == 0)
+        Debug.Log($"[PlayerSpawner] Player joined: {player.PlayerId}, Local: {runner.LocalPlayer.PlayerId}");
+        if (player != runner.LocalPlayer)
+            return;
+        TrySpawnLocalPlayer();
+    }
+
+    private async void TrySpawnLocalPlayer()
+    {
+        if (alreadySpawning) return;
+        alreadySpawning = true;
+
+        if (runner == null || !runner.IsRunning)
         {
-            Debug.LogError("PlayerSpawner: No player prefabs assigned!");
+            alreadySpawning = false;
             return;
         }
 
-        NetworkObject prefab = playerPrefabs[player.PlayerId % playerPrefabs.Length];
-        Vector3 spawnPos = spawnPoints.Length > 0
-            ? spawnPoints[player.PlayerId % spawnPoints.Length].position
-            : Vector3.zero;
-        NetworkObject spawned = runner.Spawn(prefab, spawnPos, Quaternion.identity, player);
+        if (playerPrefabs == null || playerPrefabs.Length == 0 || playerPrefabs[0] == null)
+        {
+            Debug.LogError("PlayerSpawner: No valid player prefab assigned!");
+            alreadySpawning = false;
+            return;
+        }
 
-        Debug.Log($"Spawned {prefab.name} for Player {player.PlayerId} at {spawnPos}");
+        var points = FindSpawnPoints();
+        NetworkObject prefab = playerPrefabs[0];
+        Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;
+        await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, runner.LocalPlayer);
+        Debug.Log($"Spawned {prefab.name} at {spawnPos}");
+
+        alreadySpawning = false;
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -77,6 +101,9 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSceneLoadDone(NetworkRunner runner) { }
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        Debug.Log($"[PlayerSpawner] Runner shutdown: {shutdownReason}");
+    }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
 }
