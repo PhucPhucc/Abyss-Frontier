@@ -5,12 +5,14 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerCombat))]
+[RequireComponent(typeof(PlayerDash))]
 public class NetworkPlayer : NetworkBehaviour
 {
     private PlayerController playerController;
     private PlayerCombat playerCombat;
     private PlayerStats playerStats;
     private PlayerHealth playerHealth;
+    private PlayerDash playerDash;
     private PlayerInput playerInput;
 
     private float attackCooldownTimer;
@@ -22,6 +24,7 @@ public class NetworkPlayer : NetworkBehaviour
         TryGetComponent(out playerCombat);
         TryGetComponent(out playerStats);
         TryGetComponent(out playerHealth);
+        TryGetComponent(out playerDash);
         TryGetComponent(out playerInput);
     }
 
@@ -76,6 +79,9 @@ public class NetworkPlayer : NetworkBehaviour
             playerController.MoveInput = input.movement;
             playerController.SetSprintInput(input.IsSprintSet);
         }
+
+        if (input.IsDodgeSet && playerDash != null)
+            playerDash.TryDash();
 
         if (attackCooldownTimer > 0f)
             attackCooldownTimer -= Runner.DeltaTime;

@@ -3,7 +3,7 @@ using UnityEngine;
 public class CloudServiceManager : MonoBehaviour
 {
     [Header("Chọn backend mode")]
-    [SerializeField] private bool useFirebase = false;
+    [SerializeField] private bool useFirebase = true;
 
     public IAuthService Auth { get; private set; }
     public ICloudSaveService Save { get; private set; }
