@@ -6,6 +6,7 @@ public class MainMenu : MonoBehaviour
     public GameObject SettingsPanel;
     public GameObject ContinueButton;
     public GameObject LevelSelectPanel;
+    public GameObject ConfirmPanel;
 
     private void Start()
     {
@@ -63,11 +64,8 @@ public class MainMenu : MonoBehaviour
 
     public void ExitGame()
     {
-        SaveManager.Instance?.SaveGame();
-        Application.Quit();
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        ConfirmPanel.SetActive(true);
+        
     }
 
     private void ClearSave()
@@ -88,5 +86,19 @@ public class MainMenu : MonoBehaviour
     public void CloseSettings()
     {
         SettingsPanel.SetActive(false);
+    }
+
+    public void ConfirmExitByYes()
+    {
+        SaveManager.Instance?.SaveGame();
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+    public void ConfirmExitByNo()
+    {
+        ConfirmPanel.SetActive(false);
     }
 }
