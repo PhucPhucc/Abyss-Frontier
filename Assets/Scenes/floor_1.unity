@@ -188,6 +188,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2765331142254497472, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4197835209676156552, guid: fb9189cef9d0be845b1876dc8643c401, type: 3}
+    - target: {fileID: 2767037900300878089, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -156144086011593946, guid: fb9189cef9d0be845b1876dc8643c401, type: 3}
     - target: {fileID: 5119557513512611953, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -228,6 +236,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6902819663347255580, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3915807600838052794, guid: fb9189cef9d0be845b1876dc8643c401, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
