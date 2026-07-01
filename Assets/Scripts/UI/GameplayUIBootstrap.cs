@@ -31,6 +31,12 @@ public class GameplayUIBootstrap : MonoBehaviour
 
     private static void EnsureSceneBootstrap()
     {
+        string activeScene = SceneManager.GetActiveScene().name;
+        if (activeScene == "Scene_Menu" || activeScene == "Authenticaion" || activeScene == "Scene-Server")
+        {
+            return;
+        }
+
         if (FindFirstObjectByType<GameplayUIBootstrap>() != null)
         {
             return;
