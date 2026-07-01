@@ -126,7 +126,7 @@ public class SaveManager : MonoBehaviour
         if (auth == null || save == null)
         {
             Debug.Log("[SaveManager] Auth or Save null → FallbackNewGame");
-            FallbackNewGame();
+            await FallbackNewGame();
             return;
         }
 
@@ -135,7 +135,7 @@ public class SaveManager : MonoBehaviour
         if (string.IsNullOrEmpty(json))
         {
             Debug.Log("[SaveManager] No saved data → FallbackNewGame");
-            FallbackNewGame();
+            await FallbackNewGame();
             return;
         }
 
@@ -143,7 +143,7 @@ public class SaveManager : MonoBehaviour
         if (data.player == null)
         {
             Debug.Log("[SaveManager] Invalid save data (player=null) → FallbackNewGame");
-            FallbackNewGame();
+            await FallbackNewGame();
             return;
         }
 
@@ -163,11 +163,13 @@ public class SaveManager : MonoBehaviour
         else
         {
             SceneManager.sceneLoaded += OnSceneLoadedForRestore;
-            SceneManager.LoadScene(sceneName);
+            var asyncOp = SceneManager.LoadSceneAsync(sceneName);
+            while (!asyncOp.isDone)
+                await System.Threading.Tasks.Task.Yield();
         }
     }
 
-    private void FallbackNewGame()
+    private async System.Threading.Tasks.Task FallbackNewGame()
     {
         Debug.Log("[SaveManager] FallbackNewGame");
         EnemyHealth.KilledEnemyIds.Clear();
@@ -176,9 +178,13 @@ public class SaveManager : MonoBehaviour
         var launcher = FindFirstObjectByType<GameLauncher>();
         Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
         if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer("quiz");
+            await launcher.LaunchAsSingleplayer("quiz");
         else
-            SceneManager.LoadScene("quiz");
+        {
+            var asyncOp = SceneManager.LoadSceneAsync("quiz");
+            while (!asyncOp.isDone)
+                await System.Threading.Tasks.Task.Yield();
+        }
     }
 
     private GameSaveData _pendingRestoreData;

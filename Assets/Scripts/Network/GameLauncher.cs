@@ -23,9 +23,9 @@ public class GameLauncher : MonoBehaviour
         Debug.Log($"[GameLauncher] Loading scene: {targetSceneName}");
         DontDestroyOnLoad(gameObject);
 
-        SceneManager.LoadScene(targetSceneName);
-
-        await System.Threading.Tasks.Task.Yield();
+        var asyncOp = SceneManager.LoadSceneAsync(targetSceneName);
+        while (!asyncOp.isDone)
+            await System.Threading.Tasks.Task.Yield();
 
         Debug.Log("[GameLauncher] Creating NetworkRunner...");
         runner = Instantiate(runnerPrefab);

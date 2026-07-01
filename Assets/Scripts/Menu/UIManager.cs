@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
@@ -58,8 +59,26 @@ public class UIManager : MonoBehaviour
 
     public void MainMenu()
     {
-        Debug.Log("UIManager.MainMenu called - loading Scene_Menu");
+        Debug.Log("UIManager.MainMenu called - saving then loading Scene_Menu");
         Time.timeScale = 1f;
+        StartCoroutine(SaveThenQuitRoutine());
+    }
+
+    private IEnumerator SaveThenQuitRoutine()
+    {
+        if (SaveManager.Instance != null)
+        {
+            var task = SaveManager.Instance.SaveGameAsync();
+            yield return new WaitUntil(() => task.IsCompleted);
+        }
+
+        var launcher = FindFirstObjectByType<GameLauncher>();
+        if (launcher != null)
+        {
+            Debug.Log("[UIManager] Destroying stale GameLauncher before returning to menu");
+            DestroyImmediate(launcher.gameObject);
+        }
+
         SceneManager.LoadScene("Scene_Menu");
     }
 
