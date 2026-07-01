@@ -10,6 +10,7 @@ public class MenuFlowController : MonoBehaviour
     [SerializeField] private GameObject playModePanel;
     [SerializeField] private GameObject hostJoinPanel;
     [SerializeField] private GameObject characterSelectPanel;
+    [SerializeField] private CharacterSelectionUI characterSelectionUI;
 
     [Header("Navigation Buttons (Optional)")]
     [SerializeField] private Button mapNextButton;
@@ -18,6 +19,7 @@ public class MenuFlowController : MonoBehaviour
 
     private void Start()
     {
+        CacheCharacterSelectionUI();
         ShowOnlyPanel(mainMenuPanel);
 
         if (mapNextButton != null) mapNextButton.interactable = false;
@@ -26,6 +28,33 @@ public class MenuFlowController : MonoBehaviour
 
         if (hostJoinPanel != null)
             hostJoinPanel.SetActive(false);
+    }
+
+    private void CacheCharacterSelectionUI()
+    {
+        if (characterSelectionUI == null && characterSelectPanel != null)
+        {
+            characterSelectionUI = characterSelectPanel.GetComponentInChildren<CharacterSelectionUI>(true);
+        }
+
+        if (characterSelectionUI != null)
+        {
+            characterSelectionUI.Configure(this);
+        }
+    }
+
+    private void EnsureCharacterSelectionPanel()
+    {
+        CacheCharacterSelectionUI();
+
+        if (characterSelectPanel != null)
+        {
+            return;
+        }
+
+        characterSelectionUI = CharacterSelectionUI.CreateRuntimeCanvas(this);
+        characterSelectPanel = characterSelectionUI.gameObject;
+        characterSelectPanel.SetActive(false);
     }
 
     private void ShowOnlyPanel(GameObject activePanel)
@@ -41,6 +70,15 @@ public class MenuFlowController : MonoBehaviour
     public void OnPlayButtonClicked()
     {
         ShowOnlyPanel(chooseMapPanel);
+    }
+
+    public void BeginSingleplayerCharacterSelection(string sceneName)
+    {
+        GameSessionData.SelectedMapScene = sceneName;
+        GameSessionData.IsMultiplayer = false;
+        EnsureCharacterSelectionPanel();
+        characterSelectionUI?.Configure(this);
+        ShowOnlyPanel(characterSelectPanel);
     }
     #endregion
 
@@ -134,15 +172,9 @@ public class MenuFlowController : MonoBehaviour
 
     public void OnPlayModeNextClicked()
     {
-        if (characterSelectPanel != null)
-        {
-            ShowOnlyPanel(characterSelectPanel);
-        }
-        else
-        {
-            Debug.LogWarning("[MenuFlow] CharacterSelectPanel not assigned! Starting game...");
-            StartGame();
-        }
+        EnsureCharacterSelectionPanel();
+        characterSelectionUI?.Configure(this);
+        ShowOnlyPanel(characterSelectPanel);
     }
 
     public void BackToChooseMap()

@@ -37,6 +37,14 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         return points;
     }
 
+    public static int ResolvePrefabIndex(int selectedCharacterIndex, int prefabCount)
+    {
+        if (prefabCount <= 0)
+            return 0;
+
+        return Mathf.Clamp(selectedCharacterIndex, 0, prefabCount - 1);
+    }
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log($"[PlayerSpawner] Player joined: {player.PlayerId}, Local: {runner.LocalPlayer.PlayerId}");
@@ -69,9 +77,9 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         int prefabIndex;
         if (player == runner.LocalPlayer)
-            prefabIndex = Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1);
+            prefabIndex = ResolvePrefabIndex(GameSessionData.SelectedCharacterIndex, playerPrefabs.Length);
         else
-            prefabIndex = player.PlayerId % playerPrefabs.Length;
+            prefabIndex = ResolvePrefabIndex(player.PlayerId, playerPrefabs.Length);
 
         NetworkObject prefab = playerPrefabs[prefabIndex];
         Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;

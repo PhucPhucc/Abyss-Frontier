@@ -48,6 +48,13 @@ public class MainMenu : MonoBehaviour
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
         SaveManager.UnlockedFloors.Add("floor_1");
+        var flow = FindFirstObjectByType<MenuFlowController>();
+        if (flow != null)
+        {
+            flow.BeginSingleplayerCharacterSelection("floor_1");
+            return;
+        }
+
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
             _ = launcher.LaunchAsSingleplayer("quiz");

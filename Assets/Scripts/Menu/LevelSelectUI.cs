@@ -34,6 +34,18 @@ public class LevelSelectUI : MonoBehaviour
     public void LoadLevel(string sceneName)
     {
         if (!SaveManager.IsFloorUnlocked(sceneName)) return;
+
+        GameSessionData.SelectedMapScene = sceneName;
+        GameSessionData.IsMultiplayer = false;
+
+        var flow = FindFirstObjectByType<MenuFlowController>();
+        if (flow != null)
+        {
+            Close();
+            flow.BeginSingleplayerCharacterSelection(sceneName);
+            return;
+        }
+
         string target = sceneName == "floor_1" ? "quiz" : sceneName;
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
