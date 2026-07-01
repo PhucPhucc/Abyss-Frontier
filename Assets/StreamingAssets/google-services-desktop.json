@@ -12,7 +12,12 @@
           "package_name": "com.defaultcompany.abyssfrontier"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "700690684157-umroai5ul1s9bh4ha0csboimf3chl4kd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDkU1Ym_VXag_WQ_Omd8wOCS2j2IDUtW6I"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700690684157-umroai5ul1s9bh4ha0csboimf3chl4kd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

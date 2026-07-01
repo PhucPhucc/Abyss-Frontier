@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
@@ -43,8 +45,23 @@ public class GameplayUIBootstrap : MonoBehaviour
         TickEnemyHealthBars();
     }
 
+    private void Awake()
+    {
+        EnsureEventSystem();
+    }
+
     private void EnsurePlayerHud()
     {
+        if (FindFirstObjectByType<PauseManager>() == null)
+        {
+            var prefab = Resources.Load<GameObject>("UI/PauseMenu");
+            if (prefab != null)
+            {
+                var go = Instantiate(prefab);
+                go.name = "[PauseMenu]";
+            }
+        }
+
         if (!createPlayerHud)
         {
             return;
@@ -112,5 +129,16 @@ public class GameplayUIBootstrap : MonoBehaviour
 
             healthBar.SetTarget(enemy);
         }
+    }
+
+    private static void EnsureEventSystem()
+    {
+        if (EventSystem.current != null)
+            return;
+
+        var es = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+        var module = es.GetComponent<InputSystemUIInputModule>();
+        if (module.actionsAsset == null)
+            module.AssignDefaultActions();
     }
 }

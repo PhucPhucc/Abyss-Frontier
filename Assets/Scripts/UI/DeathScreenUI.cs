@@ -116,6 +116,7 @@ public class DeathScreenUI : MonoBehaviour
 
     public void OnMainMenuClicked()
     {
+        Debug.Log("DeathScreenUI.OnMainMenuClicked called - loading " + menuSceneName);
         Time.timeScale = 1f;
         SceneManager.LoadScene(menuSceneName);
     }

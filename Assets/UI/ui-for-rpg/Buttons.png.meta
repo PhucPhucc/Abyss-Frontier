@@ -636,7 +636,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1155,9 +1155,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3
-        y: 400
+        y: 416
         width: 42
-        height: 32
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -5022,6 +5022,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Buttons_196
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 400
+        width: 42
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5aa514fe2f65544192c638f15de3293
+      internalID: -1451931052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -5146,6 +5168,7 @@ TextureImporter:
       Buttons_193: -5522555166730669408
       Buttons_194: -2701316470536314115
       Buttons_195: -84595390618493213
+      Buttons_196: -1451931052
       Buttons_2: -5402412272178277761
       Buttons_20: 6246160581572741293
       Buttons_21: 7671842712487638309

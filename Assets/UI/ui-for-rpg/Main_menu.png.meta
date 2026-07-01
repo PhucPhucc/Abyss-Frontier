@@ -387,10 +387,10 @@ TextureImporter:
       name: Main_menu_6
       rect:
         serializedVersion: 2
-        x: 189
-        y: 146
-        width: 56
-        height: 12
+        x: 515
+        y: 81
+        width: 113
+        height: 91
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -409,7 +409,7 @@ TextureImporter:
       name: Main_menu_7
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 146
         width: 56
         height: 12
@@ -431,7 +431,7 @@ TextureImporter:
       name: Main_menu_8
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 146
         width: 56
         height: 12
@@ -453,7 +453,7 @@ TextureImporter:
       name: Main_menu_9
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 146
         width: 56
         height: 12
@@ -475,8 +475,8 @@ TextureImporter:
       name: Main_menu_10
       rect:
         serializedVersion: 2
-        x: 189
-        y: 130
+        x: 429
+        y: 146
         width: 56
         height: 12
       alignment: 0
@@ -497,7 +497,7 @@ TextureImporter:
       name: Main_menu_11
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 130
         width: 56
         height: 12
@@ -519,7 +519,7 @@ TextureImporter:
       name: Main_menu_12
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 130
         width: 56
         height: 12
@@ -541,7 +541,7 @@ TextureImporter:
       name: Main_menu_13
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 130
         width: 56
         height: 12
@@ -563,8 +563,8 @@ TextureImporter:
       name: Main_menu_14
       rect:
         serializedVersion: 2
-        x: 189
-        y: 114
+        x: 429
+        y: 130
         width: 56
         height: 12
       alignment: 0
@@ -585,7 +585,7 @@ TextureImporter:
       name: Main_menu_15
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 114
         width: 56
         height: 12
@@ -607,7 +607,7 @@ TextureImporter:
       name: Main_menu_16
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 114
         width: 56
         height: 12
@@ -629,7 +629,7 @@ TextureImporter:
       name: Main_menu_17
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 114
         width: 56
         height: 12
@@ -651,8 +651,8 @@ TextureImporter:
       name: Main_menu_18
       rect:
         serializedVersion: 2
-        x: 189
-        y: 98
+        x: 429
+        y: 114
         width: 56
         height: 12
       alignment: 0
@@ -673,7 +673,7 @@ TextureImporter:
       name: Main_menu_19
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 98
         width: 56
         height: 12
@@ -695,7 +695,7 @@ TextureImporter:
       name: Main_menu_20
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 98
         width: 56
         height: 12
@@ -717,7 +717,7 @@ TextureImporter:
       name: Main_menu_21
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 98
         width: 56
         height: 12
@@ -739,8 +739,8 @@ TextureImporter:
       name: Main_menu_22
       rect:
         serializedVersion: 2
-        x: 189
-        y: 82
+        x: 429
+        y: 98
         width: 56
         height: 12
       alignment: 0
@@ -761,7 +761,7 @@ TextureImporter:
       name: Main_menu_23
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 82
         width: 56
         height: 12
@@ -783,7 +783,7 @@ TextureImporter:
       name: Main_menu_24
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 82
         width: 56
         height: 12
@@ -805,7 +805,7 @@ TextureImporter:
       name: Main_menu_25
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 82
         width: 56
         height: 12
@@ -827,8 +827,8 @@ TextureImporter:
       name: Main_menu_26
       rect:
         serializedVersion: 2
-        x: 189
-        y: 66
+        x: 429
+        y: 82
         width: 56
         height: 12
       alignment: 0
@@ -849,7 +849,7 @@ TextureImporter:
       name: Main_menu_27
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 66
         width: 56
         height: 12
@@ -871,7 +871,7 @@ TextureImporter:
       name: Main_menu_28
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 66
         width: 56
         height: 12
@@ -893,7 +893,7 @@ TextureImporter:
       name: Main_menu_29
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 66
         width: 56
         height: 12
@@ -915,8 +915,8 @@ TextureImporter:
       name: Main_menu_30
       rect:
         serializedVersion: 2
-        x: 189
-        y: 50
+        x: 429
+        y: 66
         width: 56
         height: 12
       alignment: 0
@@ -937,7 +937,7 @@ TextureImporter:
       name: Main_menu_31
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 50
         width: 56
         height: 12
@@ -959,7 +959,7 @@ TextureImporter:
       name: Main_menu_32
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 50
         width: 56
         height: 12
@@ -981,7 +981,7 @@ TextureImporter:
       name: Main_menu_33
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 50
         width: 56
         height: 12
@@ -1003,8 +1003,8 @@ TextureImporter:
       name: Main_menu_34
       rect:
         serializedVersion: 2
-        x: 189
-        y: 34
+        x: 429
+        y: 50
         width: 56
         height: 12
       alignment: 0
@@ -1025,7 +1025,7 @@ TextureImporter:
       name: Main_menu_35
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 34
         width: 56
         height: 12
@@ -1047,7 +1047,7 @@ TextureImporter:
       name: Main_menu_36
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 34
         width: 56
         height: 12
@@ -1069,7 +1069,7 @@ TextureImporter:
       name: Main_menu_37
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 34
         width: 56
         height: 12
@@ -1091,8 +1091,8 @@ TextureImporter:
       name: Main_menu_38
       rect:
         serializedVersion: 2
-        x: 189
-        y: 18
+        x: 429
+        y: 34
         width: 56
         height: 12
       alignment: 0
@@ -1113,7 +1113,7 @@ TextureImporter:
       name: Main_menu_39
       rect:
         serializedVersion: 2
-        x: 269
+        x: 189
         y: 18
         width: 56
         height: 12
@@ -1135,7 +1135,7 @@ TextureImporter:
       name: Main_menu_40
       rect:
         serializedVersion: 2
-        x: 349
+        x: 269
         y: 18
         width: 56
         height: 12
@@ -1157,7 +1157,7 @@ TextureImporter:
       name: Main_menu_41
       rect:
         serializedVersion: 2
-        x: 429
+        x: 349
         y: 18
         width: 56
         height: 12
@@ -1179,10 +1179,10 @@ TextureImporter:
       name: Main_menu_42
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 16
-        height: 16
+        x: 429
+        y: 18
+        width: 56
+        height: 12
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1193,6 +1193,28 @@ TextureImporter:
       bones: []
       spriteID: bf5ccee93be38b680800000000000000
       internalID: -8739166135726062085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main_menu_43
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f78aa32e592706f45980d5844a48f595
+      internalID: -2092631717
       vertices: []
       indices: 
       edges: []
@@ -1251,6 +1273,7 @@ TextureImporter:
       Main_menu_40: -4441018247588107306
       Main_menu_41: 6997306051034536015
       Main_menu_42: -8739166135726062085
+      Main_menu_43: -2092631717
       Main_menu_5: -46564867914866660
       Main_menu_6: 2508193536602359249
       Main_menu_7: -3915807600838052794
