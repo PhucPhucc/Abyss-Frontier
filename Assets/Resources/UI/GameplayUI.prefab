@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8417587610458102180
+--- !u!1001 &7244308587908017384
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1942775931194096508, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_Name
-      value: GameplayUI Variant
+      value: GameplayUI
       objectReference: {fileID: 0}
     - target: {fileID: 1942775931194096508, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_IsActive
