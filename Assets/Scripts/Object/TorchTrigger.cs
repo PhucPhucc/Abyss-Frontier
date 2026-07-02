@@ -11,7 +11,8 @@ public class TorchTrigger : MonoBehaviour
             PlayerTorchInteraction interaction =
                 other.GetComponent<PlayerTorchInteraction>();
 
-            interaction.SetCurrentTorch(torch);
+            if (interaction != null)
+                interaction.SetCurrentTorch(torch);
         }
     }
 
@@ -22,7 +23,8 @@ public class TorchTrigger : MonoBehaviour
             PlayerTorchInteraction interaction =
                 other.GetComponent<PlayerTorchInteraction>();
 
-            interaction.ClearTorch(torch);
+            if (interaction != null)
+                interaction.ClearTorch(torch);
         }
     }
 }

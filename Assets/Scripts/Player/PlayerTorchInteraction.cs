@@ -1,50 +1,34 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.InputSystem;
 
+/// <summary>
+/// Nhấn F (hoặc E) khi đứng trong vùng trigger của đuốc để thắp sáng.
+/// Yêu cầu: PlayerInput component trên cùng GameObject.
+/// </summary>
 public class PlayerTorchInteraction : MonoBehaviour
 {
     private Torch currentTorch;
 
-    private bool lighting = false;
-
+    // Được gọi bởi TorchTrigger khi player bước vào vùng đuốc
     public void SetCurrentTorch(Torch torch)
     {
         currentTorch = torch;
-
-        if (!lighting)
-            StartCoroutine(LightRoutine());
     }
 
+    // Được gọi bởi TorchTrigger khi player bước ra khỏi vùng đuốc
     public void ClearTorch(Torch torch)
     {
         if (currentTorch == torch)
             currentTorch = null;
     }
 
-    IEnumerator LightRoutine()
+    // Được gọi tự động bởi PlayerInput khi nhấn action "Interact" (phím F hoặc E)
+    public void OnInteract(InputValue value)
     {
-        lighting = true;
+        if (!value.isPressed) return;
+        if (currentTorch == null) return;
+        if (currentTorch.IsLit()) return;
 
-        Vector3 startPos = transform.position;
-
-        float timer = 0;
-
-        while (timer < 0.5f)
-        {
-            if (Vector3.Distance(startPos, transform.position) > 0.05f)
-            {
-                lighting = false;
-                yield break;
-            }
-
-            timer += Time.deltaTime;
-
-            yield return null;
-        }
-
-        if (currentTorch != null)
-            currentTorch.LightTorch();
-
-        lighting = false;
+        currentTorch.LightTorch();
     }
 }

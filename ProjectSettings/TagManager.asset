@@ -53,9 +53,6 @@ TagManager:
   - name: Wall_base
     uniqueID: 1174151501
     locked: 0
-  - name: Props
-    uniqueID: 1353514465
-    locked: 0
   - name: Character
     uniqueID: 769353063
     locked: 0
@@ -67,6 +64,9 @@ TagManager:
     locked: 0
   - name: WallFront
     uniqueID: 704458273
+    locked: 0
+  - name: Props
+    uniqueID: 1353514465
     locked: 0
   - name: Overlay
     uniqueID: 1292847667

@@ -3,8 +3,8 @@ using UnityEngine.Rendering.Universal;
 
 public class Torch : MonoBehaviour
 {
-    public Animator animator;
-    public Light2D light2D;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Light2D light2D;
 
     private bool lit = false;
 
@@ -16,6 +16,7 @@ public class Torch : MonoBehaviour
 
         animator.SetBool("Lit", true);
 
+        light2D.intensity = 1.8f;
         light2D.enabled = true;
     }
 
