@@ -14082,7 +14082,7 @@ MonoBehaviour:
       1: {fileID: 11400000, guid: cd96baa7042c4a6dba3384a683c8e468, type: 2}
       2: {fileID: 11400000, guid: 67ad5fc5985747c9ae33ca1e60a673dd, type: 2}
       3: {fileID: 11400000, guid: f2ad1d1e3ee4411fb0981898d5c10059, type: 2}
-  cardPrefab: {fileID: 100000, guid: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6, type: 3}
+  cardPrefab: {fileID: 100000, guid: d590a92d8544a5d46899a4c3f0d1c2b5, type: 3}
   gridContainer: {fileID: 1792582044}
   confirmButton: {fileID: 0}
   menuFlowController: {fileID: 1623541922}
