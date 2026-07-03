@@ -259,7 +259,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -273,7 +273,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -297,7 +297,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -351,12 +351,12 @@ TextureImporter:
       name: Main_tiles_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 266
-        width: 28
-        height: 38
+        x: 11
+        y: 267
+        width: 26
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -373,12 +373,12 @@ TextureImporter:
       name: Main_tiles_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 266
-        width: 10
-        height: 38
+        x: 48
+        y: 267
+        width: 8
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -395,12 +395,12 @@ TextureImporter:
       name: Main_tiles_2
       rect:
         serializedVersion: 2
-        x: 63
-        y: 271
-        width: 26
-        height: 33
+        x: 64
+        y: 272
+        width: 24
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -417,12 +417,12 @@ TextureImporter:
       name: Main_tiles_3
       rect:
         serializedVersion: 2
-        x: 106
-        y: 266
-        width: 28
-        height: 38
+        x: 107
+        y: 267
+        width: 26
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -439,12 +439,12 @@ TextureImporter:
       name: Main_tiles_4
       rect:
         serializedVersion: 2
-        x: 143
-        y: 266
-        width: 10
-        height: 38
+        x: 144
+        y: 267
+        width: 8
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -461,12 +461,12 @@ TextureImporter:
       name: Main_tiles_5
       rect:
         serializedVersion: 2
-        x: 159
-        y: 271
-        width: 26
-        height: 33
+        x: 160
+        y: 272
+        width: 24
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -483,12 +483,12 @@ TextureImporter:
       name: Main_tiles_6
       rect:
         serializedVersion: 2
-        x: 202
-        y: 266
-        width: 28
-        height: 38
+        x: 203
+        y: 267
+        width: 26
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -505,12 +505,12 @@ TextureImporter:
       name: Main_tiles_7
       rect:
         serializedVersion: 2
-        x: 239
-        y: 266
-        width: 10
-        height: 38
+        x: 240
+        y: 267
+        width: 8
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -527,12 +527,12 @@ TextureImporter:
       name: Main_tiles_8
       rect:
         serializedVersion: 2
-        x: 255
-        y: 271
-        width: 26
-        height: 33
+        x: 265
+        y: 277
+        width: 9
+        height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -549,12 +549,12 @@ TextureImporter:
       name: Main_tiles_9
       rect:
         serializedVersion: 2
-        x: 298
-        y: 266
-        width: 28
-        height: 38
+        x: 299
+        y: 267
+        width: 26
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -571,12 +571,12 @@ TextureImporter:
       name: Main_tiles_10
       rect:
         serializedVersion: 2
-        x: 335
-        y: 266
-        width: 10
-        height: 38
+        x: 336
+        y: 267
+        width: 8
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -593,12 +593,12 @@ TextureImporter:
       name: Main_tiles_11
       rect:
         serializedVersion: 2
-        x: 351
-        y: 271
-        width: 26
-        height: 33
+        x: 352
+        y: 272
+        width: 24
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -615,12 +615,12 @@ TextureImporter:
       name: Main_tiles_12
       rect:
         serializedVersion: 2
-        x: 6
-        y: 218
-        width: 36
-        height: 39
+        x: 7
+        y: 219
+        width: 34
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -637,12 +637,12 @@ TextureImporter:
       name: Main_tiles_13
       rect:
         serializedVersion: 2
-        x: 47
-        y: 218
-        width: 12
-        height: 39
+        x: 48
+        y: 219
+        width: 10
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -659,12 +659,12 @@ TextureImporter:
       name: Main_tiles_14
       rect:
         serializedVersion: 2
-        x: 63
-        y: 223
-        width: 28
-        height: 34
+        x: 64
+        y: 224
+        width: 26
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -681,12 +681,12 @@ TextureImporter:
       name: Main_tiles_15
       rect:
         serializedVersion: 2
-        x: 102
-        y: 218
-        width: 36
-        height: 39
+        x: 103
+        y: 219
+        width: 34
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -703,12 +703,12 @@ TextureImporter:
       name: Main_tiles_16
       rect:
         serializedVersion: 2
-        x: 143
-        y: 218
-        width: 12
-        height: 39
+        x: 144
+        y: 219
+        width: 10
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -725,12 +725,12 @@ TextureImporter:
       name: Main_tiles_17
       rect:
         serializedVersion: 2
-        x: 159
-        y: 223
-        width: 28
-        height: 34
+        x: 160
+        y: 224
+        width: 26
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -747,12 +747,12 @@ TextureImporter:
       name: Main_tiles_18
       rect:
         serializedVersion: 2
-        x: 198
-        y: 218
-        width: 36
-        height: 39
+        x: 199
+        y: 219
+        width: 34
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -769,12 +769,12 @@ TextureImporter:
       name: Main_tiles_19
       rect:
         serializedVersion: 2
-        x: 239
-        y: 218
-        width: 12
-        height: 39
+        x: 240
+        y: 219
+        width: 10
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -791,12 +791,12 @@ TextureImporter:
       name: Main_tiles_20
       rect:
         serializedVersion: 2
-        x: 255
-        y: 223
-        width: 28
-        height: 34
+        x: 256
+        y: 224
+        width: 26
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -813,12 +813,12 @@ TextureImporter:
       name: Main_tiles_21
       rect:
         serializedVersion: 2
-        x: 294
-        y: 218
-        width: 36
-        height: 39
+        x: 295
+        y: 219
+        width: 34
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -835,12 +835,12 @@ TextureImporter:
       name: Main_tiles_22
       rect:
         serializedVersion: 2
-        x: 335
-        y: 218
-        width: 12
-        height: 39
+        x: 336
+        y: 219
+        width: 10
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -857,12 +857,12 @@ TextureImporter:
       name: Main_tiles_23
       rect:
         serializedVersion: 2
-        x: 351
-        y: 223
-        width: 28
-        height: 34
+        x: 352
+        y: 224
+        width: 26
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -879,12 +879,12 @@ TextureImporter:
       name: Main_tiles_24
       rect:
         serializedVersion: 2
-        x: 4
-        y: 170
-        width: 40
-        height: 39
+        x: 5
+        y: 171
+        width: 38
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -901,12 +901,12 @@ TextureImporter:
       name: Main_tiles_25
       rect:
         serializedVersion: 2
-        x: 47
-        y: 170
-        width: 16
-        height: 39
+        x: 48
+        y: 171
+        width: 14
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -923,12 +923,12 @@ TextureImporter:
       name: Main_tiles_26
       rect:
         serializedVersion: 2
-        x: 63
-        y: 175
-        width: 29
-        height: 34
+        x: 64
+        y: 176
+        width: 27
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -945,12 +945,12 @@ TextureImporter:
       name: Main_tiles_27
       rect:
         serializedVersion: 2
-        x: 100
-        y: 170
-        width: 40
-        height: 39
+        x: 101
+        y: 171
+        width: 38
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -967,12 +967,12 @@ TextureImporter:
       name: Main_tiles_28
       rect:
         serializedVersion: 2
-        x: 143
-        y: 170
-        width: 16
-        height: 39
+        x: 144
+        y: 171
+        width: 14
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -989,12 +989,12 @@ TextureImporter:
       name: Main_tiles_29
       rect:
         serializedVersion: 2
-        x: 159
-        y: 175
-        width: 29
-        height: 34
+        x: 160
+        y: 176
+        width: 27
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1011,12 +1011,12 @@ TextureImporter:
       name: Main_tiles_30
       rect:
         serializedVersion: 2
-        x: 196
-        y: 170
-        width: 40
-        height: 39
+        x: 197
+        y: 171
+        width: 38
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1033,12 +1033,12 @@ TextureImporter:
       name: Main_tiles_31
       rect:
         serializedVersion: 2
-        x: 239
-        y: 170
-        width: 16
-        height: 39
+        x: 240
+        y: 171
+        width: 14
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1055,12 +1055,12 @@ TextureImporter:
       name: Main_tiles_32
       rect:
         serializedVersion: 2
-        x: 255
-        y: 175
-        width: 29
-        height: 34
+        x: 256
+        y: 176
+        width: 27
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1077,12 +1077,12 @@ TextureImporter:
       name: Main_tiles_33
       rect:
         serializedVersion: 2
-        x: 292
-        y: 170
-        width: 40
-        height: 39
+        x: 293
+        y: 171
+        width: 38
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1099,12 +1099,12 @@ TextureImporter:
       name: Main_tiles_34
       rect:
         serializedVersion: 2
-        x: 335
-        y: 170
-        width: 16
-        height: 39
+        x: 336
+        y: 171
+        width: 14
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1121,12 +1121,12 @@ TextureImporter:
       name: Main_tiles_35
       rect:
         serializedVersion: 2
-        x: 351
-        y: 175
-        width: 29
-        height: 34
+        x: 352
+        y: 176
+        width: 27
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1143,12 +1143,12 @@ TextureImporter:
       name: Main_tiles_36
       rect:
         serializedVersion: 2
-        x: 10
-        y: 122
-        width: 28
-        height: 39
+        x: 11
+        y: 123
+        width: 26
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1165,12 +1165,12 @@ TextureImporter:
       name: Main_tiles_37
       rect:
         serializedVersion: 2
-        x: 47
-        y: 122
-        width: 10
-        height: 39
+        x: 48
+        y: 123
+        width: 8
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1187,12 +1187,12 @@ TextureImporter:
       name: Main_tiles_38
       rect:
         serializedVersion: 2
-        x: 63
-        y: 127
-        width: 26
-        height: 34
+        x: 64
+        y: 128
+        width: 24
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1209,12 +1209,12 @@ TextureImporter:
       name: Main_tiles_39
       rect:
         serializedVersion: 2
-        x: 106
-        y: 122
-        width: 28
-        height: 39
+        x: 107
+        y: 123
+        width: 26
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1231,12 +1231,12 @@ TextureImporter:
       name: Main_tiles_40
       rect:
         serializedVersion: 2
-        x: 143
-        y: 122
-        width: 10
-        height: 39
+        x: 144
+        y: 123
+        width: 8
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1253,12 +1253,12 @@ TextureImporter:
       name: Main_tiles_41
       rect:
         serializedVersion: 2
-        x: 159
-        y: 127
-        width: 26
-        height: 34
+        x: 160
+        y: 128
+        width: 24
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1275,12 +1275,12 @@ TextureImporter:
       name: Main_tiles_42
       rect:
         serializedVersion: 2
-        x: 202
-        y: 122
-        width: 28
-        height: 28
+        x: 203
+        y: 123
+        width: 26
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1297,12 +1297,12 @@ TextureImporter:
       name: Main_tiles_43
       rect:
         serializedVersion: 2
-        x: 239
-        y: 122
-        width: 10
-        height: 28
+        x: 240
+        y: 123
+        width: 8
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1319,12 +1319,12 @@ TextureImporter:
       name: Main_tiles_44
       rect:
         serializedVersion: 2
-        x: 255
-        y: 143
-        width: 23
-        height: 23
+        x: 256
+        y: 144
+        width: 21
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1341,12 +1341,12 @@ TextureImporter:
       name: Main_tiles_45
       rect:
         serializedVersion: 2
-        x: 298
-        y: 122
-        width: 28
-        height: 28
+        x: 299
+        y: 123
+        width: 26
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1363,12 +1363,12 @@ TextureImporter:
       name: Main_tiles_46
       rect:
         serializedVersion: 2
-        x: 335
-        y: 122
-        width: 10
-        height: 28
+        x: 336
+        y: 123
+        width: 8
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1385,12 +1385,12 @@ TextureImporter:
       name: Main_tiles_47
       rect:
         serializedVersion: 2
-        x: 351
-        y: 143
-        width: 23
-        height: 23
+        x: 352
+        y: 144
+        width: 21
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1407,12 +1407,12 @@ TextureImporter:
       name: Main_tiles_48
       rect:
         serializedVersion: 2
-        x: 63
-        y: 95
-        width: 27
-        height: 23
+        x: 64
+        y: 96
+        width: 25
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1429,12 +1429,12 @@ TextureImporter:
       name: Main_tiles_49
       rect:
         serializedVersion: 2
-        x: 159
-        y: 95
-        width: 27
-        height: 23
+        x: 160
+        y: 96
+        width: 25
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1451,12 +1451,12 @@ TextureImporter:
       name: Main_tiles_50
       rect:
         serializedVersion: 2
-        x: 255
-        y: 111
-        width: 26
-        height: 23
+        x: 256
+        y: 112
+        width: 24
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1473,12 +1473,12 @@ TextureImporter:
       name: Main_tiles_51
       rect:
         serializedVersion: 2
-        x: 320
-        y: 96
-        width: 16
-        height: 16
+        x: 352
+        y: 112
+        width: 24
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1495,12 +1495,12 @@ TextureImporter:
       name: Main_tiles_52
       rect:
         serializedVersion: 2
-        x: 336
-        y: 96
-        width: 16
-        height: 16
+        x: 7
+        y: 75
+        width: 34
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1517,12 +1517,12 @@ TextureImporter:
       name: Main_tiles_53
       rect:
         serializedVersion: 2
-        x: 351
-        y: 111
-        width: 26
-        height: 23
+        x: 48
+        y: 75
+        width: 13
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1539,12 +1539,12 @@ TextureImporter:
       name: Main_tiles_54
       rect:
         serializedVersion: 2
-        x: 6
-        y: 74
-        width: 36
-        height: 28
+        x: 103
+        y: 75
+        width: 34
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1561,12 +1561,12 @@ TextureImporter:
       name: Main_tiles_55
       rect:
         serializedVersion: 2
-        x: 47
-        y: 74
-        width: 15
-        height: 28
+        x: 144
+        y: 75
+        width: 13
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1583,12 +1583,12 @@ TextureImporter:
       name: Main_tiles_56
       rect:
         serializedVersion: 2
-        x: 102
-        y: 74
-        width: 36
-        height: 28
+        x: 197
+        y: 30
+        width: 69
+        height: 78
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1605,12 +1605,12 @@ TextureImporter:
       name: Main_tiles_57
       rect:
         serializedVersion: 2
-        x: 143
-        y: 74
-        width: 15
-        height: 28
+        x: 272
+        y: 68
+        width: 8
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1627,12 +1627,12 @@ TextureImporter:
       name: Main_tiles_58
       rect:
         serializedVersion: 2
-        x: 196
-        y: 29
-        width: 71
-        height: 80
+        x: 288
+        y: 96
+        width: 16
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1649,12 +1649,12 @@ TextureImporter:
       name: Main_tiles_59
       rect:
         serializedVersion: 2
-        x: 271
-        y: 67
-        width: 10
-        height: 42
+        x: 321
+        y: 97
+        width: 14
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1671,12 +1671,12 @@ TextureImporter:
       name: Main_tiles_60
       rect:
         serializedVersion: 2
-        x: 287
-        y: 95
-        width: 18
+        x: 337
+        y: 97
+        width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1693,12 +1693,12 @@ TextureImporter:
       name: Main_tiles_61
       rect:
         serializedVersion: 2
-        x: 351
-        y: 100
-        width: 6
-        height: 9
+        x: 352
+        y: 101
+        width: 4
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1715,12 +1715,12 @@ TextureImporter:
       name: Main_tiles_62
       rect:
         serializedVersion: 2
-        x: 379
-        y: 100
-        width: 5
-        height: 9
+        x: 380
+        y: 101
+        width: 4
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1738,11 +1738,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 26
-        width: 135
-        height: 60
+        y: 27
+        width: 134
+        height: 58
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1759,12 +1759,12 @@ TextureImporter:
       name: Main_tiles_64
       rect:
         serializedVersion: 2
-        x: 159
-        y: 63
-        width: 31
-        height: 23
+        x: 160
+        y: 64
+        width: 29
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1781,12 +1781,12 @@ TextureImporter:
       name: Main_tiles_65
       rect:
         serializedVersion: 2
-        x: 287
-        y: 79
-        width: 26
-        height: 14
+        x: 288
+        y: 80
+        width: 24
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1803,12 +1803,12 @@ TextureImporter:
       name: Main_tiles_66
       rect:
         serializedVersion: 2
-        x: 336
-        y: 80
-        width: 16
-        height: 16
+        x: 337
+        y: 81
+        width: 14
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1825,12 +1825,12 @@ TextureImporter:
       name: Main_tiles_67
       rect:
         serializedVersion: 2
-        x: 336
-        y: 64
-        width: 16
-        height: 16
+        x: 352
+        y: 77
+        width: 4
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1847,12 +1847,12 @@ TextureImporter:
       name: Main_tiles_68
       rect:
         serializedVersion: 2
-        x: 351
-        y: 76
-        width: 6
-        height: 9
+        x: 380
+        y: 77
+        width: 4
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1869,12 +1869,12 @@ TextureImporter:
       name: Main_tiles_69
       rect:
         serializedVersion: 2
-        x: 379
-        y: 76
-        width: 5
-        height: 9
+        x: 337
+        y: 65
+        width: 14
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1893,10 +1893,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 129
-        height: 17
+        width: 128
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1913,12 +1913,12 @@ TextureImporter:
       name: Main_tiles_71
       rect:
         serializedVersion: 2
-        x: 146
+        x: 147
         y: 0
-        width: 37
-        height: 48
+        width: 35
+        height: 47
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1935,12 +1935,12 @@ TextureImporter:
       name: Main_tiles_72
       rect:
         serializedVersion: 2
-        x: 278
+        x: 279
         y: 0
-        width: 86
-        height: 51
+        width: 84
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1957,12 +1957,12 @@ TextureImporter:
       name: Main_tiles_73
       rect:
         serializedVersion: 2
-        x: 355
-        y: 3
-        width: 11
-        height: 11
+        x: 356
+        y: 4
+        width: 9
+        height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1979,12 +1979,12 @@ TextureImporter:
       name: Main_tiles_74
       rect:
         serializedVersion: 2
-        x: 373
-        y: 5
-        width: 7
-        height: 39
+        x: 374
+        y: 6
+        width: 5
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2001,7 +2001,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d18408cbc3caef64687d3f2e0b809541
     internalID: 0
     vertices: []
     indices: 
@@ -2009,7 +2009,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Main_tiles_0: -5481010144977752031
       Main_tiles_1: -6770539617540078371
