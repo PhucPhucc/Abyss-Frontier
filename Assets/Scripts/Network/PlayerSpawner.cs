@@ -58,28 +58,55 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             return;
         }
 
-        if (playerPrefabs == null || playerPrefabs.Length == 0 || playerPrefabs[0] == null)
+        var points = FindSpawnPoints();
+        NetworkObject prefab = ResolvePrefabForPlayer(player);
+        if (prefab == null)
         {
-            Debug.LogError("PlayerSpawner: No valid player prefab assigned!");
+            Debug.LogError($"PlayerSpawner: No valid player prefab for player {player.PlayerId}.");
             alreadySpawning = false;
             return;
         }
 
-        var points = FindSpawnPoints();
-
-        int prefabIndex;
-        if (player == runner.LocalPlayer)
-            prefabIndex = Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1);
-        else
-            prefabIndex = player.PlayerId % playerPrefabs.Length;
-
-        NetworkObject prefab = playerPrefabs[prefabIndex];
         Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;
 
         await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, player);
         Debug.Log($"Spawned {prefab.name} for player {player.PlayerId} at {spawnPos}");
 
         alreadySpawning = false;
+    }
+
+    private NetworkObject ResolvePrefabForPlayer(PlayerRef player)
+    {
+        if (player == runner.LocalPlayer)
+        {
+            NetworkObject selectedPrefab = ResolveSelectedCharacterPrefab();
+            if (selectedPrefab != null)
+                return selectedPrefab;
+
+            Debug.LogWarning("PlayerSpawner: Selected character prefab is missing or is not a NetworkObject. Falling back to indexed prefab.");
+        }
+
+        if (playerPrefabs == null || playerPrefabs.Length == 0)
+            return null;
+
+        int prefabIndex = player == runner.LocalPlayer
+            ? Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1)
+            : player.PlayerId % playerPrefabs.Length;
+
+        return playerPrefabs[prefabIndex];
+    }
+
+    private NetworkObject ResolveSelectedCharacterPrefab()
+    {
+        GameObject selectedPrefab = GameSessionData.SelectedCharacterPrefab;
+        if (selectedPrefab == null)
+            return null;
+
+        if (selectedPrefab.TryGetComponent(out NetworkObject networkObject))
+            return networkObject;
+
+        Debug.LogError($"PlayerSpawner: Selected prefab '{selectedPrefab.name}' has no NetworkObject component.");
+        return null;
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
