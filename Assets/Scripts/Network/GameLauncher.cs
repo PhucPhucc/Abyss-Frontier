@@ -70,7 +70,7 @@ public class GameLauncher : MonoBehaviour
 
         int buildIndex = SceneUtility.GetBuildIndexByScenePath(targetSceneName);
         if (buildIndex < 0)
-            buildIndex = SceneUtility.GetBuildIndexByScenePath("floor_1");
+            buildIndex = SceneUtility.GetBuildIndexByScenePath("floor1");
 
         Debug.Log($"[GameLauncher] Starting Fusion as Host, session: {sessionName}, scene index: {buildIndex}");
         var args = new StartGameArgs

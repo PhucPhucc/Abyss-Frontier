@@ -13237,6 +13237,64 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &821998120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 821998122}
+  - component: {fileID: 821998121}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &821998121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821998120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0b4336aeeec0d48968d10c3835e7ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveSpawnManager
+  backgroundMap: {fileID: 777903545}
+  obstacleMaps:
+  - {fileID: 1509156554}
+  - {fileID: 1868241771}
+  - {fileID: 531953900}
+  itemPrefabs:
+  - {fileID: 3039419657437716263, guid: 7e8ed3ab3cc19cf479685beb8fa0a6f5, type: 3}
+  - {fileID: 7779543799032330555, guid: 722816a3da6026d4a93e015508edb949, type: 3}
+  - {fileID: 1452530432018276437, guid: 20d777beeb66790408f6a432cac6c9fe, type: 3}
+  itemsPerWave: 20
+  totalWaves: 3
+  timePerWave: 30
+  timerText: {fileID: 0}
+  waveText: {fileID: 0}
+--- !u!4 &821998122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821998120}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1004811591
 GameObject:
   m_ObjectHideFlags: 0
@@ -20499,4 +20557,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1004811594}
   - {fileID: 1372897703}
-  - {fileID: 1324090115}
+  - {fileID: 821998122}
