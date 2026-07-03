@@ -167,9 +167,9 @@ public class MenuFlowController : MonoBehaviour
 
     public void StartGame()
     {
-        string scene = GameSessionData.SelectedMapScene == "floor_1" ? "quiz" : GameSessionData.SelectedMapScene;
+        // string scene = GameSessionData.SelectedMapScene == "floor_1" ? "quiz" : GameSessionData.SelectedMapScene;
+        string scene = GameSessionData.SelectedMapScene; 
         Debug.Log($"[MenuFlow] Scene: {scene} | Multiplayer: {GameSessionData.IsMultiplayer} | CharIndex: {GameSessionData.SelectedCharacterIndex}");
-
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher == null)
         {
