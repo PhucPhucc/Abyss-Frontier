@@ -8,6 +8,10 @@ public class TorchTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // Hiện prompt khi player bước vào vùng đuốc
+            if (torch != null)
+                torch.ShowPrompt(true);
+
             PlayerTorchInteraction interaction =
                 other.GetComponent<PlayerTorchInteraction>();
 
@@ -20,6 +24,10 @@ public class TorchTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // Ẩn prompt khi player bước ra
+            if (torch != null)
+                torch.ShowPrompt(false);
+
             PlayerTorchInteraction interaction =
                 other.GetComponent<PlayerTorchInteraction>();
 
