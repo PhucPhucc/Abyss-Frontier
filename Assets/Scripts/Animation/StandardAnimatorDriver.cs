@@ -26,8 +26,15 @@ public class StandardAnimatorDriver : CharacterAnimationHandler
         if (playerStats != null && playerStats.IsDead)
             return;
 
-        animator.SetFloat("moveX", motor.LastDirection.x);
-        animator.SetFloat("moveY", motor.LastDirection.y);
+        // Smooth moveX/moveY để tránh animation giật khi MoveInput đến từ
+        // Fusion tick rate thay vì mọi frame (trường hợp spawn từ menu)
+        float targetX = motor.LastDirection.x;
+        float targetY = motor.LastDirection.y;
+        float smoothSpeed = Time.deltaTime * 15f;
+        float currentX = animator.GetFloat("moveX");
+        float currentY = animator.GetFloat("moveY");
+        animator.SetFloat("moveX", Mathf.MoveTowards(currentX, targetX, smoothSpeed));
+        animator.SetFloat("moveY", Mathf.MoveTowards(currentY, targetY, smoothSpeed));
         animator.SetBool("isWalk", motor.IsMoving || (playerDash != null && playerDash.IsDashing));
         animator.SetBool("isRun", IsDashOrSprintActive());
     }
