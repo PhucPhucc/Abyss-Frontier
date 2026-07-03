@@ -39,6 +39,9 @@ public class CharacterSelectUI : MonoBehaviour
 
     public void SelectCharacter(int index)
     {
+        if (index < 0 || index >= cards.Length || index >= characterDataArray.Length)
+            return;
+
         if (selectedIndex >= 0 && selectedIndex < cards.Length)
             cards[selectedIndex].SetHighlight(false);
 
@@ -46,7 +49,7 @@ public class CharacterSelectUI : MonoBehaviour
         cards[selectedIndex].SetHighlight(true);
 
         if (menuFlowController != null)
-            menuFlowController.SelectCharacterIndex(index);
+            menuFlowController.SelectCharacter(index, characterDataArray[index]);
 
         if (confirmButton != null)
             confirmButton.interactable = true;
