@@ -13,6 +13,7 @@ public class CharacterSelectUI : MonoBehaviour
     [SerializeField] private MenuFlowController menuFlowController;
 
     private int selectedIndex = -1;
+    private MenuFlowController FlowController => menuFlowController != null ? menuFlowController : FindFirstObjectByType<MenuFlowController>();
 
     public int SelectedIndex => selectedIndex;
     public CharacterData SelectedCharacter => HasValidSelection ? characterDataArray[selectedIndex] : null;

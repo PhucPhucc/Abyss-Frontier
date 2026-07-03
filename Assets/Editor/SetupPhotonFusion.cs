@@ -65,11 +65,12 @@ public static class SetupPhotonFusion
     public static void AddScenesToBuildSettings()
     {
         string[] scenePaths = {
-            "Assets/Scenes/floor_1.unity",
-            "Assets/Scenes/floor_2.unity",
-            "Assets/Scenes/floor_3.unity",
-            "Assets/Scenes/floor_4.unity",
-            "Assets/Scenes/floor_5.unity"
+            "Assets/Scenes/floor1.unity",
+            "Assets/Scenes/floor2.unity",
+            "Assets/Scenes/floor3.unity",
+            "Assets/Scenes/floor4.unity",
+            "Assets/Scenes/floor5.unity",
+            "Assets/Scenes/floor6.unity"
         };
 
         var scenes = new EditorBuildSettingsScene[scenePaths.Length];
