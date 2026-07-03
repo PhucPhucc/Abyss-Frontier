@@ -47,7 +47,7 @@ public class MenuFlowController : MonoBehaviour
     #region Step 2: Choose Map -> Play Mode
     public void SelectMapIndex(int mapIndex)
     {
-        GameSessionData.SelectedMapScene = $"floor_{mapIndex}";
+        GameSessionData.SelectedMapScene = $"floor{mapIndex}";
         Debug.Log($"[MenuFlow] Map: {GameSessionData.SelectedMapScene}");
 
         if (mapNextButton != null) mapNextButton.interactable = true;
@@ -175,7 +175,7 @@ public class MenuFlowController : MonoBehaviour
 
     public void StartGame()
     {
-        string scene = GameSessionData.SelectedMapScene == "floor_1" ? "quiz" : GameSessionData.SelectedMapScene;
+        string scene = GameSessionData.SelectedMapScene;
         string prefabName = GameSessionData.SelectedCharacterPrefab != null
             ? GameSessionData.SelectedCharacterPrefab.name
             : "None";
