@@ -158,6 +158,7 @@ public class SaveManager : MonoBehaviour
         if (launcher != null)
         {
             SceneManager.sceneLoaded += OnSceneLoadedForRestore;
+            Debug.Log($"[SaveManager] sceneName from save = {sceneName}");
             await launcher.LaunchAsSingleplayer(sceneName);
         }
         else
