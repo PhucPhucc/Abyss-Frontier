@@ -20,10 +20,24 @@ public class GameLauncher : MonoBehaviour
             return;
         }
 
+        if (string.IsNullOrEmpty(targetSceneName))
+        {
+            Debug.LogError("GameLauncher: targetSceneName is empty!");
+            return;
+        }
+
         Debug.Log($"[GameLauncher] Loading scene: {targetSceneName}");
         DontDestroyOnLoad(gameObject);
 
-        SceneManager.LoadScene(targetSceneName);
+        try
+        {
+            SceneManager.LoadScene(targetSceneName);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[GameLauncher] Failed to load scene '{targetSceneName}': {e.Message}");
+            return;
+        }
 
         await System.Threading.Tasks.Task.Yield();
 

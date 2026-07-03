@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 8209169786295263925}
   - component: {fileID: 4167029718627647294}
   - component: {fileID: 1446531268730744507}
+  - component: {fileID: 1100000000000000001}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -361,3 +362,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e84eed862478411a563358a476e43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkPlayer
+--- !u!114 &1100000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739308693934486430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d0dce9dc3eb1a429413aa981ed2be9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashDistance: 2.5
+  dashDuration: 0.2
+  staminaCost: 20
+  cooldown: 0.4
+  invulnerabilityDuration: 0.25
+  afterimageInterval: 0.04
+  dashAnimatorSpeed: 1.75

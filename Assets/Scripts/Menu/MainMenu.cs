@@ -47,12 +47,12 @@ public class MainMenu : MonoBehaviour
         ClearSave();
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
-        SaveManager.UnlockedFloors.Add("floor_1");
+        SaveManager.UnlockedFloors.Add("floor1");
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer("quiz");
+            _ = launcher.LaunchAsSingleplayer("floor1");
         else
-            SceneManager.LoadScene("quiz");
+            SceneManager.LoadScene("floor1");
     }
 
     public void OpenLevelSelect()

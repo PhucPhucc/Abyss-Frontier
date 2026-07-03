@@ -7,7 +7,7 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
 
-    public static List<string> UnlockedFloors { get; private set; } = new List<string> { "floor_1" };
+    public static List<string> UnlockedFloors { get; private set; } = new List<string> { "floor1" };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoInit()
@@ -149,7 +149,7 @@ public class SaveManager : MonoBehaviour
 
         string sceneName = data.sceneName;
         if (string.IsNullOrEmpty(sceneName))
-            sceneName = "quiz";
+            sceneName = "floor1";
 
         _pendingRestoreData = data;
 
@@ -173,13 +173,13 @@ public class SaveManager : MonoBehaviour
         Debug.Log("[SaveManager] FallbackNewGame");
         EnemyHealth.KilledEnemyIds.Clear();
         UnlockedFloors.Clear();
-        UnlockedFloors.Add("floor_1");
+        UnlockedFloors.Add("floor1");
         var launcher = FindFirstObjectByType<GameLauncher>();
         Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
         if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer("quiz");
+            _ = launcher.LaunchAsSingleplayer("floor1");
         else
-            SceneManager.LoadScene("quiz");
+            SceneManager.LoadScene("floor1");
     }
 
     private GameSaveData _pendingRestoreData;
@@ -201,7 +201,7 @@ public class SaveManager : MonoBehaviour
         if (data.unlockedFloors != null && data.unlockedFloors.Count > 0)
             UnlockedFloors.AddRange(data.unlockedFloors);
         else
-            UnlockedFloors.Add("floor_1");
+            UnlockedFloors.Add("floor1");
 
         RestoreEnemies(data);
         StartCoroutine(WaitForPlayerAndRestore(data));
