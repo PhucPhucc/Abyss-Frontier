@@ -1,48 +1,76 @@
-using UnityEngine;                                                                                            
-    using System.Collections;                                                                                     
-                                                                                                                  
-    public class FloorTorchManager : MonoBehaviour                                                                
-    {                                                                                                             
-        [Header("Prefab Ánh Sáng để gắn vào nhân vật")]                                                           
-        [SerializeField] private GameObject playerTorchPrefab;                                                    
-                                                                                                                  
-        [Header("Tag của nhân vật cần tìm")]                                                                      
-        [SerializeField] private string playerTag = "Player";                                                     
-                                                                                                                  
-        private void Start()                                                                                      
-        {                                                                                                         
-            // Chạy tiến trình quét tìm player định kỳ                                                            
-            StartCoroutine(CheckAndAttachTorchRoutine());                                                         
-        }                                                                                                         
-                                                                                                                  
-        private IEnumerator CheckAndAttachTorchRoutine()                                                          
-        {                                                                                                         
-            // Vòng lặp vô hạn chạy suốt thời gian ở trong map này                                                
-            while (true)                                                                                          
-            {                                                                                                     
-                // Tìm tất cả GameObject có tag "Player" trong scene                                              
-                GameObject[] players = GameObject.FindGameObjectsWithTag(playerTag);                              
-                                                                                                                  
-                foreach (GameObject player in players)                                                            
-                {                                                                                                 
-                    // Kiểm tra xem player này đã được gắn TorchFlicker (đuốc) chưa                               
-                    TorchFlicker existingTorch = player.GetComponentInChildren<TorchFlicker>();                   
-                                                                                                                  
-                    if (existingTorch == null && playerTorchPrefab != null)                                       
-                    {                                                                                             
-                        // Nếu chưa có, tiến hành copy (Instantiate) prefab đuốc                                  
-                        // và gán nó làm con (Child) của Player                                                   
-                        GameObject newTorch = Instantiate(playerTorchPrefab, player.transform);                   
-                                                                                                                  
-                        // Chỉnh vị trí đuốc vào giữa thân nhân vật (nâng lên 0.5f tùy theo sprite của bạn)       
-                        newTorch.transform.localPosition = new Vector3(0, 0.5f, 0);                               
-                                                                                                                  
-                        Debug.Log($"[FloorTorchManager] Đã tự động gắn đuốc cho: {player.name}");                 
-                    }                                                                                             
-                }                                                                                                 
-                                                                                                                  
-                // Dừng 0.5 giây rồi mới quét lại (Cực kỳ tối ưu, không làm nặng game)                            
-                yield return new WaitForSeconds(0.5f);                                                            
-            }                                                                                                     
-        }                                                                                                         
-    }                                
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
+using System.Collections;
+
+public class FloorTorchManager : MonoBehaviour
+{
+    [Header("Tag của nhân vật cần tìm")]
+    [SerializeField] private string playerTag = "Player";
+
+    [Header("Cấu hình Light2D gắn vào Player")]
+    [SerializeField] private float lightIntensity = 1.8f;
+    [SerializeField] private float lightOuterRadius = 2f;
+    [SerializeField] private Color lightColor = Color.white;
+
+    [Header("Cấu hình TorchFlicker")]
+    [SerializeField] private float baseIntensity = 1.8f;
+    [SerializeField] private float flickerAmount = 0.2f;
+    [SerializeField] private float flickerSpeed = 0.5f;
+    [SerializeField] private float baseRadius = 2f;
+    [SerializeField] private float radiusFlicker = 0.3f;
+
+    private void Start()
+    {
+        StartCoroutine(CheckAndAttachTorchRoutine());
+    }
+
+    private IEnumerator CheckAndAttachTorchRoutine()
+    {
+        while (true)
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag(playerTag);
+
+            foreach (GameObject player in players)
+            {
+                //----------------------------------
+                // Light2D
+                //----------------------------------
+                Light2D light2D = player.GetComponent<Light2D>();
+
+                if (light2D == null)
+                {
+                    light2D = player.AddComponent<Light2D>();
+
+                    light2D.lightType = Light2D.LightType.Point;
+                    light2D.intensity = lightIntensity;
+                    light2D.pointLightOuterRadius = lightOuterRadius;
+                    light2D.color = lightColor;
+                }
+
+                //----------------------------------
+                // TorchFlicker
+                //----------------------------------
+                TorchFlicker flicker = player.GetComponent<TorchFlicker>();
+
+                if (flicker == null)
+                {
+                    flicker = player.AddComponent<TorchFlicker>();
+                    flicker.Init(baseIntensity, flickerAmount, flickerSpeed, baseRadius, radiusFlicker);
+                }
+
+                //----------------------------------
+                // PlayerTorchInteraction
+                //----------------------------------
+                PlayerTorchInteraction interaction = player.GetComponent<PlayerTorchInteraction>();
+
+                if (interaction == null)
+                {
+                    player.AddComponent<PlayerTorchInteraction>();
+                }
+            }
+
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+}

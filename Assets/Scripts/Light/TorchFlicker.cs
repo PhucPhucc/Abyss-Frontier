@@ -28,6 +28,19 @@ public class TorchFlicker : MonoBehaviour
         _noiseOffset = Random.Range(0f, 100f);
     }
 
+    /// <summary>
+    /// Khởi tạo các thông số flicker từ bên ngoài (dùng khi AddComponent runtime).
+    /// Gọi ngay sau AddComponent trước frame Update đầu tiên.
+    /// </summary>
+    public void Init(float bIntensity, float fAmount, float fSpeed, float bRadius, float rFlicker)
+    {
+        baseIntensity  = bIntensity;
+        flickerAmount  = fAmount;
+        flickerSpeed   = fSpeed;
+        baseRadius     = bRadius;
+        radiusFlicker  = rFlicker;
+    }
+
     void Update()
     {
         // Perlin noise tạo giá trị mượt, liên tục trong [0, 1]
