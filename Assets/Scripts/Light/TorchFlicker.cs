@@ -13,10 +13,10 @@ public class TorchFlicker : MonoBehaviour
     [Header("Intensity Flicker")]
     [SerializeField] private float baseIntensity = 1.8f; // Cường độ sáng cơ bản
     [SerializeField] private float flickerAmount = 0.2f; // Biên độ dao động cường độ
-    [SerializeField] private float flickerSpeed  = 7f;   // Tần số flicker (càng cao càng rung nhanh)
+    [SerializeField] private float flickerSpeed  = 0.5f;   // Tần số flicker (càng cao càng rung nhanh)
 
     [Header("Radius Flicker")]
-    [SerializeField] private float baseRadius    = 4.5f; // Bán kính sáng cơ bản
+    [SerializeField] private float baseRadius    = 2f; // Bán kính sáng cơ bản
     [SerializeField] private float radiusFlicker = 0.3f; // Biên độ dao động bán kính
 
     private float _noiseOffset; // Offset ngẫu nhiên để mỗi đuốc flicker độc lập
