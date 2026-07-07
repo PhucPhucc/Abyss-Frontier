@@ -65,7 +65,7 @@ public class MainMenu : MonoBehaviour
         ClearSave();
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
-        SaveManager.UnlockedFloors.Add("floor1");
+        SaveManager.UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
             _ = launcher.LaunchAsSingleplayer("floor1");
