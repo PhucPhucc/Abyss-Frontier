@@ -12,7 +12,7 @@ public class ClueReader : MonoBehaviour
 
     private void Start()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObj = GameObject.FindGameObjectWithTag("SpawnPointer");
 
         if (playerObj != null)
         {

@@ -17,6 +17,12 @@ public class GameLauncher : MonoBehaviour
             return;
         }
 
+        if (string.IsNullOrEmpty(targetSceneName))
+        {
+            Debug.LogError("GameLauncher: targetSceneName is empty!");
+            return;
+        }
+
         if (runner != null && runner.IsRunning)
         {
             Debug.Log("[GameLauncher] Shutting down previous runner...");

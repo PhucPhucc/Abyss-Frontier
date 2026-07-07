@@ -30,11 +30,30 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void Spawned()
     {
+        // Trong GameMode.Single (singleplayer), giữ PlayerInput chạy bình thường
+        // Để OnMove(InputValue) hoạt động → smooth movement trực tiếp
+        // Chỉ disable PlayerInput trong multiplayer thực (Host/Client) để
+        // tránh conflict với Fusion network input
+        bool isNetworkedMultiplayer = Runner != null &&
+            Runner.GameMode != GameMode.Single &&
+            Runner.GameMode != GameMode.Shared;
+
+        // Vô hiệu hóa NetworkTransform khi chơi Singleplayer.
+        // Nếu bật, NetworkTransform ghi đè transform.position mỗi frame render (Render interpolation),
+        // làm xung đột và kéo giật Rigidbody2D đang di chuyển trong FixedUpdate.
+        if (!isNetworkedMultiplayer)
+        {
+            if (TryGetComponent<NetworkTransform>(out var nt))
+            {
+                nt.enabled = false;
+            }
+        }
+
         if (playerInput != null)
-            playerInput.enabled = false;
+            playerInput.enabled = !isNetworkedMultiplayer;
 
         if (playerCombat != null)
-            playerCombat.UseNetworkInput = true;
+            playerCombat.UseNetworkInput = isNetworkedMultiplayer;
 
         if (Object.HasInputAuthority)
             AssignCameraTarget();
@@ -71,6 +90,11 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        // Trong Singleplayer, PlayerInput và Update/FixedUpdate cục bộ tự xử lý trọn vẹn di chuyển & tấn công.
+        // Không cho phép FixedUpdateNetwork ghi đè MoveInput/Sprint từ network buffer.
+        if (Runner != null && (Runner.GameMode == GameMode.Single || Runner.GameMode == GameMode.Shared))
+            return;
+
         if (GetInput<NetworkInputData>(out var input) == false)
             return;
 

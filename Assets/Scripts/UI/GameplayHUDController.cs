@@ -300,10 +300,16 @@ public class GameplayHUDController : MonoBehaviour
         if (image != null)
         {
             float clampedValue = Mathf.Clamp01(value);
-            RectTransform rectTransform = image.rectTransform;
-            rectTransform.anchorMax = new Vector2(clampedValue, rectTransform.anchorMax.y);
-            rectTransform.offsetMax = new Vector2(0f, rectTransform.offsetMax.y);
-            image.fillAmount = 1f;
+            if (image.type == Image.Type.Filled)
+            {
+                image.fillAmount = clampedValue;
+            }
+            else
+            {
+                RectTransform rectTransform = image.rectTransform;
+                rectTransform.anchorMax = new Vector2(clampedValue, rectTransform.anchorMax.y);
+                rectTransform.offsetMax = new Vector2(0f, rectTransform.offsetMax.y);
+            }
         }
     }
 

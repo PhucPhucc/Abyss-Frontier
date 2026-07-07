@@ -7,7 +7,7 @@ public class LevelSelectUI : MonoBehaviour
     [SerializeField] private Transform buttonContainer;
 
     private static readonly string[] AllFloors = {
-        "floor1", "floor2", "floor3", "floor4", "floor5"
+        "floor1", "floor2", "floor3", "floor4", "floor5", "floor6"
     };
 
     private void OnEnable()

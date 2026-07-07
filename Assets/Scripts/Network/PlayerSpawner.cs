@@ -70,9 +70,9 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, player);
             Debug.Log($"Spawned {prefab.name} for player {player.PlayerId} at {spawnPos}");
         }
-        catch (Exception ex)
+        catch (System.Exception e)
         {
-            Debug.LogError($"[PlayerSpawner] Spawn failed: {ex.Message}");
+            Debug.LogError($"[PlayerSpawner] Spawn failed: {e.Message}");
         }
         finally
         {
@@ -82,28 +82,23 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private NetworkObject ResolvePrefabForPlayer(PlayerRef player)
     {
-        if (player == runner.LocalPlayer)
-        {
-            NetworkObject selectedPrefab = ResolveSelectedCharacterPrefab();
-            if (selectedPrefab != null)
-                return selectedPrefab;
-
-            Debug.LogWarning("PlayerSpawner: Selected character prefab is missing or is not a NetworkObject. Falling back to indexed prefab.");
-        }
-
         if (playerPrefabs == null || playerPrefabs.Length == 0)
             return null;
 
-        int prefabIndex = player == runner.LocalPlayer
-            ? Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1)
-            : player.PlayerId % playerPrefabs.Length;
+        if (player != runner.LocalPlayer)
+        {
+            int prefabIndex = player.PlayerId % playerPrefabs.Length;
+            return playerPrefabs[prefabIndex];
+        }
 
-        NetworkObject fallback = playerPrefabs[prefabIndex];
-        if (fallback != null)
-            return fallback;
+        NetworkObject selectedPrefab = ResolveSelectedCharacterPrefab();
+        if (selectedPrefab != null)
+            return selectedPrefab;
 
-        Debug.LogError($"PlayerSpawner: No fallback prefab for player {player.PlayerId} at index {prefabIndex}.");
-        return null;
+        Debug.LogWarning("PlayerSpawner: Selected character prefab is missing. Falling back to indexed prefab.");
+
+        int fallbackIndex = Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1);
+        return playerPrefabs[fallbackIndex];
     }
 
     private NetworkObject ResolveSelectedCharacterPrefab()

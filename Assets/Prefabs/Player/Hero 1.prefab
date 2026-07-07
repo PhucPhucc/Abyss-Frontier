@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: -1241896850893788079}
   - component: {fileID: -6180724500082653247}
   - component: {fileID: 7501734530995858348}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hero 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 769353063
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3681601231273768170, guid: f0e16c488dbbc3e0b9a766220e321db8, type: 3}
