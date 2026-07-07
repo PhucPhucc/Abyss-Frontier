@@ -58,11 +58,21 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
 #if FB_SDK
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"Firebase init exception: {task.Exception?.InnerException?.Message}");
+                initTcs.TrySetResult(false);
+                return;
+            }
+
             if (task.Result == DependencyStatus.Available)
             {
+                FirebaseApp.LogLevel = LogLevel.Verbose;
+                var app = FirebaseApp.DefaultInstance;
+                Debug.Log($"Firebase ready | App: {app.Options.AppId} | Project: {app.Options.ProjectId}");
+
                 auth = FirebaseAuth.DefaultInstance;
                 db = FirebaseFirestore.DefaultInstance;
-                Debug.Log("Firebase ready");
                 IsReady = true;
                 initTcs.TrySetResult(true);
             }

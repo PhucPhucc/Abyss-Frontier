@@ -11,19 +11,37 @@ public class GameLauncher : MonoBehaviour
 
     public async System.Threading.Tasks.Task LaunchAsSingleplayer(string targetSceneName)
     {
-        if (runner != null && runner.IsRunning)
-            return;
-
         if (runnerPrefab == null)
         {
             Debug.LogError("GameLauncher: runnerPrefab is null!");
             return;
         }
 
+        if (runner != null && runner.IsRunning)
+        {
+            Debug.Log("[GameLauncher] Shutting down previous runner...");
+            runner.Shutdown();
+            Destroy(runner.gameObject);
+            runner = null;
+        }
+
         Debug.Log($"[GameLauncher] Loading scene: {targetSceneName}");
         DontDestroyOnLoad(gameObject);
 
-        SceneManager.LoadScene(targetSceneName);
+        string scenePath = $"Assets/Scenes/{targetSceneName}.unity";
+        if (SceneUtility.GetBuildIndexByScenePath(targetSceneName) >= 0)
+        {
+            SceneManager.LoadScene(targetSceneName);
+        }
+        else if (SceneUtility.GetBuildIndexByScenePath(scenePath) >= 0)
+        {
+            SceneManager.LoadScene(scenePath);
+        }
+        else
+        {
+            Debug.Log($"[GameLauncher] Scene not in build profile, trying full path: {scenePath}");
+            SceneManager.LoadScene(scenePath);
+        }
 
         await System.Threading.Tasks.Task.Yield();
 
@@ -53,13 +71,18 @@ public class GameLauncher : MonoBehaviour
 
     public async System.Threading.Tasks.Task LaunchAsHost(string targetSceneName, string sessionName)
     {
-        if (runner != null && runner.IsRunning)
-            return;
-
         if (runnerPrefab == null)
         {
             Debug.LogError("GameLauncher: runnerPrefab is null!");
             return;
+        }
+
+        if (runner != null && runner.IsRunning)
+        {
+            Debug.Log("[GameLauncher] Shutting down previous runner...");
+            runner.Shutdown();
+            Destroy(runner.gameObject);
+            runner = null;
         }
 
         DontDestroyOnLoad(gameObject);
@@ -68,9 +91,7 @@ public class GameLauncher : MonoBehaviour
         runner.name = "Host";
         DontDestroyOnLoad(runner);
 
-        int buildIndex = SceneUtility.GetBuildIndexByScenePath(targetSceneName);
-        if (buildIndex < 0)
-            buildIndex = SceneUtility.GetBuildIndexByScenePath("floor_1");
+        int buildIndex = ResolveBuildIndex(targetSceneName);
 
         Debug.Log($"[GameLauncher] Starting Fusion as Host, session: {sessionName}, scene index: {buildIndex}");
         var args = new StartGameArgs
@@ -93,13 +114,18 @@ public class GameLauncher : MonoBehaviour
 
     public async System.Threading.Tasks.Task LaunchAsClient(string sessionName)
     {
-        if (runner != null && runner.IsRunning)
-            return;
-
         if (runnerPrefab == null)
         {
             Debug.LogError("GameLauncher: runnerPrefab is null!");
             return;
+        }
+
+        if (runner != null && runner.IsRunning)
+        {
+            Debug.Log("[GameLauncher] Shutting down previous runner...");
+            runner.Shutdown();
+            Destroy(runner.gameObject);
+            runner = null;
         }
 
         DontDestroyOnLoad(gameObject);
@@ -123,6 +149,20 @@ public class GameLauncher : MonoBehaviour
             Destroy(runner.gameObject);
             runner = null;
         }
+    }
+
+    private static int ResolveBuildIndex(string sceneName)
+    {
+        int index = SceneUtility.GetBuildIndexByScenePath(sceneName);
+        if (index >= 0) return index;
+
+        index = SceneUtility.GetBuildIndexByScenePath($"Assets/Scenes/{sceneName}.unity");
+        if (index >= 0) return index;
+
+        index = SceneUtility.GetBuildIndexByScenePath("floor1");
+        if (index >= 0) return index;
+
+        return SceneUtility.GetBuildIndexByScenePath("Assets/Scenes/floor1.unity");
     }
 
     private void OnDestroy()

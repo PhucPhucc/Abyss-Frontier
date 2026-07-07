@@ -7,7 +7,7 @@ public class LevelSelectUI : MonoBehaviour
     [SerializeField] private Transform buttonContainer;
 
     private static readonly string[] AllFloors = {
-        "floor_1", "floor_2", "floor_3", "floor_4", "floor_5"
+        "floor1", "floor2", "floor3", "floor4", "floor5"
     };
 
     private void OnEnable()
@@ -34,12 +34,19 @@ public class LevelSelectUI : MonoBehaviour
     public void LoadLevel(string sceneName)
     {
         if (!SaveManager.IsFloorUnlocked(sceneName)) return;
-        string target = sceneName == "floor_1" ? "quiz" : sceneName;
+        string target = sceneName;
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
             _ = launcher.LaunchAsSingleplayer(target);
         else
-            SceneManager.LoadScene(target);
+            LoadSceneFallback(target);
+    }
+
+    private static void LoadSceneFallback(string sceneName)
+    {
+        string scenePath = $"Assets/Scenes/{sceneName}.unity";
+        Debug.Log($"[LevelSelectUI] Loading scene by path: {scenePath}");
+        SceneManager.LoadScene(scenePath);
     }
 
     public void Close()

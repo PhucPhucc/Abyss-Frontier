@@ -58,8 +58,29 @@ public class UIManager : MonoBehaviour
 
     public void MainMenu()
     {
-        Debug.Log("UIManager.MainMenu called - loading Scene_Menu");
+        Debug.Log("UIManager.MainMenu called - saving then quitting");
+        isPaused = false;
         Time.timeScale = 1f;
+        StartCoroutine(SaveThenQuitRoutine());
+    }
+
+    private System.Collections.IEnumerator SaveThenQuitRoutine()
+    {
+        if (SaveManager.Instance != null)
+        {
+            var task = SaveManager.Instance.SaveGameAsync();
+            yield return new WaitUntil(() => task.IsCompleted);
+            Debug.Log($"[UIManager] Save completed. HasSavedGame={SaveManager.Instance.HasSavedGame}");
+        }
+        else
+        {
+            Debug.LogWarning("[UIManager] SaveManager.Instance is null, skipping save");
+        }
+
+        var launcher = FindFirstObjectByType<GameLauncher>();
+        if (launcher != null)
+            Destroy(launcher.gameObject);
+
         SceneManager.LoadScene("Scene_Menu");
     }
 

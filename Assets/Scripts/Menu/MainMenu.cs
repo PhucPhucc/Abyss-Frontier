@@ -39,6 +39,24 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         Debug.Log($"[MainMenu] PlayGame called. SaveManager.Instance={(SaveManager.Instance != null)}, CloudAuth={CloudServiceManager.Instance?.Auth?.UserId}");
+
+        if (SaveManager.Instance != null && SaveManager.Instance.HasSavedGame)
+        {
+            SaveManager.Instance.ContinueGame();
+            return;
+        }
+
+        if (GameSessionData.SelectedCharacterPrefab != null)
+        {
+            Debug.Log($"[MainMenu] Using MenuFlow selection: map={GameSessionData.SelectedMapScene}");
+            var flow = FindFirstObjectByType<MenuFlowController>();
+            if (flow != null)
+            {
+                flow.StartGame();
+                return;
+            }
+        }
+
         SaveManager.Instance?.ContinueGame();
     }
 
@@ -47,12 +65,12 @@ public class MainMenu : MonoBehaviour
         ClearSave();
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
-        SaveManager.UnlockedFloors.Add("floor_1");
+        SaveManager.UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer("quiz");
+            _ = launcher.LaunchAsSingleplayer("floor1");
         else
-            SceneManager.LoadScene("quiz");
+            SceneManager.LoadScene("floor1");
     }
 
     public void OpenLevelSelect()
@@ -75,6 +93,8 @@ public class MainMenu : MonoBehaviour
 
     private void ClearSave()
     {
+        if (SaveManager.Instance != null)
+            SaveManager.ClearSavedDataFlag();
         string uid = CloudServiceManager.Instance?.Auth?.UserId;
         if (uid != null && PlayerPrefs.HasKey("DummySaveData_" + uid))
         {

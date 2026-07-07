@@ -52,27 +52,32 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (alreadySpawning) return;
         alreadySpawning = true;
 
-        if (runner == null || !runner.IsRunning)
+        try
+        {
+            if (runner == null || !runner.IsRunning)
+                return;
+
+            var points = FindSpawnPoints();
+            NetworkObject prefab = ResolvePrefabForPlayer(player);
+            if (prefab == null)
+            {
+                Debug.LogError($"PlayerSpawner: No valid player prefab for player {player.PlayerId}.");
+                return;
+            }
+
+            Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;
+
+            await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, player);
+            Debug.Log($"Spawned {prefab.name} for player {player.PlayerId} at {spawnPos}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[PlayerSpawner] Spawn failed: {ex.Message}");
+        }
+        finally
         {
             alreadySpawning = false;
-            return;
         }
-
-        var points = FindSpawnPoints();
-        NetworkObject prefab = ResolvePrefabForPlayer(player);
-        if (prefab == null)
-        {
-            Debug.LogError($"PlayerSpawner: No valid player prefab for player {player.PlayerId}.");
-            alreadySpawning = false;
-            return;
-        }
-
-        Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;
-
-        await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, player);
-        Debug.Log($"Spawned {prefab.name} for player {player.PlayerId} at {spawnPos}");
-
-        alreadySpawning = false;
     }
 
     private NetworkObject ResolvePrefabForPlayer(PlayerRef player)
@@ -93,7 +98,12 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             ? Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1)
             : player.PlayerId % playerPrefabs.Length;
 
-        return playerPrefabs[prefabIndex];
+        NetworkObject fallback = playerPrefabs[prefabIndex];
+        if (fallback != null)
+            return fallback;
+
+        Debug.LogError($"PlayerSpawner: No fallback prefab for player {player.PlayerId} at index {prefabIndex}.");
+        return null;
     }
 
     private NetworkObject ResolveSelectedCharacterPrefab()

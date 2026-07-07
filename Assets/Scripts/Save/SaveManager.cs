@@ -7,7 +7,7 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
 
-    public static List<string> UnlockedFloors { get; private set; } = new List<string> { "floor_1" };
+    public static List<string> UnlockedFloors { get; private set; } = new List<string> { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoInit()
@@ -37,14 +37,19 @@ public class SaveManager : MonoBehaviour
             UnlockedFloors.Add(sceneName);
     }
 
+    private static bool _hasSavedData;
+
     public bool HasSavedGame
     {
         get
         {
+            if (_hasSavedData) return true;
             string uid = CloudServiceManager.Instance?.Auth?.UserId;
             return uid != null && PlayerPrefs.HasKey("DummySaveData_" + uid);
         }
     }
+
+    public static void ClearSavedDataFlag() => _hasSavedData = false;
 
     public void SaveGame()
     {
@@ -110,7 +115,15 @@ public class SaveManager : MonoBehaviour
         var success = await CloudServiceManager.Instance.Save.SavePlayerData(
             CloudServiceManager.Instance.Auth.UserId, json);
 
-        Debug.Log(success ? "Game saved!" : "Save failed!");
+        if (success)
+        {
+            _hasSavedData = true;
+            Debug.Log("Game saved!");
+        }
+        else
+        {
+            Debug.Log("Save failed!");
+        }
     }
 
     public void ContinueGame()
@@ -123,9 +136,16 @@ public class SaveManager : MonoBehaviour
         var auth = CloudServiceManager.Instance?.Auth;
         var save = CloudServiceManager.Instance?.Save;
         Debug.Log($"[SaveManager] ContinueAsync: auth={auth != null}, save={save != null}, userId={auth?.UserId}");
+        // Wait up to ~15s for Firebase Auth to be ready
+        for (int i = 0; (auth == null || save == null) && i < 150; i++)
+        {
+            await System.Threading.Tasks.Task.Delay(100);
+            auth = CloudServiceManager.Instance?.Auth;
+            save = CloudServiceManager.Instance?.Save;
+        }
         if (auth == null || save == null)
         {
-            Debug.Log("[SaveManager] Auth or Save null → FallbackNewGame");
+            Debug.Log("[SaveManager] Auth or Save not ready after waiting → FallbackNewGame");
             FallbackNewGame();
             return;
         }
@@ -149,7 +169,7 @@ public class SaveManager : MonoBehaviour
 
         string sceneName = data.sceneName;
         if (string.IsNullOrEmpty(sceneName))
-            sceneName = "quiz";
+            sceneName = "floor1";
 
         _pendingRestoreData = data;
 
@@ -169,16 +189,17 @@ public class SaveManager : MonoBehaviour
 
     private void FallbackNewGame()
     {
+        _hasSavedData = false;
         Debug.Log("[SaveManager] FallbackNewGame");
         EnemyHealth.KilledEnemyIds.Clear();
         UnlockedFloors.Clear();
-        UnlockedFloors.Add("floor_1");
+        UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
         var launcher = FindFirstObjectByType<GameLauncher>();
         Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
         if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer("quiz");
+            _ = launcher.LaunchAsSingleplayer("floor1");
         else
-            SceneManager.LoadScene("quiz");
+            SceneManager.LoadScene("floor1");
     }
 
     private GameSaveData _pendingRestoreData;
@@ -200,7 +221,7 @@ public class SaveManager : MonoBehaviour
         if (data.unlockedFloors != null && data.unlockedFloors.Count > 0)
             UnlockedFloors.AddRange(data.unlockedFloors);
         else
-            UnlockedFloors.Add("floor_1");
+            UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
 
         RestoreEnemies(data);
         StartCoroutine(WaitForPlayerAndRestore(data));

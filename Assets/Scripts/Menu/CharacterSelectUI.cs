@@ -9,6 +9,16 @@ public class CharacterSelectUI : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private MenuFlowController menuFlowController;
 
+    private MenuFlowController FlowController
+    {
+        get
+        {
+            if (menuFlowController == null)
+                menuFlowController = FindFirstObjectByType<MenuFlowController>();
+            return menuFlowController;
+        }
+    }
+
     private CharacterCard[] cards;
     private int selectedIndex = -1;
 
@@ -48,8 +58,8 @@ public class CharacterSelectUI : MonoBehaviour
         selectedIndex = index;
         cards[selectedIndex].SetHighlight(true);
 
-        if (menuFlowController != null)
-            menuFlowController.SelectCharacter(index, characterDataArray[index]);
+        GameSessionData.SelectCharacter(index, characterDataArray[index]);
+        FlowController?.SelectCharacter(index, characterDataArray[index]);
 
         if (confirmButton != null)
             confirmButton.interactable = true;
@@ -57,7 +67,7 @@ public class CharacterSelectUI : MonoBehaviour
 
     public void OnConfirmClicked()
     {
-        if (selectedIndex >= 0 && menuFlowController != null)
-            menuFlowController.StartGame();
+        if (selectedIndex >= 0 && FlowController != null)
+            FlowController.StartGame();
     }
 }
