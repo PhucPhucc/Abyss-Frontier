@@ -222,11 +222,7 @@ public class SaveManager : MonoBehaviour
         if (data.unlockedFloors != null && data.unlockedFloors.Count > 0)
             UnlockedFloors.AddRange(data.unlockedFloors);
         else
-<<<<<<< HEAD
             UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
-=======
-            UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
->>>>>>> dev
 
         RestoreEnemies(data);
         StartCoroutine(WaitForPlayerAndRestore(data));
