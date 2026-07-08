@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelSelectUI : MonoBehaviour
 {
@@ -29,24 +28,6 @@ public class LevelSelectUI : MonoBehaviour
                 ui.Setup(floor, SaveManager.IsFloorUnlocked(floor));
             }
         }
-    }
-
-    public void LoadLevel(string sceneName)
-    {
-        if (!SaveManager.IsFloorUnlocked(sceneName)) return;
-        string target = sceneName;
-        var launcher = FindFirstObjectByType<GameLauncher>();
-        if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer(target);
-        else
-            LoadSceneFallback(target);
-    }
-
-    private static void LoadSceneFallback(string sceneName)
-    {
-        string scenePath = $"Assets/Scenes/{sceneName}.unity";
-        Debug.Log($"[LevelSelectUI] Loading scene by path: {scenePath}");
-        SceneManager.LoadScene(scenePath);
     }
 
     public void Close()

@@ -26,7 +26,7 @@ public class GameLauncher : MonoBehaviour
         if (runner != null && runner.IsRunning)
         {
             Debug.Log("[GameLauncher] Shutting down previous runner...");
-            runner.Shutdown();
+            await runner.Shutdown();
             Destroy(runner.gameObject);
             runner = null;
         }
@@ -86,7 +86,7 @@ public class GameLauncher : MonoBehaviour
         if (runner != null && runner.IsRunning)
         {
             Debug.Log("[GameLauncher] Shutting down previous runner...");
-            runner.Shutdown();
+            await runner.Shutdown();
             Destroy(runner.gameObject);
             runner = null;
         }
@@ -129,7 +129,7 @@ public class GameLauncher : MonoBehaviour
         if (runner != null && runner.IsRunning)
         {
             Debug.Log("[GameLauncher] Shutting down previous runner...");
-            runner.Shutdown();
+            await runner.Shutdown();
             Destroy(runner.gameObject);
             runner = null;
         }

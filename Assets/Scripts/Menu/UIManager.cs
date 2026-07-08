@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject winPanel;
     public GameObject losePanel;
+    public SaveConfirmPopup saveConfirmPopup;
 
     private bool isPaused;
 
@@ -41,30 +42,51 @@ public class UIManager : MonoBehaviour
     public void PauseGame()
     {
         pausePanel.SetActive(true);
-
         Time.timeScale = 0f;
-
         isPaused = true;
     }
 
     public void ResumeGame()
     {
         pausePanel.SetActive(false);
-
         Time.timeScale = 1f;
-
         isPaused = false;
     }
 
     public void MainMenu()
     {
-        Debug.Log("UIManager.MainMenu called - saving then quitting");
-        isPaused = false;
-        Time.timeScale = 1f;
-        StartCoroutine(SaveThenQuitRoutine());
+        pausePanel.SetActive(false);
+
+        if (saveConfirmPopup == null)
+            saveConfirmPopup = new GameObject("SaveConfirmPopup").AddComponent<SaveConfirmPopup>();
+
+        saveConfirmPopup.Show(OnMainMenuSaveYes, OnMainMenuSaveNo);
     }
 
-    private System.Collections.IEnumerator SaveThenQuitRoutine()
+    private void OnMainMenuSaveYes()
+    {
+        StartCoroutine(SaveThenGoToMenu());
+    }
+
+    private void OnMainMenuSaveNo()
+    {
+        GoToMainMenu();
+    }
+
+    private void GoToMainMenu()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        GameSessionData.ResetSession();
+
+        var launcher = FindFirstObjectByType<GameLauncher>();
+        if (launcher != null)
+            Destroy(launcher.gameObject);
+
+        SceneManager.LoadScene("Scene_Menu");
+    }
+
+    private System.Collections.IEnumerator SaveThenGoToMenu()
     {
         if (SaveManager.Instance != null)
         {
@@ -77,11 +99,7 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("[UIManager] SaveManager.Instance is null, skipping save");
         }
 
-        var launcher = FindFirstObjectByType<GameLauncher>();
-        if (launcher != null)
-            Destroy(launcher.gameObject);
-
-        SceneManager.LoadScene("Scene_Menu");
+        GoToMainMenu();
     }
 
     public void OpenSettings()

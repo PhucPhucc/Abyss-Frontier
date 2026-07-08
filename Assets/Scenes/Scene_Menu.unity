@@ -8437,6 +8437,7 @@ MonoBehaviour:
   ContinueButton: {fileID: 0}
   LevelSelectPanel: {fileID: 0}
   ConfirmPanel: {fileID: 0}
+  saveConfirmPopup: {fileID: 0}
 --- !u!114 &1250683972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11512,6 +11513,7 @@ MonoBehaviour:
   ContinueButton: {fileID: 0}
   LevelSelectPanel: {fileID: 0}
   ConfirmPanel: {fileID: 0}
+  saveConfirmPopup: {fileID: 0}
 --- !u!114 &1623541922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14412,7 +14414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayGame
+      value: ContinueFromSave
       objectReference: {fileID: 0}
     - target: {fileID: 8914069073245842202, guid: b71244f484d750349a93e6cb6203c523, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
