@@ -1,13 +1,12 @@
 using UnityEngine;
 
 /// <summary>
-/// Tìm child "TorchPrompt_Canvas" đã có sẵn trong prefab và toggle SetActive.
-/// Gắn vào cùng GameObject chứa Torch.cs.
+/// Quản lý UI Prompt hiện lên khi người chơi đến gần object.
+/// Hỗ trợ hiệu ứng bobbing (lơ lửng).
 /// </summary>
-[RequireComponent(typeof(Torch))]
-public class TorchPromptUI : MonoBehaviour
+public class InteractPromptUI : MonoBehaviour
 {
-    [SerializeField] private GameObject promptCanvas; // kéo TorchPrompt_Canvas vào đây, hoặc để tự tìm
+    [SerializeField] private GameObject promptCanvas; // Gán Inspector hoặc script tự tìm child có tên chứa "Prompt_Canvas"
 
     [Header("Animation")]
     [SerializeField] private float bobAmplitude = 0.05f;
@@ -20,7 +19,16 @@ public class TorchPromptUI : MonoBehaviour
     {
         // Tự tìm nếu chưa gán trong Inspector
         if (promptCanvas == null)
-            promptCanvas = transform.Find("TorchPrompt_Canvas")?.gameObject;
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.name.Contains("Prompt_Canvas"))
+                {
+                    promptCanvas = child.gameObject;
+                    break;
+                }
+            }
+        }
 
         if (promptCanvas != null)
             _baseLocalY = promptCanvas.transform.localPosition.y;

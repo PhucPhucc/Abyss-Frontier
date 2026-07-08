@@ -29,6 +29,7 @@ public class FloorTorchManager : MonoBehaviour
     {
         while (true)
         {
+            bool allDone = true;
             GameObject[] players = GameObject.FindGameObjectsWithTag(playerTag);
 
             foreach (GameObject player in players)
@@ -46,6 +47,7 @@ public class FloorTorchManager : MonoBehaviour
                     light2D.intensity = lightIntensity;
                     light2D.pointLightOuterRadius = lightOuterRadius;
                     light2D.color = lightColor;
+                    allDone = false;
                 }
 
                 //----------------------------------
@@ -57,18 +59,23 @@ public class FloorTorchManager : MonoBehaviour
                 {
                     flicker = player.AddComponent<TorchFlicker>();
                     flicker.Init(baseIntensity, flickerAmount, flickerSpeed, baseRadius, radiusFlicker);
+                    allDone = false;
                 }
 
                 //----------------------------------
-                // PlayerTorchInteraction
+                // PlayerInteractor
                 //----------------------------------
-                PlayerTorchInteraction interaction = player.GetComponent<PlayerTorchInteraction>();
+                PlayerInteractor interaction = player.GetComponent<PlayerInteractor>();
 
                 if (interaction == null)
                 {
-                    player.AddComponent<PlayerTorchInteraction>();
+                    player.AddComponent<PlayerInteractor>();
+                    allDone = false;
                 }
             }
+
+            if (allDone && players.Length > 0)
+                yield break; // Dừng coroutine khi đã setup xong cho tất cả Player
 
             yield return new WaitForSeconds(0.5f);
         }
