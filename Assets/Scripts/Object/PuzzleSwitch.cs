@@ -2,7 +2,8 @@ using UnityEngine;
 
 public enum SwitchType { Sun, Moon, Fire, Earth, Wind, Water }
 
-public class PuzzleSwitch : MonoBehaviour
+[RequireComponent(typeof(InteractableTrigger))]
+public class PuzzleSwitch : MonoBehaviour, IInteractable
 {
     public SwitchType myType;
     private bool isActivated = false;
@@ -13,28 +14,36 @@ public class PuzzleSwitch : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void Interact(GameObject interactor)
     {
-        // Khi người chơi chạm vào và công tắc chưa bật
-        if (other.CompareTag("Player") && !isActivated)
+        // Nếu đã gạt rồi thì bỏ qua
+        if (isActivated) return;
+
+        isActivated = true;
+        if (anim != null)
         {
-            Interact();
+            anim.SetBool("IsOn", true); // Kích hoạt hoạt ảnh gạt xuống
+        }
+
+        // Báo cho trọng tài biết nút này vừa được gạt
+        if (PuzzleManager.Instance != null)
+        {
+            PuzzleManager.Instance.OnSwitchActivated(myType, this);
         }
     }
 
-    private void Interact()
+    public void ShowPrompt(bool show)
     {
-        isActivated = true;
-        anim.SetBool("IsOn", true); // Kích hoạt hoạt ảnh gạt xuống
-
-        // Báo cho trọng tài biết nút này vừa được gạt
-        PuzzleManager.Instance.OnSwitchActivated(myType, this);
+        // Todo: Có thể gắn thêm UI hiển thị "[E] Gạt cần" ở đây giống như Torch
     }
 
     // Hàm này để Manager gọi khi người chơi giải sai và cần gạt nảy lên lại
     public void ResetSwitch()
     {
         isActivated = false;
-        anim.SetBool("IsOn", false); // Kích hoạt hoạt ảnh nảy lên
+        if (anim != null)
+        {
+            anim.SetBool("IsOn", false); // Kích hoạt hoạt ảnh nảy lên
+        }
     }
 }
