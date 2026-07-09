@@ -1,18 +1,17 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class Torch : MonoBehaviour
+public class Torch : MonoBehaviour, IInteractable
 {
     [SerializeField] private Animator animator;
     [SerializeField] private Light2D light2D;
 
     private bool lit = false;
-    private TorchPromptUI promptUI;
+    private InteractPromptUI promptUI;
 
     private void Awake()
     {
-        // TorchPromptUI có thể nằm trên cùng GameObject
-        promptUI = GetComponent<TorchPromptUI>();
+        promptUI = GetComponent<InteractPromptUI>();
     }
 
     public void LightTorch()
@@ -34,6 +33,14 @@ public class Torch : MonoBehaviour
     public bool IsLit()
     {
         return lit;
+    }
+
+    public void Interact(GameObject interactor)
+    {
+        if (!lit)
+        {
+            LightTorch();
+        }
     }
 
     /// <summary>Yêu cầu hiện/ẩn prompt (bị bỏ qua nếu đuốc đã sáng).</summary>

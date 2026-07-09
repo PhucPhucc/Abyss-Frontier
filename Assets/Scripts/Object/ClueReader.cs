@@ -1,61 +1,24 @@
 using UnityEngine;
 
-public class ClueReader : MonoBehaviour
+[RequireComponent(typeof(InteractableTrigger))]
+public class ClueReader : MonoBehaviour, IInteractable
 {
     [Header("UI Reference")]
     public GameObject clueUIPanel;
     
-    [Tooltip("The maximum distance for reading a book.")]
-    public float interactionRange = 2f;
+    // Không cần interactionRange và player reference nữa vì InteractableTrigger (Collider2D) sẽ lo việc quét khoảng cách
 
-    private Transform player;
-
-    private void Start()
+    public void Interact(GameObject interactor)
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("SpawnPointer");
-
-        if (playerObj != null)
+        if (clueUIPanel != null)
         {
-            player = playerObj.transform;
-        }
-        else
-        {
-            Debug.LogWarning("Not found Player");
+            // Bật/tắt panel khi người chơi bấm nút tương tác
+            clueUIPanel.SetActive(!clueUIPanel.activeSelf);
         }
     }
 
-    // Hàm này chạy khi click chuột vào Collider của cuốn sách
-    private void OnMouseDown()
+    public void ShowPrompt(bool show)
     {
-        // 1. Kiểm tra an toàn xem đã gán Player chưa
-        if (player == null)
-        {
-            Debug.LogWarning("You forgot to drag the Player object into the ClueReader script");
-            return;
-        }
-
-        // 2. Tính khoảng cách giữa Sách (transform.position) và Người chơi (player.position)
-        float distance = Vector2.Distance(transform.position, player.position);
-
-        // 3. Nếu khoảng cách nhỏ hơn hoặc bằng giới hạn cho phép -> Mở sách
-        if (distance <= interactionRange)
-        {
-            if (clueUIPanel != null)
-            {
-                clueUIPanel.SetActive(true);
-            }
-        }
-        else
-        {
-            // Nếu đứng quá xa
-            Debug.Log("You're too far away; get closer to the book");
-        }
-    }
-
-    // (Bonus) Hàm này vẽ một vòng tròn màu vàng trong cửa sổ Scene để bạn dễ căn chỉnh khoảng cách
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, interactionRange);
+        // Todo: Tương lai có thể hiện UI popup nhỏ báo hiệu "[E] Đọc sách"
     }
 }
