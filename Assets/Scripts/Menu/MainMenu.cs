@@ -12,6 +12,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        GameSessionData.ResetSession();
+
         if (ContinueButton != null)
             ContinueButton.SetActive(false);
 
@@ -173,13 +175,14 @@ public class MainMenu : MonoBehaviour
     {
         if (SaveManager.Instance == null) return;
 
-        string target = GameSessionData.SelectedMapScene;
-        if (!SaveManager.HasSaveForMap(target))
+        var savedMaps = SaveManager.GetSavedMaps();
+        if (savedMaps == null || savedMaps.Count == 0)
         {
-            ShowNoSavePopup(target);
+            ShowNoSavePopup("floor1");
             return;
         }
 
+        string target = savedMaps[0];
         SaveManager.Instance.ContinueGame(target);
     }
 

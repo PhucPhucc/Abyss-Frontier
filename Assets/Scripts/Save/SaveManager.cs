@@ -186,11 +186,13 @@ public class SaveManager : MonoBehaviour
 
     public void SaveGame()
     {
+        if (GameSessionData.IsMultiplayer) return;
         SaveInternal();
     }
 
     public async System.Threading.Tasks.Task SaveGameAsync()
     {
+        if (GameSessionData.IsMultiplayer) return;
         SaveInternal();
         if (CloudServiceManager.Instance?.Save != null && CloudServiceManager.Instance?.Auth?.UserId != null)
         {
@@ -387,6 +389,11 @@ public class SaveManager : MonoBehaviour
     private void OnSceneLoadedForRestore(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnSceneLoadedForRestore;
+        if (GameSessionData.IsMultiplayer)
+        {
+            _pendingRestoreData = null;
+            return;
+        }
         if (_pendingRestoreData == null) return;
 
         var data = _pendingRestoreData;

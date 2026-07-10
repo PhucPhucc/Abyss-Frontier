@@ -72,7 +72,21 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 return;
             }
 
-            Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;
+            Vector3 spawnPos = Vector3.zero;
+            if (points.Length > 0)
+            {
+                // Phân bổ đều các player vào các spawn point khác nhau nếu có nhiều điểm
+                int pointIndex = player.PlayerId % points.Length;
+                spawnPos = points[pointIndex].position;
+
+                // Nếu chỉ có 1 điểm spawn duy nhất, tạo offset nhỏ hình tròn theo Player ID
+                // để tránh việc các nhân vật đè lên nhau gây xung đột vật lý hoặc bị kẹt
+                if (points.Length == 1)
+                {
+                    float angle = (player.PlayerId * 45f) * Mathf.Deg2Rad;
+                    spawnPos += new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * 0.5f;
+                }
+            }
 
             await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, player);
             Debug.Log($"Spawned {prefab.name} for player {player.PlayerId} at {spawnPos}");

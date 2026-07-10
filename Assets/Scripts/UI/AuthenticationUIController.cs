@@ -121,7 +121,11 @@ public class AuthenticationUIController : MonoBehaviour
 
             var result = await CloudServiceManager.Instance.Auth.LoginWithEmail(email, password);
 
-            if (loginSubmitBtn != null) loginSubmitBtn.interactable = true;
+            if (loginSubmitBtn != null)
+            {
+                loginSubmitBtn.interactable = true;
+                Debug.Log("[AuthUI] loginSubmitBtn set to interactable = true");
+            }
 
             if (result.Success)
             {
@@ -129,7 +133,10 @@ public class AuthenticationUIController : MonoBehaviour
             }
             else
             {
-                if (loginErrorText != null) loginErrorText.text = $"Đăng nhập thất bại: {result.ErrorMessage}";
+                if (loginErrorText != null)
+                    loginErrorText.text = $"Đăng nhập thất bại: {result.ErrorMessage}";
+                else
+                    Debug.LogWarning("[AuthUI] loginErrorText chưa được gán trong Inspector!");
             }
         }
         else
@@ -165,7 +172,11 @@ public class AuthenticationUIController : MonoBehaviour
 
             var result = await CloudServiceManager.Instance.Auth.RegisterWithEmail(email, password);
 
-            if (signUpSubmitBtn != null) signUpSubmitBtn.interactable = true;
+            if (signUpSubmitBtn != null)
+            {
+                signUpSubmitBtn.interactable = true;
+                Debug.Log("[AuthUI] signUpSubmitBtn set to interactable = true");
+            }
 
             if (result.Success)
             {
@@ -173,7 +184,10 @@ public class AuthenticationUIController : MonoBehaviour
             }
             else
             {
-                if (signUpErrorText != null) signUpErrorText.text = $"Đăng ký thất bại: {result.ErrorMessage}";
+                if (signUpErrorText != null)
+                    signUpErrorText.text = $"Đăng ký thất bại: {result.ErrorMessage}";
+                else
+                    Debug.LogWarning("[AuthUI] signUpErrorText chưa được gán trong Inspector!");
             }
         }
         else

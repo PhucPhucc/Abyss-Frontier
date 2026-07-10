@@ -57,10 +57,27 @@ public class UIManager : MonoBehaviour
     {
         pausePanel.SetActive(false);
 
-        if (saveConfirmPopup == null)
-            saveConfirmPopup = new GameObject("SaveConfirmPopup").AddComponent<SaveConfirmPopup>();
+        bool isMultiplayer = GameSessionData.IsMultiplayer;
+        if (!isMultiplayer)
+        {
+            var runner = FindFirstObjectByType<Fusion.NetworkRunner>();
+            if (runner != null && runner.IsRunning && runner.GameMode != Fusion.GameMode.Single)
+            {
+                isMultiplayer = true;
+            }
+        }
 
-        saveConfirmPopup.Show(OnMainMenuSaveYes, OnMainMenuSaveNo);
+        if (isMultiplayer)
+        {
+            GoToMainMenu();
+        }
+        else
+        {
+            if (saveConfirmPopup == null)
+                saveConfirmPopup = new GameObject("SaveConfirmPopup").AddComponent<SaveConfirmPopup>();
+
+            saveConfirmPopup.Show(OnMainMenuSaveYes, OnMainMenuSaveNo);
+        }
     }
 
     private void OnMainMenuSaveYes()
@@ -77,7 +94,6 @@ public class UIManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
-        GameSessionData.ResetSession();
 
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)

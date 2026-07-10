@@ -153,17 +153,25 @@ public class GameplayUIBootstrap : MonoBehaviour
 
         currentPlayer = targetPlayer;
 
-        if (hudController == null)
+        // Find all HUD controllers in the scene (including inactive ones)
+        var hudControllers = FindObjectsByType<GameplayHUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        if (hudControllers.Length > 0)
         {
-            hudController = FindFirstObjectByType<GameplayHUDController>();
+            hudController = hudControllers[0];
+            foreach (var hc in hudControllers)
+            {
+                if (hc != null)
+                {
+                    hc.SetPlayer(currentPlayer);
+                }
+            }
         }
-
-        if (hudController == null)
+        else
         {
+            // If none found, create a new runtime HUD
             hudController = GameplayHUDController.CreateRuntimeHud();
+            hudController.SetPlayer(currentPlayer);
         }
-
-        hudController.SetPlayer(currentPlayer);
         refreshRetries = 10;
     }
 
