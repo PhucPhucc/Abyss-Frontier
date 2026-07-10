@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 4
+  interactionRange: 1.5
 --- !u!1 &274835422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8877682394189645217, guid: 986ddcce3c05919429529ad7588c1bbf, type: 3}
@@ -165,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 5
+  interactionRange: 1.5
 --- !u!1 &282732892
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 3
+  interactionRange: 1.5
 --- !u!1 &739300408
 GameObject:
   m_ObjectHideFlags: 0
@@ -18301,6 +18304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 2
+  interactionRange: 1.5
 --- !u!1 &1372897701
 GameObject:
   m_ObjectHideFlags: 0
@@ -18761,6 +18765,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1468828204}
   - component: {fileID: 1468828203}
+  - component: {fileID: 1468828205}
   m_Layer: 0
   m_Name: rock
   m_TagString: Untagged
@@ -18814,7 +18819,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1652143861
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -855298285791758126, guid: 0c886a3586530fc46a371838b7f4f4cc, type: 3}
@@ -18842,6 +18847,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1468828205
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468828202}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.6875, y: 0.5}
+    newSize: {x: 0.34375, y: 0.25}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.6875, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1 &1509156548
 GameObject:
   m_ObjectHideFlags: 0
@@ -25804,7 +25855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 470099fd5b028dd479f894a45caa4020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleManager
-  correctSequence: 00000000020000000300000004000000000000000500000001000000
+  correctSequence: 000000000200000003000000040000000500000001000000
 --- !u!4 &1576639061
 Transform:
   m_ObjectHideFlags: 0
@@ -25837,6 +25888,7 @@ GameObject:
   - component: {fileID: 1651310915}
   - component: {fileID: 1651310914}
   - component: {fileID: 1651310916}
+  - component: {fileID: 1651310917}
   m_Layer: 0
   m_Name: ClueBook
   m_TagString: Untagged
@@ -25890,8 +25942,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1652143861
-  m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingLayer: 7
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3843231544584785974, guid: 0d301034ac975e24f9f15600da32b6a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -25932,6 +25984,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClueReader
   clueUIPanel: {fileID: 2128688770}
   interactionRange: 2
+--- !u!61 &1651310917
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651310913}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.3, y: 0.8333333}
+    newSize: {x: 2.4375, y: 1.5625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.3, y: 0.8333333}
+  m_EdgeRadius: 0
 --- !u!1 &1741866108 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1529940381219997202, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
@@ -25955,6 +26053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 0
+  interactionRange: 1.5
 --- !u!1 &1868241768
 GameObject:
   m_ObjectHideFlags: 0
@@ -26034,7 +26133,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 704458273
-  m_SortingLayer: 8
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -26549,6 +26648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 1
+  interactionRange: 1.5
 --- !u!1 &2044437772
 GameObject:
   m_ObjectHideFlags: 0
@@ -26731,6 +26831,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -5.700012
       objectReference: {fileID: 0}
+    - target: {fileID: 4373183797270464701, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4373183797270464701, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2128688770}
+    - target: {fileID: 4373183797270464701, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 4373183797270464701, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4373183797270464701, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6397214249176272497, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -26863,6 +26983,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1576639061}
     m_Modifications:
+    - target: {fileID: 1857312150649554716, guid: 986ddcce3c05919429529ad7588c1bbf, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8456971324371840932, guid: 986ddcce3c05919429529ad7588c1bbf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 36
@@ -26963,6 +27087,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5911185506489415780, guid: bfec2177186fa8041bb9501ca34d66a8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7102929996843187301, guid: bfec2177186fa8041bb9501ca34d66a8, type: 3}
       propertyPath: m_Name
       value: LeverSwitchMoon
@@ -26986,6 +27114,10 @@ PrefabInstance:
     - target: {fileID: 1529940381219997202, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
       propertyPath: m_Name
       value: LeverSwitchSun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241718774259706090, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5561668437694968547, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -27083,6 +27215,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2354098951107513356, guid: eb9e92bb8cdf73740b4ae7e5cc66a7fa, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3640922995549288466, guid: eb9e92bb8cdf73740b4ae7e5cc66a7fa, type: 3}
       propertyPath: m_Name
       value: LeverSwitchFire
@@ -27103,6 +27239,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1576639061}
     m_Modifications:
+    - target: {fileID: 586114183555012529, guid: b30ca00e5af967c4286061f3c7f972a8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1730705256672579245, guid: b30ca00e5af967c4286061f3c7f972a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.02
@@ -27166,6 +27306,10 @@ PrefabInstance:
     - target: {fileID: 5389002739411670807, guid: d5f8b63e58606f944811db3a840e493d, type: 3}
       propertyPath: m_Name
       value: LeverSwitchEarth
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116966564029365490, guid: d5f8b63e58606f944811db3a840e493d, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9103518121412888364, guid: d5f8b63e58606f944811db3a840e493d, type: 3}
       propertyPath: m_LocalPosition.x

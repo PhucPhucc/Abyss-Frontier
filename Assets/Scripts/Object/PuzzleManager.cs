@@ -21,6 +21,12 @@ public class PuzzleManager : MonoBehaviour
         currentInputSequence.Add(type);
         activatedSwitches.Add(pressedSwitch);
 
+        // --- ĐÃ THÊM DEBUG LOG Ở ĐÂY ---
+        // Nối các phần tử trong List lại với nhau bằng mũi tên " -> " để dễ nhìn
+        string currentLog = string.Join(" -> ", currentInputSequence);
+        Debug.Log("Thứ tự system ghi nhận hiện tại: " + currentLog);
+        // -------------------------------
+
         int currentIndex = currentInputSequence.Count - 1;
 
         // KIỂM TRA: Nút vừa gạt có đúng vị trí trong chuỗi đáp án không?
@@ -31,7 +37,7 @@ public class PuzzleManager : MonoBehaviour
             return;
         }
 
-        // KIỂM TRA: Đã gạt đủ 6 nút chưa?
+        // KIỂM TRA: Đã gạt đủ nút chưa?
         if (currentInputSequence.Count == correctSequence.Count)
         {
             Debug.Log("Giải đố thành công! Mở cửa phòng Boss!");
