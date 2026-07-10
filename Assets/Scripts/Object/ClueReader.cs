@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // 1. Bắt buộc thêm dòng này
 
-public class ClueReader : MonoBehaviour
+[RequireComponent(typeof(InteractableTrigger))]
+public class ClueReader : MonoBehaviour, IInteractable
 {
     [Header("UI Reference")]
     public GameObject clueUIPanel;
@@ -40,7 +41,6 @@ public class ClueReader : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, interactionRange);
+        // Todo: Tương lai có thể hiện UI popup nhỏ báo hiệu "[E] Đọc sách"
     }
 }

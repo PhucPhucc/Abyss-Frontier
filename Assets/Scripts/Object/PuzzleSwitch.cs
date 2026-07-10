@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 
 public enum SwitchType { Sun, Moon, Fire, Earth, Wind, Water }
 
-public class PuzzleSwitch : MonoBehaviour
+[RequireComponent(typeof(InteractableTrigger))]
+public class PuzzleSwitch : MonoBehaviour, IInteractable
 {
     public SwitchType myType;
     private Animator anim;
