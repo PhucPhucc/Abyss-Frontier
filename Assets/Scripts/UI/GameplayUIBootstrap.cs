@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
+using Fusion;
 
 [DisallowMultipleComponent]
 public class GameplayUIBootstrap : MonoBehaviour
@@ -15,6 +16,7 @@ public class GameplayUIBootstrap : MonoBehaviour
     private PlayerStats currentPlayer;
     private float enemyScanTimer;
     private float playerScanTimer;
+    private int refreshRetries;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void InitializeForRuntime()
@@ -73,8 +75,35 @@ public class GameplayUIBootstrap : MonoBehaviour
             return;
         }
 
-        if (currentPlayer != null && hudController != null)
+        // Check if current player is still valid and has input authority if in multiplayer
+        bool isCurrentPlayerValid = currentPlayer != null;
+        if (isCurrentPlayerValid)
         {
+            var runner = FindFirstObjectByType<NetworkRunner>();
+            bool isMultiplayer = runner != null && runner.IsRunning && runner.GameMode != GameMode.Single;
+            if (isMultiplayer)
+            {
+                if (currentPlayer.TryGetComponent<NetworkObject>(out var netObj))
+                {
+                    if (!netObj.HasInputAuthority)
+                    {
+                        isCurrentPlayerValid = false;
+                    }
+                }
+                else
+                {
+                    isCurrentPlayerValid = false;
+                }
+            }
+        }
+
+        if (isCurrentPlayerValid && hudController != null)
+        {
+            if (refreshRetries > 0)
+            {
+                refreshRetries--;
+                hudController.SetPlayer(currentPlayer);
+            }
             return;
         }
 
@@ -85,11 +114,44 @@ public class GameplayUIBootstrap : MonoBehaviour
         }
 
         playerScanTimer = 0.25f;
-        currentPlayer = FindFirstObjectByType<PlayerStats>();
-        if (currentPlayer == null)
+
+        var currentRunner = FindFirstObjectByType<NetworkRunner>();
+        bool activeMultiplayer = currentRunner != null && currentRunner.IsRunning && currentRunner.GameMode != GameMode.Single;
+
+        PlayerStats targetPlayer = null;
+        var allPlayers = FindObjectsByType<PlayerStats>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+        foreach (var p in allPlayers)
         {
+            if (p != null)
+            {
+                if (p.TryGetComponent<NetworkObject>(out var netObj))
+                {
+                    if (netObj.HasInputAuthority)
+                    {
+                        targetPlayer = p;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // If not in multiplayer and no player with Input Authority is found, fall back to the first one
+        if (targetPlayer == null && !activeMultiplayer)
+        {
+            if (allPlayers.Length > 0)
+            {
+                targetPlayer = allPlayers[0];
+            }
+        }
+
+        if (targetPlayer == null)
+        {
+            currentPlayer = null;
             return;
         }
+
+        currentPlayer = targetPlayer;
 
         if (hudController == null)
         {
@@ -102,6 +164,7 @@ public class GameplayUIBootstrap : MonoBehaviour
         }
 
         hudController.SetPlayer(currentPlayer);
+        refreshRetries = 10;
     }
 
     private void TickEnemyHealthBars()

@@ -12,25 +12,25 @@ public class ClueReader : MonoBehaviour
 
     private void Start()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("SpawnPointer");
+        FindPlayer();
+    }
 
+    private void FindPlayer()
+    {
+        if (player != null) return;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             player = playerObj.transform;
         }
-        else
-        {
-            Debug.LogWarning("Not found Player");
-        }
     }
 
-    // Hàm này chạy khi click chuột vào Collider của cuốn sách
     private void OnMouseDown()
     {
-        // 1. Kiểm tra an toàn xem đã gán Player chưa
+        FindPlayer();
         if (player == null)
         {
-            Debug.LogWarning("You forgot to drag the Player object into the ClueReader script");
+            Debug.LogWarning("ClueReader: Player not found yet");
             return;
         }
 

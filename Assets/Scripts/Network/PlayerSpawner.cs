@@ -12,8 +12,6 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string spawnPointTag = "SpawnPoint";
 
     private NetworkRunner runner;
-    private Transform[] spawnPoints;
-    private bool alreadySpawning;
 
     private void Awake()
     {
@@ -37,6 +35,12 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         return points;
     }
 
+    private static bool IsLobbyScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        return sceneName == "Scene-Server";
+    }
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log($"[PlayerSpawner] Player joined: {player.PlayerId}, Local: {runner.LocalPlayer.PlayerId}");
@@ -44,14 +48,17 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (!runner.IsServer)
             return;
 
+        if (IsLobbyScene())
+        {
+            Debug.Log($"[PlayerSpawner] In lobby scene, skipping spawn for player {player.PlayerId}");
+            return;
+        }
+
         TrySpawnPlayer(player);
     }
 
     private async void TrySpawnPlayer(PlayerRef player)
     {
-        if (alreadySpawning) return;
-        alreadySpawning = true;
-
         try
         {
             if (runner == null || !runner.IsRunning)
@@ -73,10 +80,6 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         catch (System.Exception e)
         {
             Debug.LogError($"[PlayerSpawner] Spawn failed: {e.Message}");
-        }
-        finally
-        {
-            alreadySpawning = false;
         }
     }
 
@@ -140,9 +143,40 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
-    public void OnSceneLoadDone(NetworkRunner runner) { }
+
+    public void OnSceneLoadDone(NetworkRunner runner)
+    {
+        if (!runner.IsServer) return;
+
+        if (IsLobbyScene())
+        {
+            Debug.Log($"[PlayerSpawner] In lobby scene, skipping scene-load spawn.");
+            return;
+        }
+
+        int playerCount = 0;
+        foreach (var _ in runner.ActivePlayers) playerCount++;
+        Debug.Log($"[PlayerSpawner] Scene load done. Spawning {playerCount} players...");
+        foreach (var player in runner.ActivePlayers)
+        {
+            bool alreadySpawned = false;
+            foreach (var obj in runner.GetAllNetworkObjects())
+            {
+                if (obj != null && obj.InputAuthority == player)
+                {
+                    alreadySpawned = true;
+                    break;
+                }
+            }
+
+            if (!alreadySpawned)
+                TrySpawnPlayer(player);
+        }
+    }
+
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
+
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
         Debug.Log($"[PlayerSpawner] Runner shutdown: {shutdownReason}");

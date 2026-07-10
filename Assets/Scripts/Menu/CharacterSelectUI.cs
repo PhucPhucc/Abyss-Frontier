@@ -65,6 +65,8 @@ public class CharacterSelectUI : MonoBehaviour
         selectedIndex = WrapIndex(index);
         CharacterData characterData = characterDataArray[selectedIndex];
 
+        GameSessionData.SelectCharacter(selectedIndex, characterData);
+
         UpdatePreview(characterData);
         UpdateButtonStates();
 
@@ -77,7 +79,29 @@ public class CharacterSelectUI : MonoBehaviour
         if (!HasValidSelection)
             return;
 
-        menuFlowController?.StartGame();
+        Debug.Log($"[CharacterSelectUI] Continue clicked. Selected={selectedIndex}");
+
+        if (menuFlowController != null)
+        {
+            menuFlowController.StartGame();
+            return;
+        }
+
+        var serverUi = FindFirstServerConnectionUI();
+        if (serverUi != null)
+        {
+            Debug.Log("[CharacterSelectUI] Switching to lobby UI.");
+            serverUi.ShowLobbyAfterCharacterSelect();
+            return;
+        }
+
+        Debug.LogWarning("[CharacterSelectUI] ServerConnectionUI not found.");
+    }
+
+    private ServerConnectionUI FindFirstServerConnectionUI()
+    {
+        var serverUis = FindObjectsByType<ServerConnectionUI>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        return serverUis != null && serverUis.Length > 0 ? serverUis[0] : null;
     }
 
     private bool HasCharacters => characterDataArray != null && characterDataArray.Length > 0;

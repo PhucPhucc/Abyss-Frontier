@@ -79,7 +79,7 @@ public class MenuFlowController : MonoBehaviour
         if (modeIndex == 1)
         {
             GameSessionData.IsMultiplayer = true;
-            ShowHostJoinPanel();
+            LoadServerScene();
         }
         else
         {
@@ -93,13 +93,18 @@ public class MenuFlowController : MonoBehaviour
         if (isMultiplayer)
         {
             GameSessionData.IsMultiplayer = true;
-            ShowHostJoinPanel();
+            LoadServerScene();
         }
         else
         {
             GameSessionData.IsMultiplayer = false;
             OnPlayModeNextClicked();
         }
+    }
+
+    private void LoadServerScene()
+    {
+        SceneManager.LoadScene("Scene-Server");
     }
 
     private void ShowHostJoinPanel()

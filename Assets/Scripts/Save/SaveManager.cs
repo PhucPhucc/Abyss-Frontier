@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
 public class SaveManager : MonoBehaviour
 {
@@ -224,13 +225,26 @@ public class SaveManager : MonoBehaviour
             Debug.LogWarning("[SaveManager] Cloud save failed, local save still available.");
     }
 
+    private PlayerStats FindLocalPlayerStats()
+    {
+        var allPlayers = Object.FindObjectsByType<PlayerStats>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        foreach (var p in allPlayers)
+        {
+            if (p != null && p.TryGetComponent<NetworkObject>(out var netObj) && netObj.HasInputAuthority)
+            {
+                return p;
+            }
+        }
+        return Object.FindFirstObjectByType<PlayerStats>();
+    }
+
     private GameSaveData BuildSaveData()
     {
         var data = new GameSaveData();
         data.saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         data.sceneName = SceneManager.GetActiveScene().name;
 
-        var player = Object.FindFirstObjectByType<PlayerStats>();
+        var player = FindLocalPlayerStats();
         if (player != null)
         {
             data.player = new PlayerSaveData
@@ -429,7 +443,7 @@ public class SaveManager : MonoBehaviour
         PlayerStats player = null;
         while (player == null)
         {
-            player = Object.FindFirstObjectByType<PlayerStats>();
+            player = FindLocalPlayerStats();
             yield return null;
         }
 
