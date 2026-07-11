@@ -8,9 +8,9 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
 
-    public static List<string> UnlockedFloors { get; private set; } = new List<string> { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" };
+    public static List<string> UnlockedFloors { get; private set; } = new List<string> { "floor1", "floor2", "floor3", "floor4", "floor5" };
 
-    private static readonly string[] AllFloorKeys = { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" };
+    private static readonly string[] AllFloorKeys = { "floor1", "floor2", "floor3", "floor4", "floor5" };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoInit()
@@ -376,7 +376,7 @@ public class SaveManager : MonoBehaviour
         Debug.Log("[SaveManager] FallbackNewGame");
         EnemyHealth.KilledEnemyIds.Clear();
         UnlockedFloors.Clear();
-        UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
+        UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5" });
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
             _ = launcher.LaunchAsSingleplayer("floor1");
@@ -408,7 +408,7 @@ public class SaveManager : MonoBehaviour
         if (data.unlockedFloors != null && data.unlockedFloors.Count > 0)
             UnlockedFloors.AddRange(data.unlockedFloors);
         else
-            UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
+            UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5" });
 
         RestoreEnemies(data);
         StartCoroutine(WaitForPlayerAndRestore(data));

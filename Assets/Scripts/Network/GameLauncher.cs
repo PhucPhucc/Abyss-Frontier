@@ -14,10 +14,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner runner;
     public NetworkRunner Runner => runner;
 
+    private int lobbyGeneration;
+
     public Action OnRunnerStarted;
-    public Action<List<SessionInfo>> OnSessionListUpdated;
-    public Action<string> OnDisconnected;
-    public Action<string> OnConnectFailed;
+    public Action<List<SessionInfo>> SessionListUpdated;
+    public Action<string> Disconnected;
+    public Action<string> ConnectFailed;
 
     private void Awake()
     {
@@ -104,6 +106,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             return;
         }
 
+        lobbyGeneration++;
+
         if (runner != null && runner.IsRunning)
         {
             Debug.Log("[GameLauncher] Shutting down previous runner...");
@@ -140,7 +144,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         catch (Exception ex)
         {
             Debug.LogError($"[GameLauncher] Host threw exception: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
-            OnConnectFailed?.Invoke($"Lỗi kết nối: {ex.Message}");
+            ConnectFailed?.Invoke($"Lỗi kết nối: {ex.Message}");
             Destroy(runner.gameObject);
             runner = null;
             return;
@@ -149,7 +153,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         if (result.Ok == false)
         {
             Debug.LogError($"[GameLauncher] Host failed: {result.ShutdownReason}");
-            OnConnectFailed?.Invoke($"Không thể tạo phòng: {result.ShutdownReason}");
+            ConnectFailed?.Invoke($"Không thể tạo phòng: {result.ShutdownReason}");
             if (runner != null)
             {
                 Destroy(runner.gameObject);
@@ -174,6 +178,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             Debug.LogWarning($"[GameLauncher] Invalid session name: {validationError}");
             return;
         }
+
+        lobbyGeneration++;
 
         if (runner != null && runner.IsRunning)
         {
@@ -208,7 +214,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         catch (Exception ex)
         {
             Debug.LogError($"[GameLauncher] Client threw exception: {ex.Message}");
-            OnConnectFailed?.Invoke($"Không thể tham gia phòng: {ex.Message}");
+            ConnectFailed?.Invoke($"Không thể tham gia phòng: {ex.Message}");
             Destroy(runner.gameObject);
             runner = null;
             return;
@@ -217,7 +223,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         if (result.Ok == false)
         {
             Debug.LogError($"[GameLauncher] Client failed: {result.ShutdownReason}");
-            OnConnectFailed?.Invoke($"Không thể tham gia phòng: {result.ShutdownReason}");
+            ConnectFailed?.Invoke($"Không thể tham gia phòng: {result.ShutdownReason}");
             Destroy(runner.gameObject);
             runner = null;
             return;
@@ -228,6 +234,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     public async void JoinSessionLobby()
     {
+        int myGeneration = ++lobbyGeneration;
+
         if (runner == null || !runner.IsRunning)
         {
             if (runnerPrefab == null)
@@ -238,21 +246,29 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
             DontDestroyOnLoad(gameObject);
 
-            runner = Instantiate(runnerPrefab);
-            runner.name = "LobbyBrowser";
-            DontDestroyOnLoad(runner);
-            runner.AddCallbacks(this);
+            NetworkRunner lobbyRunner = Instantiate(runnerPrefab);
+            lobbyRunner.name = "LobbyBrowser";
+            DontDestroyOnLoad(lobbyRunner);
+            lobbyRunner.AddCallbacks(this);
+            runner = lobbyRunner;
 
             var args = new StartGameArgs
             {
                 GameMode = GameMode.Client,
             };
 
-            var result = await runner.StartGame(args);
+            var result = await lobbyRunner.StartGame(args);
+
+            if (myGeneration != lobbyGeneration)
+            {
+                Debug.Log("[GameLauncher] Lobby browser outdated (superseded by host/join), ignoring.");
+                return;
+            }
+
             if (result.Ok == false)
             {
                 Debug.LogError($"[GameLauncher] Lobby browser failed: {result.ShutdownReason}");
-                OnConnectFailed?.Invoke("Không thể kết nối danh sách phòng.");
+                ConnectFailed?.Invoke("Không thể kết nối danh sách phòng.");
                 Destroy(runner.gameObject);
                 runner = null;
                 return;
@@ -337,7 +353,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
         Debug.Log($"[GameLauncher] Session list updated: {sessionList.Count} sessions");
-        OnSessionListUpdated?.Invoke(sessionList);
+        SessionListUpdated?.Invoke(sessionList);
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
@@ -345,12 +361,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         string msg = reason switch
         {
             NetDisconnectReason.Timeout => "Mất kết nối với server (timeout).",
-            NetDisconnectReason.ServerConnectionRefused => "Server từ chối kết nối.",
-            NetDisconnectReason.GameIsFull => "Phòng đã đầy.",
+            NetDisconnectReason.ByRemote => "Server đã ngắt kết nối.",
+            NetDisconnectReason.Requested => "Đã ngắt kết nối.",
             _ => $"Đã ngắt kết nối: {reason}"
         };
         Debug.LogWarning($"[GameLauncher] Disconnected: {reason}");
-        OnDisconnected?.Invoke(msg);
+        Disconnected?.Invoke(msg);
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
@@ -358,12 +374,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         string msg = reason switch
         {
             NetConnectFailedReason.ServerFull => "Phòng đã đầy.",
-            NetConnectFailedReason.NetworkError => "Lỗi mạng, vui lòng thử lại.",
-            NetConnectFailedReason.IncorrectProtocol => "Phiên bản không tương thích.",
+            NetConnectFailedReason.ServerRefused => "Server từ chối kết nối.",
+            NetConnectFailedReason.Timeout => "Hết thời gian kết nối.",
             _ => $"Không thể kết nối: {reason}"
         };
         Debug.LogWarning($"[GameLauncher] Connect failed: {reason}");
-        OnConnectFailed?.Invoke(msg);
+        ConnectFailed?.Invoke(msg);
     }
 
     public void OnConnectedToServer(NetworkRunner runner) { }

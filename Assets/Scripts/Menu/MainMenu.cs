@@ -175,15 +175,28 @@ public class MainMenu : MonoBehaviour
     {
         if (SaveManager.Instance == null) return;
 
+        string selected = GameSessionData.SelectedMapScene;
         var savedMaps = SaveManager.GetSavedMaps();
+
+        if (!string.IsNullOrEmpty(selected))
+        {
+            if (SaveManager.HasSaveForMap(selected))
+            {
+                SaveManager.Instance.ContinueGame(selected);
+                return;
+            }
+
+            ShowNoSavePopup(selected);
+            return;
+        }
+
         if (savedMaps == null || savedMaps.Count == 0)
         {
             ShowNoSavePopup("floor1");
             return;
         }
 
-        string target = savedMaps[0];
-        SaveManager.Instance.ContinueGame(target);
+        SaveManager.Instance.ContinueGame(savedMaps[0]);
     }
 
     private void ShowNoSavePopup(string sceneName)
@@ -269,7 +282,7 @@ public class MainMenu : MonoBehaviour
         ClearSave();
         EnemyHealth.KilledEnemyIds.Clear();
         SaveManager.UnlockedFloors.Clear();
-        SaveManager.UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5", "floor6" });
+        SaveManager.UnlockedFloors.AddRange(new[] { "floor1", "floor2", "floor3", "floor4", "floor5" });
         var launcher = FindFirstObjectByType<GameLauncher>();
         if (launcher != null)
             _ = launcher.LaunchAsSingleplayer("floor1");

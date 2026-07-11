@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -29,10 +31,20 @@ public class ServerConnectionUI : MonoBehaviour
     private GameLauncher launcher;
     private PendingAction pendingAction;
 
+    // Session list
+    private Transform sessionListContent;
+    private List<SessionInfo> cachedSessions = new();
+    private TextMeshProUGUI sessionListEmptyText;
+    private Coroutine refreshIndicatorCoroutine;
+
+    // Disconnect / error popup
+    private GameObject disconnectOverlay;
+
     private void Awake()
     {
         FindAndCacheReferences();
         CreateValidationMessage();
+        CreateDisconnectOverlay();
         HideLegacyMenuWindows();
 
         if (choosePlayerPanel != null)
@@ -47,13 +59,23 @@ public class ServerConnectionUI : MonoBehaviour
             windowHost.SetActive(false);
 
         if (launcher != null)
+        {
             launcher.OnRunnerStarted += OnRunnerStarted;
+            launcher.SessionListUpdated += OnSessionListUpdated;
+            launcher.Disconnected += OnDisconnected;
+            launcher.ConnectFailed += OnConnectError;
+        }
     }
 
     private void OnDestroy()
     {
         if (launcher != null)
+        {
             launcher.OnRunnerStarted -= OnRunnerStarted;
+            launcher.SessionListUpdated -= OnSessionListUpdated;
+            launcher.Disconnected -= OnDisconnected;
+            launcher.ConnectFailed -= OnConnectError;
+        }
     }
 
     private void EnsureLauncher()
@@ -78,6 +100,7 @@ public class ServerConnectionUI : MonoBehaviour
         if (backBtn != null) backBtn.gameObject.SetActive(false);
         if (createBtn != null) createBtn.gameObject.SetActive(false);
         if (refreshBtn != null) refreshBtn.gameObject.SetActive(false);
+        if (windowServerList != null) windowServerList.SetActive(false);
 
         HideLegacyMenuWindows();
 
@@ -90,9 +113,9 @@ public class ServerConnectionUI : MonoBehaviour
         Debug.LogWarning("[ServerUI] No ChoosePlayerPanel found, loading map directly.");
         if (GameSessionData.IsHost)
         {
-            var launcher = FindFirstObjectByType<GameLauncher>();
-            if (launcher != null)
-                launcher.LoadGameScene(GameSessionData.SelectedMapScene);
+            var l = FindFirstObjectByType<GameLauncher>();
+            if (l != null)
+                l.LoadGameScene(GameSessionData.SelectedMapScene);
         }
     }
 
@@ -105,11 +128,11 @@ public class ServerConnectionUI : MonoBehaviour
 
         if (GameSessionData.IsHost)
         {
-            var launcher = FindFirstObjectByType<GameLauncher>();
-            if (launcher != null)
+            var l = FindFirstObjectByType<GameLauncher>();
+            if (l != null)
             {
                 Debug.Log($"[ServerUI] Host loading map: {GameSessionData.SelectedMapScene}");
-                launcher.LoadGameScene(GameSessionData.SelectedMapScene);
+                l.LoadGameScene(GameSessionData.SelectedMapScene);
             }
             else
             {
@@ -258,7 +281,7 @@ public class ServerConnectionUI : MonoBehaviour
             for (int i = 0; i < canvasChildren.childCount; i++)
             {
                 var child = canvasChildren.GetChild(i).gameObject;
-                if (child == choosePlayerPanel || child == validationBannerRoot)
+                if (child == choosePlayerPanel || child == validationBannerRoot || child == disconnectOverlay)
                     continue;
 
                 child.SetActive(false);
@@ -287,9 +310,16 @@ public class ServerConnectionUI : MonoBehaviour
             target.AddComponent<GraphicRaycaster>();
     }
 
+    // ── Button Handlers ──
+
     private void OnHostClicked()
     {
         ShowWindowFor(PendingAction.Host);
+    }
+
+    private void OnJoinClicked()
+    {
+        ShowServerListWindow();
     }
 
     private void OnCreateClicked()
@@ -323,20 +353,345 @@ public class ServerConnectionUI : MonoBehaviour
         }
     }
 
-    private void OnJoinClicked()
-    {
-        ShowWindowFor(PendingAction.Join);
-    }
-
     private void OnRefreshClicked()
     {
-        Debug.Log("[ServerUI] Refresh clicked");
+        Debug.Log("[ServerUI] Refresh clicked — joining session lobby...");
+        if (launcher != null)
+            launcher.JoinSessionLobby();
     }
 
     private void OnBackClicked()
     {
+        if (launcher != null)
+            launcher.ShutdownRunner();
         SceneManager.LoadScene("Scene_Menu");
     }
+
+    // ── Session List Window ──
+
+    private void ShowServerListWindow()
+    {
+        pendingAction = PendingAction.Join;
+
+        if (windowServerList != null)
+        {
+            EnsureTopmostCanvas(windowServerList, 1001);
+            windowServerList.SetActive(true);
+
+            BuildSessionListUI();
+            OnRefreshClicked();
+        }
+    }
+
+    private void BuildSessionListUI()
+    {
+        if (windowServerList == null) return;
+
+        var canvas = windowServerList.GetComponentInParent<Canvas>();
+        if (canvas == null)
+        {
+            EnsureTopmostCanvas(windowServerList, 1001);
+            canvas = windowServerList.GetComponentInParent<Canvas>();
+        }
+
+        if (windowServerList.GetComponent<RectTransform>() == null)
+            windowServerList.AddComponent<RectTransform>();
+
+        // Background
+        var bgImg = windowServerList.GetComponent<Image>();
+        if (bgImg == null) bgImg = windowServerList.AddComponent<Image>();
+        bgImg.color = new Color(0.1f, 0.1f, 0.1f, 0.95f);
+
+        // Title
+        CreateTMP(windowServerList.transform, "Title", "Danh sách phòng",
+            new Vector2(0, 250), new Vector2(500, 50), 30, TextAlignmentOptions.Center);
+
+        // Back button
+        var backObj = new GameObject("BackBtn", typeof(Image), typeof(Button), typeof(RectTransform));
+        backObj.transform.SetParent(windowServerList.transform, false);
+        var backRect = backObj.GetComponent<RectTransform>();
+        backRect.anchorMin = new Vector2(0, 1);
+        backRect.anchorMax = new Vector2(0, 1);
+        backRect.pivot = new Vector2(0, 1);
+        backRect.sizeDelta = new Vector2(100, 40);
+        backRect.anchoredPosition = new Vector2(10, -10);
+        backObj.GetComponent<Image>().color = new Color(0.4f, 0.2f, 0.2f, 1f);
+        var backBtnLocal = backObj.GetComponent<Button>();
+        backBtnLocal.onClick.AddListener(() => windowServerList.SetActive(false));
+        CreateTMP(backObj.transform, "Label", "Quay lại", Vector2.zero, new Vector2(100, 40), 18, TextAlignmentOptions.Center, true);
+
+        // Refresh button
+        var refreshObj = new GameObject("RefreshBtn", typeof(Image), typeof(Button), typeof(RectTransform));
+        refreshObj.transform.SetParent(windowServerList.transform, false);
+        var refreshRect = refreshObj.GetComponent<RectTransform>();
+        refreshRect.anchorMin = new Vector2(1, 1);
+        refreshRect.anchorMax = new Vector2(1, 1);
+        refreshRect.pivot = new Vector2(1, 1);
+        refreshRect.sizeDelta = new Vector2(120, 40);
+        refreshRect.anchoredPosition = new Vector2(-10, -10);
+        refreshObj.GetComponent<Image>().color = new Color(0.2f, 0.4f, 0.2f, 1f);
+        var refreshBtnLocal = refreshObj.GetComponent<Button>();
+        refreshBtnLocal.onClick.AddListener(OnRefreshClicked);
+        CreateTMP(refreshObj.transform, "Label", "Làm mới", Vector2.zero, new Vector2(120, 40), 18, TextAlignmentOptions.Center, true);
+
+        // Scroll view for session list
+        var scrollObj = new GameObject("SessionScroll", typeof(Image), typeof(RectTransform));
+        scrollObj.transform.SetParent(windowServerList.transform, false);
+        var scrollRect = scrollObj.GetComponent<RectTransform>();
+        scrollRect.anchorMin = new Vector2(0.05f, 0.08f);
+        scrollRect.anchorMax = new Vector2(0.95f, 0.85f);
+        scrollRect.offsetMin = Vector2.zero;
+        scrollRect.offsetMax = Vector2.zero;
+        scrollObj.GetComponent<Image>().color = new Color(0.15f, 0.15f, 0.15f, 1f);
+
+        var scroll = scrollObj.AddComponent<ScrollRect>();
+        scroll.horizontal = false;
+        scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
+
+        var contentObj = new GameObject("Content", typeof(RectTransform), typeof(ContentSizeFitter));
+        contentObj.transform.SetParent(scrollObj.transform, false);
+        var contentRect = contentObj.GetComponent<RectTransform>();
+        contentRect.anchorMin = new Vector2(0, 1);
+        contentRect.anchorMax = new Vector2(1, 1);
+        contentRect.pivot = new Vector2(0.5f, 1);
+        contentRect.sizeDelta = new Vector2(0, 0);
+
+        var fitter = contentObj.GetComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        var layout = contentObj.AddComponent<VerticalLayoutGroup>();
+        layout.childForceExpandWidth = true;
+        layout.childForceExpandHeight = false;
+        layout.childControlHeight = true;
+        layout.spacing = 4;
+        layout.padding = new RectOffset(8, 8, 8, 8);
+
+        scroll.content = contentRect;
+
+        // Scrollbar
+        var scrollbarObj = new GameObject("Scrollbar", typeof(Image), typeof(Scrollbar), typeof(RectTransform));
+        scrollbarObj.transform.SetParent(scrollObj.transform, false);
+        var sbRect = scrollbarObj.GetComponent<RectTransform>();
+        sbRect.anchorMin = new Vector2(1, 0);
+        sbRect.anchorMax = new Vector2(1, 1);
+        sbRect.pivot = new Vector2(1, 0.5f);
+        sbRect.sizeDelta = new Vector2(16, 0);
+        scrollbarObj.GetComponent<Image>().color = new Color(0.3f, 0.3f, 0.3f, 1f);
+
+        var scrollbar = scrollbarObj.GetComponent<Scrollbar>();
+        scrollbar.direction = Scrollbar.Direction.BottomToTop;
+
+        var sbHandle = new GameObject("Handle", typeof(Image), typeof(RectTransform));
+        sbHandle.transform.SetParent(scrollbarObj.transform, false);
+        var sbHandleRect = sbHandle.GetComponent<RectTransform>();
+        sbHandleRect.anchorMin = Vector2.zero;
+        sbHandleRect.anchorMax = new Vector2(1, 0.2f);
+        sbHandleRect.sizeDelta = Vector2.zero;
+        sbHandle.GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 1f);
+        scrollbar.handleRect = sbHandleRect;
+        scrollbar.targetGraphic = sbHandle.GetComponent<Image>();
+
+        scroll.verticalScrollbar = scrollbar;
+
+        sessionListContent = contentObj.transform;
+
+        // Empty label
+        sessionListEmptyText = CreateTMP(windowServerList.transform, "EmptyLabel", "Đang tải...",
+            new Vector2(0, 0), new Vector2(400, 40), 20, TextAlignmentOptions.Center);
+    }
+
+    private void PopulateSessionList()
+    {
+        if (sessionListContent == null) return;
+
+        // Clear old entries
+        for (int i = sessionListContent.childCount - 1; i >= 0; i--)
+            Destroy(sessionListContent.GetChild(i).gameObject);
+
+        if (cachedSessions.Count == 0)
+        {
+            if (sessionListEmptyText != null)
+            {
+                sessionListEmptyText.gameObject.SetActive(true);
+                sessionListEmptyText.text = "Không có phòng nào.\nNhấn \"Làm mới\" để tìm phòng.";
+            }
+            return;
+        }
+
+        if (sessionListEmptyText != null)
+            sessionListEmptyText.gameObject.SetActive(false);
+
+        foreach (var session in cachedSessions)
+        {
+            if (!session.IsVisible) continue;
+
+            CreateSessionEntry(session);
+        }
+    }
+
+    private void CreateSessionEntry(SessionInfo session)
+    {
+        var entryObj = new GameObject($"Session_{session.Name}", typeof(Image), typeof(Button), typeof(RectTransform), typeof(LayoutElement));
+        entryObj.transform.SetParent(sessionListContent, false);
+
+        var entryImg = entryObj.GetComponent<Image>();
+        entryImg.color = new Color(0.22f, 0.22f, 0.22f, 1f);
+
+        var layout = entryObj.GetComponent<LayoutElement>();
+        layout.preferredHeight = 50;
+        layout.minHeight = 50;
+
+        var rect = entryObj.GetComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0, 0.5f);
+        rect.anchorMax = new Vector2(1, 0.5f);
+        rect.sizeDelta = new Vector2(0, 50);
+
+        // Session name
+        CreateTMP(entryObj.transform, "SessionName", session.Name,
+            new Vector2(-180, 0), new Vector2(360, 40), 20, TextAlignmentOptions.MidlineLeft, true);
+
+        // Player count
+        CreateTMP(entryObj.transform, "PlayerCount", $"{session.PlayerCount}/{session.MaxPlayers}",
+            new Vector2(180, 0), new Vector2(120, 40), 18, TextAlignmentOptions.MidlineRight, true);
+
+        // Join button
+        var joinBtnObj = new GameObject("JoinBtn", typeof(Image), typeof(Button), typeof(RectTransform));
+        joinBtnObj.transform.SetParent(entryObj.transform, false);
+        var joinRect = joinBtnObj.GetComponent<RectTransform>();
+        joinRect.anchorMin = new Vector2(1, 0.5f);
+        joinRect.anchorMax = new Vector2(1, 0.5f);
+        joinRect.pivot = new Vector2(1, 0.5f);
+        joinRect.sizeDelta = new Vector2(80, 34);
+        joinRect.anchoredPosition = new Vector2(-8, 0);
+        joinBtnObj.GetComponent<Image>().color = new Color(0.25f, 0.55f, 0.25f, 1f);
+
+        CreateTMP(joinBtnObj.transform, "Label", "Tham gia", Vector2.zero, new Vector2(80, 34), 16, TextAlignmentOptions.Center, true);
+
+        var joinButton = joinBtnObj.GetComponent<Button>();
+        string sessionName = session.Name;
+        joinButton.onClick.AddListener(() => JoinSession(sessionName));
+
+        // Hover effect
+        var btn = entryObj.GetComponent<Button>();
+        var colors = btn.colors;
+        colors.highlightedColor = new Color(0.3f, 0.3f, 0.3f, 1f);
+        btn.colors = colors;
+    }
+
+    private void JoinSession(string sessionName)
+    {
+        Debug.Log($"[ServerUI] Joining session: {sessionName}");
+        GameSessionData.SessionName = sessionName;
+        GameSessionData.IsMultiplayer = true;
+        GameSessionData.IsHost = false;
+
+        if (windowServerList != null)
+            windowServerList.SetActive(false);
+
+        if (launcher != null)
+            _ = launcher.LaunchAsClient(sessionName);
+    }
+
+    // ── Session List Callback ──
+
+    private void OnSessionListUpdated(List<SessionInfo> sessions)
+    {
+        cachedSessions.Clear();
+        cachedSessions.AddRange(sessions);
+        PopulateSessionList();
+    }
+
+    // ── Disconnect / Error Handling ──
+
+    private void OnDisconnected(string message)
+    {
+        Debug.LogWarning($"[ServerUI] Disconnected: {message}");
+        ShowDisconnectOverlay(message);
+    }
+
+    private void OnConnectError(string message)
+    {
+        Debug.LogWarning($"[ServerUI] Connect error: {message}");
+        ShowDisconnectOverlay(message);
+    }
+
+    private void CreateDisconnectOverlay()
+    {
+        var canvas = GetComponentInParent<Canvas>();
+        Transform parent = canvas != null ? canvas.transform : transform;
+
+        disconnectOverlay = new GameObject("DisconnectOverlay", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        disconnectOverlay.transform.SetParent(parent, false);
+
+        var rootRect = disconnectOverlay.GetComponent<RectTransform>();
+        rootRect.anchorMin = Vector2.zero;
+        rootRect.anchorMax = Vector2.one;
+        rootRect.offsetMin = Vector2.zero;
+        rootRect.offsetMax = Vector2.zero;
+
+        var overlay = disconnectOverlay.GetComponent<Image>();
+        overlay.color = new Color(0f, 0f, 0f, 0.7f);
+        overlay.raycastTarget = true;
+
+        var panelObj = new GameObject("Panel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        panelObj.transform.SetParent(disconnectOverlay.transform, false);
+
+        var panelRect = panelObj.GetComponent<RectTransform>();
+        panelRect.anchorMin = new Vector2(0.5f, 0.5f);
+        panelRect.anchorMax = new Vector2(0.5f, 0.5f);
+        panelRect.pivot = new Vector2(0.5f, 0.5f);
+        panelRect.sizeDelta = new Vector2(500, 200);
+        panelRect.anchoredPosition = Vector2.zero;
+
+        panelObj.GetComponent<Image>().color = new Color(0.18f, 0.14f, 0.12f, 1f);
+
+        // Title
+        CreateTMP(panelObj.transform, "Title", "Mất kết nối",
+            new Vector2(0, 50), new Vector2(440, 40), 26, TextAlignmentOptions.Center);
+
+        // Message
+        var msgText = CreateTMP(panelObj.transform, "Message", "",
+            new Vector2(0, 0), new Vector2(440, 60), 20, TextAlignmentOptions.Center);
+        msgText.name = "DisconnectMessage";
+
+        // OK button
+        var okBtn = CreateButton(panelObj.transform, "OKBtn", "Về Menu",
+            new Vector2(0, -60), new Vector2(160, 44), new Color(0.3f, 0.5f, 0.3f, 1f));
+        okBtn.onClick.AddListener(ReturnToMenu);
+
+        disconnectOverlay.SetActive(false);
+    }
+
+    private void ShowDisconnectOverlay(string message)
+    {
+        if (disconnectOverlay == null) return;
+
+        var msgText = disconnectOverlay.transform.Find("Panel/DisconnectMessage");
+        if (msgText != null)
+        {
+            var tmp = msgText.GetComponent<TextMeshProUGUI>();
+            if (tmp != null) tmp.text = message;
+        }
+
+        disconnectOverlay.SetActive(true);
+        disconnectOverlay.transform.SetAsLastSibling();
+    }
+
+    private void ReturnToMenu()
+    {
+        if (disconnectOverlay != null)
+            disconnectOverlay.SetActive(false);
+
+        if (launcher != null)
+        {
+            launcher.ShutdownRunner();
+        }
+
+        GameSessionData.ResetSession();
+        SceneManager.LoadScene("Scene_Menu");
+    }
+
+    // ── Validation Message ──
 
     private void CreateValidationMessage()
     {
@@ -363,7 +718,7 @@ public class ServerConnectionUI : MonoBehaviour
         panelRect.anchorMin = new Vector2(0.5f, 0.5f);
         panelRect.anchorMax = new Vector2(0.5f, 0.5f);
         panelRect.pivot = new Vector2(0.5f, 0.5f);
-        panelRect.sizeDelta = new Vector2(620f, 180f);
+        panelRect.sizeDelta = new Vector2(620, 180);
         panelRect.anchoredPosition = Vector2.zero;
 
         var panelImage = panelObj.GetComponent<Image>();
@@ -450,11 +805,53 @@ public class ServerConnectionUI : MonoBehaviour
             validationMessageText.text = string.Empty;
     }
 
-    private System.Collections.IEnumerator HideValidationMessageAfterDelay()
+    private IEnumerator HideValidationMessageAfterDelay()
     {
         yield return new WaitForSecondsRealtime(2.5f);
 
         HideValidationMessageNow();
         validationMessageRoutine = null;
+    }
+
+    // ── UI Helpers ──
+
+    private TextMeshProUGUI CreateTMP(Transform parent, string objName, string text,
+        Vector2 pos, Vector2 size, int fontSize, TextAlignmentOptions align, bool setWidth = false)
+    {
+        var go = new GameObject(objName, typeof(RectTransform));
+        go.transform.SetParent(parent, false);
+        var rect = go.GetComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.sizeDelta = size;
+        rect.anchoredPosition = pos;
+
+        var tmp = go.AddComponent<TextMeshProUGUI>();
+        tmp.text = text;
+        tmp.fontSize = fontSize;
+        tmp.alignment = align;
+        tmp.color = Color.white;
+        tmp.enableWordWrapping = false;
+        if (setWidth) tmp.overflowMode = TextOverflowModes.Ellipsis;
+        return tmp;
+    }
+
+    private Button CreateButton(Transform parent, string objName, string label,
+        Vector2 pos, Vector2 size, Color bgColor)
+    {
+        var go = new GameObject(objName, typeof(Image), typeof(Button), typeof(RectTransform));
+        go.transform.SetParent(parent, false);
+        var rect = go.GetComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.sizeDelta = size;
+        rect.anchoredPosition = pos;
+        go.GetComponent<Image>().color = bgColor;
+
+        var btn = go.GetComponent<Button>();
+        btn.targetGraphic = go.GetComponent<Image>();
+
+        CreateTMP(go.transform, "Label", label, Vector2.zero, size, 20, TextAlignmentOptions.Center, true);
+        return btn;
     }
 }
