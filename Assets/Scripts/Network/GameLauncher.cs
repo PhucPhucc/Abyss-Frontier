@@ -1,8 +1,11 @@
+using System;
+using System.Collections.Generic;
 using Fusion;
+using Fusion.Sockets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameLauncher : MonoBehaviour
+public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkRunner runnerPrefab;
     public NetworkRunner RunnerPrefab { set { runnerPrefab = value; } }
@@ -11,7 +14,10 @@ public class GameLauncher : MonoBehaviour
     private NetworkRunner runner;
     public NetworkRunner Runner => runner;
 
-    public System.Action OnRunnerStarted;
+    public Action OnRunnerStarted;
+    public Action<List<SessionInfo>> OnSessionListUpdated;
+    public Action<string> OnDisconnected;
+    public Action<string> OnConnectFailed;
 
     private void Awake()
     {
@@ -111,11 +117,12 @@ public class GameLauncher : MonoBehaviour
         runner = Instantiate(runnerPrefab);
         runner.name = "Host";
         DontDestroyOnLoad(runner);
+        runner.AddCallbacks(this);
 
         InitializeLobby(targetSceneName);
 
         Debug.Log($"[GameLauncher] Starting Fusion as Host, session: {validatedSessionName}");
-        var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        var currentScene = SceneManager.GetActiveScene();
         var args = new StartGameArgs
         {
             GameMode = GameMode.Host,
@@ -130,9 +137,10 @@ public class GameLauncher : MonoBehaviour
         {
             result = await runner.StartGame(args);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Debug.LogError($"[GameLauncher] Host threw exception: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
+            OnConnectFailed?.Invoke($"Lỗi kết nối: {ex.Message}");
             Destroy(runner.gameObject);
             runner = null;
             return;
@@ -141,10 +149,9 @@ public class GameLauncher : MonoBehaviour
         if (result.Ok == false)
         {
             Debug.LogError($"[GameLauncher] Host failed: {result.ShutdownReason}");
+            OnConnectFailed?.Invoke($"Không thể tạo phòng: {result.ShutdownReason}");
             if (runner != null)
             {
-                var stackTrace = new System.Diagnostics.StackTrace();
-                Debug.LogError($"[GameLauncher] Stack: {stackTrace}");
                 Destroy(runner.gameObject);
             }
             runner = null;
@@ -181,6 +188,7 @@ public class GameLauncher : MonoBehaviour
         runner = Instantiate(runnerPrefab);
         runner.name = "Client";
         DontDestroyOnLoad(runner);
+        runner.AddCallbacks(this);
 
         InitializeLobby(null);
 
@@ -192,17 +200,80 @@ public class GameLauncher : MonoBehaviour
             SceneManager = runner.GetComponent<NetworkSceneManagerDefault>(),
         };
 
-        var result = await runner.StartGame(args);
+        StartGameResult result;
+        try
+        {
+            result = await runner.StartGame(args);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[GameLauncher] Client threw exception: {ex.Message}");
+            OnConnectFailed?.Invoke($"Không thể tham gia phòng: {ex.Message}");
+            Destroy(runner.gameObject);
+            runner = null;
+            return;
+        }
 
         if (result.Ok == false)
         {
             Debug.LogError($"[GameLauncher] Client failed: {result.ShutdownReason}");
+            OnConnectFailed?.Invoke($"Không thể tham gia phòng: {result.ShutdownReason}");
             Destroy(runner.gameObject);
             runner = null;
             return;
         }
 
         OnRunnerStarted?.Invoke();
+    }
+
+    public async void JoinSessionLobby()
+    {
+        if (runner == null || !runner.IsRunning)
+        {
+            if (runnerPrefab == null)
+            {
+                Debug.LogError("[GameLauncher] runnerPrefab is null!");
+                return;
+            }
+
+            DontDestroyOnLoad(gameObject);
+
+            runner = Instantiate(runnerPrefab);
+            runner.name = "LobbyBrowser";
+            DontDestroyOnLoad(runner);
+            runner.AddCallbacks(this);
+
+            var args = new StartGameArgs
+            {
+                GameMode = GameMode.Client,
+            };
+
+            var result = await runner.StartGame(args);
+            if (result.Ok == false)
+            {
+                Debug.LogError($"[GameLauncher] Lobby browser failed: {result.ShutdownReason}");
+                OnConnectFailed?.Invoke("Không thể kết nối danh sách phòng.");
+                Destroy(runner.gameObject);
+                runner = null;
+                return;
+            }
+        }
+
+        Debug.Log("[GameLauncher] Joining session lobby...");
+        await runner.JoinSessionLobby(SessionLobby.ClientServer, "lobby");
+    }
+
+    public async void ShutdownRunner()
+    {
+        if (runner != null && runner.IsRunning)
+        {
+            await runner.Shutdown();
+        }
+        if (runner != null)
+        {
+            Destroy(runner.gameObject);
+            runner = null;
+        }
     }
 
     public async void LoadGameScene(string sceneName)
@@ -260,4 +331,55 @@ public class GameLauncher : MonoBehaviour
             runner = null;
         }
     }
+
+    // ── INetworkRunnerCallbacks ──
+
+    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
+    {
+        Debug.Log($"[GameLauncher] Session list updated: {sessionList.Count} sessions");
+        OnSessionListUpdated?.Invoke(sessionList);
+    }
+
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
+    {
+        string msg = reason switch
+        {
+            NetDisconnectReason.Timeout => "Mất kết nối với server (timeout).",
+            NetDisconnectReason.ServerConnectionRefused => "Server từ chối kết nối.",
+            NetDisconnectReason.GameIsFull => "Phòng đã đầy.",
+            _ => $"Đã ngắt kết nối: {reason}"
+        };
+        Debug.LogWarning($"[GameLauncher] Disconnected: {reason}");
+        OnDisconnected?.Invoke(msg);
+    }
+
+    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
+    {
+        string msg = reason switch
+        {
+            NetConnectFailedReason.ServerFull => "Phòng đã đầy.",
+            NetConnectFailedReason.NetworkError => "Lỗi mạng, vui lòng thử lại.",
+            NetConnectFailedReason.IncorrectProtocol => "Phiên bản không tương thích.",
+            _ => $"Không thể kết nối: {reason}"
+        };
+        Debug.LogWarning($"[GameLauncher] Connect failed: {reason}");
+        OnConnectFailed?.Invoke(msg);
+    }
+
+    public void OnConnectedToServer(NetworkRunner runner) { }
+    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
+    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
+    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
+    public void OnInput(NetworkRunner runner, NetworkInput input) { }
+    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
+    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) { }
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
+    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
+    public void OnSceneLoadDone(NetworkRunner runner) { }
+    public void OnSceneLoadStart(NetworkRunner runner) { }
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
+    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
 }

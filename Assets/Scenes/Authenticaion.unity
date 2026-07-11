@@ -5846,12 +5846,12 @@ MonoBehaviour:
   switchToLoginBtn: {fileID: 291281171}
   loginBackBtn: {fileID: 657593722}
   signUpBackBtn: {fileID: 177092972}
-  loginEmailInput: {fileID: 0}
-  loginPasswordInput: {fileID: 0}
-  loginSubmitBtn: {fileID: 0}
+  loginEmailInput: {fileID: 1833039236}
+  loginPasswordInput: {fileID: 366669304}
+  loginSubmitBtn: {fileID: 827683782}
   loginErrorText: {fileID: 0}
   signUpEmailInput: {fileID: 1973632216}
-  signUpPasswordInput: {fileID: 366669304}
+  signUpPasswordInput: {fileID: 1881168444}
   signUpConfirmInput: {fileID: 1026091101}
   signUpSubmitBtn: {fileID: 369628097}
   signUpErrorText: {fileID: 873643561}

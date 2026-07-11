@@ -144,7 +144,7 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
             catch (System.Exception cbEx)
             {
                 Debug.LogError($"Exception in LoginWithEmail callback: {cbEx}");
-                tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = cbEx.Message });
+                tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = GetFriendlyErrorMessage(cbEx) });
             }
         });
         return tcs.Task;
@@ -178,7 +178,7 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
             catch (System.Exception cbEx)
             {
                 Debug.LogError($"Exception in RegisterWithEmail callback: {cbEx}");
-                tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = cbEx.Message });
+                tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = GetFriendlyErrorMessage(cbEx) });
             }
         });
         return tcs.Task;
@@ -226,6 +226,8 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
                     return "Email không hợp lệ.";
                 case AuthError.WrongPassword:
                     return "Mật khẩu không chính xác.";
+                case AuthError.InvalidCredential:
+                    return "Email hoặc mật khẩu không chính xác.";
                 case AuthError.UserNotFound:
                     return "Tài khoản không tồn tại.";
                 case AuthError.EmailAlreadyInUse:
@@ -240,13 +242,28 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
                     return "Tài khoản này đã bị vô hiệu hóa.";
                 case AuthError.NetworkRequestFailed:
                     return "Lỗi kết nối mạng, vui lòng thử lại.";
+                case AuthError.TooManyRequests:
+                    return "Quá nhiều lần thử, vui lòng thử lại sau.";
+                case AuthError.OperationNotAllowed:
+                    return "Phương thức đăng nhập này chưa được bật.";
+                case AuthError.UserTokenExpired:
+                    return "Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.";
+                case AuthError.AppNotAuthorized:
+                    return "Ứng dụng chưa được ủy quyền.";
                 default:
-                    return $"Lỗi hệ thống ({errorCode}): {fbEx.Message}";
+                    return "Email hoặc mật khẩu không chính xác.";
             }
         }
 
-        var baseEx = ex.GetBaseException();
-        return baseEx != null ? baseEx.Message : ex.Message;
+        string msg = ex.Message ?? "";
+        if (msg.Contains("INVALID_LOGIN_CREDENTIALS") || msg.Contains("invalid-credential") || msg.Contains("auth/user-not-found") || msg.Contains("auth/wrong-password"))
+            return "Email hoặc mật khẩu không chính xác.";
+        if (msg.Contains("auth/too-many-requests"))
+            return "Quá nhiều lần thử, vui lòng thử lại sau.";
+        if (msg.Contains("auth/network-request-failed"))
+            return "Lỗi kết nối mạng, vui lòng thử lại.";
+
+        return "Đã xảy ra lỗi, vui lòng thử lại.";
     }
 #endif
 
