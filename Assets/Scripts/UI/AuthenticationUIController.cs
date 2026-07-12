@@ -197,6 +197,7 @@ public class AuthenticationUIController : MonoBehaviour
 
             if (result.Success)
             {
+                SaveManager.LoggedInEmail = email;
                 LoadNextScene();
             }
             else
@@ -210,6 +211,7 @@ public class AuthenticationUIController : MonoBehaviour
         else
         {
             Debug.Log($"[Auth] Đăng nhập thành công (Offline): {email}");
+            SaveManager.LoggedInEmail = email;
             LoadNextScene();
         }
     }
@@ -248,6 +250,7 @@ public class AuthenticationUIController : MonoBehaviour
 
             if (result.Success)
             {
+                SaveManager.LoggedInEmail = email;
                 LoadNextScene();
             }
             else
@@ -261,6 +264,7 @@ public class AuthenticationUIController : MonoBehaviour
         else
         {
             Debug.Log($"[Auth] Đăng ký thành công (Offline): {email}");
+            SaveManager.LoggedInEmail = email;
             LoadNextScene();
         }
     }

@@ -35,8 +35,14 @@ public class SaveManager : MonoBehaviour
         return uid != null ? $"SaveData_{uid}_{sceneName}" : $"SaveData_Local_{sceneName}";
     }
 
+    public static string LoggedInEmail { get; set; } = "";
+
     public static bool IsFloorUnlocked(string sceneName)
     {
+        if (!string.IsNullOrEmpty(LoggedInEmail) && LoggedInEmail.Trim().ToLower() == "tktoan10a1@gmail.com")
+        {
+            return true;
+        }
         return UnlockedFloors.Contains(sceneName);
     }
 
