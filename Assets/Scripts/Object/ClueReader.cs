@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem; // 1. Bắt buộc thêm dòng này
 
 [RequireComponent(typeof(InteractableTrigger))]
-public class ClueReader : MonoBehaviour, IInteractable
+public class ClueReader : MonoBehaviour
 {
     [Header("UI Reference")]
     public GameObject clueUIPanel;

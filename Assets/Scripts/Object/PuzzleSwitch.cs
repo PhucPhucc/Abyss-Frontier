@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public enum SwitchType { Sun, Moon, Fire, Earth, Wind, Water }
 
 [RequireComponent(typeof(InteractableTrigger))]
-public class PuzzleSwitch : MonoBehaviour, IInteractable
+public class PuzzleSwitch : MonoBehaviour
 {
     public SwitchType myType;
     private Animator anim;

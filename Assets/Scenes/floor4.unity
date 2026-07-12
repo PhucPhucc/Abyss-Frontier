@@ -143,6 +143,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 4
   interactionRange: 1.5
+--- !u!114 &231151637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231151631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
 --- !u!1 &274835422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8877682394189645217, guid: 986ddcce3c05919429529ad7588c1bbf, type: 3}
@@ -167,6 +179,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 5
   interactionRange: 1.5
+--- !u!114 &274835428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274835422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
 --- !u!1 &282732892
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,6 +1006,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 3
   interactionRange: 1.5
+--- !u!114 &680243848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680243841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
 --- !u!1 &739300408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,6 +1146,60 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.27, y: -0.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &775530822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 775530824}
+  - component: {fileID: 775530823}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &775530823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775530822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a88cb66a35930e341bda2ddf3ad77d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
+  backgroundMap: {fileID: 777903545}
+  obstacleMaps:
+  - {fileID: 1868241771}
+  - {fileID: 531953900}
+  - {fileID: 1509156554}
+  - {fileID: 1428615073}
+  waves:
+  - enemyPrefabs: []
+    enemiesPerWave: 0
+  waveText: {fileID: 0}
+--- !u!4 &775530824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775530822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.40546, y: 12.81783, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18305,6 +18395,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 2
   interactionRange: 1.5
+--- !u!114 &1197152121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197152114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
 --- !u!1 &1372897701
 GameObject:
   m_ObjectHideFlags: 0
@@ -25856,6 +25958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleManager
   correctSequence: 000000000200000003000000040000000500000001000000
+  feedbackText: {fileID: 0}
 --- !u!4 &1576639061
 Transform:
   m_ObjectHideFlags: 0
@@ -25889,6 +25992,7 @@ GameObject:
   - component: {fileID: 1651310914}
   - component: {fileID: 1651310916}
   - component: {fileID: 1651310917}
+  - component: {fileID: 1651310918}
   m_Layer: 0
   m_Name: ClueBook
   m_TagString: Untagged
@@ -26030,6 +26134,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.3, y: 0.8333333}
   m_EdgeRadius: 0
+--- !u!114 &1651310918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651310913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
 --- !u!1 &1741866108 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1529940381219997202, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
@@ -26054,6 +26170,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 0
   interactionRange: 1.5
+--- !u!114 &1741866114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741866108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
 --- !u!1 &1868241768
 GameObject:
   m_ObjectHideFlags: 0
@@ -26649,6 +26777,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleSwitch
   myType: 1
   interactionRange: 1.5
+--- !u!114 &2016263314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016263308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
 --- !u!1 &2044437772
 GameObject:
   m_ObjectHideFlags: 0
@@ -26803,6 +26943,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7886631795410796208, guid: 0edf832f04b4f0b45b9d309ca021ad4f, type: 3}
+    - target: {fileID: 1408399439845035414, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1521920836096859871, guid: 7d4613d1dc4a5447eafac8fbda635b2c, type: 3}
       propertyPath: m_Name
       value: CluePanel
@@ -27038,6 +27182,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8877682394189645217, guid: 986ddcce3c05919429529ad7588c1bbf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 274835427}
+    - targetCorrespondingSourceObject: {fileID: 8877682394189645217, guid: 986ddcce3c05919429529ad7588c1bbf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 274835428}
   m_SourcePrefab: {fileID: 100100000, guid: 986ddcce3c05919429529ad7588c1bbf, type: 3}
 --- !u!1001 &1794706729493517837
 PrefabInstance:
@@ -27102,6 +27249,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7102929996843187301, guid: bfec2177186fa8041bb9501ca34d66a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2016263313}
+    - targetCorrespondingSourceObject: {fileID: 7102929996843187301, guid: bfec2177186fa8041bb9501ca34d66a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2016263314}
   m_SourcePrefab: {fileID: 100100000, guid: bfec2177186fa8041bb9501ca34d66a8, type: 3}
 --- !u!1001 &2138325330576553562
 PrefabInstance:
@@ -27166,6 +27316,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1529940381219997202, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1741866113}
+    - targetCorrespondingSourceObject: {fileID: 1529940381219997202, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1741866114}
   m_SourcePrefab: {fileID: 100100000, guid: de9bfcbc4688ea7439ddc614db9821d1, type: 3}
 --- !u!1001 &4536650952822231012
 PrefabInstance:
@@ -27230,6 +27383,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3640922995549288466, guid: eb9e92bb8cdf73740b4ae7e5cc66a7fa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1197152120}
+    - targetCorrespondingSourceObject: {fileID: 3640922995549288466, guid: eb9e92bb8cdf73740b4ae7e5cc66a7fa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1197152121}
   m_SourcePrefab: {fileID: 100100000, guid: eb9e92bb8cdf73740b4ae7e5cc66a7fa, type: 3}
 --- !u!1001 &6648547699896735409
 PrefabInstance:
@@ -27294,6 +27450,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9142613268163518077, guid: b30ca00e5af967c4286061f3c7f972a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 231151636}
+    - targetCorrespondingSourceObject: {fileID: 9142613268163518077, guid: b30ca00e5af967c4286061f3c7f972a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 231151637}
   m_SourcePrefab: {fileID: 100100000, guid: b30ca00e5af967c4286061f3c7f972a8, type: 3}
 --- !u!1001 &8398751969771564436
 PrefabInstance:
@@ -27358,6 +27517,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5389002739411670807, guid: d5f8b63e58606f944811db3a840e493d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 680243847}
+    - targetCorrespondingSourceObject: {fileID: 5389002739411670807, guid: d5f8b63e58606f944811db3a840e493d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 680243848}
   m_SourcePrefab: {fileID: 100100000, guid: d5f8b63e58606f944811db3a840e493d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -27371,3 +27533,4 @@ SceneRoots:
   - {fileID: 739300412}
   - {fileID: 1539376759}
   - {fileID: 1468828204}
+  - {fileID: 775530824}
