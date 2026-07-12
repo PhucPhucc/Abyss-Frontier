@@ -24,6 +24,7 @@ public class AuthenticationUIController : MonoBehaviour
     [Header("Login Form (Optional)")]
     [SerializeField] private TMP_InputField loginEmailInput;
     [SerializeField] private TMP_InputField loginPasswordInput;
+    [SerializeField] private Button loginPasswordToggleBtn;
     [SerializeField] private Button loginSubmitBtn;
     [SerializeField] private TMP_Text loginErrorText;
 
@@ -31,6 +32,8 @@ public class AuthenticationUIController : MonoBehaviour
     [SerializeField] private TMP_InputField signUpEmailInput;
     [SerializeField] private TMP_InputField signUpPasswordInput;
     [SerializeField] private TMP_InputField signUpConfirmInput;
+    [SerializeField] private Button signUpPasswordToggleBtn;
+    [SerializeField] private Button signUpConfirmToggleBtn;
     [SerializeField] private Button signUpSubmitBtn;
     [SerializeField] private TMP_Text signUpErrorText;
 
@@ -64,11 +67,68 @@ public class AuthenticationUIController : MonoBehaviour
 
         if (signUpSubmitBtn != null)
             signUpSubmitBtn.onClick.AddListener(OnSignUpClicked);
+
+        // Toggle show/hide password
+        if (loginPasswordToggleBtn != null && loginPasswordInput != null)
+            loginPasswordToggleBtn.onClick.AddListener(() => TogglePasswordVisibility(loginPasswordInput, loginPasswordToggleBtn));
+
+        if (signUpPasswordToggleBtn != null && signUpPasswordInput != null)
+            signUpPasswordToggleBtn.onClick.AddListener(() => TogglePasswordVisibility(signUpPasswordInput, signUpPasswordToggleBtn));
+
+        if (signUpConfirmToggleBtn != null && signUpConfirmInput != null)
+            signUpConfirmToggleBtn.onClick.AddListener(() => TogglePasswordVisibility(signUpConfirmInput, signUpConfirmToggleBtn));
     }
 
     private void Start()
     {
+        ConfigureEmailFields();
+        EnsurePasswordFields();
         ShowMenuPanel();
+    }
+
+    private void ConfigureEmailFields()
+    {
+        if (signUpEmailInput != null)
+        {
+            signUpEmailInput.contentType = TMP_InputField.ContentType.Standard;
+            signUpEmailInput.onValidateInput = (string text, int idx, char ch) => ch == '"' ? '@' : ch;
+            signUpEmailInput.ForceLabelUpdate();
+        }
+        if (loginEmailInput != null)
+        {
+            loginEmailInput.contentType = TMP_InputField.ContentType.Standard;
+            loginEmailInput.onValidateInput = (string text, int idx, char ch) => ch == '"' ? '@' : ch;
+            loginEmailInput.ForceLabelUpdate();
+        }
+    }
+
+    private void EnsurePasswordFields()
+    {
+        SetPasswordContentType(signUpPasswordInput);
+        SetPasswordContentType(signUpConfirmInput);
+        SetPasswordContentType(loginPasswordInput);
+    }
+
+    private void SetPasswordContentType(TMP_InputField input)
+    {
+        if (input == null) return;
+        input.contentType = TMP_InputField.ContentType.Password;
+        input.ForceLabelUpdate();
+    }
+
+    private void TogglePasswordVisibility(TMP_InputField input, Button toggleBtn)
+    {
+        if (input == null) return;
+
+        bool isHidden = input.contentType == TMP_InputField.ContentType.Password;
+        input.contentType = isHidden ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
+        input.ForceLabelUpdate();
+
+        if (toggleBtn != null)
+        {
+            var label = toggleBtn.GetComponentInChildren<TMP_Text>();
+            if (label != null) label.text = isHidden ? "●" : "○";
+        }
     }
 
     public void ShowMenuPanel()
@@ -106,8 +166,16 @@ public class AuthenticationUIController : MonoBehaviour
     {
         ClearErrors();
 
-        string email = loginEmailInput != null ? loginEmailInput.text.Trim() : "";
-        string password = loginPasswordInput != null ? loginPasswordInput.text : "";
+        if (loginEmailInput == null || loginPasswordInput == null)
+        {
+            Debug.LogError($"[AuthUI] Login inputs not assigned! email={loginEmailInput}, password={loginPasswordInput}");
+            if (loginErrorText != null) loginErrorText.text = "Lỗi cấu hình form đăng nhập!";
+            return;
+        }
+
+        string email = loginEmailInput.text.Trim();
+        string password = loginPasswordInput.text;
+        Debug.Log($"[AuthUI] Login attempt: email='{email}' (len={email.Length}), password length={password.Length}");
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
@@ -121,7 +189,11 @@ public class AuthenticationUIController : MonoBehaviour
 
             var result = await CloudServiceManager.Instance.Auth.LoginWithEmail(email, password);
 
-            if (loginSubmitBtn != null) loginSubmitBtn.interactable = true;
+            if (loginSubmitBtn != null)
+            {
+                loginSubmitBtn.interactable = true;
+                Debug.Log("[AuthUI] loginSubmitBtn set to interactable = true");
+            }
 
             if (result.Success)
             {
@@ -129,7 +201,10 @@ public class AuthenticationUIController : MonoBehaviour
             }
             else
             {
-                if (loginErrorText != null) loginErrorText.text = $"Đăng nhập thất bại: {result.ErrorMessage}";
+                if (loginErrorText != null)
+                    loginErrorText.text = $"Đăng nhập thất bại: {result.ErrorMessage}";
+                else
+                    Debug.LogWarning("[AuthUI] loginErrorText chưa được gán trong Inspector!");
             }
         }
         else
@@ -165,7 +240,11 @@ public class AuthenticationUIController : MonoBehaviour
 
             var result = await CloudServiceManager.Instance.Auth.RegisterWithEmail(email, password);
 
-            if (signUpSubmitBtn != null) signUpSubmitBtn.interactable = true;
+            if (signUpSubmitBtn != null)
+            {
+                signUpSubmitBtn.interactable = true;
+                Debug.Log("[AuthUI] signUpSubmitBtn set to interactable = true");
+            }
 
             if (result.Success)
             {
@@ -173,7 +252,10 @@ public class AuthenticationUIController : MonoBehaviour
             }
             else
             {
-                if (signUpErrorText != null) signUpErrorText.text = $"Đăng ký thất bại: {result.ErrorMessage}";
+                if (signUpErrorText != null)
+                    signUpErrorText.text = $"Đăng ký thất bại: {result.ErrorMessage}";
+                else
+                    Debug.LogWarning("[AuthUI] signUpErrorText chưa được gán trong Inspector!");
             }
         }
         else

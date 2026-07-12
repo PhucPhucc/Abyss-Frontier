@@ -8,7 +8,7 @@ public class BossVictoryUI : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private GameObject victoryPanel;
-    [SerializeField] private string hubSceneName = "Hub";
+    [SerializeField] private string hubSceneName = "Scene_Menu";
 
     private void Awake()
     {
@@ -44,6 +44,6 @@ public class BossVictoryUI : MonoBehaviour
     public void OnMainMenuClicked()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Scene_Menu");
     }
 }
