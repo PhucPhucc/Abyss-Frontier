@@ -21,16 +21,19 @@ public class PlayerInteractor : MonoBehaviour
         if (!interactables.Contains(interactable))
         {
             interactables.Add(interactable);
+            Debug.Log($"[PlayerInteractor] Registered interactable: {interactable.GetType().Name}");
         }
     }
 
     public void UnregisterInteractable(IInteractable interactable)
     {
         interactables.Remove(interactable);
+        Debug.Log($"[PlayerInteractor] Unregistered interactable: {interactable.GetType().Name}");
     }
 
     public void OnInteract(InputValue value)
     {
+        Debug.Log($"[PlayerInteractor] OnInteract received. isPressed: {value.isPressed}, Count: {interactables.Count}");
         if (!value.isPressed) return;
 
         // Dọn dẹp các object bị null (do đã bị destroy)
@@ -38,8 +41,9 @@ public class PlayerInteractor : MonoBehaviour
 
         if (interactables.Count > 0)
         {
-            // Tương tác với object gần nhất (vào trigger sau cùng)
-            interactables[interactables.Count - 1].Interact(gameObject);
+            var target = interactables[interactables.Count - 1];
+            Debug.Log($"[PlayerInteractor] Interacting with: {target.GetType().Name}");
+            target.Interact(gameObject);
         }
     }
 }

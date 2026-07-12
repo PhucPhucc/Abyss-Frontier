@@ -33,6 +33,10 @@ public class PlayerController : CharacterMotor
         playerDash = GetComponent<PlayerDash>();
         if (playerDash == null)
             playerDash = gameObject.AddComponent<PlayerDash>();
+        
+        if (GetComponent<PlayerInteractor>() == null)
+            gameObject.AddComponent<PlayerInteractor>();
+
         currentStamina = maxStamina;
     }
 

@@ -27,6 +27,27 @@ public class BossVictoryUI : MonoBehaviour
             victoryPanel.SetActive(true);
         }
         Time.timeScale = 0f; // Đóng băng trò chơi khi thắng
+
+        // Tự động unlock tầng tiếp theo
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene.StartsWith("floor"))
+        {
+            string numberPart = currentScene.Substring(5);
+            if (int.TryParse(numberPart, out int floorNumber))
+            {
+                int nextFloorNumber = floorNumber + 1;
+                string nextFloorScene = "floor" + nextFloorNumber;
+                
+                SaveManager.UnlockFloor(nextFloorScene);
+                Debug.Log($"[BossVictoryUI] Automatically unlocked next floor: {nextFloorScene}");
+
+                // Lưu game để lưu trạng thái unlocked floors mới
+                if (SaveManager.Instance != null)
+                {
+                    _ = SaveManager.Instance.SaveGameAsync();
+                }
+            }
+        }
     }
 
     /// <summary>
