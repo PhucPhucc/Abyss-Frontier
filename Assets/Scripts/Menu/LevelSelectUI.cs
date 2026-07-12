@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelSelectUI : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class LevelSelectUI : MonoBehaviour
     [SerializeField] private Transform buttonContainer;
 
     private static readonly string[] AllFloors = {
-        "floor1", "floor2", "floor3", "floor4", "floor5", "floor6"
+        "floor1", "floor2", "floor3", "floor4", "floor5"
     };
 
     private void OnEnable()
@@ -29,17 +28,6 @@ public class LevelSelectUI : MonoBehaviour
                 ui.Setup(floor, SaveManager.IsFloorUnlocked(floor));
             }
         }
-    }
-
-    public void LoadLevel(string sceneName)
-    {
-        if (!SaveManager.IsFloorUnlocked(sceneName)) return;
-        string target = sceneName;
-        var launcher = FindFirstObjectByType<GameLauncher>();
-        if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer(target);
-        else
-            SceneManager.LoadScene(target);
     }
 
     public void Close()

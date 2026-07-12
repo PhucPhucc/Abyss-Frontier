@@ -8,9 +8,7 @@
     {
       "client_info": {
         "mobilesdk_app_id": "1:700690684157:android:443807c9e57d88e0eec694",
-        "android_client_info": {
-          "package_name": "com.defaultcompany.abyssfrontier"
-        }
+        "desktop_client_info": {}
       },
       "oauth_client": [
         {

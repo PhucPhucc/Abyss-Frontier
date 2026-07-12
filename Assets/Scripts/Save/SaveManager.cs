@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
 
     public static List<string> UnlockedFloors { get; private set; } = new List<string> { "floor1" };
+
+    private static readonly string[] AllFloorKeys = { "floor1", "floor2", "floor3", "floor4", "floor5" };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoInit()
@@ -26,8 +29,20 @@ public class SaveManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private static string SaveKeyForScene(string sceneName)
+    {
+        string uid = CloudServiceManager.Instance?.Auth?.UserId;
+        return uid != null ? $"SaveData_{uid}_{sceneName}" : $"SaveData_Local_{sceneName}";
+    }
+
+    public static string LoggedInEmail { get; set; } = "";
+
     public static bool IsFloorUnlocked(string sceneName)
     {
+        if (!string.IsNullOrEmpty(LoggedInEmail) && LoggedInEmail.Trim().ToLower() == "tktoan10a1@gmail.com")
+        {
+            return true;
+        }
         return UnlockedFloors.Contains(sceneName);
     }
 
@@ -37,34 +52,207 @@ public class SaveManager : MonoBehaviour
             UnlockedFloors.Add(sceneName);
     }
 
+    private static bool _hasAnySavedData;
+
     public bool HasSavedGame
     {
         get
         {
-            string uid = CloudServiceManager.Instance?.Auth?.UserId;
-            return uid != null && PlayerPrefs.HasKey("DummySaveData_" + uid);
+            if (_hasAnySavedData) return true;
+            foreach (var floor in AllFloorKeys)
+            {
+                if (PlayerPrefs.HasKey(SaveKeyForScene(floor)))
+                    return true;
+            }
+            if (HasOldFormatSave())
+                return true;
+            return false;
         }
+    }
+
+    public static bool HasSaveForMap(string sceneName)
+    {
+        if (PlayerPrefs.HasKey(SaveKeyForScene(sceneName)))
+            return true;
+        return HasOldFormatSaveForScene(sceneName);
+    }
+
+    private static bool HasOldFormatSave()
+    {
+        string uid = CloudServiceManager.Instance?.Auth?.UserId;
+        string oldKey = uid != null ? "DummySaveData_" + uid : "DummySaveData_Local";
+        return PlayerPrefs.HasKey(oldKey);
+    }
+
+    private static bool HasOldFormatSaveForScene(string sceneName)
+    {
+        string uid = CloudServiceManager.Instance?.Auth?.UserId;
+        string oldKey = uid != null ? "DummySaveData_" + uid : "DummySaveData_Local";
+        if (!PlayerPrefs.HasKey(oldKey))
+            return false;
+        string json = PlayerPrefs.GetString(oldKey);
+        if (string.IsNullOrEmpty(json))
+            return false;
+        var data = JsonUtility.FromJson<GameSaveData>(json);
+        return data != null && data.sceneName == sceneName;
+    }
+
+    public static List<string> GetSavedMaps()
+    {
+        var result = new List<string>();
+        foreach (var floor in AllFloorKeys)
+        {
+            if (PlayerPrefs.HasKey(SaveKeyForScene(floor)))
+                result.Add(floor);
+        }
+        string uid = CloudServiceManager.Instance?.Auth?.UserId;
+        string oldKey = uid != null ? "DummySaveData_" + uid : "DummySaveData_Local";
+        if (PlayerPrefs.HasKey(oldKey))
+        {
+            string json = PlayerPrefs.GetString(oldKey);
+            if (!string.IsNullOrEmpty(json))
+            {
+                var data = JsonUtility.FromJson<GameSaveData>(json);
+                if (data != null && !string.IsNullOrEmpty(data.sceneName) && !result.Contains(data.sceneName))
+                    result.Add(data.sceneName);
+            }
+        }
+        return result;
+    }
+
+    public static void ClearSaveForMap(string sceneName)
+    {
+        string key = SaveKeyForScene(sceneName);
+        if (PlayerPrefs.HasKey(key))
+            PlayerPrefs.DeleteKey(key);
+        string uid = CloudServiceManager.Instance?.Auth?.UserId;
+        string oldKey = uid != null ? "DummySaveData_" + uid : "DummySaveData_Local";
+        if (PlayerPrefs.HasKey(oldKey))
+        {
+            string json = PlayerPrefs.GetString(oldKey);
+            if (!string.IsNullOrEmpty(json))
+            {
+                var data = JsonUtility.FromJson<GameSaveData>(json);
+                if (data != null && data.sceneName == sceneName)
+                    PlayerPrefs.DeleteKey(oldKey);
+            }
+        }
+        PlayerPrefs.Save();
+    }
+
+    public static void ClearSavedDataFlag()
+    {
+        _hasAnySavedData = false;
+        foreach (var floor in AllFloorKeys)
+        {
+            string key = SaveKeyForScene(floor);
+            if (PlayerPrefs.HasKey(key))
+                PlayerPrefs.DeleteKey(key);
+        }
+        string uid = CloudServiceManager.Instance?.Auth?.UserId;
+        string oldKey = uid != null ? "DummySaveData_" + uid : "DummySaveData_Local";
+        if (PlayerPrefs.HasKey(oldKey))
+            PlayerPrefs.DeleteKey(oldKey);
+        PlayerPrefs.Save();
+    }
+
+    private static void MigrateOldSaveIfNeeded()
+    {
+        string uid = CloudServiceManager.Instance?.Auth?.UserId;
+        string oldKey = uid != null ? "DummySaveData_" + uid : "DummySaveData_Local";
+        if (!PlayerPrefs.HasKey(oldKey))
+            return;
+
+        string json = PlayerPrefs.GetString(oldKey);
+        if (string.IsNullOrEmpty(json))
+        {
+            PlayerPrefs.DeleteKey(oldKey);
+            PlayerPrefs.Save();
+            return;
+        }
+
+        var data = JsonUtility.FromJson<GameSaveData>(json);
+        if (data == null || string.IsNullOrEmpty(data.sceneName))
+        {
+            PlayerPrefs.DeleteKey(oldKey);
+            PlayerPrefs.Save();
+            return;
+        }
+
+        string newKey = SaveKeyForScene(data.sceneName);
+        if (!PlayerPrefs.HasKey(newKey))
+        {
+            PlayerPrefs.SetString(newKey, json);
+            Debug.Log($"[SaveManager] Migrated old save to {newKey}");
+        }
+
+        PlayerPrefs.DeleteKey(oldKey);
+        PlayerPrefs.Save();
     }
 
     public void SaveGame()
     {
-        if (CloudServiceManager.Instance?.Save == null) return;
-        _ = SaveInternalAsync();
+        if (GameSessionData.IsMultiplayer) return;
+        SaveInternal();
     }
 
     public async System.Threading.Tasks.Task SaveGameAsync()
     {
-        if (CloudServiceManager.Instance?.Save == null) return;
-        await SaveInternalAsync();
+        if (GameSessionData.IsMultiplayer) return;
+        SaveInternal();
+        if (CloudServiceManager.Instance?.Save != null && CloudServiceManager.Instance?.Auth?.UserId != null)
+        {
+            await CloudSaveAsync();
+        }
+        await System.Threading.Tasks.Task.CompletedTask;
     }
 
-    private async System.Threading.Tasks.Task SaveInternalAsync()
+    private void SaveInternal()
+    {
+        var data = BuildSaveData();
+        string json = JsonUtility.ToJson(data);
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        PlayerPrefs.SetString(SaveKeyForScene(sceneName), json);
+        PlayerPrefs.Save();
+        _hasAnySavedData = true;
+        Debug.Log($"[SaveManager] Game saved for '{sceneName}'");
+    }
+
+    private async System.Threading.Tasks.Task CloudSaveAsync()
+    {
+        var data = BuildSaveData();
+        string json = JsonUtility.ToJson(data);
+
+        var success = await CloudServiceManager.Instance.Save.SavePlayerData(
+            CloudServiceManager.Instance.Auth.UserId, json);
+
+        if (success)
+            Debug.Log("[SaveManager] Cloud save successful.");
+        else
+            Debug.LogWarning("[SaveManager] Cloud save failed, local save still available.");
+    }
+
+    private PlayerStats FindLocalPlayerStats()
+    {
+        var allPlayers = Object.FindObjectsByType<PlayerStats>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        foreach (var p in allPlayers)
+        {
+            if (p != null && p.TryGetComponent<NetworkObject>(out var netObj) && netObj.HasInputAuthority)
+            {
+                return p;
+            }
+        }
+        return Object.FindFirstObjectByType<PlayerStats>();
+    }
+
+    private GameSaveData BuildSaveData()
     {
         var data = new GameSaveData();
         data.saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         data.sceneName = SceneManager.GetActiveScene().name;
 
-        var player = Object.FindFirstObjectByType<PlayerStats>();
+        var player = FindLocalPlayerStats();
         if (player != null)
         {
             data.player = new PlayerSaveData
@@ -105,36 +293,42 @@ public class SaveManager : MonoBehaviour
 
         data.killedEnemyIds = new List<string>(EnemyHealth.KilledEnemyIds);
         data.unlockedFloors = new List<string>(UnlockedFloors);
-
-        string json = JsonUtility.ToJson(data);
-        var success = await CloudServiceManager.Instance.Save.SavePlayerData(
-            CloudServiceManager.Instance.Auth.UserId, json);
-
-        Debug.Log(success ? "Game saved!" : "Save failed!");
+        data.characterIndex = GameSessionData.SelectedCharacterIndex;
+        return data;
     }
 
     public void ContinueGame()
     {
-        _ = ContinueAsync();
-    }
-
-    private async System.Threading.Tasks.Task ContinueAsync()
-    {
-        var auth = CloudServiceManager.Instance?.Auth;
-        var save = CloudServiceManager.Instance?.Save;
-        Debug.Log($"[SaveManager] ContinueAsync: auth={auth != null}, save={save != null}, userId={auth?.UserId}");
-        if (auth == null || save == null)
+        var savedMaps = GetSavedMaps();
+        if (savedMaps.Count == 0)
         {
-            Debug.Log("[SaveManager] Auth or Save null → FallbackNewGame");
             FallbackNewGame();
             return;
         }
+        _ = ContinueAsync(savedMaps[0]);
+    }
 
-        string json = await save.LoadPlayerData(auth.UserId);
-        Debug.Log($"[SaveManager] LoadPlayerData: json={(json != null ? json.Substring(0, Mathf.Min(80, json.Length)) : "null")}");
+    public void ContinueGame(string sceneName)
+    {
+        _ = ContinueAsync(sceneName);
+    }
+
+    private async System.Threading.Tasks.Task ContinueAsync(string sceneName)
+    {
+        MigrateOldSaveIfNeeded();
+
+        string json = TryLoadLocalSave(sceneName);
+        var auth = CloudServiceManager.Instance?.Auth;
+        var save = CloudServiceManager.Instance?.Save;
+
+        if (string.IsNullOrEmpty(json) && auth != null && save != null)
+        {
+            json = await save.LoadPlayerData(auth.UserId);
+        }
+
         if (string.IsNullOrEmpty(json))
         {
-            Debug.Log("[SaveManager] No saved data → FallbackNewGame");
+            Debug.Log("[SaveManager] No save data for " + sceneName);
             FallbackNewGame();
             return;
         }
@@ -147,35 +341,49 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
-        string sceneName = data.sceneName;
-        if (string.IsNullOrEmpty(sceneName))
-            sceneName = "floor1";
+        string targetScene = data.sceneName;
+        if (string.IsNullOrEmpty(targetScene))
+            targetScene = "floor1";
 
+        GameSessionData.SelectedCharacterIndex = data.characterIndex;
         _pendingRestoreData = data;
 
         var launcher = FindFirstObjectByType<GameLauncher>();
-        Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
         if (launcher != null)
         {
             SceneManager.sceneLoaded += OnSceneLoadedForRestore;
-            Debug.Log($"[SaveManager] sceneName from save = {sceneName}");
-            await launcher.LaunchAsSingleplayer(sceneName);
+            await launcher.LaunchAsSingleplayer(targetScene);
         }
         else
         {
             SceneManager.sceneLoaded += OnSceneLoadedForRestore;
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadScene(targetScene);
         }
+    }
+
+    private static string TryLoadLocalSave(string sceneName)
+    {
+        string key = SaveKeyForScene(sceneName);
+        if (PlayerPrefs.HasKey(key))
+        {
+            string json = PlayerPrefs.GetString(key);
+            if (!string.IsNullOrEmpty(json))
+            {
+                Debug.Log($"[SaveManager] Loaded save for '{sceneName}'");
+                return json;
+            }
+        }
+        return null;
     }
 
     private void FallbackNewGame()
     {
+        _hasAnySavedData = false;
         Debug.Log("[SaveManager] FallbackNewGame");
         EnemyHealth.KilledEnemyIds.Clear();
         UnlockedFloors.Clear();
         UnlockedFloors.Add("floor1");
         var launcher = FindFirstObjectByType<GameLauncher>();
-        Debug.Log($"[SaveManager] GameLauncher found: {launcher != null}");
         if (launcher != null)
             _ = launcher.LaunchAsSingleplayer("floor1");
         else
@@ -187,6 +395,11 @@ public class SaveManager : MonoBehaviour
     private void OnSceneLoadedForRestore(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnSceneLoadedForRestore;
+        if (GameSessionData.IsMultiplayer)
+        {
+            _pendingRestoreData = null;
+            return;
+        }
         if (_pendingRestoreData == null) return;
 
         var data = _pendingRestoreData;
@@ -243,7 +456,7 @@ public class SaveManager : MonoBehaviour
         PlayerStats player = null;
         while (player == null)
         {
-            player = Object.FindFirstObjectByType<PlayerStats>();
+            player = FindLocalPlayerStats();
             yield return null;
         }
 

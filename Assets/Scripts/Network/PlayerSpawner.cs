@@ -12,8 +12,6 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string spawnPointTag = "SpawnPoint";
 
     private NetworkRunner runner;
-    private Transform[] spawnPoints;
-    private bool alreadySpawning;
 
     private void Awake()
     {
@@ -37,6 +35,12 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         return points;
     }
 
+    private static bool IsLobbyScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        return sceneName == "Scene-Server";
+    }
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log($"[PlayerSpawner] Player joined: {player.PlayerId}, Local: {runner.LocalPlayer.PlayerId}");
@@ -44,14 +48,17 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (!runner.IsServer)
             return;
 
+        if (IsLobbyScene())
+        {
+            Debug.Log($"[PlayerSpawner] In lobby scene, skipping spawn for player {player.PlayerId}");
+            return;
+        }
+
         TrySpawnPlayer(player);
     }
 
     private async void TrySpawnPlayer(PlayerRef player)
     {
-        if (alreadySpawning) return;
-        alreadySpawning = true;
-
         try
         {
             if (runner == null || !runner.IsRunning)
@@ -65,7 +72,21 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 return;
             }
 
-            Vector3 spawnPos = points.Length > 0 ? points[0].position : Vector3.zero;
+            Vector3 spawnPos = Vector3.zero;
+            if (points.Length > 0)
+            {
+                // Phân bổ đều các player vào các spawn point khác nhau nếu có nhiều điểm
+                int pointIndex = player.PlayerId % points.Length;
+                spawnPos = points[pointIndex].position;
+
+                // Nếu chỉ có 1 điểm spawn duy nhất, tạo offset nhỏ hình tròn theo Player ID
+                // để tránh việc các nhân vật đè lên nhau gây xung đột vật lý hoặc bị kẹt
+                if (points.Length == 1)
+                {
+                    float angle = (player.PlayerId * 45f) * Mathf.Deg2Rad;
+                    spawnPos += new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * 0.5f;
+                }
+            }
 
             await runner.SpawnAsync(prefab, spawnPos, Quaternion.identity, player);
             Debug.Log($"Spawned {prefab.name} for player {player.PlayerId} at {spawnPos}");
@@ -73,10 +94,6 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         catch (System.Exception e)
         {
             Debug.LogError($"[PlayerSpawner] Spawn failed: {e.Message}");
-        }
-        finally
-        {
-            alreadySpawning = false;
         }
     }
 
@@ -140,9 +157,40 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
-    public void OnSceneLoadDone(NetworkRunner runner) { }
+
+    public void OnSceneLoadDone(NetworkRunner runner)
+    {
+        if (!runner.IsServer) return;
+
+        if (IsLobbyScene())
+        {
+            Debug.Log($"[PlayerSpawner] In lobby scene, skipping scene-load spawn.");
+            return;
+        }
+
+        int playerCount = 0;
+        foreach (var _ in runner.ActivePlayers) playerCount++;
+        Debug.Log($"[PlayerSpawner] Scene load done. Spawning {playerCount} players...");
+        foreach (var player in runner.ActivePlayers)
+        {
+            bool alreadySpawned = false;
+            foreach (var obj in runner.GetAllNetworkObjects())
+            {
+                if (obj != null && obj.InputAuthority == player)
+                {
+                    alreadySpawned = true;
+                    break;
+                }
+            }
+
+            if (!alreadySpawned)
+                TrySpawnPlayer(player);
+        }
+    }
+
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
+
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
         Debug.Log($"[PlayerSpawner] Runner shutdown: {shutdownReason}");
