@@ -81,6 +81,7 @@ public class GameplayHUDController : MonoBehaviour
         playerHealth = playerStats != null ? playerStats.GetComponent<PlayerHealth>() : null;
         Subscribe();
         Refresh();
+        Debug.Log($"[HUD] SetPlayer: stats={stats != null}, health={playerHealth != null}, hp={(playerHealth != null ? playerHealth.CurrentHealth : -1)}, max={(playerStats != null ? playerStats.MaxHealth : -1)}");
     }
 
     public void Refresh()
@@ -182,6 +183,11 @@ public class GameplayHUDController : MonoBehaviour
 
     private void BuildDefaultLayout()
     {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+
         Font font = GetDefaultFont();
 
         GameObject panelObject = new GameObject(

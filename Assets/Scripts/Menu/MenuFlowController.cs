@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class MenuFlowController : MonoBehaviour
 {
@@ -78,7 +79,7 @@ public class MenuFlowController : MonoBehaviour
         if (modeIndex == 1)
         {
             GameSessionData.IsMultiplayer = true;
-            ShowHostJoinPanel();
+            LoadServerScene();
         }
         else
         {
@@ -92,13 +93,18 @@ public class MenuFlowController : MonoBehaviour
         if (isMultiplayer)
         {
             GameSessionData.IsMultiplayer = true;
-            ShowHostJoinPanel();
+            LoadServerScene();
         }
         else
         {
             GameSessionData.IsMultiplayer = false;
             OnPlayModeNextClicked();
         }
+    }
+
+    private void LoadServerScene()
+    {
+        SceneManager.LoadScene("Scene-Server");
     }
 
     private void ShowHostJoinPanel()
@@ -172,10 +178,21 @@ public class MenuFlowController : MonoBehaviour
     {
         ShowOnlyPanel(playModePanel);
     }
-
     public void StartGame()
     {
         string scene = GameSessionData.SelectedMapScene;
+
+        if (SaveManager.HasSaveForMap(scene))
+        {
+            ShowOverwriteWarning(scene);
+            return;
+        }
+
+        DoStartGame(scene);
+    }
+
+    private void DoStartGame(string scene)
+    {
         string prefabName = GameSessionData.SelectedCharacterPrefab != null
             ? GameSessionData.SelectedCharacterPrefab.name
             : "None";
@@ -199,6 +216,103 @@ public class MenuFlowController : MonoBehaviour
         {
             _ = launcher.LaunchAsSingleplayer(scene);
         }
+    }
+
+    private void ShowOverwriteWarning(string sceneName)
+    {
+        var canvasObj = new GameObject("OverwriteWarning", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+
+        var canvas = canvasObj.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 999;
+
+        var scaler = canvasObj.GetComponent<CanvasScaler>();
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920, 1080);
+
+        var overlay = new GameObject("Overlay", typeof(Image));
+        overlay.transform.SetParent(canvasObj.transform, false);
+        var overlayRect = overlay.GetComponent<RectTransform>();
+        overlayRect.anchorMin = Vector2.zero;
+        overlayRect.anchorMax = Vector2.one;
+        overlayRect.sizeDelta = Vector2.zero;
+        var overlayImage = overlay.GetComponent<Image>();
+        overlayImage.color = new Color(0, 0, 0, 0.6f);
+
+        var panelObj = new GameObject("Panel", typeof(Image));
+        panelObj.transform.SetParent(canvasObj.transform, false);
+        var panelRect = panelObj.GetComponent<RectTransform>();
+        panelRect.sizeDelta = new Vector2(400, 160);
+        panelRect.anchorMin = new Vector2(0.5f, 0.5f);
+        panelRect.anchorMax = new Vector2(0.5f, 0.5f);
+        panelRect.anchoredPosition = Vector2.zero;
+        var panelImage = panelObj.GetComponent<Image>();
+        panelImage.color = new Color(0.15f, 0.15f, 0.15f, 1);
+
+        var textObj = new GameObject("Message", typeof(Text));
+        textObj.transform.SetParent(panelObj.transform, false);
+        var textRect = textObj.GetComponent<RectTransform>();
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.offsetMin = new Vector2(20, 50);
+        textRect.offsetMax = new Vector2(-20, -10);
+        var text = textObj.GetComponent<Text>();
+        text.text = $"Overwrite saved data?\n{sceneName.Replace("floor", "Floor ")} has existing save.";
+        text.fontSize = 26;
+        text.alignment = TextAnchor.MiddleCenter;
+        text.color = Color.white;
+        text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+
+        var playBtn = CreateBtn(panelObj.transform, "PlayBtn", "Play", new Color(0.2f, 0.5f, 0.2f), () =>
+        {
+            Destroy(canvasObj);
+            SaveManager.ClearSaveForMap(sceneName);
+            DoStartGame(sceneName);
+        });
+
+        var backBtn = CreateBtn(panelObj.transform, "BackBtn", "Back", new Color(0.5f, 0.2f, 0.2f), () =>
+        {
+            Destroy(canvasObj);
+        });
+
+        var rp = playBtn.GetComponent<RectTransform>();
+        rp.anchorMin = new Vector2(0.25f, 0f);
+        rp.anchorMax = new Vector2(0.25f, 0f);
+        rp.sizeDelta = new Vector2(80, 36);
+        rp.anchoredPosition = new Vector2(-50, 28);
+
+        var rb = backBtn.GetComponent<RectTransform>();
+        rb.anchorMin = new Vector2(0.75f, 0f);
+        rb.anchorMax = new Vector2(0.75f, 0f);
+        rb.sizeDelta = new Vector2(80, 36);
+        rb.anchoredPosition = new Vector2(50, 28);
+    }
+
+    private static Button CreateBtn(Transform parent, string name, string label, Color color, Action onClick)
+    {
+        var btnObj = new GameObject(name, typeof(Image), typeof(Button));
+        btnObj.transform.SetParent(parent, false);
+        var image = btnObj.GetComponent<Image>();
+        image.color = color;
+
+        var btn = btnObj.GetComponent<Button>();
+        btn.targetGraphic = image;
+        btn.onClick.AddListener(() => onClick());
+
+        var labelObj = new GameObject("Label", typeof(Text));
+        labelObj.transform.SetParent(btnObj.transform, false);
+        var labelRect = labelObj.GetComponent<RectTransform>();
+        labelRect.anchorMin = Vector2.zero;
+        labelRect.anchorMax = Vector2.one;
+        labelRect.sizeDelta = Vector2.zero;
+        var labelText = labelObj.GetComponent<Text>();
+        labelText.text = label;
+        labelText.fontSize = 24;
+        labelText.alignment = TextAnchor.MiddleCenter;
+        labelText.color = Color.white;
+        labelText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+
+        return btn;
     }
     #endregion
 }
