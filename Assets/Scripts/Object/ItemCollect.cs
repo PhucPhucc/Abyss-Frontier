@@ -6,7 +6,7 @@ public class ItemCollect : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Kiểm tra xem đối tượng va chạm có tag là "Player" không
-        if (collision.CompareTag("SpawnPointer"))
+        if (collision.CompareTag("Player"))
         {
             // Thêm logic cộng điểm vào GameManager của bạn ở đây
             // GameManager.instance.AddScore(scoreValue);

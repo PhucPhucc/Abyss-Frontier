@@ -69,8 +69,7 @@ public static class SetupPhotonFusion
             "Assets/Scenes/floor2.unity",
             "Assets/Scenes/floor3.unity",
             "Assets/Scenes/floor4.unity",
-            "Assets/Scenes/floor5.unity",
-            "Assets/Scenes/floor6.unity"
+            "Assets/Scenes/floor5.unity"
         };
 
         var scenes = new EditorBuildSettingsScene[scenePaths.Length];

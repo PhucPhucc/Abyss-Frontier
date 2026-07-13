@@ -25,17 +25,44 @@ public class MapSelectUI : MonoBehaviour
 
             string scene = mapButton.SceneName;
             button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(() => SelectMap(scene));
+            button.onClick.AddListener(() => {
+                if (SaveManager.IsFloorUnlocked(scene))
+                {
+                    SelectMap(scene);
+                }
+            });
         }
     }
 
     private void OnEnable()
     {
         RefreshSelection(GameSessionData.SelectedMapScene);
+        UpdateButtonsInteractable();
+    }
+
+    private void UpdateButtonsInteractable()
+    {
+        if (mapButtons == null)
+            return;
+
+        foreach (var mapButton in mapButtons)
+        {
+            if (mapButton == null)
+                continue;
+
+            var button = mapButton.GetComponent<Button>();
+            if (button != null)
+            {
+                button.interactable = SaveManager.IsFloorUnlocked(mapButton.SceneName);
+            }
+        }
     }
 
     public void SelectMap(string sceneName)
     {
+        if (!SaveManager.IsFloorUnlocked(sceneName))
+            return;
+
         RefreshSelection(sceneName);
 
         if (menuFlowController != null)

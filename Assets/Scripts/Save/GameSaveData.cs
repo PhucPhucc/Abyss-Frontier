@@ -10,6 +10,7 @@ public class GameSaveData
     public List<string> killedEnemyIds;
     public List<string> unlockedFloors;
     public string saveTime;
+    public int characterIndex;
 }
 
 [Serializable]

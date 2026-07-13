@@ -230,8 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70bac8a7f868b74b809f0e8ec85775f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 5
-  sprintSpeed: 6
+  moveSpeed: 20
+  sprintSpeed: 25
   maxStamina: 100
   staminaDrainRate: 20
   staminaRegenRate: 15

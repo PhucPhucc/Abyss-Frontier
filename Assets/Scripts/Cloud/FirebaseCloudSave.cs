@@ -58,11 +58,21 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
 #if FB_SDK
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"Firebase init exception: {task.Exception?.InnerException?.Message}");
+                initTcs.TrySetResult(false);
+                return;
+            }
+
             if (task.Result == DependencyStatus.Available)
             {
+                FirebaseApp.LogLevel = LogLevel.Verbose;
+                var app = FirebaseApp.DefaultInstance;
+                Debug.Log($"Firebase ready | App: {app.Options.AppId} | Project: {app.Options.ProjectId}");
+
                 auth = FirebaseAuth.DefaultInstance;
                 db = FirebaseFirestore.DefaultInstance;
-                Debug.Log("Firebase ready");
                 IsReady = true;
                 initTcs.TrySetResult(true);
             }
@@ -75,41 +85,187 @@ public class FirebaseCloudSave : IAuthService, ICloudSaveService, ILeaderboardSe
 #endif
     }
 
-    public async Task<AuthResult> LoginAnonymously()
+    public Task<AuthResult> LoginAnonymously()
     {
 #if FB_SDK
-        var result = await auth.SignInAnonymouslyAsync();
-        _userId = result.User.UserId;
-        return new AuthResult { Success = true, UserId = _userId };
+        var tcs = new TaskCompletionSource<AuthResult>();
+        auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(task =>
+        {
+            try
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    System.Exception ex = task.Exception;
+                    Debug.LogError($"LoginAnonymously exception: {ex}");
+                    string errorMsg = GetFriendlyErrorMessage(ex);
+                    tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = errorMsg });
+                }
+                else
+                {
+                    var result = task.Result;
+                    _userId = result.User.UserId;
+                    tcs.TrySetResult(new AuthResult { Success = true, UserId = _userId });
+                }
+            }
+            catch (System.Exception cbEx)
+            {
+                Debug.LogError($"Exception in LoginAnonymously callback: {cbEx}");
+                tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = cbEx.Message });
+            }
+        });
+        return tcs.Task;
 #else
-        await Task.Yield();
-        return new AuthResult { Success = false, ErrorMessage = "FB_SDK not defined" };
+        return Task.FromResult(new AuthResult { Success = false, ErrorMessage = "FB_SDK not defined" });
 #endif
     }
 
-    public async Task<AuthResult> LoginWithEmail(string email, string password)
+    public Task<AuthResult> LoginWithEmail(string email, string password)
     {
 #if FB_SDK
-        var result = await auth.SignInWithEmailAndPasswordAsync(email, password);
-        _userId = result.User.UserId;
-        return new AuthResult { Success = true, UserId = _userId };
+        var tcs = new TaskCompletionSource<AuthResult>();
+        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+        {
+            try
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    System.Exception ex = task.Exception;
+                    Debug.LogError($"LoginWithEmail exception: {ex}");
+                    string errorMsg = GetFriendlyErrorMessage(ex);
+                    tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = errorMsg });
+                }
+                else
+                {
+                    var result = task.Result;
+                    _userId = result.User.UserId;
+                    tcs.TrySetResult(new AuthResult { Success = true, UserId = _userId });
+                }
+            }
+            catch (System.Exception cbEx)
+            {
+                Debug.LogError($"Exception in LoginWithEmail callback: {cbEx}");
+                tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = GetFriendlyErrorMessage(cbEx) });
+            }
+        });
+        return tcs.Task;
 #else
-        await Task.Yield();
-        return new AuthResult { Success = false, ErrorMessage = "FB_SDK not defined" };
+        return Task.FromResult(new AuthResult { Success = false, ErrorMessage = "FB_SDK not defined" });
 #endif
     }
 
-    public async Task<AuthResult> RegisterWithEmail(string email, string password)
+    public Task<AuthResult> RegisterWithEmail(string email, string password)
     {
 #if FB_SDK
-        var result = await auth.CreateUserWithEmailAndPasswordAsync(email, password);
-        _userId = result.User.UserId;
-        return new AuthResult { Success = true, UserId = _userId };
+        var tcs = new TaskCompletionSource<AuthResult>();
+        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+        {
+            try
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    System.Exception ex = task.Exception;
+                    Debug.LogError($"RegisterWithEmail exception: {ex}");
+                    string errorMsg = GetFriendlyErrorMessage(ex);
+                    tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = errorMsg });
+                }
+                else
+                {
+                    var result = task.Result;
+                    _userId = result.User.UserId;
+                    tcs.TrySetResult(new AuthResult { Success = true, UserId = _userId });
+                }
+            }
+            catch (System.Exception cbEx)
+            {
+                Debug.LogError($"Exception in RegisterWithEmail callback: {cbEx}");
+                tcs.TrySetResult(new AuthResult { Success = false, ErrorMessage = GetFriendlyErrorMessage(cbEx) });
+            }
+        });
+        return tcs.Task;
 #else
-        await Task.Yield();
-        return new AuthResult { Success = false, ErrorMessage = "FB_SDK not defined" };
+        return Task.FromResult(new AuthResult { Success = false, ErrorMessage = "FB_SDK not defined" });
 #endif
     }
+
+#if FB_SDK
+    private string GetFriendlyErrorMessage(System.Exception ex)
+    {
+        if (ex == null) return "Lỗi không xác định.";
+        
+        System.Exception current = ex;
+        FirebaseException fbEx = null;
+
+        while (current != null)
+        {
+            if (current is FirebaseException fex)
+            {
+                fbEx = fex;
+                break;
+            }
+            if (current is System.AggregateException aggEx && aggEx.InnerExceptions != null)
+            {
+                foreach (var inner in aggEx.InnerExceptions)
+                {
+                    if (inner is FirebaseException innerFex)
+                    {
+                        fbEx = innerFex;
+                        break;
+                    }
+                }
+                if (fbEx != null) break;
+            }
+            current = current.InnerException;
+        }
+
+        if (fbEx != null)
+        {
+            var errorCode = (AuthError)fbEx.ErrorCode;
+            switch (errorCode)
+            {
+                case AuthError.InvalidEmail:
+                    return "Email không hợp lệ.";
+                case AuthError.WrongPassword:
+                    return "Mật khẩu không chính xác.";
+                case AuthError.InvalidCredential:
+                    return "Email hoặc mật khẩu không chính xác.";
+                case AuthError.UserNotFound:
+                    return "Tài khoản không tồn tại.";
+                case AuthError.EmailAlreadyInUse:
+                    return "Email này đã được đăng ký sử dụng.";
+                case AuthError.WeakPassword:
+                    return "Mật khẩu quá yếu (tối thiểu 6 ký tự).";
+                case AuthError.MissingEmail:
+                    return "Vui lòng nhập Email.";
+                case AuthError.MissingPassword:
+                    return "Vui lòng nhập Mật khẩu.";
+                case AuthError.UserDisabled:
+                    return "Tài khoản này đã bị vô hiệu hóa.";
+                case AuthError.NetworkRequestFailed:
+                    return "Lỗi kết nối mạng, vui lòng thử lại.";
+                case AuthError.TooManyRequests:
+                    return "Quá nhiều lần thử, vui lòng thử lại sau.";
+                case AuthError.OperationNotAllowed:
+                    return "Phương thức đăng nhập này chưa được bật.";
+                case AuthError.UserTokenExpired:
+                    return "Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.";
+                case AuthError.AppNotAuthorized:
+                    return "Ứng dụng chưa được ủy quyền.";
+                default:
+                    return "Email hoặc mật khẩu không chính xác.";
+            }
+        }
+
+        string msg = ex.Message ?? "";
+        if (msg.Contains("INVALID_LOGIN_CREDENTIALS") || msg.Contains("invalid-credential") || msg.Contains("auth/user-not-found") || msg.Contains("auth/wrong-password"))
+            return "Email hoặc mật khẩu không chính xác.";
+        if (msg.Contains("auth/too-many-requests"))
+            return "Quá nhiều lần thử, vui lòng thử lại sau.";
+        if (msg.Contains("auth/network-request-failed"))
+            return "Lỗi kết nối mạng, vui lòng thử lại.";
+
+        return "Đã xảy ra lỗi, vui lòng thử lại.";
+    }
+#endif
 
     public void Logout()
     {

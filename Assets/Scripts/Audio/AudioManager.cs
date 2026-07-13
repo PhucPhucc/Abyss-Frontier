@@ -107,7 +107,7 @@ public class AudioManager : MonoBehaviour
             clip = library.floor1Music;
         else if (sceneName is "floor2" or "floor3" or "floor4")
             clip = library.floor2To4Music;
-        else if (sceneName is "floor5" or "floor6")
+        else if (sceneName is "floor5")
             clip = library.bossMusic;
 
         PlayMusic(clip);
