@@ -14411,6 +14411,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cd96baa7042c4a6dba3384a683c8e468, type: 2}
   - {fileID: 11400000, guid: 67ad5fc5985747c9ae33ca1e60a673dd, type: 2}
   - {fileID: 11400000, guid: d92d0cfb2f9f46e1ba15f1bf070ae445, type: 2}
+  - {fileID: 11400000, guid: d92d0cfb2f9f46e1ba15f1bf070ae445, type: 2}
   portraitImage: {fileID: 920078128}
   nameText: {fileID: 1840607666}
   counterText: {fileID: 1528832213}
