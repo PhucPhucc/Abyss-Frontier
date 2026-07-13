@@ -6,6 +6,9 @@ using UnityEngine;
 /// </summary>
 public class InteractableTrigger : MonoBehaviour
 {
+    [Header("UI Reference")]
+    [Tooltip("Drag and drop this object's own Text Object or Text Panel (e.g., Press E) here.")]
+    public GameObject promptUI;
     private IInteractable interactable;
 
     private void Awake()
@@ -29,6 +32,10 @@ public class InteractableTrigger : MonoBehaviour
             col.isTrigger = true;
             Debug.Log($"[InteractableTrigger] Set existing Collider2D as Trigger on {gameObject.name}");
         }
+        if (promptUI != null)
+        {
+            promptUI.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -36,6 +43,11 @@ public class InteractableTrigger : MonoBehaviour
         Debug.Log($"[InteractableTrigger] OnTriggerEnter2D with: {other.name}, Tag: {other.tag}");
         if (other.CompareTag("Player"))
         {
+            if (promptUI != null)
+            {
+                promptUI.SetActive(true);
+            }
+
             if (interactable != null)
                 interactable.ShowPrompt(true);
 
@@ -57,6 +69,11 @@ public class InteractableTrigger : MonoBehaviour
         Debug.Log($"[InteractableTrigger] OnTriggerExit2D with: {other.name}");
         if (other.CompareTag("Player"))
         {
+            if (promptUI != null)
+            {
+                promptUI.SetActive(false);
+            }
+                
             if (interactable != null)
                 interactable.ShowPrompt(false);
 
