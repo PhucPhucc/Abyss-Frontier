@@ -7,6 +7,7 @@ TagManager:
   - Hub
   - Enemy
   - SpawnPoint
+  - Door
   layers:
   - Default
   - TransparentFX
