@@ -1,145 +1,252 @@
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Xử lý máu, trạng thái Hurt và Death của Player.
-/// Gắn component này vào cùng GameObject với PlayerController.
+/// Các loại chỉ số (stat) mà Player có thể nâng cấp.
+/// </summary>
+public enum StatType
+{
+    Strength,     // Sức mạnh → ATK
+    Dexterity,    // Khéo léo → Né tránh
+    Vitality,     // Sinh lực → Máu
+    Agility,      // Nhanh nhẹn → Tốc độ di chuyển
+    Endurance,    // Bền bỉ → Hiệu suất stamina
+    Intelligence  // Trí lực → Hệ số EXP
+}
+
+/// <summary>
+/// Quản lý cấp độ, EXP, chỉ số cơ bản và chỉ số dẫn xuất của Player.
 /// </summary>
 public class PlayerStats : MonoBehaviour
 {
-    [Header("Health")]
-    [SerializeField] private int maxHealth = 100;
-    [SerializeField] private int currentHealth;
+    [Header("Level")]
+    [SerializeField] private int level = 1;                   // Cấp độ hiện tại
+    [SerializeField] private int currentExp = 0;              // EXP hiện có
+    [SerializeField] private int expToNextLevel = 100;        // EXP cần để lên cấp tiếp theo
+    [SerializeField] private int statPointsPerLevel = 5;      // Số điểm chỉ số nhận được mỗi cấp
 
-    [Header("Death")]
-    [SerializeField] private float deathRespawnDelay = 2f;  // Thời gian chờ sau die animation trước khi xử lý respawn
+    [Header("Base Stats")]
+    [SerializeField] private int strength = 1;     // Sức mạnh
+    [SerializeField] private int dexterity = 1;    // Khéo léo
+    [SerializeField] private int vitality = 1;     // Sinh lực
+    [SerializeField] private int agility = 1;      // Nhanh nhẹn
+    [SerializeField] private int endurance = 1;    // Bền bỉ
+    [SerializeField] private int intelligence = 1; // Trí lực
 
-    [Header("Invincibility Frames")]
-    [SerializeField] private float invincibilityDuration = 0.8f; // Giây bất tử sau khi nhận damage (tránh bị trúng liên tiếp)
-    [SerializeField] private bool enableHurtFlash = true;
-    [SerializeField] private float flashInterval = 0.1f;
+    [Header("Stat Points")]
+    [SerializeField] private int availableStatPoints = 5; // Điểm chỉ số có thể phân bổ
 
-    public bool IsDead { get; private set; } = false;
-    public bool IsInvincible { get; private set; } = false;
+    [Header("Stamina State")]
+    [SerializeField] private float maxStamina = 100f;
+    [SerializeField] private float currentStamina;
 
-    private Animator animator;
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
+    [Header("Derived Stats (Read Only)")]
+    [SerializeField] private int derivedMaxHealth = 70;           // Máu tối đa
+    [SerializeField] private int derivedAttackDamage = 7;         // Sát thương
+    [SerializeField] private float derivedDodgeChance = 0.02f;     // Tỷ lệ né tránh
+    [SerializeField] private float derivedMoveSpeed = 2.65f;      // Tốc độ di chuyển
+    [SerializeField] private float derivedStaminaEfficiency = 1.1f; // Hiệu suất stamina
+    [SerializeField] private float derivedExpMultiplier = 1.1f;    // Hệ số EXP
 
-    // ─── Animator parameters ───────────────────────────────────────────────────
-    // Đảm bảo Animator của Player có đúng các trigger/bool này:
-    //   Trigger  "hurt"
-    //   Trigger  "die"
-    // ───────────────────────────────────────────────────────────────────────────
+    // Hằng số công thức tính chỉ số dẫn xuất
+    private const int BASE_HP = 50;
+    private const int HP_PER_VIT = 20;
+    private const int BASE_ATK = 5;
+    private const int ATK_PER_STR = 2;
+    private const float DODGE_PER_DEX = 0.02f;
+    private const float BASE_SPEED = 2.5f;
+    private const float SPEED_PER_AGI = 0.15f;
+    private const float ENDURANCE_FACTOR = 0.1f;
+    private const float EXP_PER_INT = 0.1f;
+
+    private PlayerHealth _playerHealth;
+
+    public event System.Action StatsChanged;
+
+    public bool IsDead => _playerHealth != null && _playerHealth.IsDead;
+
+    // --- Public Properties ---
+    public int Level => level;
+    public int CurrentExp => currentExp;
+    public int ExpToNextLevel => expToNextLevel;
+    public int AvailableStatPoints => availableStatPoints;
+    public int StatPoints => availableStatPoints; // Alias cho UI/Tests
+
+    public int Strength => strength;
+    public int Dexterity => dexterity;
+    public int Vitality => vitality;
+    public int Agility => agility;
+    public int Endurance => endurance;
+    public int Intelligence => intelligence;
+
+    public int MaxHealth => derivedMaxHealth;
+    public int CurrentHealth
+    {
+        get
+        {
+            if (_playerHealth == null)
+                _playerHealth = GetComponent<PlayerHealth>();
+            return _playerHealth != null ? _playerHealth.CurrentHealth : derivedMaxHealth;
+        }
+    }
+
+    public float MaxStamina => maxStamina;
+    public float CurrentStamina => currentStamina;
+
+    public int AttackDamage => derivedAttackDamage;
+    public float DodgeChance => derivedDodgeChance;
+    public float MoveSpeed => derivedMoveSpeed;
+    public float StaminaEfficiency => derivedStaminaEfficiency;
+    public float ExpMultiplier => derivedExpMultiplier;
+
+    public int CurrentExperience => currentExp; // Alias cho UI/Tests
+    public int ExperiencePerStatPoint => expToNextLevel; // Alias cho UI/Tests
+    public int Defense => 0; // Tương thích ngược
 
     private void Awake()
     {
-        animator      = GetComponent<Animator>();
-        rb            = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
-        currentHealth = maxHealth;
+        RecalculateDerivedStats();
+        currentStamina = maxStamina;
+        _playerHealth = GetComponent<PlayerHealth>();
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  Public API
-    // ──────────────────────────────────────────────────────────────────────────
+    /// <summary>
+    /// Tính lại tất cả chỉ số dẫn xuất dựa trên chỉ số cơ bản hiện tại.
+    /// Gọi sau mỗi lần phân bổ stat point.
+    /// </summary>
+    public void RecalculateDerivedStats()
+    {
+        derivedMaxHealth = BASE_HP + (vitality * HP_PER_VIT);
+        derivedAttackDamage = BASE_ATK + (strength * ATK_PER_STR);
+        derivedDodgeChance = Mathf.Min(dexterity * DODGE_PER_DEX, 0.5f); // Giới hạn 50%
+        derivedMoveSpeed = BASE_SPEED + (agility * SPEED_PER_AGI);
+        derivedStaminaEfficiency = 1f + (endurance * ENDURANCE_FACTOR);
+        derivedExpMultiplier = 1f + (intelligence * EXP_PER_INT);
+    }
 
     /// <summary>
-    /// Gây sát thương cho Player. Gọi từ EnemyAI khi hitbox tấn công chạm.
+    /// Cộng EXP (đã nhân hệ số). Nếu đủ EXP để lên cấp, tự động level up.
+    /// </summary>
+    public void AddExp(int amount)
+    {
+        if (amount <= 0) return;
+        int finalExp = Mathf.RoundToInt(amount * derivedExpMultiplier);
+        currentExp += finalExp;
+
+        while (currentExp >= expToNextLevel)
+        {
+            currentExp -= expToNextLevel;
+            LevelUp();
+        }
+        NotifyChanged();
+    }
+
+    public void AddExperience(int amount) => AddExp(amount); // Alias cho UI/Tests
+
+    /// <summary>
+    /// Lên cấp: tăng level, yêu cầu EXP cho cấp sau, cộng điểm stat.
+    /// </summary>
+    private void LevelUp()
+    {
+        level++;
+        expToNextLevel = Mathf.RoundToInt(expToNextLevel * 1.5f);
+        availableStatPoints += statPointsPerLevel;
+        Debug.Log($"Level up! Now level {level}. Stat points: {availableStatPoints}");
+    }
+
+    /// <summary>
+    /// Phân bổ một điểm chỉ số vào stat tương ứng.
+    /// </summary>
+    public bool AllocateStat(StatType statType)
+    {
+        if (availableStatPoints <= 0) return false;
+
+        switch (statType)
+        {
+            case StatType.Strength: strength++; break;
+            case StatType.Dexterity: dexterity++; break;
+            case StatType.Vitality: vitality++; break;
+            case StatType.Agility: agility++; break;
+            case StatType.Endurance: endurance++; break;
+            case StatType.Intelligence: intelligence++; break;
+            default: return false;
+        }
+
+        availableStatPoints--;
+        RecalculateDerivedStats();
+        NotifyChanged();
+        return true;
+    }
+
+    /// <summary>
+    /// Hồi phục đầy Máu và Stamina.
+    /// </summary>
+    public void RestoreVitals()
+    {
+        if (_playerHealth == null)
+            _playerHealth = GetComponent<PlayerHealth>();
+        
+        if (_playerHealth != null)
+            _playerHealth.RestoreFullHealth();
+            
+        currentStamina = maxStamina;
+        NotifyChanged();
+    }
+
+    /// <summary>
+    /// Gây sát thương lên Player.
     /// </summary>
     public void TakeDamage(int damage)
     {
-        if (IsDead || IsInvincible) return;
-
-        currentHealth -= damage;
-        currentHealth = Mathf.Max(currentHealth, 0);
-
-        Debug.Log($"[PlayerStats] Player nhận {damage} sát thương — HP còn: {currentHealth}/{maxHealth}");
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-        else
-        {
-            PlayHurt();
-            StartCoroutine(InvincibilityRoutine());
-        }
+        if (_playerHealth == null)
+            _playerHealth = GetComponent<PlayerHealth>();
+        
+        if (_playerHealth != null)
+            _playerHealth.TakeDamage(damage);
+            
+        NotifyChanged();
     }
 
     /// <summary>
-    /// Hồi máu cho Player (dùng ở Hub hoặc item).
+    /// Reset EXP về 0 (gọi khi Player chết).
     /// </summary>
-    public void Heal(int amount)
+    public void ResetExpToZero()
     {
-        if (IsDead) return;
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log($"[PlayerStats] Player hồi {amount} máu — HP: {currentHealth}/{maxHealth}");
+        currentExp = 0;
+        NotifyChanged();
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  Internal helpers
-    // ──────────────────────────────────────────────────────────────────────────
+    public void ResetExperienceOnDeath() => ResetExpToZero(); // Alias cho UI/Tests
 
-    private void PlayHurt()
+    /// <summary>
+    /// Tiêu hao Stamina.
+    /// </summary>
+    public bool SpendStamina(float amount)
     {
-        if (animator != null)
-            animator.SetTrigger("hurt");
+        if (amount <= 0f) return true;
+        if (currentStamina < amount) return false;
+
+        currentStamina -= amount;
+        NotifyChanged();
+        return true;
     }
 
-    private void Die()
+    /// <summary>
+    /// Hồi phục Stamina.
+    /// </summary>
+    public void RecoverStamina(float amount)
     {
-        if (IsDead) return;
-        IsDead = true;
+        if (amount <= 0f || currentStamina >= maxStamina) return;
 
-        // Dừng di chuyển
-        if (rb != null)
-            rb.linearVelocity = Vector2.zero;
-
-        // Tắt input movement (PlayerController sẽ check IsDead)
-        if (animator != null)
-            animator.SetTrigger("die");
-
-        Debug.Log("[PlayerStats] Player đã chết.");
-
-        StartCoroutine(DeathRoutine());
-    }
-
-    private IEnumerator DeathRoutine()
-    {
-        yield return new WaitForSeconds(deathRespawnDelay);
-
-        // TODO: Gọi GameManager để hiện Death Screen hoặc Respawn
-        // GameManager.Instance?.OnPlayerDeath();
-        Debug.Log("[PlayerStats] Death sequence hoàn tất — chờ GameManager xử lý respawn.");
-    }
-
-    private IEnumerator InvincibilityRoutine()
-    {
-        IsInvincible = true;
-        float elapsed = 0f;
-
-        while (elapsed < invincibilityDuration)
+        float newStamina = Mathf.Min(maxStamina, currentStamina + amount);
+        if (!Mathf.Approximately(newStamina, currentStamina))
         {
-            if (enableHurtFlash && spriteRenderer != null)
-            {
-                spriteRenderer.enabled = !spriteRenderer.enabled;
-            }
-            yield return new WaitForSeconds(flashInterval);
-            elapsed += flashInterval;
+            currentStamina = newStamina;
+            NotifyChanged();
         }
-
-        if (spriteRenderer != null)
-            spriteRenderer.enabled = true;
-
-        IsInvincible = false;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  Properties
-    // ──────────────────────────────────────────────────────────────────────────
-
-    public int CurrentHealth => currentHealth;
-    public int MaxHealth => maxHealth;
+    private void NotifyChanged()
+    {
+        StatsChanged?.Invoke();
+    }
 }

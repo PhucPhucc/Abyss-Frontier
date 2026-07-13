@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 5581559885425449935}
   - component: {fileID: 9012345678901234567}
   - component: {fileID: 2345199660925520297}
+  - component: {fileID: 7755622916112244767}
   - component: {fileID: 6638633587768143684}
-  - component: {fileID: 5678492246762420342}
+  - component: {fileID: 8310002690477283113}
+  - component: {fileID: 416716130762936599}
   m_Layer: 3
   m_Name: Orc3
   m_TagString: Enemy
@@ -144,6 +146,27 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &7755622916112244767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078009593849745469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262d2a8427f8846848f479ce4c056396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  enemyLevel: 3
+  statsDefinition: {fileID: 11400000, guid: a4df94f28c879d531bfa63ca055ac583, type: 2}
+  maxHealth: 30
+  currentHealth: 0
+  destroyDelay: 1.5
+  enableHitFlash: 1
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultStunDuration: 0.5
 --- !u!114 &6638633587768143684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackHandler
   knockbackForceInit: 12
---- !u!114 &5678492246762420342
+--- !u!114 &8310002690477283113
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,13 +189,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 6078009593849745469}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03a7bea821065da409140a4ae3d16025, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e1ffa6e14f72268e9f90c64774cae5e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 30
-  currentHealth: 0
-  destroyDelay: 1.5
-  enableHitFlash: 1
-  flashDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
-  defaultStunDuration: 0.5
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  moveSpeed: 1
+  chaseSpeed: 2
+  detectionRange: 4
+  loseRange: 6
+  waypoints: []
+  waitTime: 1.5
+  attackRange: 1
+  attackDamage: 8
+  attackHitDelay: 0.2
+  attackCooldown: 1.4
+  attackPrepDuration: 0.4
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!70 &416716130762936599
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078009593849745469}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.1}
+  m_Size: {x: 0.5, y: 0.9}
+  m_Direction: 0

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e338a67924f04cd79fee31e333caf2a9, type: 3}
+  m_Name: Player_Human1
+  m_EditorClassIdentifier: 
+  characterName: Human1
+  portraitSprite: {fileID: 9073892671436831888, guid: cf2715d293c11f9498c8242dd8adca01, type: 3}
+  playerPrefab: {fileID: 4334806015640710657, guid: bd6a6936ca0a66b4eb5d69254d3108e9, type: 3}

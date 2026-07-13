@@ -259,7 +259,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -273,7 +273,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -297,7 +297,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -351,12 +351,12 @@ TextureImporter:
       name: Craft_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 362
-        width: 200
-        height: 118
+        x: 7
+        y: 363
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -373,12 +373,12 @@ TextureImporter:
       name: Craft_1
       rect:
         serializedVersion: 2
-        x: 214
-        y: 362
-        width: 200
-        height: 118
+        x: 215
+        y: 363
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -395,12 +395,12 @@ TextureImporter:
       name: Craft_2
       rect:
         serializedVersion: 2
-        x: 422
-        y: 362
-        width: 200
-        height: 118
+        x: 423
+        y: 363
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -417,12 +417,12 @@ TextureImporter:
       name: Craft_3
       rect:
         serializedVersion: 2
-        x: 6
-        y: 234
-        width: 200
-        height: 119
+        x: 7
+        y: 235
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -439,12 +439,12 @@ TextureImporter:
       name: Craft_4
       rect:
         serializedVersion: 2
-        x: 214
-        y: 234
-        width: 200
-        height: 119
+        x: 215
+        y: 235
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -461,12 +461,12 @@ TextureImporter:
       name: Craft_5
       rect:
         serializedVersion: 2
-        x: 422
-        y: 234
-        width: 200
-        height: 119
+        x: 423
+        y: 235
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -483,12 +483,12 @@ TextureImporter:
       name: Craft_6
       rect:
         serializedVersion: 2
-        x: 6
-        y: 106
-        width: 200
-        height: 119
+        x: 7
+        y: 107
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -505,12 +505,12 @@ TextureImporter:
       name: Craft_7
       rect:
         serializedVersion: 2
-        x: 214
-        y: 106
-        width: 200
-        height: 119
+        x: 215
+        y: 107
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -527,12 +527,12 @@ TextureImporter:
       name: Craft_8
       rect:
         serializedVersion: 2
-        x: 422
-        y: 106
-        width: 200
-        height: 119
+        x: 423
+        y: 107
+        width: 198
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -550,11 +550,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 61
-        width: 49
-        height: 20
+        y: 62
+        width: 48
+        height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -571,12 +571,12 @@ TextureImporter:
       name: Craft_10
       rect:
         serializedVersion: 2
-        x: 63
-        y: 61
-        width: 50
-        height: 26
+        x: 64
+        y: 62
+        width: 48
+        height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -593,12 +593,12 @@ TextureImporter:
       name: Craft_11
       rect:
         serializedVersion: 2
-        x: 127
-        y: 61
-        width: 50
-        height: 26
+        x: 128
+        y: 62
+        width: 48
+        height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -615,12 +615,12 @@ TextureImporter:
       name: Craft_12
       rect:
         serializedVersion: 2
-        x: 191
-        y: 61
-        width: 50
-        height: 26
+        x: 192
+        y: 62
+        width: 48
+        height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -637,12 +637,12 @@ TextureImporter:
       name: Craft_13
       rect:
         serializedVersion: 2
-        x: 262
-        y: 58
-        width: 36
-        height: 28
+        x: 263
+        y: 59
+        width: 34
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -659,12 +659,12 @@ TextureImporter:
       name: Craft_14
       rect:
         serializedVersion: 2
-        x: 303
-        y: 58
-        width: 15
-        height: 28
+        x: 304
+        y: 59
+        width: 13
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -681,12 +681,12 @@ TextureImporter:
       name: Craft_15
       rect:
         serializedVersion: 2
-        x: 326
-        y: 58
-        width: 36
-        height: 28
+        x: 327
+        y: 59
+        width: 34
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -703,12 +703,12 @@ TextureImporter:
       name: Craft_16
       rect:
         serializedVersion: 2
-        x: 367
-        y: 58
-        width: 50
-        height: 39
+        x: 368
+        y: 59
+        width: 48
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -725,12 +725,12 @@ TextureImporter:
       name: Craft_17
       rect:
         serializedVersion: 2
-        x: 431
-        y: 29
-        width: 45
-        height: 68
+        x: 432
+        y: 30
+        width: 43
+        height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -747,12 +747,12 @@ TextureImporter:
       name: Craft_18
       rect:
         serializedVersion: 2
-        x: 490
-        y: 65
-        width: 35
-        height: 27
+        x: 491
+        y: 66
+        width: 33
+        height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -769,12 +769,12 @@ TextureImporter:
       name: Craft_19
       rect:
         serializedVersion: 2
-        x: 537
-        y: 66
-        width: 39
-        height: 24
+        x: 538
+        y: 67
+        width: 37
+        height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -791,12 +791,12 @@ TextureImporter:
       name: Craft_20
       rect:
         serializedVersion: 2
-        x: 588
-        y: 65
-        width: 32
-        height: 28
+        x: 589
+        y: 66
+        width: 30
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -813,12 +813,12 @@ TextureImporter:
       name: Craft_21
       rect:
         serializedVersion: 2
-        x: 487
-        y: 6
-        width: 26
-        height: 42
+        x: 520
+        y: 36
+        width: 12
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -835,12 +835,12 @@ TextureImporter:
       name: Craft_22
       rect:
         serializedVersion: 2
-        x: 519
-        y: 35
-        width: 14
-        height: 18
+        x: 556
+        y: 45
+        width: 4
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -857,12 +857,12 @@ TextureImporter:
       name: Craft_23
       rect:
         serializedVersion: 2
-        x: 555
-        y: 44
-        width: 6
-        height: 9
+        x: 577
+        y: 49
+        width: 14
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -879,12 +879,12 @@ TextureImporter:
       name: Craft_24
       rect:
         serializedVersion: 2
-        x: 576
-        y: 48
-        width: 16
-        height: 16
+        x: 593
+        y: 49
+        width: 14
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -901,12 +901,12 @@ TextureImporter:
       name: Craft_25
       rect:
         serializedVersion: 2
-        x: 592
-        y: 48
-        width: 16
-        height: 16
+        x: 609
+        y: 49
+        width: 14
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -923,12 +923,12 @@ TextureImporter:
       name: Craft_26
       rect:
         serializedVersion: 2
-        x: 607
-        y: 31
-        width: 17
-        height: 18
+        x: 2
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -945,12 +945,12 @@ TextureImporter:
       name: Craft_27
       rect:
         serializedVersion: 2
-        x: 608
-        y: 48
-        width: 16
-        height: 16
+        x: 50
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -967,12 +967,12 @@ TextureImporter:
       name: Craft_28
       rect:
         serializedVersion: 2
-        x: 1
-        y: 29
-        width: 45
-        height: 16
+        x: 98
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -989,12 +989,12 @@ TextureImporter:
       name: Craft_29
       rect:
         serializedVersion: 2
-        x: 49
-        y: 29
-        width: 45
-        height: 16
+        x: 146
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1011,12 +1011,12 @@ TextureImporter:
       name: Craft_30
       rect:
         serializedVersion: 2
-        x: 97
-        y: 29
-        width: 45
-        height: 16
+        x: 210
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1033,12 +1033,12 @@ TextureImporter:
       name: Craft_31
       rect:
         serializedVersion: 2
-        x: 145
-        y: 29
-        width: 45
-        height: 16
+        x: 258
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1055,12 +1055,12 @@ TextureImporter:
       name: Craft_32
       rect:
         serializedVersion: 2
-        x: 209
-        y: 29
-        width: 45
-        height: 16
+        x: 306
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1077,12 +1077,12 @@ TextureImporter:
       name: Craft_33
       rect:
         serializedVersion: 2
-        x: 257
-        y: 29
-        width: 45
-        height: 16
+        x: 354
+        y: 30
+        width: 43
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1099,12 +1099,12 @@ TextureImporter:
       name: Craft_34
       rect:
         serializedVersion: 2
-        x: 305
-        y: 29
-        width: 45
-        height: 16
+        x: 488
+        y: 7
+        width: 24
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1121,12 +1121,12 @@ TextureImporter:
       name: Craft_35
       rect:
         serializedVersion: 2
-        x: 353
-        y: 29
-        width: 45
+        x: 563
+        y: 22
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1143,12 +1143,12 @@ TextureImporter:
       name: Craft_36
       rect:
         serializedVersion: 2
-        x: 562
-        y: 21
-        width: 18
-        height: 18
+        x: 608
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1165,12 +1165,12 @@ TextureImporter:
       name: Craft_37
       rect:
         serializedVersion: 2
-        x: 451
+        x: 485
         y: 6
-        width: 15
-        height: 15
+        width: 11
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1187,12 +1187,12 @@ TextureImporter:
       name: Craft_38
       rect:
         serializedVersion: 2
-        x: 484
-        y: 5
-        width: 13
-        height: 18
+        x: 597
+        y: 21
+        width: 6
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1209,12 +1209,12 @@ TextureImporter:
       name: Craft_39
       rect:
         serializedVersion: 2
-        x: 596
+        x: 613
         y: 20
-        width: 8
-        height: 8
+        width: 6
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1231,12 +1231,12 @@ TextureImporter:
       name: Craft_40
       rect:
         serializedVersion: 2
-        x: 612
-        y: 19
-        width: 8
-        height: 9
+        x: 2
+        y: 3
+        width: 11
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1253,12 +1253,12 @@ TextureImporter:
       name: Craft_41
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 13
-        height: 13
+        x: 18
+        y: 3
+        width: 11
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1275,12 +1275,12 @@ TextureImporter:
       name: Craft_42
       rect:
         serializedVersion: 2
-        x: 17
-        y: 2
-        width: 13
-        height: 13
+        x: 34
+        y: 3
+        width: 11
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1297,12 +1297,12 @@ TextureImporter:
       name: Craft_43
       rect:
         serializedVersion: 2
-        x: 33
-        y: 2
-        width: 13
-        height: 13
+        x: 50
+        y: 3
+        width: 11
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1319,12 +1319,12 @@ TextureImporter:
       name: Craft_44
       rect:
         serializedVersion: 2
-        x: 49
+        x: 66
         y: 2
-        width: 13
-        height: 13
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1341,12 +1341,12 @@ TextureImporter:
       name: Craft_45
       rect:
         serializedVersion: 2
-        x: 65
-        y: 1
-        width: 12
-        height: 14
+        x: 82
+        y: 2
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1363,12 +1363,12 @@ TextureImporter:
       name: Craft_46
       rect:
         serializedVersion: 2
-        x: 81
-        y: 1
-        width: 12
-        height: 14
+        x: 98
+        y: 2
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1385,12 +1385,12 @@ TextureImporter:
       name: Craft_47
       rect:
         serializedVersion: 2
-        x: 97
-        y: 1
-        width: 12
-        height: 14
+        x: 114
+        y: 2
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1407,12 +1407,12 @@ TextureImporter:
       name: Craft_48
       rect:
         serializedVersion: 2
-        x: 113
-        y: 1
+        x: 130
+        y: 2
         width: 12
-        height: 14
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1429,12 +1429,12 @@ TextureImporter:
       name: Craft_49
       rect:
         serializedVersion: 2
-        x: 129
-        y: 1
-        width: 14
-        height: 13
+        x: 146
+        y: 2
+        width: 12
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1451,12 +1451,12 @@ TextureImporter:
       name: Craft_50
       rect:
         serializedVersion: 2
-        x: 145
-        y: 1
-        width: 14
-        height: 13
+        x: 162
+        y: 2
+        width: 12
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1473,12 +1473,12 @@ TextureImporter:
       name: Craft_51
       rect:
         serializedVersion: 2
-        x: 161
-        y: 1
-        width: 14
-        height: 13
+        x: 178
+        y: 2
+        width: 12
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1495,12 +1495,12 @@ TextureImporter:
       name: Craft_52
       rect:
         serializedVersion: 2
-        x: 177
-        y: 1
-        width: 14
-        height: 13
+        x: 194
+        y: 2
+        width: 12
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1517,12 +1517,12 @@ TextureImporter:
       name: Craft_53
       rect:
         serializedVersion: 2
-        x: 193
-        y: 1
-        width: 14
-        height: 13
+        x: 210
+        y: 2
+        width: 12
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1539,12 +1539,12 @@ TextureImporter:
       name: Craft_54
       rect:
         serializedVersion: 2
-        x: 209
-        y: 1
-        width: 14
-        height: 13
+        x: 227
+        y: 2
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1561,12 +1561,12 @@ TextureImporter:
       name: Craft_55
       rect:
         serializedVersion: 2
-        x: 226
-        y: 1
+        x: 242
+        y: 2
         width: 12
-        height: 14
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1583,12 +1583,12 @@ TextureImporter:
       name: Craft_56
       rect:
         serializedVersion: 2
-        x: 241
-        y: 1
-        width: 14
-        height: 14
+        x: 258
+        y: 2
+        width: 12
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1605,12 +1605,12 @@ TextureImporter:
       name: Craft_57
       rect:
         serializedVersion: 2
-        x: 257
-        y: 1
-        width: 14
-        height: 14
+        x: 275
+        y: 2
+        width: 11
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1627,12 +1627,12 @@ TextureImporter:
       name: Craft_58
       rect:
         serializedVersion: 2
-        x: 274
-        y: 1
-        width: 13
-        height: 14
+        x: 291
+        y: 2
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1649,12 +1649,12 @@ TextureImporter:
       name: Craft_59
       rect:
         serializedVersion: 2
-        x: 290
-        y: 1
-        width: 12
-        height: 14
+        x: 308
+        y: 3
+        width: 9
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1671,12 +1671,12 @@ TextureImporter:
       name: Craft_60
       rect:
         serializedVersion: 2
-        x: 307
+        x: 322
         y: 2
-        width: 11
-        height: 13
+        width: 12
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1693,12 +1693,12 @@ TextureImporter:
       name: Craft_61
       rect:
         serializedVersion: 2
-        x: 321
-        y: 1
-        width: 14
-        height: 14
+        x: 338
+        y: 2
+        width: 12
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1715,12 +1715,12 @@ TextureImporter:
       name: Craft_62
       rect:
         serializedVersion: 2
-        x: 337
-        y: 1
-        width: 14
-        height: 14
+        x: 355
+        y: 2
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1737,12 +1737,12 @@ TextureImporter:
       name: Craft_63
       rect:
         serializedVersion: 2
-        x: 354
-        y: 1
-        width: 12
-        height: 14
+        x: 371
+        y: 2
+        width: 9
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1759,12 +1759,12 @@ TextureImporter:
       name: Craft_64
       rect:
         serializedVersion: 2
-        x: 370
-        y: 1
+        x: 387
+        y: 0
         width: 11
-        height: 14
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1781,12 +1781,12 @@ TextureImporter:
       name: Craft_65
       rect:
         serializedVersion: 2
-        x: 386
-        y: 0
-        width: 13
-        height: 17
+        x: 402
+        y: 1
+        width: 12
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1803,12 +1803,12 @@ TextureImporter:
       name: Craft_66
       rect:
         serializedVersion: 2
-        x: 401
-        y: 0
-        width: 14
-        height: 16
+        x: 418
+        y: 2
+        width: 12
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1825,12 +1825,12 @@ TextureImporter:
       name: Craft_67
       rect:
         serializedVersion: 2
-        x: 417
-        y: 1
-        width: 14
-        height: 14
+        x: 433
+        y: 2
+        width: 13
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1847,12 +1847,12 @@ TextureImporter:
       name: Craft_68
       rect:
         serializedVersion: 2
-        x: 432
-        y: 1
-        width: 15
-        height: 15
+        x: 452
+        y: 7
+        width: 13
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1869,12 +1869,12 @@ TextureImporter:
       name: Craft_69
       rect:
         serializedVersion: 2
-        x: 529
-        y: 1
-        width: 14
-        height: 14
+        x: 530
+        y: 2
+        width: 12
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1891,12 +1891,12 @@ TextureImporter:
       name: Craft_70
       rect:
         serializedVersion: 2
-        x: 546
-        y: 1
-        width: 12
-        height: 14
+        x: 547
+        y: 2
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1913,12 +1913,12 @@ TextureImporter:
       name: Craft_71
       rect:
         serializedVersion: 2
-        x: 561
-        y: 1
-        width: 13
-        height: 14
+        x: 562
+        y: 2
+        width: 11
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1935,12 +1935,12 @@ TextureImporter:
       name: Craft_72
       rect:
         serializedVersion: 2
-        x: 577
-        y: 1
-        width: 14
-        height: 14
+        x: 578
+        y: 2
+        width: 12
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1957,12 +1957,12 @@ TextureImporter:
       name: Craft_73
       rect:
         serializedVersion: 2
-        x: 594
-        y: 2
-        width: 12
-        height: 14
+        x: 595
+        y: 3
+        width: 10
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1979,12 +1979,12 @@ TextureImporter:
       name: Craft_74
       rect:
         serializedVersion: 2
-        x: 610
-        y: 2
-        width: 13
-        height: 14
+        x: 611
+        y: 3
+        width: 11
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2001,7 +2001,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: bb48a511844986c41b7972b2b7ed8ac7
     internalID: 0
     vertices: []
     indices: 
@@ -2009,7 +2009,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Craft_0: 646280220929689500
       Craft_1: -825346790106846486

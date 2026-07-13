@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2354044817874569404}
   - component: {fileID: 7272395317770741862}
   - component: {fileID: 4960787548665706354}
+  - component: {fileID: 4803415344796256561}
+  - component: {fileID: -6425910221045171323}
   m_Layer: 3
   m_Name: Slime2
   m_TagString: Enemy
@@ -134,10 +136,15 @@ MonoBehaviour:
   detectionRange: 4
   loseRange: 6
   waypoints: []
-  waitTime: 3
+  waitTime: 1.5
   attackRange: 1
-  attackCooldown: 1.5
-  attackPrepDuration: 1
+  attackDamage: 8
+  attackHitDelay: 0.5
+  attackCooldown: 1.4
+  attackPrepDuration: 0.4
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &7272395317770741862
 Rigidbody2D:
   serializedVersion: 5
@@ -146,14 +153,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878623133622696726}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -161,9 +168,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &4960787548665706354
 CapsuleCollider2D:
@@ -202,3 +209,37 @@ CapsuleCollider2D:
   m_Offset: {x: 0.038944185, y: -0.04673305}
   m_Size: {x: 0.55127585, y: 0.5668537}
   m_Direction: 0
+--- !u!114 &4803415344796256561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878623133622696726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262d2a8427f8846848f479ce4c056396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  enemyLevel: 2
+  statsDefinition: {fileID: 11400000, guid: 6b20cd7ca6e12f59e9c06cd683a4af21, type: 2}
+  maxHealth: 30
+  currentHealth: 0
+  destroyDelay: 1.5
+  enableHitFlash: 1
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultStunDuration: 0.5
+--- !u!114 &-6425910221045171323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878623133622696726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71246ab6138beb04d98599fba162e45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnockbackHandler
+  knockbackForceInit: 12

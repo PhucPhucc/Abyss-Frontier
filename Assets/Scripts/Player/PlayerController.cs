@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterMotor
 {
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed = 3f;
+    [Header("Sprint")]
     [SerializeField] private float sprintSpeed = 6f;
 
     [Header("Stamina")]
@@ -12,30 +11,56 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float staminaDrainRate = 20f;
     [SerializeField] private float staminaRegenRate = 15f;
 
-    private Rigidbody2D rb;
-    private Animator animator;
     private PlayerStats playerStats;
-
-    private Vector2 moveInput;
-    private Vector2 lastDirection = Vector2.down;
-
+    private PlayerCombat cachedCombat;
+    private PlayerDash playerDash;
     private float currentStamina;
     private bool isSprintInputPressed;
     private bool isSprinting;
 
-    public Vector2 LastDirection => lastDirection;
+    public void SetSprintInput(bool pressed) => isSprintInputPressed = pressed;
 
-    private void Awake()
+    public bool IsSprinting => isSprinting;
+    public bool IsDashing => playerDash != null && playerDash.IsDashing;
+    public float CurrentStamina => playerStats != null ? playerStats.CurrentStamina : currentStamina;
+    public float MaxStamina => playerStats != null ? playerStats.MaxStamina : maxStamina;
+
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        base.Awake();
         playerStats = GetComponent<PlayerStats>();
+        cachedCombat = GetComponent<PlayerCombat>();
+        playerDash = GetComponent<PlayerDash>();
+        if (playerDash == null)
+            playerDash = gameObject.AddComponent<PlayerDash>();
+        
+        if (GetComponent<PlayerInteractor>() == null)
+            gameObject.AddComponent<PlayerInteractor>();
+
         currentStamina = maxStamina;
+    }
+
+    private void Start()
+    {
+        if (playerStats != null)
+        {
+            MoveSpeed = playerStats.MoveSpeed;
+            sprintSpeed = MoveSpeed * 2f;
+        }
+    }
+
+    public void RefreshStats()
+    {
+        if (playerStats != null)
+        {
+            MoveSpeed = playerStats.MoveSpeed;
+            sprintSpeed = MoveSpeed * 2f;
+        }
     }
 
     public void OnMove(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
+        MoveInput = value.Get<Vector2>();
     }
 
     public void OnSprint(InputValue value)
@@ -45,67 +70,80 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Chặn input khi Player đã chết
         if (playerStats != null && playerStats.IsDead)
+            return;
+
+        HandleStamina();
+    }
+
+    private void HandleStamina()
+    {
+        float effectiveDrain = playerStats != null ? staminaDrainRate / playerStats.StaminaEfficiency : staminaDrainRate;
+        float effectiveRegen = playerStats != null ? staminaRegenRate * playerStats.StaminaEfficiency : staminaRegenRate;
+
+        if (IsDashing)
         {
-            animator.SetBool("isWalk", false);
-            animator.SetBool("isRun", false);
+            isSprinting = false;
+            RecoverStamina(effectiveRegen * Time.deltaTime);
             return;
         }
 
-        bool isMoving = moveInput.sqrMagnitude > 0.01f;
-
-        if (isMoving)
-        {
-            lastDirection = moveInput.normalized;
-        }
-
-        HandleStamina(isMoving);
-
-        animator.SetFloat("moveX", lastDirection.x);
-        animator.SetFloat("moveY", lastDirection.y);
-        animator.SetBool("isWalk", isMoving);
-        animator.SetBool("isRun", isSprinting);
-    }
-
-    private void HandleStamina(bool isMoving)
-    {
-        if (isSprintInputPressed && isMoving && currentStamina > 0)
+        if (isSprintInputPressed && IsMoving && CurrentStamina > 0f)
         {
             isSprinting = true;
-            currentStamina -= staminaDrainRate * Time.deltaTime;
-            Debug.Log(currentStamina);
-            if (currentStamina < 0) currentStamina = 0f;
+            SpendStamina(effectiveDrain * Time.deltaTime);
         }
         else
         {
             isSprinting = false;
-            if (currentStamina < maxStamina)
-            {
-                currentStamina += staminaRegenRate * Time.deltaTime;
-                if (currentStamina > maxStamina) currentStamina = maxStamina;
-            }
+            RecoverStamina(effectiveRegen * Time.deltaTime);
         }
     }
 
-    private void FixedUpdate()
+    private void SpendStamina(float amount)
     {
-        // Chặn movement khi Player đã chết
+        if (playerStats != null)
+        {
+            playerStats.SpendStamina(Mathf.Min(amount, playerStats.CurrentStamina));
+            return;
+        }
+
+        currentStamina = Mathf.Max(0f, currentStamina - amount);
+    }
+
+    private void RecoverStamina(float amount)
+    {
+        if (playerStats != null)
+        {
+            playerStats.RecoverStamina(amount);
+            return;
+        }
+
+        currentStamina = Mathf.Min(maxStamina, currentStamina + amount);
+    }
+
+    protected override Vector2 GetVelocity()
+    {
+        return MoveInput * (isSprinting ? sprintSpeed : MoveSpeed);
+    }
+
+    protected override void FixedUpdate()
+    {
         if (playerStats != null && playerStats.IsDead)
         {
-            rb.linearVelocity = Vector2.zero;
+            Rb.linearVelocity = Vector2.zero;
             return;
         }
 
-        PlayerCombat combat = GetComponent<PlayerCombat>();
+        if (IsDashing)
+            return;
 
-        if (combat != null && combat.IsAttacking)
+        if (cachedCombat != null && cachedCombat.IsAttacking)
         {
-            rb.linearVelocity = Vector2.zero;
+            Rb.linearVelocity = Vector2.zero;
             return;
         }
 
-        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
-        rb.linearVelocity = moveInput * currentSpeed;
+        base.FixedUpdate();
     }
 }
