@@ -18,6 +18,7 @@ public class ServerConnectionUI : MonoBehaviour
     private TMP_InputField serverNameInput;
     private GameObject windowHost;
     private GameObject windowServerList;
+    private GameObject windowJoin;
     private GameObject choosePlayerPanel;
     private TextMeshProUGUI createBtnLabel;
     private GameObject connectionPanel;
@@ -43,6 +44,7 @@ public class ServerConnectionUI : MonoBehaviour
     private void Awake()
     {
         FindAndCacheReferences();
+        CreateJoinWindow();
         CreateValidationMessage();
         CreateDisconnectOverlay();
         HideLegacyMenuWindows();
@@ -126,22 +128,28 @@ public class ServerConnectionUI : MonoBehaviour
         if (choosePlayerPanel != null)
             choosePlayerPanel.SetActive(false);
 
-        if (GameSessionData.IsHost)
+        var lobbyUi = FindFirstObjectByType<LobbyUI>();
+        if (lobbyUi != null)
         {
-            var l = FindFirstObjectByType<GameLauncher>();
-            if (l != null)
-            {
-                Debug.Log($"[ServerUI] Host loading map: {GameSessionData.SelectedMapScene}");
-                l.LoadGameScene(GameSessionData.SelectedMapScene);
-            }
-            else
-            {
-                Debug.LogWarning("[ServerUI] GameLauncher not found.");
-            }
+            Debug.Log($"[ServerUI] Showing lobby UI (isHost={GameSessionData.IsHost})");
+            lobbyUi.Show(GameSessionData.IsHost);
         }
         else
         {
-            Debug.Log("[ServerUI] Client ready, waiting for host to load map...");
+            Debug.LogWarning("[ServerUI] LobbyUI not found in scene.");
+            if (GameSessionData.IsHost)
+            {
+                var l = FindFirstObjectByType<GameLauncher>();
+                if (l != null)
+                {
+                    Debug.Log($"[ServerUI] Fallback: Host loading map directly: {GameSessionData.SelectedMapScene}");
+                    l.LoadGameScene(GameSessionData.SelectedMapScene);
+                }
+            }
+            else
+            {
+                Debug.Log("[ServerUI] Client ready, waiting for host to load map...");
+            }
         }
     }
 
@@ -229,21 +237,120 @@ public class ServerConnectionUI : MonoBehaviour
         return GameSessionData.SessionName;
     }
 
-    private void ShowWindowFor(PendingAction action)
+    private void CreateJoinWindow()
     {
-        pendingAction = action;
-        if (windowHost != null)
+        var canvas = GetComponentInParent<Canvas>();
+        Transform parent = canvas != null ? canvas.transform : transform;
+
+        windowJoin = new GameObject("WindowJoin", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        windowJoin.transform.SetParent(parent, false);
+
+        var rootRect = windowJoin.GetComponent<RectTransform>();
+        rootRect.anchorMin = new Vector2(0.5f, 0.5f);
+        rootRect.anchorMax = new Vector2(0.5f, 0.5f);
+        rootRect.pivot = new Vector2(0.5f, 0.5f);
+        rootRect.sizeDelta = new Vector2(500, 300);
+        rootRect.anchoredPosition = Vector2.zero;
+
+        windowJoin.GetComponent<Image>().color = new Color(0.12f, 0.10f, 0.08f, 0.97f);
+
+        // Title
+        CreateTMP(windowJoin.transform, "Title", "Tham gia phòng",
+            new Vector2(0, 100), new Vector2(440, 50), 28, TextAlignmentOptions.Center);
+
+        // Session name input
+        var inputObj = new GameObject("SessionNameInput", typeof(Image), typeof(TMP_InputField), typeof(RectTransform));
+        inputObj.transform.SetParent(windowJoin.transform, false);
+        var inputRect = inputObj.GetComponent<RectTransform>();
+        inputRect.anchorMin = new Vector2(0.5f, 0.5f);
+        inputRect.anchorMax = new Vector2(0.5f, 0.5f);
+        inputRect.sizeDelta = new Vector2(380, 50);
+        inputRect.anchoredPosition = new Vector2(0, 20);
+        inputObj.GetComponent<Image>().color = new Color(0.2f, 0.18f, 0.15f, 1f);
+
+        var placeholder = new GameObject("Placeholder", typeof(RectTransform));
+        placeholder.transform.SetParent(inputObj.transform, false);
+        var phRect = placeholder.GetComponent<RectTransform>();
+        phRect.anchorMin = Vector2.zero;
+        phRect.anchorMax = Vector2.one;
+        phRect.offsetMin = new Vector2(16, 0);
+        phRect.offsetMax = new Vector2(-16, 0);
+        var phTmp = placeholder.AddComponent<TextMeshProUGUI>();
+        phTmp.text = "Nhập tên phòng...";
+        phTmp.fontSize = 18;
+        phTmp.fontStyle = FontStyles.Italic;
+        phTmp.color = new Color(1f, 1f, 1f, 0.4f);
+
+        var textArea = new GameObject("Text Area", typeof(RectTransform));
+        textArea.transform.SetParent(inputObj.transform, false);
+        var taRect = textArea.GetComponent<RectTransform>();
+        taRect.anchorMin = Vector2.zero;
+        taRect.anchorMax = Vector2.one;
+        taRect.offsetMin = new Vector2(16, 0);
+        taRect.offsetMax = new Vector2(-16, 0);
+
+        var inputText = new GameObject("Text", typeof(RectTransform));
+        inputText.transform.SetParent(textArea.transform, false);
+        var itRect = inputText.GetComponent<RectTransform>();
+        itRect.anchorMin = Vector2.zero;
+        itRect.anchorMax = Vector2.one;
+        itRect.offsetMin = Vector2.zero;
+        itRect.offsetMax = Vector2.zero;
+        var itTmp = inputText.AddComponent<TextMeshProUGUI>();
+        itTmp.fontSize = 18;
+        itTmp.color = Color.white;
+
+        var inputField = inputObj.GetComponent<TMP_InputField>();
+        inputField.textViewport = textArea.GetComponent<RectTransform>();
+        inputField.textComponent = itTmp;
+        inputField.placeholder = phTmp;
+
+        // Join button
+        var joinBtnObj = CreateButton(windowJoin.transform, "JoinBtn", "Tham gia",
+            new Vector2(0, -40), new Vector2(200, 50), new Color(0.25f, 0.55f, 0.25f, 1f));
+        joinBtnObj.onClick.AddListener(() =>
         {
-            if (createBtnLabel != null)
-                createBtnLabel.text = action == PendingAction.Host ? "Host" : "Join";
-            windowHost.SetActive(true);
-        }
+            string sessionName = inputField.text;
+            if (string.IsNullOrEmpty(sessionName))
+                sessionName = GameSessionData.SessionName;
+
+            if (!GameSessionData.TryValidateSessionName(sessionName, out string validated, out string error))
+            {
+                ShowValidationMessage(error);
+                return;
+            }
+
+            GameSessionData.SessionName = validated;
+            GameSessionData.IsMultiplayer = true;
+            GameSessionData.IsHost = false;
+
+            windowJoin.SetActive(false);
+            if (launcher != null)
+                _ = launcher.LaunchAsClient(validated);
+        });
+
+        // Browse button
+        var browseBtnObj = CreateButton(windowJoin.transform, "BrowseBtn", "Duyệt phòng",
+            new Vector2(0, -100), new Vector2(200, 44), new Color(0.3f, 0.4f, 0.6f, 1f));
+        browseBtnObj.onClick.AddListener(() =>
+        {
+            windowJoin.SetActive(false);
+            ShowServerListWindow();
+        });
+
+        // Back button
+        var backBtnObj = CreateButton(windowJoin.transform, "BackBtn", "Quay lại",
+            new Vector2(0, -155), new Vector2(140, 40), new Color(0.4f, 0.2f, 0.2f, 1f));
+        backBtnObj.onClick.AddListener(() => windowJoin.SetActive(false));
+
+        windowJoin.SetActive(false);
     }
 
     private void HideLegacyMenuWindows()
     {
         SetActiveIfExists(connectionPanel, false);
         SetActiveIfExists(windowHost, false);
+        SetActiveIfExists(windowJoin, false);
         SetActiveIfExists(windowServerList, false);
         HideObjectsContaining("ServerList");
     }
@@ -314,12 +421,18 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void OnHostClicked()
     {
-        ShowWindowFor(PendingAction.Host);
+        pendingAction = PendingAction.Host;
+        if (windowHost != null)
+            windowHost.SetActive(true);
     }
 
     private void OnJoinClicked()
     {
-        ShowServerListWindow();
+        if (windowJoin != null)
+        {
+            pendingAction = PendingAction.Join;
+            windowJoin.SetActive(true);
+        }
     }
 
     private void OnCreateClicked()
@@ -508,7 +621,16 @@ public class ServerConnectionUI : MonoBehaviour
         for (int i = sessionListContent.childCount - 1; i >= 0; i--)
             Destroy(sessionListContent.GetChild(i).gameObject);
 
-        if (cachedSessions.Count == 0)
+        int visibleCount = 0;
+        foreach (var session in cachedSessions)
+        {
+            if (!session.IsVisible) continue;
+            if (session.Name == "__lobby_browser__") continue;
+            CreateSessionEntry(session);
+            visibleCount++;
+        }
+
+        if (visibleCount == 0)
         {
             if (sessionListEmptyText != null)
             {
@@ -520,13 +642,6 @@ public class ServerConnectionUI : MonoBehaviour
 
         if (sessionListEmptyText != null)
             sessionListEmptyText.gameObject.SetActive(false);
-
-        foreach (var session in cachedSessions)
-        {
-            if (!session.IsVisible) continue;
-
-            CreateSessionEntry(session);
-        }
     }
 
     private void CreateSessionEntry(SessionInfo session)
@@ -655,8 +770,8 @@ public class ServerConnectionUI : MonoBehaviour
         msgText.name = "DisconnectMessage";
 
         // OK button
-        var okBtn = CreateButton(panelObj.transform, "OKBtn", "Về Menu",
-            new Vector2(0, -60), new Vector2(160, 44), new Color(0.3f, 0.5f, 0.3f, 1f));
+        var okBtn = CreateButton(panelObj.transform, "OKBtn", "OK",
+            new Vector2(0, -60), new Vector2(120, 44), new Color(0.3f, 0.5f, 0.3f, 1f));
         okBtn.onClick.AddListener(ReturnToMenu);
 
         disconnectOverlay.SetActive(false);
@@ -683,12 +798,19 @@ public class ServerConnectionUI : MonoBehaviour
             disconnectOverlay.SetActive(false);
 
         if (launcher != null)
-        {
             launcher.ShutdownRunner();
-        }
 
         GameSessionData.ResetSession();
-        SceneManager.LoadScene("Scene_Menu");
+
+        if (pendingAction == PendingAction.Join && windowJoin != null)
+        {
+            pendingAction = PendingAction.None;
+            windowJoin.SetActive(true);
+        }
+        else
+        {
+            SceneManager.LoadScene("Scene_Menu");
+        }
     }
 
     // ── Validation Message ──

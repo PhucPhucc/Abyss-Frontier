@@ -33,7 +33,7 @@ public class LobbyUI : MonoBehaviour
     {
         isHost = host;
         isReady = false;
-        selectedCharIndex = 0;
+        selectedCharIndex = GameSessionData.SelectedCharacterIndex;
 
         BuildUI();
         overlay.SetActive(true);
@@ -42,6 +42,7 @@ public class LobbyUI : MonoBehaviour
         if (lobby != null)
         {
             lobby.OnStateChanged += OnLobbyStateChanged;
+            lobby.RPC_SetCharacter(lobby.Runner.LocalPlayer, selectedCharIndex);
             lobby.RPC_RequestState();
         }
         else
