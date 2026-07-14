@@ -8,13 +8,8 @@ public abstract class TilemapSpawnBase : MonoBehaviour
     [SerializeField] protected Tilemap backgroundMap;
     [SerializeField] protected Tilemap[] obstacleMaps;
 
-    [Header("Enemy Settings")]
-    [SerializeField] protected GameObject[] enemyPrefabs;
-    [SerializeField] protected int maxEnemies = 10;
-
     // Danh sách lưu trữ tất cả các tọa độ trống trên map (World Position)
     protected List<Vector3> validSpawnPositions = new List<Vector3>();
-    protected List<GameObject> activeEnemies = new List<GameObject>();
 
     protected virtual void Awake()
     {
@@ -66,9 +61,4 @@ public abstract class TilemapSpawnBase : MonoBehaviour
         Debug.Log($"[TilemapSpawn] Đã tìm thấy {validSpawnPositions.Count} vị trí spawn hợp lệ.");
     }
 
-    // Hàm tiện ích để dọn dẹp danh sách quái đã chết (dùng trong Update nếu cần)
-    protected void CleanActiveEnemiesList()
-    {
-        activeEnemies.RemoveAll(enemy => enemy == null);
-    }
 }

@@ -20,10 +20,28 @@ public class PatrolRespawnSpawner : BaseEnemySpawner
         if (currentEnemyCount < maxEnemies)
         {
             GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-            GameObject enemy = InstantiateEnemy(prefab, spawnPoint.position, spawnPoint.rotation);
+            Vector3 safePos = GetSafeSpawnPosition(spawnPoint.position);
+            GameObject enemy = InstantiateEnemy(prefab, safePos, spawnPoint.rotation);
             
-            // Gán waypoints cho enemy (giả sử có script PatrolController)
-            // enemy.GetComponent<PatrolController>().SetWaypoints(waypoints);
+            // Gán waypoints cho enemyAI thông qua Reflection để tránh sửa file EnemyAI.cs
+            if (enemy.TryGetComponent(out EnemyAI enemyAI))
+            {
+                try
+                {
+                    var bindingFlags = System.Reflection.BindingFlags.NonPublic | 
+                                       System.Reflection.BindingFlags.Public | 
+                                       System.Reflection.BindingFlags.Instance;
+                    var waypointsField = typeof(EnemyAI).GetField("waypoints", bindingFlags);
+                    if (waypointsField != null)
+                    {
+                        waypointsField.SetValue(enemyAI, waypoints);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"[PatrolRespawnSpawner] Lỗi Reflection khi gán waypoints: {ex.Message}");
+                }
+            }
         }
     }
 
