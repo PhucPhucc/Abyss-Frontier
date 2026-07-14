@@ -54,6 +54,15 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             return;
         }
 
+        foreach (var obj in runner.GetAllNetworkObjects())
+        {
+            if (obj != null && obj.InputAuthority == player)
+            {
+                Debug.Log($"[PlayerSpawner] Player {player.PlayerId} already spawned, skipping.");
+                return;
+            }
+        }
+
         TrySpawnPlayer(player);
     }
 

@@ -267,10 +267,13 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
             if (result.Ok == false)
             {
-                Debug.LogError($"[GameLauncher] Lobby browser failed: {result.ShutdownReason}");
-                ConnectFailed?.Invoke("Không thể kết nối danh sách phòng.");
-                Destroy(runner.gameObject);
-                runner = null;
+                Debug.Log($"[GameLauncher] Lobby browser: không thể kết nối ({result.ShutdownReason}), hiển thị danh sách trống.");
+                SessionListUpdated?.Invoke(new List<SessionInfo>());
+                if (runner != null)
+                {
+                    Destroy(runner.gameObject);
+                    runner = null;
+                }
                 return;
             }
         }
