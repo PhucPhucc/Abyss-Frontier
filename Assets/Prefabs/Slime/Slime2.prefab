@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4960787548665706354}
   - component: {fileID: 4803415344796256561}
   - component: {fileID: -6425910221045171323}
+  - component: {fileID: 8349023539783696437}
   m_Layer: 3
   m_Name: Slime2
   m_TagString: Enemy
@@ -84,7 +85,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 769353063
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -60553578185733963, guid: e82c91bf03fb34645831e6b20cbf74b9, type: 3}
@@ -135,6 +136,8 @@ MonoBehaviour:
   chaseSpeed: 2
   detectionRange: 4
   loseRange: 6
+  leashRadius: 6
+  homeStoppingDistance: 0.15
   waypoints: []
   waitTime: 1.5
   attackRange: 1
@@ -223,9 +226,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   enemyLevel: 2
   statsDefinition: {fileID: 11400000, guid: 6b20cd7ca6e12f59e9c06cd683a4af21, type: 2}
+  saveId: 
   maxHealth: 30
   currentHealth: 0
   destroyDelay: 1.5
+  respawnOnDeath: 1
+  respawnDelay: 5
+  respawnAtInitialPosition: 1
   enableHitFlash: 1
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
@@ -243,3 +250,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackHandler
   knockbackForceInit: 12
+--- !u!114 &8349023539783696437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878623133622696726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412f51a2268626240bc994cb2467d63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlimeSplitter
+  prefabToSpawn: {fileID: 2205235732766913, guid: e30c842ad7969494998585f6275f7914, type: 3}
+  spawnCount: 2
+  spawnOffsetRadius: 0.5
