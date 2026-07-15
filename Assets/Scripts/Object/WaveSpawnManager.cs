@@ -10,7 +10,6 @@ public class WaveSpawnManager : MonoBehaviour
     [System.Serializable]
     public struct WaveSettings
     {
-        public string waveName; // Đặt tên gợi nhớ cho wave (Ví dụ: Wave 1 - Cấp độ Dễ)
         public GameObject itemPrefab; // Loại vật phẩm xuất hiện trong wave này
         public int itemsPerWave; // Số lượng vật phẩm cần spawn cho wave này
     }
@@ -26,9 +25,6 @@ public class WaveSpawnManager : MonoBehaviour
     [Header("Wave Configuration")]
     [SerializeField] private List<WaveSettings> waves = new List<WaveSettings>();
 
-    [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI waveText;
-
     private List<Vector3> validSpawnPositions = new List<Vector3>();
     private List<GameObject> activeItems = new List<GameObject>();
 
@@ -39,7 +35,7 @@ public class WaveSpawnManager : MonoBehaviour
     {
         if (waves.Count == 0)
         {
-            Debug.LogError("<color=red>[SpawnManager]</color> Chưa cấu hình danh sách Waves trong Inspector!");
+            Debug.LogError("Chưa cấu hình danh sách Waves trong Inspector!");
             return;
         }
 
@@ -67,7 +63,7 @@ public class WaveSpawnManager : MonoBehaviour
         if (activeItems.Count == 0)
         {
             isWaveActive = false;
-            Debug.Log("<color=green>[SpawnManager]</color> Đã thu thập hết sạch item của wave này!");
+            Debug.Log("Đã thu thập hết sạch item của wave này!");
             
             // Chuyển sang chỉ số wave tiếp theo
             currentWaveIndex++;
@@ -80,17 +76,14 @@ public class WaveSpawnManager : MonoBehaviour
         // Kiểm tra xem đã hoàn thành tất cả các wave được cấu hình chưa
         if (waveIndex >= waves.Count)
         {
-            Debug.Log("<color=yellow>[SpawnManager]</color> Xin chúc mừng! Bạn đã hoàn thành tất cả các đợt wave.");
+            Debug.Log("Xin chúc mừng! Bạn đã hoàn thành tất cả các đợt wave.");
             if (waveText != null) waveText.text = "Completed!";
             return;
         }
 
         WaveSettings currentWaveConfig = waves[waveIndex];
         
-        Debug.Log($"<color=cyan>[SpawnManager]</color> ====== BẮT ĐẦU {currentWaveConfig.waveName} (Wave {waveIndex + 1}/{waves.Count}) ======");
-
-        if (waveText != null)
-            waveText.text = $"Wave: {waveIndex + 1}/{waves.Count}";
+        Debug.Log("Start Wave " + (waveIndex + 1) + ": Spawning " + currentWaveConfig.itemsPerWave + " items of type [" + currentWaveConfig.itemPrefab.name + "]");
 
         // Thực hiện spawn item cho wave dựa trên cấu hình struct
         SpawnItemsForWave(currentWaveConfig);
@@ -102,13 +95,13 @@ public class WaveSpawnManager : MonoBehaviour
     {
         if (validSpawnPositions.Count == 0)
         {
-            Debug.LogError("<color=red>[SpawnManager]</color> Không có vị trí hợp lệ nào được tìm thấy trên bản đồ để spawn!");
+            Debug.LogError("Không có vị trí hợp lệ nào được tìm thấy trên bản đồ để spawn!");
             return;
         }
 
         if (config.itemPrefab == null)
         {
-            Debug.LogError($"<color=red>[SpawnManager]</color> Prefab của wave {currentWaveIndex + 1} đang bị trống (Null)!");
+            Debug.LogError("Prefab của wave {currentWaveIndex + 1} đang bị trống (Null)!");
             return;
         }
 
@@ -126,7 +119,7 @@ public class WaveSpawnManager : MonoBehaviour
             availablePositions.RemoveAt(randomIndex);
         }
 
-        Debug.Log($"<color=yellow>[SpawnManager]</color> Đã tạo ra thành công {spawnCount}/{config.itemsPerWave} vật phẩm [{config.itemPrefab.name}]");
+        Debug.Log("Đã tạo ra thành công " + spawnCount + "/" + config.itemsPerWave + " vật phẩm [" + config.itemPrefab.name + "]");
     }
 
     private void FindValidSpawnPositions()
@@ -171,6 +164,6 @@ public class WaveSpawnManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"<color=white>[SpawnManager]</color> Khởi tạo vùng spawn hoàn tất! Tìm thấy {validSpawnPositions.Count} ô Tilemap hợp lệ thích hợp để đặt vật phẩm.");
+        Debug.Log("Khởi tạo vùng spawn hoàn tất! Tìm thấy " + validSpawnPositions.Count + " ô Tilemap hợp lệ thích hợp để đặt vật phẩm.");
     }
 }
