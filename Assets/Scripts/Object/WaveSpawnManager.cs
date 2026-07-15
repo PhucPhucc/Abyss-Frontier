@@ -6,39 +6,48 @@ using TMPro;
 
 public class WaveSpawnManager : MonoBehaviour
 {
+    // Tạo cấu trúc dữ liệu tùy chỉnh cho từng Wave trong Inspector
+    [System.Serializable]
+    public struct WaveSettings
+    {
+        public GameObject itemPrefab; // Loại vật phẩm xuất hiện trong wave này
+        public int itemsPerWave; // Số lượng vật phẩm cần spawn cho wave này
+    }
+
     [Header("Tilemap References")]
     [SerializeField] private Tilemap backgroundMap;
     [SerializeField] private Tilemap[] obstacleMaps;
 
-    [Header("Spawn Settings")]
-    [Tooltip("Kéo đúng 3 loại item vào đây. Đợt 1 sẽ spawn Item 0, Đợt 2 spawn Item 1...")]
-    [SerializeField] private GameObject[] itemPrefabs;
-    [SerializeField] private int itemsPerWave = 20;
+    [Header("Spawn Area Settings")]
+    [Tooltip("Gán BoxCollider2D hoặc PolygonCollider2D (Is Trigger) để giới hạn vùng spawn item. Để trống nếu muốn spawn toàn bộ map.")]
+    [SerializeField] private Collider2D spawnArea;
 
-    [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI waveText;
+    [Header("Wave Configuration")]
+    [SerializeField] private List<WaveSettings> waves = new List<WaveSettings>();
 
     private List<Vector3> validSpawnPositions = new List<Vector3>();
     private List<GameObject> activeItems = new List<GameObject>();
 
-    private int currentWave = 0;
-    private int totalWaves;
-    private bool isWaveActive = false; // Biến cờ để kiểm soát việc đang trong một đợt
+    private int currentWaveIndex = 0; // Chỉ số mảng (bắt đầu từ 0)
+    private bool isWaveActive = false; 
 
     void Start()
     {
-        // Tổng số đợt sẽ tự động bằng đúng số lượng loại vật phẩm bạn kéo vào
-        totalWaves = itemPrefabs.Length;
+        if (waves.Count == 0)
+        {
+            Debug.LogError("Chưa cấu hình danh sách Waves trong Inspector!");
+            return;
+        }
 
+        // Bước 1: Quét các vị trí hợp lệ dựa vào Tilemap và Spawn Area
         FindValidSpawnPositions();
 
-        // Bắt đầu ngay đợt 1 khi game chạy
-        NextWave();
+        // Bước 2: Bắt đầu wave đầu tiên
+        StartWave(currentWaveIndex);
     }
 
     void Update()
     {
-        // Nếu đợt đang diễn ra, liên tục kiểm tra tiến độ thu thập
         if (isWaveActive)
         {
             CheckWaveProgress();
@@ -47,71 +56,77 @@ public class WaveSpawnManager : MonoBehaviour
 
     private void CheckWaveProgress()
     {
-        // Khi người chơi chạm vào item và lệnh Destroy(gameObject) được gọi ở script ItemCollect,
-        // Item đó trong danh sách activeItems sẽ biến thành 'null'.
-        // Lệnh dưới đây sẽ dọn dẹp tất cả các mục 'null' ra khỏi danh sách.
+        // Loại bỏ các item đã bị Destroy (khi player ăn trúng item)
         activeItems.RemoveAll(item => item == null);
 
-        // Nếu danh sách trống trơn, nghĩa là player đã ăn sạch item của đợt này
+        // Nếu ăn sạch toàn bộ item hiện tại
         if (activeItems.Count == 0)
         {
-            isWaveActive = false; // Tạm dừng theo dõi để chuẩn bị chuyển đợt
-            Debug.Log("<color=green>[SpawnManager]</color> Đã thu thập hết! Chuẩn bị sang wave tiếp theo...");
-
-            NextWave();
+            isWaveActive = false;
+            Debug.Log("Đã thu thập hết sạch item của wave này!");
+            
+            // Chuyển sang chỉ số wave tiếp theo
+            currentWaveIndex++;
+            StartWave(currentWaveIndex);
         }
     }
 
-    public void NextWave()
+    public void StartWave(int waveIndex)
     {
-        if (currentWave >= totalWaves)
+        // Kiểm tra xem đã hoàn thành tất cả các wave được cấu hình chưa
+        if (waveIndex >= waves.Count)
         {
-            Debug.Log("<color=yellow>[SpawnManager]</color> Xin chúc mừng! Bạn đã hoàn thành tất cả các đợt.");
+            Debug.Log("Xin chúc mừng! Bạn đã hoàn thành tất cả các đợt wave.");
             if (waveText != null) waveText.text = "Completed!";
             return;
         }
 
-        currentWave++;
-        Debug.Log($"<color=cyan>[SpawnManager]</color> ====== BẮT ĐẦU WAVE {currentWave}/{totalWaves} ======");
+        WaveSettings currentWaveConfig = waves[waveIndex];
+        
+        Debug.Log("Start Wave " + (waveIndex + 1) + ": Spawning " + currentWaveConfig.itemsPerWave + " items of type [" + currentWaveConfig.itemPrefab.name + "]");
 
-        if (waveText != null)
-            waveText.text = "Wave: " + currentWave + "/" + totalWaves;
+        // Thực hiện spawn item cho wave dựa trên cấu hình struct
+        SpawnItemsForWave(currentWaveConfig);
 
-        SpawnItemsForCurrentWave();
-
-        // Đánh dấu đợt đã bắt đầu để hàm Update bắt đầu kiểm tra
         isWaveActive = true;
     }
 
-    private void SpawnItemsForCurrentWave()
+    private void SpawnItemsForWave(WaveSettings config)
     {
-        if (validSpawnPositions.Count == 0) return;
+        if (validSpawnPositions.Count == 0)
+        {
+            Debug.LogError("Không có vị trí hợp lệ nào được tìm thấy trên bản đồ để spawn!");
+            return;
+        }
 
-        // Chỉ số của mảng bắt đầu từ 0, nên Wave 1 tương ứng với itemPrefabs[0]
-        GameObject currentItemPrefab = itemPrefabs[currentWave - 1];
+        if (config.itemPrefab == null)
+        {
+            Debug.LogError("Prefab của wave {currentWaveIndex + 1} đang bị trống (Null)!");
+            return;
+        }
 
         List<Vector3> availablePositions = new List<Vector3>(validSpawnPositions);
-        int spawnCount = Mathf.Min(itemsPerWave, availablePositions.Count);
+        int spawnCount = Mathf.Min(config.itemsPerWave, availablePositions.Count);
 
         for (int i = 0; i < spawnCount; i++)
         {
             int randomIndex = Random.Range(0, availablePositions.Count);
             Vector3 spawnPos = availablePositions[randomIndex];
 
-            // Spawn đúng loại vật phẩm của đợt hiện tại
-            GameObject spawnedItem = Instantiate(currentItemPrefab, spawnPos, Quaternion.identity);
+            GameObject spawnedItem = Instantiate(config.itemPrefab, spawnPos, Quaternion.identity);
             activeItems.Add(spawnedItem);
 
             availablePositions.RemoveAt(randomIndex);
         }
 
-        Debug.Log($"<color=yellow>[SpawnManager]</color> Đã spawn {spawnCount} vật phẩm loại: {currentItemPrefab.name}");
+        Debug.Log("Đã tạo ra thành công " + spawnCount + "/" + config.itemsPerWave + " vật phẩm [" + config.itemPrefab.name + "]");
     }
 
     private void FindValidSpawnPositions()
     {
         BoundsInt bounds = backgroundMap.cellBounds;
         validSpawnPositions.Clear();
+        int scannedCount = 0;
 
         for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
@@ -121,6 +136,15 @@ public class WaveSpawnManager : MonoBehaviour
 
                 if (backgroundMap.HasTile(cellPosition))
                 {
+                    Vector3 worldPos = backgroundMap.GetCellCenterWorld(cellPosition);
+
+                    // THÊM: Kiểm tra xem vị trí ô này có nằm BÊN TRONG Spawn Area Collider hay không (nếu có gán area)
+                    if (spawnArea != null && !spawnArea.OverlapPoint(worldPos))
+                    {
+                        continue; // Bỏ qua nếu ô này nằm ngoài vùng Collider chỉ định
+                    }
+
+                    // Kiểm tra xem vị trí này có chứa chướng ngại vật (vật cản) không
                     bool hasObstacle = false;
                     foreach (var obstacleMap in obstacleMaps)
                     {
@@ -133,10 +157,13 @@ public class WaveSpawnManager : MonoBehaviour
 
                     if (!hasObstacle)
                     {
-                        validSpawnPositions.Add(backgroundMap.GetCellCenterWorld(cellPosition));
+                        validSpawnPositions.Add(worldPos);
+                        scannedCount++;
                     }
                 }
             }
         }
+
+        Debug.Log("Khởi tạo vùng spawn hoàn tất! Tìm thấy " + validSpawnPositions.Count + " ô Tilemap hợp lệ thích hợp để đặt vật phẩm.");
     }
 }
