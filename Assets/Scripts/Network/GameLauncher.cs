@@ -236,46 +236,54 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     {
         int myGeneration = ++lobbyGeneration;
 
-        if (runner == null || !runner.IsRunning)
+        if (runner != null && runner.IsRunning)
         {
-            if (runnerPrefab == null)
+            Debug.Log("[GameLauncher] Shutting down existing runner before joining session lobby...");
+            await runner.Shutdown();
+            if (runner != null)
             {
-                Debug.LogError("[GameLauncher] runnerPrefab is null!");
-                return;
+                Destroy(runner.gameObject);
+                runner = null;
             }
+        }
 
-            DontDestroyOnLoad(gameObject);
+        if (runnerPrefab == null)
+        {
+            Debug.LogError("[GameLauncher] runnerPrefab is null!");
+            return;
+        }
 
-            NetworkRunner lobbyRunner = Instantiate(runnerPrefab);
-            lobbyRunner.name = "LobbyBrowser";
-            DontDestroyOnLoad(lobbyRunner);
-            lobbyRunner.AddCallbacks(this);
-            runner = lobbyRunner;
+        DontDestroyOnLoad(gameObject);
 
-            var args = new StartGameArgs
+        NetworkRunner lobbyRunner = Instantiate(runnerPrefab);
+        lobbyRunner.name = "LobbyBrowser";
+        DontDestroyOnLoad(lobbyRunner);
+        lobbyRunner.AddCallbacks(this);
+        runner = lobbyRunner;
+
+        var args = new StartGameArgs
+        {
+            GameMode = GameMode.Client,
+        };
+
+        var result = await lobbyRunner.StartGame(args);
+
+        if (myGeneration != lobbyGeneration)
+        {
+            Debug.Log("[GameLauncher] Lobby browser outdated (superseded by host/join), ignoring.");
+            return;
+        }
+
+        if (result.Ok == false)
+        {
+            Debug.Log($"[GameLauncher] Lobby browser: không thể kết nối ({result.ShutdownReason}), hiển thị danh sách trống.");
+            SessionListUpdated?.Invoke(new List<SessionInfo>());
+            if (runner != null)
             {
-                GameMode = GameMode.Client,
-            };
-
-            var result = await lobbyRunner.StartGame(args);
-
-            if (myGeneration != lobbyGeneration)
-            {
-                Debug.Log("[GameLauncher] Lobby browser outdated (superseded by host/join), ignoring.");
-                return;
+                Destroy(runner.gameObject);
+                runner = null;
             }
-
-            if (result.Ok == false)
-            {
-                Debug.Log($"[GameLauncher] Lobby browser: không thể kết nối ({result.ShutdownReason}), hiển thị danh sách trống.");
-                SessionListUpdated?.Invoke(new List<SessionInfo>());
-                if (runner != null)
-                {
-                    Destroy(runner.gameObject);
-                    runner = null;
-                }
-                return;
-            }
+            return;
         }
 
         Debug.Log("[GameLauncher] Joining session lobby...");
