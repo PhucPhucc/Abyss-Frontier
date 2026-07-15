@@ -77,7 +77,6 @@ public class WaveSpawnManager : MonoBehaviour
         if (waveIndex >= waves.Count)
         {
             Debug.Log("Xin chúc mừng! Bạn đã hoàn thành tất cả các đợt wave.");
-            if (waveText != null) waveText.text = "Completed!";
             return;
         }
 
