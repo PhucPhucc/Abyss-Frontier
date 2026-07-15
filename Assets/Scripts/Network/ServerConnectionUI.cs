@@ -55,6 +55,8 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void Start()
     {
+        GameSessionData.ResetSession();
+
         EnsureLauncher();
         WireButtons();
         if (windowHost != null)

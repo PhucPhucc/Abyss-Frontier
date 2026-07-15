@@ -12,6 +12,7 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string spawnPointTag = "SpawnPoint";
 
     private NetworkRunner runner;
+    private readonly HashSet<PlayerRef> _spawningPlayers = new();
 
     private void Awake()
     {
@@ -73,23 +74,27 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             if (runner == null || !runner.IsRunning)
                 return;
 
+            if (!_spawningPlayers.Add(player))
+            {
+                Debug.Log($"[PlayerSpawner] Player {player.PlayerId} spawn already in progress, skipping.");
+                return;
+            }
+
             var points = FindSpawnPoints();
             NetworkObject prefab = ResolvePrefabForPlayer(player);
             if (prefab == null)
             {
                 Debug.LogError($"PlayerSpawner: No valid player prefab for player {player.PlayerId}.");
+                _spawningPlayers.Remove(player);
                 return;
             }
 
             Vector3 spawnPos = Vector3.zero;
             if (points.Length > 0)
             {
-                // Phân bổ đều các player vào các spawn point khác nhau nếu có nhiều điểm
                 int pointIndex = player.PlayerId % points.Length;
                 spawnPos = points[pointIndex].position;
 
-                // Nếu chỉ có 1 điểm spawn duy nhất, tạo offset nhỏ hình tròn theo Player ID
-                // để tránh việc các nhân vật đè lên nhau gây xung đột vật lý hoặc bị kẹt
                 if (points.Length == 1)
                 {
                     float angle = (player.PlayerId * 45f) * Mathf.Deg2Rad;
@@ -103,6 +108,10 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         catch (System.Exception e)
         {
             Debug.LogError($"[PlayerSpawner] Spawn failed: {e.Message}");
+        }
+        finally
+        {
+            _spawningPlayers.Remove(player);
         }
     }
 
