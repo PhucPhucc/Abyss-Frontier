@@ -13933,12 +13933,8 @@ MonoBehaviour:
   - {fileID: 1509156554}
   - {fileID: 1868241771}
   - {fileID: 531953900}
-  itemPrefabs:
-  - {fileID: 7779543799032330555, guid: 722816a3da6026d4a93e015508edb949, type: 3}
-  - {fileID: 1452530432018276437, guid: 20d777beeb66790408f6a432cac6c9fe, type: 3}
-  - {fileID: 3039419657437716263, guid: 7e8ed3ab3cc19cf479685beb8fa0a6f5, type: 3}
-  itemsPerWave: 20
-  waveText: {fileID: 0}
+  spawnArea: {fileID: 0}
+  waves: []
 --- !u!4 &821998122
 Transform:
   m_ObjectHideFlags: 0
@@ -14009,6 +14005,22 @@ PrefabInstance:
     - target: {fileID: 7383561215012647235, guid: f51cb39562e5ac0428a4b302c75b54f0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234567890123456789, guid: f51cb39562e5ac0428a4b302c75b54f0, type: 3}
+      propertyPath: m_Size.x
+      value: 0.71710145
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234567890123456789, guid: f51cb39562e5ac0428a4b302c75b54f0, type: 3}
+      propertyPath: m_Size.y
+      value: 0.6264423
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234567890123456789, guid: f51cb39562e5ac0428a4b302c75b54f0, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.003021896
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234567890123456789, guid: f51cb39562e5ac0428a4b302c75b54f0, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.2175824
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14491,7 +14503,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1652143861
-  m_SortingLayer: 7
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}

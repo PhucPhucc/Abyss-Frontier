@@ -33,7 +33,7 @@ public class MimicBossController : BossController
             yield return new WaitForSeconds(openingAnimDuration + transformAnimDuration);
         }
 
-        state = BossState.Chase;
+        state = BossState.Idle;
     }
 
     protected override string GetAttackTrigger()

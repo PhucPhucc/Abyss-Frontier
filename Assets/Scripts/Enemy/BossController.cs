@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(EnemyHealth), typeof(SpriteRenderer))]
 public class BossController : MonoBehaviour
 {
-    protected enum BossState { Intro, Chase, Attack, Cooldown, Dead }
+    protected enum BossState { Intro, Idle, Chase, Attack, Cooldown, ReturnHome, Dead }
 
     [Header("Boss Identity")]
     [SerializeField] private string bossDisplayName = "Boss";
@@ -26,6 +26,15 @@ public class BossController : MonoBehaviour
     [SerializeField] private float attackAoERadius = 1.8f;
     [SerializeField] private LayerMask playerLayer;
 
+    [Header("Detection / Leash")]
+    [Tooltip("Player must enter this range (and leash) before the boss starts chasing.")]
+    [SerializeField] private float detectionRange = 6f;
+    [Tooltip("Boss stops chasing when Player is farther than this.")]
+    [SerializeField] private float loseRange = 10f;
+    [Tooltip("Boss only engages Player while Player is within this radius of the boss spawn/home.")]
+    [SerializeField] private float leashRadius = 8f;
+    [SerializeField] private float homeStoppingDistance = 0.15f;
+
     protected Rigidbody2D rb;
     protected Animator anim;
     protected SpriteRenderer sr;
@@ -36,6 +45,7 @@ public class BossController : MonoBehaviour
     protected float cooldownTimer;
     protected bool isAttacking;
     private bool victoryTriggered;
+    private Vector2 homePosition;
 
     protected bool IsDead => state == BossState.Dead;
 
@@ -45,6 +55,7 @@ public class BossController : MonoBehaviour
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         health = GetComponent<EnemyHealth>();
+        homePosition = transform.position;
     }
 
     protected virtual void Start()
@@ -99,7 +110,7 @@ public class BossController : MonoBehaviour
         if (anim != null) anim.SetBool("isMoving", false);
 
         yield return new WaitForSeconds(introDuration);
-        state = BossState.Chase;
+        state = BossState.Idle;
     }
 
     protected virtual void FixedUpdate()
@@ -115,26 +126,60 @@ public class BossController : MonoBehaviour
             return;
 
         if (target == null) FindPlayer();
-        if (target == null || state == BossState.Intro || state == BossState.Dead) return;
+        if (target == null || state == BossState.Intro || state == BossState.Dead || state == BossState.Attack)
+            return;
 
         cooldownTimer -= Time.fixedDeltaTime;
-        UpdateFacing();
 
-        Vector2 hitCenter = GetHitCenter();
-        float dist = Vector2.Distance(hitCenter, target.position);
+        float distToPlayer = Vector2.Distance(transform.position, target.position);
+        bool playerInLeash = IsPlayerInsideLeash();
+
+        if (state == BossState.Idle)
+        {
+            StopMovement();
+            if (distToPlayer <= detectionRange && playerInLeash)
+                state = BossState.Chase;
+            return;
+        }
+
+        if (state == BossState.ReturnHome)
+        {
+            ReturnHome();
+            if (distToPlayer <= detectionRange && playerInLeash)
+                state = BossState.Chase;
+            return;
+        }
 
         if (state == BossState.Chase)
         {
-            if (dist <= attackRange && cooldownTimer <= 0f && !isAttacking)
+            UpdateFacing();
+
+            if (distToPlayer > loseRange || !playerInLeash)
+            {
+                BeginReturnHome();
+                return;
+            }
+
+            Vector2 hitCenter = GetHitCenter();
+            float attackDist = Vector2.Distance(hitCenter, target.position);
+            if (attackDist <= attackRange && cooldownTimer <= 0f && !isAttacking)
                 StartCoroutine(AttackRoutine());
             else
                 ChaseTarget();
+            return;
         }
-        else if (state == BossState.Cooldown)
+
+        if (state == BossState.Cooldown)
         {
-            rb.linearVelocity = Vector2.zero;
-            if (anim != null) anim.SetBool("isMoving", false);
-            if (cooldownTimer <= 0f) state = BossState.Chase;
+            StopMovement();
+            UpdateFacing();
+            if (cooldownTimer <= 0f)
+            {
+                if (distToPlayer > loseRange || !playerInLeash)
+                    BeginReturnHome();
+                else
+                    state = BossState.Chase;
+            }
         }
     }
 
@@ -143,6 +188,50 @@ public class BossController : MonoBehaviour
         Vector2 dir = (target.position - transform.position).normalized;
         rb.linearVelocity = dir * moveSpeed;
         if (anim != null) anim.SetBool("isMoving", true);
+    }
+
+    private void BeginReturnHome()
+    {
+        state = BossState.ReturnHome;
+        StopMovement();
+    }
+
+    private void ReturnHome()
+    {
+        float distHome = Vector2.Distance(transform.position, homePosition);
+        if (distHome <= homeStoppingDistance)
+        {
+            transform.position = homePosition;
+            StopMovement();
+            state = BossState.Idle;
+            return;
+        }
+
+        Vector2 dir = (homePosition - (Vector2)transform.position).normalized;
+        rb.linearVelocity = dir * moveSpeed;
+        if (anim != null) anim.SetBool("isMoving", true);
+
+        if (sr != null)
+        {
+            if (spriteFacesLeftByDefault)
+                sr.flipX = dir.x > 0.1f;
+            else
+                sr.flipX = dir.x < -0.1f;
+        }
+    }
+
+    private void StopMovement()
+    {
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+        if (anim != null)
+            anim.SetBool("isMoving", false);
+    }
+
+    private bool IsPlayerInsideLeash()
+    {
+        if (target == null) return false;
+        return Vector2.Distance(homePosition, target.position) <= leashRadius;
     }
 
     protected virtual void UpdateFacing()
@@ -226,6 +315,15 @@ public class BossController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        Vector2 home = Application.isPlaying ? homePosition : (Vector2)transform.position;
+
+        Gizmos.color = new Color(0.2f, 0.8f, 1f, 0.85f);
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.color = new Color(1f, 0.55f, 0.1f, 0.85f);
+        Gizmos.DrawWireSphere(transform.position, loseRange);
+        Gizmos.color = new Color(0.4f, 1f, 0.4f, 0.7f);
+        Gizmos.DrawWireSphere(home, leashRadius);
+
         SpriteRenderer gizmoSr = GetComponent<SpriteRenderer>();
         if (gizmoSr == null) return;
 

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1193653625329655699}
   - component: {fileID: 6878141474689990720}
   - component: {fileID: 2743250275880656520}
+  - component: {fileID: -313875375229816141}
   m_Layer: 3
   m_Name: Plant3
   m_TagString: Enemy
@@ -83,7 +84,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 769353063
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6682114545937666069, guid: 0b83d50ea7052df4c81ec8a53c1ebe19, type: 3}
@@ -161,6 +162,8 @@ MonoBehaviour:
   chaseSpeed: 2
   detectionRange: 4
   loseRange: 6
+  leashRadius: 6
+  homeStoppingDistance: 0.15
   waypoints: []
   waitTime: 1.5
   attackRange: 1
@@ -198,10 +201,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   enemyLevel: 1
   statsDefinition: {fileID: 11400000, guid: cbcaf985f508e76a68cf82fb618b3826, type: 2}
+  saveId: 
   maxHealth: 30
   currentHealth: 0
   destroyDelay: 1.5
+  respawnOnDeath: 1
+  respawnDelay: 5
+  respawnAtInitialPosition: 1
   enableHitFlash: 1
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   defaultStunDuration: 0.5
+--- !u!70 &-313875375229816141
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151207834899037542}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.012721121, y: 0.044523835}
+  m_Size: {x: 0.7151698, y: 1.0586393}
+  m_Direction: 0
