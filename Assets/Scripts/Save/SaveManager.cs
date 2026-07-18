@@ -294,6 +294,9 @@ public class SaveManager : MonoBehaviour
         data.killedEnemyIds = new List<string>(EnemyHealth.KilledEnemyIds);
         data.unlockedFloors = new List<string>(UnlockedFloors);
         data.characterIndex = GameSessionData.SelectedCharacterIndex;
+        data.characterPrefabName = GameSessionData.SelectedCharacterPrefab != null
+            ? GameSessionData.SelectedCharacterPrefab.name
+            : "";
         return data;
     }
 
@@ -422,31 +425,34 @@ public class SaveManager : MonoBehaviour
 
     private void RestoreEnemies(GameSaveData data)
     {
-        var enemies = Object.FindObjectsByType<EnemyHealth>(FindObjectsSortMode.None);
+        var enemies = Object.FindObjectsByType<EnemyHealth>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         foreach (var enemy in enemies)
         {
             if (string.IsNullOrEmpty(enemy.SaveId)) continue;
 
-            if (EnemyHealth.KilledEnemyIds.Contains(enemy.SaveId))
-            {
-                Destroy(enemy.gameObject);
-                continue;
-            }
+            bool isKilled = EnemyHealth.KilledEnemyIds.Contains(enemy.SaveId);
 
+            EnemySaveData savedState = null;
             if (data.enemies != null)
             {
                 foreach (var saveEnemy in data.enemies)
                 {
                     if (enemy.SaveId == saveEnemy.saveId)
                     {
-                        if (saveEnemy.isDead)
-                            Destroy(enemy.gameObject);
-                        else
-                            enemy.SetCurrentHealth(saveEnemy.currentHealth);
+                        savedState = saveEnemy;
                         break;
                     }
                 }
+            }
+
+            if (isKilled || (savedState != null && savedState.isDead))
+            {
+                Destroy(enemy.gameObject);
+            }
+            else if (savedState != null)
+            {
+                enemy.SetCurrentHealth(savedState.currentHealth);
             }
         }
     }
@@ -461,11 +467,17 @@ public class SaveManager : MonoBehaviour
         }
 
         var p = data.player;
+
+        player.RestoreStats(
+            p.level, p.currentExp, p.expToNextLevel, p.availableStatPoints,
+            p.strength, p.dexterity, p.vitality, p.agility, p.endurance, p.intelligence,
+            p.maxStamina, p.currentStamina);
+
         var health = player.GetComponent<PlayerHealth>();
         if (health != null)
             health.SetCurrentHealth(p.currentHealth);
 
         player.transform.position = new Vector3(p.posX, p.posY, 0);
-        Debug.Log($"[SaveManager] Player restored: HP={p.currentHealth}, pos=({p.posX},{p.posY})");
+        Debug.Log($"[SaveManager] Player restored: Lv={p.level}, HP={p.currentHealth}/{p.maxHealth}, pos=({p.posX},{p.posY})");
     }
 }

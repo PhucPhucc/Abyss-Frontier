@@ -11,6 +11,7 @@ public class GameSaveData
     public List<string> unlockedFloors;
     public string saveTime;
     public int characterIndex;
+    public string characterPrefabName;
 }
 
 [Serializable]

@@ -68,7 +68,11 @@ public class EnemyHealth : MonoBehaviour
 
     private void Awake()
     {
-        // Cache các component cần thiết
+        if (string.IsNullOrEmpty(saveId))
+        {
+            saveId = $"enemy_{gameObject.scene.name}_{gameObject.name}_{GetSiblingPath(gameObject.transform)}";
+        }
+
         anim = GetComponent<Animator>();
         enemyAI = GetComponent<EnemyAI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -89,7 +93,6 @@ public class EnemyHealth : MonoBehaviour
             }
         }
 
-        // Nếu có statsDefinition, lấy chỉ số theo cấp độ
         if (statsDefinition != null)
         {
             int level = (int)enemyLevel;
@@ -101,10 +104,19 @@ public class EnemyHealth : MonoBehaviour
         }
 
         currentHealth = maxHealth;
+        isDead = false;
+        if (!string.IsNullOrEmpty(saveId))
+            KilledEnemyIds.Remove(saveId);
         NotifyHealthChanged();
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
+    }
+
+    private void OnEnable()
+    {
+        if (!string.IsNullOrEmpty(saveId))
+            KilledEnemyIds.Remove(saveId);
     }
 
     /// <summary>
@@ -281,6 +293,17 @@ public class EnemyHealth : MonoBehaviour
     private void NotifyHealthChanged()
     {
         HealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
+    private static string GetSiblingPath(Transform t)
+    {
+        string path = t.name;
+        while (t.parent != null && t.parent != t.root)
+        {
+            t = t.parent;
+            path = t.name + "/" + path;
+        }
+        return path;
     }
 }
 
