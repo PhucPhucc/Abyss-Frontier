@@ -37,8 +37,8 @@ public abstract class BaseEnemySpawner : TilemapSpawnBase
             if (runner == null || !runner.IsServer)
                 return null;
 
-            NetworkObject no = runner.SpawnAsync(prefab, position, rotation);
-            enemy = no != null ? no.gameObject : null;
+            NetworkSpawnOp spawnOp = runner.SpawnAsync(prefab, position, rotation);
+            enemy = spawnOp.Object != null ? spawnOp.Object.gameObject : null;
             if (enemy == null) return null;
         }
         else
