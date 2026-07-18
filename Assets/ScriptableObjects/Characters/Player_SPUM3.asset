@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e338a67924f04cd79fee31e333caf2a9, type: 3}
+  m_Name: Player_SPUM3
+  m_EditorClassIdentifier: 
+  characterName: SPUM3
+  portraitSprite: {fileID: -4889270855974814208, guid: eccda9efaef4048139e53440ecd13627, type: 3}
+  playerPrefab: {fileID: 8738902458370966635, guid: 4d2c4df83e90a48258f4b2594935cc1e, type: 3}
