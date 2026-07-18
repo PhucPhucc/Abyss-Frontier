@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyHealth : MonoBehaviour
 {
+    private bool IsMultiplayerServer => GameSessionData.IsMultiplayer && GameSessionData.IsHost;
     public static HashSet<string> KilledEnemyIds { get; } = new HashSet<string>();
     [Header("Stats Definition")]
     [SerializeField] private EnemyLevel enemyLevel = EnemyLevel.Level1;   // Cấp độ của enemy (1-3)
@@ -69,7 +70,11 @@ public class EnemyHealth : MonoBehaviour
 
     private void Awake()
     {
-        // Cache các component cần thiết
+        if (string.IsNullOrEmpty(saveId))
+        {
+            saveId = $"enemy_{gameObject.scene.name}_{gameObject.name}_{GetSiblingPath(gameObject.transform)}";
+        }
+
         anim = GetComponent<Animator>();
         enemyAI = GetComponent<EnemyAI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -90,7 +95,6 @@ public class EnemyHealth : MonoBehaviour
             }
         }
 
-        // Nếu có statsDefinition, lấy chỉ số theo cấp độ
         if (statsDefinition != null)
         {
             int level = (int)enemyLevel;
@@ -102,10 +106,19 @@ public class EnemyHealth : MonoBehaviour
         }
 
         currentHealth = maxHealth;
+        isDead = false;
+        if (!string.IsNullOrEmpty(saveId))
+            KilledEnemyIds.Remove(saveId);
         NotifyHealthChanged();
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
+    }
+
+    private void OnEnable()
+    {
+        if (!string.IsNullOrEmpty(saveId))
+            KilledEnemyIds.Remove(saveId);
     }
 
     /// <summary>
@@ -141,7 +154,10 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
             Die();
         else
+        {
             PlayHurt(knockbackDirection);
+            BroadcastHurtToClients();
+        }
     }
 
     private void PlayHurt(Vector2 knockbackDirection)
@@ -166,7 +182,6 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         if (isDead) return;
-        ScheduleRespawn();
         isDead = true;
 
         if (!string.IsNullOrEmpty(saveId))
@@ -182,11 +197,44 @@ public class EnemyHealth : MonoBehaviour
         if (col != null) col.enabled = false;
 
         DropExpOrbs();
-        // GrantExpToPlayer();
         Died?.Invoke();
 
-        Destroy(gameObject, destroyDelay);
+        BroadcastDeathToClients();
+
+        if (IsMultiplayerServer)
+        {
+            StartCoroutine(DestroyAfterDelay());
+        }
+        else
+        {
+            ScheduleRespawn();
+            Destroy(gameObject, destroyDelay);
+        }
+
         Debug.Log($"[EnemyHealth] {name} đã chết.");
+    }
+
+    private IEnumerator DestroyAfterDelay()
+    {
+        yield return new WaitForSeconds(destroyDelay);
+        if (gameObject != null)
+            Destroy(gameObject);
+    }
+
+    private void BroadcastHurtToClients()
+    {
+        if (!GameSessionData.IsMultiplayer) return;
+        var netEnemy = GetComponent<NetworkEnemy>();
+        if (netEnemy != null)
+            netEnemy.RPC_PlayHurt();
+    }
+
+    private void BroadcastDeathToClients()
+    {
+        if (!GameSessionData.IsMultiplayer) return;
+        var netEnemy = GetComponent<NetworkEnemy>();
+        if (netEnemy != null)
+            netEnemy.RPC_BroadcastDie();
     }
 
     private void ScheduleRespawn()
@@ -247,6 +295,17 @@ public class EnemyHealth : MonoBehaviour
     private void NotifyHealthChanged()
     {
         HealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
+    private static string GetSiblingPath(Transform t)
+    {
+        string path = t.name;
+        while (t.parent != null && t.parent != t.root)
+        {
+            t = t.parent;
+            path = t.name + "/" + path;
+        }
+        return path;
     }
 }
 

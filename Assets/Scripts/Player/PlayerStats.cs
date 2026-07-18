@@ -245,6 +245,26 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void RestoreStats(int savedLevel, int savedExp, int savedExpToNext, int savedStatPoints,
+        int savedStr, int savedDex, int savedVit, int savedAgi, int savedEnd, int savedInt,
+        float savedMaxStamina, float savedCurrentStamina)
+    {
+        level = savedLevel;
+        currentExp = savedExp;
+        expToNextLevel = savedExpToNext;
+        availableStatPoints = savedStatPoints;
+        strength = savedStr;
+        dexterity = savedDex;
+        vitality = savedVit;
+        agility = savedAgi;
+        endurance = savedEnd;
+        intelligence = savedInt;
+        maxStamina = savedMaxStamina;
+        currentStamina = savedCurrentStamina;
+        RecalculateDerivedStats();
+        NotifyChanged();
+    }
+
     private void NotifyChanged()
     {
         StatsChanged?.Invoke();

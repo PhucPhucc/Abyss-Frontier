@@ -14,6 +14,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner runner;
     public NetworkRunner Runner => runner;
 
+    public static NetworkRunner CurrentRunner { get; private set; }
+
     private int lobbyGeneration;
 
     public Action OnRunnerStarted;
@@ -90,6 +92,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         Debug.Log("[GameLauncher] Fusion started. PlayerSpawner.OnPlayerJoined will handle spawn.");
+        CurrentRunner = runner;
     }
 
     public async System.Threading.Tasks.Task LaunchAsHost(string targetSceneName, string sessionName)
@@ -163,6 +166,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         OnRunnerStarted?.Invoke();
+        CurrentRunner = runner;
     }
 
     public async System.Threading.Tasks.Task LaunchAsClient(string sessionName)
@@ -230,6 +234,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         OnRunnerStarted?.Invoke();
+        CurrentRunner = runner;
     }
 
     public async void JoinSessionLobby()
@@ -301,6 +306,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             Destroy(runner.gameObject);
             runner = null;
         }
+        CurrentRunner = null;
     }
 
     public async void LoadGameScene(string sceneName)
@@ -357,6 +363,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                 Destroy(runner.gameObject);
             runner = null;
         }
+        CurrentRunner = null;
     }
 
     // ── INetworkRunnerCallbacks ──

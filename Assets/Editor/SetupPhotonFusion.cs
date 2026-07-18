@@ -85,4 +85,48 @@ public static class SetupPhotonFusion
         EditorBuildSettings.scenes = scenes;
         Debug.Log($"Added {scenePaths.Length} scenes to Build Settings");
     }
+
+    [MenuItem("Tools/Fusion/Setup Enemy Prefabs")]
+    public static void SetupEnemyPrefabs()
+    {
+        string[] enemyPaths = {
+            "Assets/Prefabs/Enemies"
+        };
+
+        int count = 0;
+
+        foreach (string folder in enemyPaths)
+        {
+            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { folder });
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if (prefab == null) continue;
+
+                if (!prefab.GetComponent<EnemyHealth>())
+                    continue;
+
+                GameObject instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                if (instance == null) continue;
+
+                NetworkObject netObj = instance.GetComponent<NetworkObject>();
+                if (netObj == null) netObj = instance.AddComponent<NetworkObject>();
+
+                if (instance.GetComponent<NetworkTransform>() == null)
+                    instance.AddComponent<NetworkTransform>();
+
+                if (instance.GetComponent<NetworkEnemy>() == null)
+                    instance.AddComponent<NetworkEnemy>();
+
+                PrefabUtility.SaveAsPrefabAsset(instance, path);
+                Object.DestroyImmediate(instance);
+                count++;
+
+                Debug.Log($"<color=green>[Setup]</color> Added network components to: {prefab.name}");
+            }
+        }
+
+        Debug.Log($"=== Enemy Prefab Setup Complete: {count} prefabs updated ===");
+    }
 }

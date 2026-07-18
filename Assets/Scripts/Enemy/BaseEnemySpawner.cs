@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public abstract class BaseEnemySpawner : TilemapSpawnBase
@@ -28,9 +29,25 @@ public abstract class BaseEnemySpawner : TilemapSpawnBase
     // Hàm tiện ích dùng chung để tạo quái
     protected GameObject InstantiateEnemy(GameObject prefab, Vector3 position, Quaternion rotation)
     {
-        GameObject enemy = Instantiate(prefab, position, rotation);
+        GameObject enemy;
+
+        if (GameSessionData.IsMultiplayer)
+        {
+            NetworkRunner runner = GameLauncher.CurrentRunner;
+            if (runner == null || !runner.IsServer)
+                return null;
+
+            NetworkSpawnOp spawnOp = runner.SpawnAsync(prefab, position, rotation);
+            enemy = spawnOp.Object != null ? spawnOp.Object.gameObject : null;
+            if (enemy == null) return null;
+        }
+        else
+        {
+            enemy = Instantiate(prefab, position, rotation);
+        }
+
         activeEnemies.Add(enemy);
-        
+
         if (enemy.TryGetComponent(out EnemyHealth health))
         {
             health.Died += () =>
@@ -39,10 +56,9 @@ public abstract class BaseEnemySpawner : TilemapSpawnBase
                 HandleEnemyDeath();
             };
 
-            // Sử dụng Reflection để khởi tạo cấp độ và cập nhật chỉ số mà không sửa EnemyHealth.cs
             InitializeEnemyStatsViaReflection(health, spawnLevel);
         }
-        
+
         return enemy;
     }
 

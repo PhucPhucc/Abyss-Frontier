@@ -126,27 +126,23 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
             return playerPrefabs[prefabIndex];
         }
 
-        NetworkObject selectedPrefab = ResolveSelectedCharacterPrefab();
-        if (selectedPrefab != null)
-            return selectedPrefab;
-
-        Debug.LogWarning("PlayerSpawner: Selected character prefab is missing. Falling back to indexed prefab.");
-
-        int fallbackIndex = Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1);
-        return playerPrefabs[fallbackIndex];
+        return ResolveSelectedCharacterPrefab();
     }
 
     private NetworkObject ResolveSelectedCharacterPrefab()
     {
         GameObject selectedPrefab = GameSessionData.SelectedCharacterPrefab;
-        if (selectedPrefab == null)
+        if (selectedPrefab != null)
+        {
+            if (selectedPrefab.TryGetComponent(out NetworkObject networkObject))
+                return networkObject;
+
+            Debug.LogError($"PlayerSpawner: Selected prefab '{selectedPrefab.name}' has no NetworkObject component.");
             return null;
+        }
 
-        if (selectedPrefab.TryGetComponent(out NetworkObject networkObject))
-            return networkObject;
-
-        Debug.LogError($"PlayerSpawner: Selected prefab '{selectedPrefab.name}' has no NetworkObject component.");
-        return null;
+        int index = Mathf.Clamp(GameSessionData.SelectedCharacterIndex, 0, playerPrefabs.Length - 1);
+        return playerPrefabs[index];
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

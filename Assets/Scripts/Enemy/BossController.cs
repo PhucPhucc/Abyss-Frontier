@@ -111,6 +111,9 @@ public class BossController : MonoBehaviour
             return;
         }
 
+        if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
+            return;
+
         if (target == null) FindPlayer();
         if (target == null || state == BossState.Intro || state == BossState.Dead) return;
 

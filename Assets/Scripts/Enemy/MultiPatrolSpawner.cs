@@ -40,6 +40,9 @@ public class MultiPatrolSpawner : BaseEnemySpawner
 
     private void Update()
     {
+        if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
+            return;
+
         foreach (var route in patrolRoutes)
         {
             if (route.activeEnemy == null && !route.isWaitingRespawn)
@@ -78,6 +81,8 @@ public class MultiPatrolSpawner : BaseEnemySpawner
         // Spawn quái tại tọa độ và góc xoay của Waypoint đầu tiên
         GameObject enemy = InstantiateEnemy(route.specificEnemyPrefab, safePos, startingWaypoint.rotation);
         route.activeEnemy = enemy;
+
+        if (enemy == null) return;
 
         if (enemy.TryGetComponent(out EnemyAI enemyAI))
         {
