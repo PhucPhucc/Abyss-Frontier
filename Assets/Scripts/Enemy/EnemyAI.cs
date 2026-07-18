@@ -428,6 +428,25 @@ public class EnemyAI : MonoBehaviour
     }
 
     /// <summary>
+    /// Reset AI after hub respawn so the enemy can move and be fought again.
+    /// </summary>
+    public void RestoreLivingState()
+    {
+        isDead = false;
+        state = EnemyState.Idle;
+        moveVelocity = Vector2.zero;
+        attackTimer = 0f;
+        prepTimer = 0f;
+        wasInAttackRange = false;
+        target = null;
+
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
+        FindTarget();
+    }
+
+    /// <summary>
     /// Kiểm tra xem Player có còn trong phạm vi leash (dây xích) so với vị trí home hay không.
     /// </summary>
     private bool IsTargetInsideLeash()

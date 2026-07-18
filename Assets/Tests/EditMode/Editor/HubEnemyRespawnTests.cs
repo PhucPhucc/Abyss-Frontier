@@ -15,9 +15,6 @@ public class HubEnemyRespawnTests
 
             Assert.IsFalse(enemy.activeSelf);
 
-            // Simulate waiting in dungeon — hub revive has not been called yet.
-            Assert.IsFalse(enemy.activeSelf);
-
             EnemyRespawnRunner.RespawnAllAtHub();
 
             Assert.IsTrue(enemy.activeSelf);
@@ -25,7 +22,40 @@ public class HubEnemyRespawnTests
         finally
         {
             Object.DestroyImmediate(enemy);
-            EnemyRespawnRunner.RespawnAllAtHub(); // clear any leftover pending entries
+            EnemyRespawnRunner.RespawnAllAtHub();
+        }
+    }
+
+    [Test]
+    public void RespawnAllAtHubRestoresColliderAndLivingFlags()
+    {
+        GameObject enemy = new GameObject("CorpseClone");
+        BoxCollider2D collider = enemy.AddComponent<BoxCollider2D>();
+        EnemyHealth health = enemy.AddComponent<EnemyHealth>();
+        EnemyAI ai = enemy.AddComponent<EnemyAI>();
+
+        try
+        {
+            // Simulate buggy clone copied after Die (disabled collider + dead AI/health).
+            collider.enabled = false;
+            ai.OnDeath();
+            typeof(EnemyHealth)
+                .GetField("isDead", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(health, true);
+
+            enemy.SetActive(false);
+            EnemyRespawnRunner.RegisterForHubRespawn(enemy);
+            EnemyRespawnRunner.RespawnAllAtHub();
+
+            Assert.IsTrue(enemy.activeSelf);
+            Assert.IsTrue(collider.enabled, "Hub respawn must re-enable collider so player attacks can hit.");
+            Assert.IsFalse(health.IsDead);
+            Assert.IsFalse(ai.IsDead);
+        }
+        finally
+        {
+            Object.DestroyImmediate(enemy);
+            EnemyRespawnRunner.RespawnAllAtHub();
         }
     }
 
@@ -48,7 +78,6 @@ public class HubEnemyRespawnTests
 
             Assert.IsTrue(alive.activeSelf);
 
-            // Second call should be a no-op (queue cleared).
             alive.SetActive(false);
             EnemyRespawnRunner.RespawnAllAtHub();
             Assert.IsFalse(alive.activeSelf);

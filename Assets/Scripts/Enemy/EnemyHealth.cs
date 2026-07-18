@@ -182,6 +182,12 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         if (isDead) return;
+
+        // Clone WHILE still alive so hub-respawn copy keeps collider / AI / isDead=false.
+        // Instantiating after death mutations copies a disabled corpse that cannot be attacked.
+        if (!IsMultiplayerServer)
+            ScheduleRespawn();
+
         isDead = true;
 
         if (!string.IsNullOrEmpty(saveId))
@@ -202,16 +208,34 @@ public class EnemyHealth : MonoBehaviour
         BroadcastDeathToClients();
 
         if (IsMultiplayerServer)
-        {
             StartCoroutine(DestroyAfterDelay());
-        }
         else
-        {
-            ScheduleRespawn();
             Destroy(gameObject, destroyDelay);
-        }
 
         Debug.Log($"[EnemyHealth] {name} đã chết.");
+    }
+
+    /// <summary>
+    /// Restore a hub-queued clone so it can be hit and run AI again.
+    /// </summary>
+    public void RestoreLivingState()
+    {
+        isDead = false;
+        currentHealth = maxHealth;
+
+        foreach (Collider2D collider in GetComponents<Collider2D>())
+            collider.enabled = true;
+
+        if (enemyAI == null)
+            enemyAI = GetComponent<EnemyAI>();
+        enemyAI?.RestoreLivingState();
+
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalColor;
+
+        NotifyHealthChanged();
     }
 
     private IEnumerator DestroyAfterDelay()
@@ -271,9 +295,8 @@ public class EnemyHealth : MonoBehaviour
             cloneAnimator.Update(0f);
         }
 
-        SpriteRenderer cloneSpriteRenderer = respawnClone.GetComponent<SpriteRenderer>();
-        if (cloneSpriteRenderer != null)
-            cloneSpriteRenderer.color = originalColor;
+        EnemyHealth cloneHealth = respawnClone.GetComponent<EnemyHealth>();
+        cloneHealth?.RestoreLivingState();
     }
 
     private void DropExpOrbs()
@@ -333,8 +356,14 @@ public sealed class EnemyRespawnRunner : MonoBehaviour
         for (int i = 0; i < pendingHubRespawns.Count; i++)
         {
             GameObject enemy = pendingHubRespawns[i];
-            if (enemy != null)
-                enemy.SetActive(true);
+            if (enemy == null)
+                continue;
+
+            // Fix clones queued before the death-order bug (disabled collider / dead AI).
+            EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+            health?.RestoreLivingState();
+
+            enemy.SetActive(true);
         }
 
         pendingHubRespawns.Clear();

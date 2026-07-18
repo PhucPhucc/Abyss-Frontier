@@ -59,6 +59,8 @@ public class NetworkPlayer : NetworkBehaviour
             AssignCameraTarget();
     }
 
+    private const float PlayerOrthoSize = 3f;
+
     private void AssignCameraTarget()
     {
         var cam = FindFirstObjectByType<CinemachineCamera>();
@@ -70,11 +72,9 @@ public class NetworkPlayer : NetworkBehaviour
             cam.transform.SetPositionAndRotation(
                 new Vector3(transform.position.x, transform.position.y, -10f),
                 Quaternion.identity);
-            cam.Lens.OrthographicSize = 8f;
 
             var follow = camObj.AddComponent<CinemachineFollow>();
             follow.FollowOffset = new Vector3(0, 0, -10);
-            cam.Follow = transform;
 
             var brain = FindFirstObjectByType<CinemachineBrain>();
             if (brain == null)
@@ -83,8 +83,11 @@ public class NetworkPlayer : NetworkBehaviour
                 if (mainCam != null)
                     mainCam.gameObject.AddComponent<CinemachineBrain>();
             }
-            return;
         }
+
+        var lens = cam.Lens;
+        lens.OrthographicSize = PlayerOrthoSize;
+        cam.Lens = lens;
         cam.Follow = transform;
     }
 

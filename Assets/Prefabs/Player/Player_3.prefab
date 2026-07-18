@@ -91,7 +91,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 769353063
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1848645260731344120, guid: 7d8b98808db5d6a4888f4799c5af7e00, type: 3}
@@ -209,7 +209,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 8
-  attackHitDelay: 0.5
+  attackHitDelay: 0.2
 --- !u!114 &913242379645838641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,16 +286,16 @@ MonoBehaviour:
   currentExp: 0
   expToNextLevel: 100
   statPointsPerLevel: 5
-  strength: 1
-  dexterity: 1
-  vitality: 1
-  agility: 1
-  endurance: 1
-  intelligence: 1
+  strength: 100
+  dexterity: 100
+  vitality: 100
+  agility: 2
+  endurance: 100
+  intelligence: 100
   availableStatPoints: 5
-  maxStamina: 100
+  maxStamina: 1000
   currentStamina: 0
-  derivedMaxHealth: 70
+  derivedMaxHealth: 700
   derivedAttackDamage: 7
   derivedDodgeChance: 0.02
   derivedMoveSpeed: 2.65
