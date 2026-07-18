@@ -84,7 +84,19 @@ public class PuzzleManager : MonoBehaviour
             feedbackText.text = "Bingo! The door is open.";
             
         // Gọi hàm mở cửa tại đây
-        // if (door != null) door.GetComponent<DoorScript>().OpenDoor();
+        if (door != null)
+        {
+            DoorController doorController = door.GetComponent<DoorController>();
+            if (doorController != null)
+            {
+                doorController.OpenDoor();
+            }
+            else
+            {
+                Debug.LogWarning("[PuzzleManager] Không tìm thấy component DoorController trên GameObject tagged 'Door'. Đang tự động ẩn GameObject để giải phóng lối đi!");
+                door.SetActive(false);
+            }
+        }
     }
 
     // Hàm xử lý khi giải SAI (Tách ra để dùng chung cho cả Test lẫn Gameplay thực)
