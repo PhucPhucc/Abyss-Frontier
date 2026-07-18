@@ -3,8 +3,8 @@
 ## Project Overview
 - **Game Engine**: Unity 6 (6000.3.15f1)
 - **Genre**: 2D Top-down Dungeon Crawler / Action RPG (Singleplayer + optional Multiplayer, PC)
-- **Primary Design Document**: `base.md` at the repository root (if present). Reference `Backlog_PRU213_Group01.xlsx` for current task scope and status.
-- **Backlog**: [`Backlog_PRU213_Group01.xlsx`](Backlog_PRU213_Group01.xlsx) — 85 tasks (T-01–T-86), updated to reflect codebase and team chat scope.
+- **Primary Design Document**: `base.md` at the repository root (if present).
+- **Backlog**: [`backlog.html`](backlog.html) — 85 tasks (T-01–T-94, thiếu T-52), synced with codebase 2026-07-14. Legacy Google Sheets export: `backlog_legacy_export.html`. Regenerate via `tools/generate_backlog_html.py`.
 
 ## Game Context
 - **Setting**: Abandoned Mine / Cursed Dungeon — 5 tầng ngục tối (`floor1`–`floor5`). Code references `floor6` unlock but scene not yet created.
