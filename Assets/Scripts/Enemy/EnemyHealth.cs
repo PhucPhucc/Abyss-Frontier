@@ -23,7 +23,9 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float destroyDelay = 1.5f; // Thời gian trước khi xóa object sau khi chết
 
     [Header("Respawn")]
+    [Tooltip("If true, queue an inactive clone and revive it when the player rests at Base Camp. Bosses should leave this off.")]
     [SerializeField] private bool respawnOnDeath = true;
+    [Tooltip("Legacy field — hub-only respawn no longer uses a timed delay.")]
     [SerializeField, Min(0f)] private float respawnDelay = 5f;
     [SerializeField] private bool respawnAtInitialPosition = true;
 
@@ -201,8 +203,8 @@ public class EnemyHealth : MonoBehaviour
         PrepareRespawnClone(respawnClone);
         respawnClone.SetActive(false);
 
-        EnemyRespawnRunner.Schedule(respawnClone, Mathf.Max(0f, respawnDelay));
-        Debug.Log($"[EnemyHealth] {name} respawn scheduled in {respawnDelay:0.##} seconds.");
+        EnemyRespawnRunner.RegisterForHubRespawn(respawnClone);
+        Debug.Log($"[EnemyHealth] {name} queued for hub respawn at Base Camp.");
     }
 
     private void PrepareRespawnClone(GameObject respawnClone)
@@ -248,38 +250,44 @@ public class EnemyHealth : MonoBehaviour
     }
 }
 
-internal sealed class EnemyRespawnRunner : MonoBehaviour
+/// <summary>
+/// Holds inactive enemy clones and revives them only when the player rests at Base Camp.
+/// </summary>
+public sealed class EnemyRespawnRunner : MonoBehaviour
 {
     private static EnemyRespawnRunner instance;
+    private static readonly List<GameObject> pendingHubRespawns = new List<GameObject>();
 
-    public static void Schedule(GameObject enemyToRespawn, float delay)
+    public static void RegisterForHubRespawn(GameObject enemyToRespawn)
     {
         if (enemyToRespawn == null)
             return;
 
-        Instance.StartCoroutine(Instance.RespawnRoutine(enemyToRespawn, delay));
+        EnsureInstance();
+
+        if (!pendingHubRespawns.Contains(enemyToRespawn))
+            pendingHubRespawns.Add(enemyToRespawn);
     }
 
-    private static EnemyRespawnRunner Instance
+    public static void RespawnAllAtHub()
     {
-        get
+        for (int i = 0; i < pendingHubRespawns.Count; i++)
         {
-            if (instance != null)
-                return instance;
-
-            GameObject runnerObject = new GameObject("Enemy Respawn Runner");
-            instance = runnerObject.AddComponent<EnemyRespawnRunner>();
-            return instance;
+            GameObject enemy = pendingHubRespawns[i];
+            if (enemy != null)
+                enemy.SetActive(true);
         }
+
+        pendingHubRespawns.Clear();
     }
 
-    private IEnumerator RespawnRoutine(GameObject enemyToRespawn, float delay)
+    private static void EnsureInstance()
     {
-        if (delay > 0f)
-            yield return new WaitForSeconds(delay);
+        if (instance != null)
+            return;
 
-        if (enemyToRespawn != null)
-            enemyToRespawn.SetActive(true);
+        GameObject runnerObject = new GameObject("Enemy Respawn Runner");
+        instance = runnerObject.AddComponent<EnemyRespawnRunner>();
     }
 
     private void OnDestroy()

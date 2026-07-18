@@ -158,6 +158,10 @@ public class Base_Camp : MonoBehaviour
             playerController.RefreshStats();
         }
 
+        // Hub-only enemy respawn (T-76): revive queued enemies killed in this dungeon run.
+        EnemyRespawnRunner.RespawnAllAtHub();
+        EnemyHealth.KilledEnemyIds.Clear();
+
         Debug.Log("Player is resting at the Base Camp... HP and Stamina restored!");
     }
 
