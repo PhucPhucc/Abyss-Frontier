@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class PatrolRespawnSpawner : BaseEnemySpawner
 {
-    //Tuần tra, chết thì spawn lại
-    //Lớp này sẽ cần thêm logic thời gian chờ (cooldown) để hồi sinh và truyền danh sách các điểm tuần tra (Waypoints) cho quái vật.
     [Header("Patrol Settings")]
     public Transform[] waypoints;
     public Transform spawnPoint;
@@ -22,8 +20,9 @@ public class PatrolRespawnSpawner : BaseEnemySpawner
             GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             Vector3 safePos = GetSafeSpawnPosition(spawnPoint.position);
             GameObject enemy = InstantiateEnemy(prefab, safePos, spawnPoint.rotation);
+
+            if (enemy == null) return;
             
-            // Gán waypoints cho enemyAI thông qua Reflection để tránh sửa file EnemyAI.cs
             if (enemy.TryGetComponent(out EnemyAI enemyAI))
             {
                 try
@@ -54,6 +53,10 @@ public class PatrolRespawnSpawner : BaseEnemySpawner
     private IEnumerator RespawnRoutine()
     {
         yield return new WaitForSeconds(respawnDelay);
+
+        if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
+            yield break;
+
         SpawnEnemies();
     }
 }

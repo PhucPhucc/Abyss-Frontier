@@ -90,14 +90,29 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            if (GameSessionData.IsMultiplayer)
             {
-                Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
-                if (knockbackDir == Vector2.zero)
-                    knockbackDir = facingDirection;
+                NetworkEnemy netEnemy = enemy.GetComponent<NetworkEnemy>();
+                if (netEnemy != null)
+                {
+                    Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
+                    if (knockbackDir == Vector2.zero)
+                        knockbackDir = facingDirection;
 
-                enemyHealth.TakeDamage(damage, knockbackDir, source: transform);
+                    netEnemy.RPC_RequestDamage(damage, knockbackDir);
+                }
+            }
+            else
+            {
+                EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
+                    if (knockbackDir == Vector2.zero)
+                        knockbackDir = facingDirection;
+
+                    enemyHealth.TakeDamage(damage, knockbackDir, source: transform);
+                }
             }
         }
     }

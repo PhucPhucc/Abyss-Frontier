@@ -113,6 +113,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (isDead) return;
 
+        if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
+            return;
+
         // Nếu bị choáng (stun), ngừng di chuyển tự thân và logic AI
         if (knockback != null && knockback.IsStunned)
         {

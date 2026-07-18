@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 /// <summary>
@@ -33,23 +34,31 @@ public class SlimeSplitter : MonoBehaviour
     {
         if (prefabToSpawn == null) return;
 
+        bool isMultiplayerServer = GameSessionData.IsMultiplayer && GameSessionData.IsHost;
+
         for (int i = 0; i < spawnCount; i++)
         {
-            // Tính toán một vị trí ngẫu nhiên xung quanh vị trí quái vật mẹ đang chết
             Vector2 randomOffset = Random.insideUnitCircle * spawnOffsetRadius;
             Vector3 spawnPosition = transform.position + (Vector3)randomOffset;
 
-            // Sinh ra quái vật con
-            GameObject child = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
-            
-            // Đảm bảo quái vật con được kích hoạt (phòng trường hợp prefab đang bị tắt)
-            child.SetActive(true);
+            if (isMultiplayerServer)
+            {
+                NetworkRunner runner = GameLauncher.CurrentRunner;
+                if (runner != null && runner.IsServer)
+                {
+                    runner.SpawnAsync(prefabToSpawn, spawnPosition, Quaternion.identity);
+                }
+            }
+            else if (!GameSessionData.IsMultiplayer)
+            {
+                GameObject child = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+                child.SetActive(true);
+            }
         }
     }
 
     private void OnDestroy()
     {
-        // Hủy đăng ký event để tránh rò rỉ bộ nhớ (memory leak) khi object bị Destroy
         if (enemyHealth != null)
         {
             enemyHealth.Died -= SpawnChildren;

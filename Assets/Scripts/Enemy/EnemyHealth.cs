@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyHealth : MonoBehaviour
 {
+    private bool IsMultiplayerServer => GameSessionData.IsMultiplayer && GameSessionData.IsHost;
     public static HashSet<string> KilledEnemyIds { get; } = new HashSet<string>();
     [Header("Stats Definition")]
     [SerializeField] private EnemyLevel enemyLevel = EnemyLevel.Level1;   // Cấp độ của enemy (1-3)
@@ -139,7 +140,10 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
             Die();
         else
+        {
             PlayHurt(knockbackDirection);
+            BroadcastHurtToClients();
+        }
     }
 
     private void PlayHurt(Vector2 knockbackDirection)
@@ -164,7 +168,6 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         if (isDead) return;
-        ScheduleRespawn();
         isDead = true;
 
         if (!string.IsNullOrEmpty(saveId))
@@ -180,11 +183,44 @@ public class EnemyHealth : MonoBehaviour
         if (col != null) col.enabled = false;
 
         DropExpOrbs();
-        // GrantExpToPlayer();
         Died?.Invoke();
 
-        Destroy(gameObject, destroyDelay);
+        BroadcastDeathToClients();
+
+        if (IsMultiplayerServer)
+        {
+            StartCoroutine(DestroyAfterDelay());
+        }
+        else
+        {
+            ScheduleRespawn();
+            Destroy(gameObject, destroyDelay);
+        }
+
         Debug.Log($"[EnemyHealth] {name} đã chết.");
+    }
+
+    private IEnumerator DestroyAfterDelay()
+    {
+        yield return new WaitForSeconds(destroyDelay);
+        if (gameObject != null)
+            Destroy(gameObject);
+    }
+
+    private void BroadcastHurtToClients()
+    {
+        if (!GameSessionData.IsMultiplayer) return;
+        var netEnemy = GetComponent<NetworkEnemy>();
+        if (netEnemy != null)
+            netEnemy.RPC_PlayHurt();
+    }
+
+    private void BroadcastDeathToClients()
+    {
+        if (!GameSessionData.IsMultiplayer) return;
+        var netEnemy = GetComponent<NetworkEnemy>();
+        if (netEnemy != null)
+            netEnemy.RPC_BroadcastDie();
     }
 
     private void ScheduleRespawn()
