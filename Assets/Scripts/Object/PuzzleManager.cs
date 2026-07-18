@@ -1,21 +1,24 @@
 using System.Collections.Generic;
-using System.Linq; // Yêu cầu có Linq để dùng SequenceEqual
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI; // Thêm thư viện này nếu bạn dùng Text (Hoặc dùng TMPro nếu dùng TextMeshPro)
+using UnityEngine.UI;
+using TMPro;
 
 public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance { get; private set; }
 
-    [Header("Đáp án (Thứ tự đúng)")]
+    [Header("Answer")]
     public List<SwitchType> correctSequence;
 
-    [Header("Giao diện UI")]
-    public Text feedbackText; // Kéo thả UI Text thông báo vào đây trên Inspector
+    [Header("UI Interface")]
+    public TextMeshProUGUI feedbackText;
+
+    [Header("Enemy Spawner")]
+    public FixedPointsSpawner penaltySpawner;
 
     private List<SwitchType> currentInputSequence = new List<SwitchType>();
     private List<PuzzleSwitch> activatedSwitches = new List<PuzzleSwitch>();
-
     private GameObject door;
 
     private void Awake()
@@ -24,22 +27,35 @@ public class PuzzleManager : MonoBehaviour
         door = GameObject.FindGameObjectWithTag("Door");
     }
 
+    // ==========================================
+    // KHU VỰC TEST NHANH TRÊN INSPECTOR
+    // ==========================================
+
+    [ContextMenu("Test: Giải ĐÚNG (Success)")]
+    public void TestCorrectPuzzle()
+    {
+        Debug.LogWarning("[TEST] Kích hoạt thủ công trạng thái GIẢI ĐỐ ĐÚNG!");
+        TriggerPuzzleSuccess();
+    }
+
+    [ContextMenu("Test: Giải SAI (Failure)")]
+    public void TestWrongPuzzle()
+    {
+        Debug.LogWarning("[TEST] Kích hoạt thủ công trạng thái GIẢI ĐỐ SAI!");
+        TriggerPuzzleFailure();
+    }
+
+    // ==========================================
+    // LOGIC GAME CHÍNH
+    // ==========================================
+
     public void OnSwitchActivated(SwitchType type, PuzzleSwitch pressedSwitch)
     {
-        // Chặn không cho nhập thêm nếu đã đạt tối đa số lượt (tránh lỗi nếu người chơi bấm quá nhanh lúc đang reset)
         if (currentInputSequence.Count >= correctSequence.Count) return;
 
         currentInputSequence.Add(type);
         activatedSwitches.Add(pressedSwitch);
 
-        // --- DEBUG LOG ---
-        string currentLog = string.Join(" -> ", currentInputSequence);
-        Debug.Log("Thứ tự system ghi nhận hiện tại: " + currentLog);
-        // -----------------
-
-        // XÓA BỎ BƯỚC KIỂM TRA TỪNG NÚT Ở ĐÂY
-
-        // CHỈ KIỂM TRA KHI: Đã gạt đủ nút (ví dụ 6 nút)
         if (currentInputSequence.Count == correctSequence.Count)
         {
             CheckFinalSequence();
@@ -48,34 +64,58 @@ public class PuzzleManager : MonoBehaviour
 
     private void CheckFinalSequence()
     {
-        // SequenceEqual sẽ tự động so sánh từng phần tử theo đúng thứ tự giữa 2 List
         bool isCorrect = currentInputSequence.SequenceEqual(correctSequence);
-
         if (isCorrect)
         {
-            Debug.Log("Giải đố thành công! Mở cửa phòng Boss!");
-            if (feedbackText != null) feedbackText.text = "Chính xác! Cửa đã mở.";
-
-            // Gọi hàm mở cửa tại đây
+            TriggerPuzzleSuccess();
         }
         else
         {
-            Debug.Log("Sai mật mã! Reset lại toàn bộ.");
-            if (feedbackText != null) feedbackText.text = "Sai rồi! Vui lòng thử lại.";
-
-            ResetPuzzle();
+            TriggerPuzzleFailure();
         }
+    }
+
+    // Hàm xử lý khi giải ĐÚNG (Tách ra để dùng chung cho cả Test lẫn Gameplay thực)
+    private void TriggerPuzzleSuccess()
+    {
+        Debug.Log("<color=green>Giải đố thành công! Mở cửa phòng Boss!</color>");
+        
+        if (feedbackText != null) 
+            feedbackText.text = "Bingo! The door is open.";
+            
+        // Gọi hàm mở cửa tại đây
+        // if (door != null) door.GetComponent<DoorScript>().OpenDoor();
+    }
+
+    // Hàm xử lý khi giải SAI (Tách ra để dùng chung cho cả Test lẫn Gameplay thực)
+    private void TriggerPuzzleFailure()
+    {
+        Debug.Log("<color=red>Sai mật mã! Chuẩn bị kích hoạt phạt spawn quái và reset.</color>");
+        
+        if (feedbackText != null) 
+            feedbackText.text = "Wrong! Enemies are approaching!";
+
+        if (penaltySpawner != null)
+        {
+            Debug.Log("[PuzzleManager] Đang gọi hàm SpawnEnemies() từ FixedPointsSpawner...");
+            penaltySpawner.SpawnEnemies();
+        }
+        else
+        {
+            Debug.LogError("[PuzzleManager] LỖI: Biến 'penaltySpawner' chưa được gán trên Inspector!");
+        }
+
+        ResetPuzzle();
     }
 
     private void ResetPuzzle()
     {
         currentInputSequence.Clear();
-
-        // Lặp qua tất cả các công tắc đã gạt và bắt chúng nảy lên lại
         foreach (var sw in activatedSwitches)
         {
             sw.ResetSwitch();
         }
         activatedSwitches.Clear();
+        Debug.Log("[PuzzleManager] Đã reset lại trạng thái các công tắc.");
     }
 }

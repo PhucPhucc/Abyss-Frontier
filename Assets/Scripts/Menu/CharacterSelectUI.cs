@@ -81,21 +81,27 @@ public class CharacterSelectUI : MonoBehaviour
 
         Debug.Log($"[CharacterSelectUI] Continue clicked. Selected={selectedIndex}");
 
+        if (GameSessionData.IsMultiplayer)
+        {
+            var serverUi = FindFirstServerConnectionUI();
+            if (serverUi != null)
+            {
+                Debug.Log("[CharacterSelectUI] Multiplayer mode — switching to lobby UI.");
+                serverUi.ShowLobbyAfterCharacterSelect();
+                return;
+            }
+
+            Debug.LogWarning("[CharacterSelectUI] ServerConnectionUI not found in multiplayer mode.");
+            return;
+        }
+
         if (menuFlowController != null)
         {
             menuFlowController.StartGame();
             return;
         }
 
-        var serverUi = FindFirstServerConnectionUI();
-        if (serverUi != null)
-        {
-            Debug.Log("[CharacterSelectUI] Switching to lobby UI.");
-            serverUi.ShowLobbyAfterCharacterSelect();
-            return;
-        }
-
-        Debug.LogWarning("[CharacterSelectUI] ServerConnectionUI not found.");
+        Debug.LogWarning("[CharacterSelectUI] No MenuFlowController and not multiplayer.");
     }
 
     private ServerConnectionUI FindFirstServerConnectionUI()

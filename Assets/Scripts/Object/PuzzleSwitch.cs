@@ -22,6 +22,7 @@ public class PuzzleSwitch : MonoBehaviour, IInteractable
         isActivated = true;
         if (anim != null)
         {
+            Debug.Log("myType: " + myType);
             anim.SetBool("IsOn", true); // Kích hoạt hoạt ảnh gạt xuống
         }
 
