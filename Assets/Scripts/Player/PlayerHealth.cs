@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
 
     public event System.Action<int, int> HealthChanged;
     public event System.Action Died;
+    public event System.Action Respawned;
 
     public int CurrentHealth => currentHealth;
     public int MaxHealth => playerStats != null ? playerStats.MaxHealth : 70;
@@ -71,6 +72,11 @@ public class PlayerHealth : MonoBehaviour
         deathSequenceRoutine = StartCoroutine(DeathSequenceRoutine());
     }
 
+    public void TriggerGameOver()
+    {
+        Die();
+    }
+
     private IEnumerator DeathSequenceRoutine()
     {
         animHandler?.TriggerDeath();
@@ -106,6 +112,7 @@ public class PlayerHealth : MonoBehaviour
 
         PlayerStats stats = GetComponent<PlayerStats>();
         stats?.RestoreVitals();
+        Respawned?.Invoke();
     }
 
     public void SetInvulnerable(bool value)
