@@ -9,6 +9,8 @@ public class BossVictoryUI : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private GameObject winPanel;
     [SerializeField] private string hubSceneName = "Scene_Menu";
+    [SerializeField] private string spawnPointTag = "SpawnPoint";
+    [SerializeField] private Vector2 respawnOffset = new Vector2(0f, 0.35f);
 
     private void Awake()
     {
@@ -52,12 +54,32 @@ public class BossVictoryUI : MonoBehaviour
 
     /// <summary>
     /// Gọi bởi nút bấm "Again" trên UI. (Chơi lại màn hiện tại)
+    /// Respawn player tại SpawnPoint thay vì load lại scene,
+    /// tránh mất player do Fusion runner không re-spawn sau scene reload.
     /// </summary>
     public void OnAgainClicked()
     {
         if (winPanel != null) winPanel.SetActive(false);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        PlayerHealth player = FindFirstObjectByType<PlayerHealth>();
+        if (player == null)
+        {
+            // Fallback: không tìm thấy player, đi qua GameLauncher để tránh mất spawn
+            var launcher = FindFirstObjectByType<GameLauncher>();
+            if (launcher != null)
+                _ = launcher.LaunchAsSingleplayer(SceneManager.GetActiveScene().name);
+            else
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            return;
+        }
+
+        // Tìm SpawnPoint trong scene để đặt lại vị trí player
+        GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
+        if (spawnPoint != null)
+            player.transform.position = (Vector2)spawnPoint.transform.position + respawnOffset;
+
+        player.Respawn();
     }
 
     /// <summary>
