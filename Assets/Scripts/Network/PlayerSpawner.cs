@@ -13,6 +13,30 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private NetworkRunner runner;
     private readonly HashSet<PlayerRef> _spawningPlayers = new();
+    private readonly Dictionary<PlayerRef, int> _playerCharacterSelections = new();
+
+    public void SetPlayerCharacter(PlayerRef player, int characterIndex)
+    {
+        _playerCharacterSelections[player] = characterIndex;
+        Debug.Log($"[PlayerSpawner] Cached character {characterIndex} for Player {player.PlayerId}");
+    }
+
+    public void HandleClientCharacterChoice(PlayerRef player, int characterIndex, NetworkObject currentObject)
+    {
+        if (!runner.IsServer) return;
+
+        if (_playerCharacterSelections.TryGetValue(player, out int existingIndex) && existingIndex == characterIndex)
+            return;
+
+        Debug.Log($"[PlayerSpawner] Correcting character for Player {player.PlayerId} to {characterIndex}. Respawning...");
+        _playerCharacterSelections[player] = characterIndex;
+        
+        if (currentObject != null)
+            runner.Despawn(currentObject);
+            
+        _spawningPlayers.Remove(player);
+        TrySpawnPlayer(player);
+    }
 
     private void Awake()
     {
@@ -137,6 +161,14 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private int ResolveCharacterIndexForPlayer(PlayerRef player)
     {
+        if (_playerCharacterSelections.TryGetValue(player, out int index))
+        {
+            Debug.Log($"[PlayerSpawner] ResolveCharacterIndexForPlayer: Found cached index {index} for Player {player.PlayerId}");
+            return index;
+        }
+
+        Debug.LogWarning($"[PlayerSpawner] ResolveCharacterIndexForPlayer: Cache MISS for Player {player.PlayerId}. Falling back to NetworkLobby.");
+
         var lobby = NetworkLobby.Instance != null ? NetworkLobby.Instance : FindFirstObjectByType<NetworkLobby>();
         if (lobby == null)
             return -1;
@@ -166,6 +198,8 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        _playerCharacterSelections.Remove(player);
+
         if (!runner.IsServer) return;
 
         foreach (var obj in runner.GetAllNetworkObjects())

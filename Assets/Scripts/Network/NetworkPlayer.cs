@@ -151,9 +151,21 @@ public class NetworkPlayer : NetworkBehaviour
             AssignCameraTarget();
 
             // Lắng nghe sự kiện chết của local player
-            // Khi chết → gửi RPC lên Host → Host broadcast Lose cho tất cả
             if (isMultiplayer && playerHealth != null)
                 playerHealth.Died += OnLocalPlayerDied;
+
+            if (isMultiplayer)
+                RPC_NotifyCharacterChoice(GameSessionData.SelectedCharacterIndex);
+        }
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_NotifyCharacterChoice(int characterIndex)
+    {
+        var spawner = Runner.GetComponent<PlayerSpawner>();
+        if (spawner != null)
+        {
+            spawner.HandleClientCharacterChoice(Object.InputAuthority, characterIndex, this.Object);
         }
     }
 
