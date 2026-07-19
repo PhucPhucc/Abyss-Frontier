@@ -90,7 +90,7 @@ public class LobbyUI : MonoBehaviour
         textRect.offsetMin = Vector2.zero;
         textRect.offsetMax = Vector2.zero;
         var tmp = textObj.AddComponent<TextMeshProUGUI>();
-        tmp.text = "Some players are not ready yet!";
+        tmp.text = "Some players are not ready or have not selected a character yet!";
         tmp.fontSize = 28;
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.white;
@@ -182,6 +182,12 @@ public class LobbyUI : MonoBehaviour
     {
         if (isHost)
         {
+            if (selectedCharIndex < 0)
+            {
+                Debug.LogWarning("[LobbyUI] Pick a character before starting the game.");
+                return;
+            }
+
             if (lobby != null) lobby.TryStartGame();
         }
         else
@@ -215,10 +221,13 @@ public class LobbyUI : MonoBehaviour
             statusText.text = lobby != null ? (isHost ? "Host Lobby" : "Player Lobby") : "Waiting for lobby...";
 
         if (charNameText != null)
-            charNameText.text = $"Character {selectedCharIndex + 1}";
+            charNameText.text = selectedCharIndex >= 0 ? $"Character {selectedCharIndex + 1}" : "Select a character";
 
         if (lobby != null && playerCountText != null)
             playerCountText.text = $"Players: {lobby.PlayerCount} / 4";
+
+        if (actionBtn != null)
+            actionBtn.interactable = !isHost || selectedCharIndex >= 0;
 
         UpdateButtonLabel();
     }
@@ -226,7 +235,9 @@ public class LobbyUI : MonoBehaviour
     private void UpdateButtonLabel()
     {
         if (actionBtnLabel == null) return;
-        actionBtnLabel.text = isHost ? "Start" : (isReady ? "Ready!" : "Ready");
+        actionBtnLabel.text = isHost
+            ? (selectedCharIndex >= 0 ? "Start" : "Pick First")
+            : (isReady ? "Ready!" : "Ready");
     }
 
     private void SyncChar()

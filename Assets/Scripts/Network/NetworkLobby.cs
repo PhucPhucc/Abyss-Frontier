@@ -7,7 +7,7 @@ public class NetworkLobby : NetworkBehaviour
     private string targetScene;
 
     private bool[] readyStates = new bool[4];
-    private int[] characterSelections = new int[4];
+    private int[] characterSelections = { -1, -1, -1, -1 };
 
     public static NetworkLobby Instance { get; private set; }
 
@@ -70,6 +70,16 @@ public class NetworkLobby : NetworkBehaviour
         {
             for (int i = 0; i < PlayerCount; i++)
                 if (!readyStates[i]) return false;
+            return true;
+        }
+    }
+
+    public bool AllCharactersSelected
+    {
+        get
+        {
+            for (int i = 0; i < PlayerCount; i++)
+                if (characterSelections[i] < 0) return false;
             return true;
         }
     }
@@ -142,6 +152,13 @@ public class NetworkLobby : NetworkBehaviour
     public void TryStartGame()
     {
         if (!Object.HasStateAuthority) return;
+
+        if (!AllCharactersSelected)
+        {
+            Debug.LogWarning("[NetworkLobby] Cannot start game until all players select a character.");
+            RPC_NotifyNotAllReady();
+            return;
+        }
 
         if (!AllReady)
         {

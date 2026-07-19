@@ -167,6 +167,9 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         OnRunnerStarted?.Invoke();
         CurrentRunner = runner;
+
+        if (!string.IsNullOrEmpty(targetSceneName))
+            await LoadGameScene(targetSceneName);
     }
 
     public async System.Threading.Tasks.Task LaunchAsClient(string sessionName)
@@ -309,7 +312,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         CurrentRunner = null;
     }
 
-    public async void LoadGameScene(string sceneName)
+    public async System.Threading.Tasks.Task LoadGameScene(string sceneName)
     {
         if (runner == null || !runner.IsRunning) return;
 
