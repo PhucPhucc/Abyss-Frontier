@@ -1,4 +1,5 @@
 using System.Collections;
+using Fusion;
 using UnityEngine;
 
 /// <summary>
@@ -306,6 +307,21 @@ public class BossController : MonoBehaviour
     private void TriggerVictoryUI()
     {
         Debug.Log($"[BossController] {bossDisplayName} đã bị tiêu diệt! Kích hoạt Victory UI...");
+
+        if (GameSessionData.IsMultiplayer)
+        {
+            // Trong multiplayer, Boss chỉ chạy trên Host (StateAuthority).
+            // Dùng bất kỳ NetworkPlayer nào để broadcast RPC tới ALL clients.
+            NetworkPlayer[] players = FindObjectsByType<NetworkPlayer>(FindObjectsSortMode.None);
+            if (players.Length > 0)
+            {
+                // Chỉ cần gửi 1 lần từ object có StateAuthority (Host đang chạy code này)
+                players[0].RPC_ShowVictory();
+                return;
+            }
+        }
+
+        // Singleplayer: gọi trực tiếp
         BossVictoryUI vicUI = FindFirstObjectByType<BossVictoryUI>(FindObjectsInactive.Include);
         if (vicUI != null)
             vicUI.ShowVictory();
