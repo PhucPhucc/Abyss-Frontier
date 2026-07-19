@@ -46,6 +46,21 @@ public class CinemachinePlayerTargetBinder : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private float _checkTimer = 0f;
+    private void Update()
+    {
+        if (cinemachineCamera != null && cinemachineCamera.Follow == null)
+        {
+            _checkTimer -= Time.unscaledDeltaTime;
+            if (_checkTimer <= 0f)
+            {
+                _checkTimer = 0.5f;
+                TryAssignPlayerTarget();
+            }
+        }
+    }
+
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         TryAssignPlayerTarget();

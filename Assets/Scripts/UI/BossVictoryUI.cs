@@ -56,24 +56,27 @@ public class BossVictoryUI : MonoBehaviour
         if (winPanel != null) winPanel.SetActive(false);
         Time.timeScale = 1f;
 
-        PlayerHealth player = FindFirstObjectByType<PlayerHealth>();
-        if (player == null)
+        string currentScene = SceneManager.GetActiveScene().name;
+        var launcher = FindFirstObjectByType<GameLauncher>();
+        
+        if (launcher != null)
         {
-            // Fallback: không tìm thấy player, đi qua GameLauncher để tránh mất spawn
-            var launcher = FindFirstObjectByType<GameLauncher>();
-            if (launcher != null)
-                _ = launcher.LaunchAsSingleplayer(SceneManager.GetActiveScene().name);
+            if (GameSessionData.IsMultiplayer)
+            {
+                if (GameSessionData.IsHost)
+                    _ = launcher.LaunchAsHost(currentScene, GameSessionData.SessionName);
+                else
+                    _ = launcher.LaunchAsClient(GameSessionData.SessionName);
+            }
             else
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            return;
+            {
+                _ = launcher.LaunchAsSingleplayer(currentScene);
+            }
         }
-
-        // Tìm SpawnPoint trong scene để đặt lại vị trí player
-        GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
-        if (spawnPoint != null)
-            player.transform.position = (Vector2)spawnPoint.transform.position + respawnOffset;
-
-        player.Respawn();
+        else
+        {
+            SceneManager.LoadScene(currentScene);
+        }
     }
 
     /// <summary>
