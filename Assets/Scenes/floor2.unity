@@ -183,14 +183,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -12.34552, y: 18.689104}
-      - {x: -12.406038, y: 2.3894005}
-      - {x: -26.534502, y: 2.589651}
-      - {x: -15.702106, y: -0.609241}
-      - {x: -16.397455, y: -4.7439184}
-      - {x: -12.823727, y: -3.0114317}
-      - {x: -0.611042, y: -1.6736345}
-      - {x: 5.099092, y: 18.754025}
+    - - {x: -12.877195, y: 2.8148756}
+      - {x: -26.609295, y: 2.693215}
+      - {x: -26.91427, y: 18.9196}
+      - {x: -35.2221, y: 18.986698}
+      - {x: -35.081955, y: -13.85831}
+      - {x: 5.556959, y: -13.9487}
+      - {x: 5.389263, y: 18.757792}
+      - {x: -12.825874, y: 18.754026}
   m_UseDelaunayMesh: 1
 --- !u!114 &36026870
 MonoBehaviour:
@@ -16623,6 +16623,10 @@ PrefabInstance:
     - target: {fileID: 8948683793210689672, guid: 6bff0b5bd616bc048bc300208542160d, type: 3}
       propertyPath: m_Name
       value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948683793210689672, guid: 6bff0b5bd616bc048bc300208542160d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
