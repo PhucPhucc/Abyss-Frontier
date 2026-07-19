@@ -179,8 +179,18 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.2}
-  m_Size: {x: 0.7, y: 0.5}
+  m_Offset: {x: 0.12933153, y: 0.00012394786}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.1875, y: 2.1875}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.9586631, y: 0.6410889}
+  m_EdgeRadius: 0
 --- !u!114 &11400001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,9 +205,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   enemyLevel: 1
   statsDefinition: {fileID: 11400000, guid: 1a1cb2e862a54674832b33faaefbf14d, type: 2}
+  saveId: 
   maxHealth: 80
   currentHealth: 0
-  destroyDelay: 2.0
+  destroyDelay: 2
   respawnOnDeath: 0
   respawnDelay: 5
   respawnAtInitialPosition: 1
@@ -219,7 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   bossDisplayName: Rat Boss
   triggerVictoryOnDeath: 0
-  introDuration: 1.0
+  introDuration: 1
   facingHitOffset: 0.5
   spriteFacesLeftByDefault: 0
   moveSpeed: 1.8
@@ -232,3 +243,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  detectionRange: 6
+  loseRange: 10
+  leashRadius: 8
+  homeStoppingDistance: 0.15
