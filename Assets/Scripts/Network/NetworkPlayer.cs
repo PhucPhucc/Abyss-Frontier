@@ -72,7 +72,7 @@ public class NetworkPlayer : NetworkBehaviour
             playerInput.enabled = !isMultiplayer;
 
         if (playerController != null)
-            playerController.IsControlledByNetwork = isMultiplayer;
+            playerController.IsControlledByNetwork = isMultiplayer && Object.HasStateAuthority && !Object.HasInputAuthority;
 
         if (playerCombat != null)
             playerCombat.UseNetworkInput = isMultiplayer;
@@ -138,9 +138,9 @@ public class NetworkPlayer : NetworkBehaviour
             playerController.MoveInput = input.movement;
             playerController.SetSprintInput(input.IsSprintSet);
 
-            // Áp dụng velocity ngay trong Fusion tick (chỉ cho local input authority).
-            // State authority mô phỏng cùng input để tất cả client nhìn cùng một state.
-            if (!playerController.IsDashing)
+            // Chỉ state authority của player remote mới cần mô phỏng physics ở Fusion tick.
+            // Local player chạy physics ở Unity FixedUpdate để mượt hơn.
+            if (Object.HasStateAuthority && !Object.HasInputAuthority && !playerController.IsDashing)
                 playerController.ApplyNetworkVelocity();
         }
 
