@@ -55,8 +55,6 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void Start()
     {
-        GameSessionData.ResetSession();
-
         EnsureLauncher();
         WireButtons();
         if (windowHost != null)
@@ -97,30 +95,31 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void OnRunnerStarted()
     {
-        if (connectionPanel != null) connectionPanel.SetActive(false);
-        if (windowHost != null) windowHost.SetActive(false);
-        if (hostBtn != null) hostBtn.gameObject.SetActive(false);
-        if (joinBtn != null) joinBtn.gameObject.SetActive(false);
-        if (backBtn != null) backBtn.gameObject.SetActive(false);
-        if (createBtn != null) createBtn.gameObject.SetActive(false);
-        if (refreshBtn != null) refreshBtn.gameObject.SetActive(false);
-        if (windowServerList != null) windowServerList.SetActive(false);
-
         HideLegacyMenuWindows();
 
-        if (choosePlayerPanel != null)
+        if (GameSessionData.SelectedCharacterPrefab == null)
         {
             ShowChoosePlayerPanel();
             return;
         }
 
-        Debug.LogWarning("[ServerUI] No ChoosePlayerPanel found, loading map directly.");
-        if (GameSessionData.IsHost)
-        {
-            var l = FindFirstObjectByType<GameLauncher>();
-            if (l != null)
-                l.LoadGameScene(GameSessionData.SelectedMapScene);
-        }
+        ShowConnectionPanel();
+    }
+
+    private void ShowConnectionPanel()
+    {
+        if (connectionPanel != null) connectionPanel.SetActive(true);
+        if (hostBtn != null) hostBtn.gameObject.SetActive(true);
+        if (joinBtn != null) joinBtn.gameObject.SetActive(true);
+        if (backBtn != null) backBtn.gameObject.SetActive(true);
+        if (createBtn != null) createBtn.gameObject.SetActive(false);
+        if (refreshBtn != null) refreshBtn.gameObject.SetActive(false);
+        if (windowHost != null) windowHost.SetActive(false);
+        if (windowJoin != null) windowJoin.SetActive(false);
+        if (windowServerList != null) windowServerList.SetActive(false);
+
+        if (choosePlayerPanel != null)
+            choosePlayerPanel.SetActive(false);
     }
 
     public void ShowLobbyAfterCharacterSelect()
@@ -139,19 +138,7 @@ public class ServerConnectionUI : MonoBehaviour
         else
         {
             Debug.LogWarning("[ServerUI] LobbyUI not found in scene.");
-            if (GameSessionData.IsHost)
-            {
-                var l = FindFirstObjectByType<GameLauncher>();
-                if (l != null)
-                {
-                    Debug.Log($"[ServerUI] Fallback: Host loading map directly: {GameSessionData.SelectedMapScene}");
-                    l.LoadGameScene(GameSessionData.SelectedMapScene);
-                }
-            }
-            else
-            {
-                Debug.Log("[ServerUI] Client ready, waiting for host to load map...");
-            }
+            Debug.Log("[ServerUI] Waiting for lobby UI; game will not bypass character selection.");
         }
     }
 
@@ -244,7 +231,7 @@ public class ServerConnectionUI : MonoBehaviour
         var canvas = GetComponentInParent<Canvas>();
         Transform parent = canvas != null ? canvas.transform : transform;
 
-        windowJoin = new GameObject("WindowJoin", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        windowJoin = new GameObject("WindowJoin", typeof(CanvasRenderer), typeof(Image));
         windowJoin.transform.SetParent(parent, false);
 
         var rootRect = windowJoin.GetComponent<RectTransform>();
@@ -261,7 +248,7 @@ public class ServerConnectionUI : MonoBehaviour
             new Vector2(0, 100), new Vector2(440, 50), 28, TextAlignmentOptions.Center);
 
         // Session name input
-        var inputObj = new GameObject("SessionNameInput", typeof(Image), typeof(TMP_InputField), typeof(RectTransform));
+        var inputObj = new GameObject("SessionNameInput", typeof(Image), typeof(TMP_InputField));
         inputObj.transform.SetParent(windowJoin.transform, false);
         var inputRect = inputObj.GetComponent<RectTransform>();
         inputRect.anchorMin = new Vector2(0.5f, 0.5f);
@@ -423,6 +410,12 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void OnHostClicked()
     {
+        if (GameSessionData.SelectedCharacterPrefab == null)
+        {
+            ShowValidationMessage("Choose a character before hosting.");
+            return;
+        }
+
         pendingAction = PendingAction.Host;
         if (windowHost != null)
             windowHost.SetActive(true);
@@ -430,6 +423,12 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void OnJoinClicked()
     {
+        if (GameSessionData.SelectedCharacterPrefab == null)
+        {
+            ShowValidationMessage("Choose a character before joining.");
+            return;
+        }
+
         if (windowJoin != null)
         {
             pendingAction = PendingAction.Join;
@@ -439,6 +438,12 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void OnCreateClicked()
     {
+        if (GameSessionData.SelectedCharacterPrefab == null)
+        {
+            ShowValidationMessage("Choose a character before continuing.");
+            return;
+        }
+
         string sessionName = GetSessionName();
 
         if (!GameSessionData.TryValidateSessionName(sessionName, out string validatedSessionName, out string validationError))
@@ -522,7 +527,7 @@ public class ServerConnectionUI : MonoBehaviour
             new Vector2(0, 250), new Vector2(500, 50), 30, TextAlignmentOptions.Center);
 
         // Back button
-        var backObj = new GameObject("BackBtn", typeof(Image), typeof(Button), typeof(RectTransform));
+        var backObj = new GameObject("BackBtn", typeof(Image), typeof(Button));
         backObj.transform.SetParent(windowServerList.transform, false);
         var backRect = backObj.GetComponent<RectTransform>();
         backRect.anchorMin = new Vector2(0, 1);
@@ -536,7 +541,7 @@ public class ServerConnectionUI : MonoBehaviour
         CreateTMP(backObj.transform, "Label", "Quay lại", Vector2.zero, new Vector2(100, 40), 18, TextAlignmentOptions.Center, true);
 
         // Refresh button
-        var refreshObj = new GameObject("RefreshBtn", typeof(Image), typeof(Button), typeof(RectTransform));
+        var refreshObj = new GameObject("RefreshBtn", typeof(Image), typeof(Button));
         refreshObj.transform.SetParent(windowServerList.transform, false);
         var refreshRect = refreshObj.GetComponent<RectTransform>();
         refreshRect.anchorMin = new Vector2(1, 1);
@@ -550,7 +555,7 @@ public class ServerConnectionUI : MonoBehaviour
         CreateTMP(refreshObj.transform, "Label", "Làm mới", Vector2.zero, new Vector2(120, 40), 18, TextAlignmentOptions.Center, true);
 
         // Scroll view for session list
-        var scrollObj = new GameObject("SessionScroll", typeof(Image), typeof(RectTransform));
+        var scrollObj = new GameObject("SessionScroll", typeof(Image));
         scrollObj.transform.SetParent(windowServerList.transform, false);
         var scrollRect = scrollObj.GetComponent<RectTransform>();
         scrollRect.anchorMin = new Vector2(0.05f, 0.08f);
@@ -563,7 +568,7 @@ public class ServerConnectionUI : MonoBehaviour
         scroll.horizontal = false;
         scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
 
-        var contentObj = new GameObject("Content", typeof(RectTransform), typeof(ContentSizeFitter));
+        var contentObj = new GameObject("Content", typeof(ContentSizeFitter));
         contentObj.transform.SetParent(scrollObj.transform, false);
         var contentRect = contentObj.GetComponent<RectTransform>();
         contentRect.anchorMin = new Vector2(0, 1);
@@ -584,7 +589,7 @@ public class ServerConnectionUI : MonoBehaviour
         scroll.content = contentRect;
 
         // Scrollbar
-        var scrollbarObj = new GameObject("Scrollbar", typeof(Image), typeof(Scrollbar), typeof(RectTransform));
+        var scrollbarObj = new GameObject("Scrollbar", typeof(Image), typeof(Scrollbar));
         scrollbarObj.transform.SetParent(scrollObj.transform, false);
         var sbRect = scrollbarObj.GetComponent<RectTransform>();
         sbRect.anchorMin = new Vector2(1, 0);
@@ -596,7 +601,7 @@ public class ServerConnectionUI : MonoBehaviour
         var scrollbar = scrollbarObj.GetComponent<Scrollbar>();
         scrollbar.direction = Scrollbar.Direction.BottomToTop;
 
-        var sbHandle = new GameObject("Handle", typeof(Image), typeof(RectTransform));
+        var sbHandle = new GameObject("Handle", typeof(Image));
         sbHandle.transform.SetParent(scrollbarObj.transform, false);
         var sbHandleRect = sbHandle.GetComponent<RectTransform>();
         sbHandleRect.anchorMin = Vector2.zero;
@@ -648,7 +653,7 @@ public class ServerConnectionUI : MonoBehaviour
 
     private void CreateSessionEntry(SessionInfo session)
     {
-        var entryObj = new GameObject($"Session_{session.Name}", typeof(Image), typeof(Button), typeof(RectTransform), typeof(LayoutElement));
+        var entryObj = new GameObject($"Session_{session.Name}", typeof(Image), typeof(Button), typeof(LayoutElement));
         entryObj.transform.SetParent(sessionListContent, false);
 
         var entryImg = entryObj.GetComponent<Image>();
@@ -672,7 +677,7 @@ public class ServerConnectionUI : MonoBehaviour
             new Vector2(180, 0), new Vector2(120, 40), 18, TextAlignmentOptions.MidlineRight, true);
 
         // Join button
-        var joinBtnObj = new GameObject("JoinBtn", typeof(Image), typeof(Button), typeof(RectTransform));
+        var joinBtnObj = new GameObject("JoinBtn", typeof(Image), typeof(Button));
         joinBtnObj.transform.SetParent(entryObj.transform, false);
         var joinRect = joinBtnObj.GetComponent<RectTransform>();
         joinRect.anchorMin = new Vector2(1, 0.5f);
@@ -737,7 +742,7 @@ public class ServerConnectionUI : MonoBehaviour
         var canvas = GetComponentInParent<Canvas>();
         Transform parent = canvas != null ? canvas.transform : transform;
 
-        disconnectOverlay = new GameObject("DisconnectOverlay", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        disconnectOverlay = new GameObject("DisconnectOverlay", typeof(CanvasRenderer), typeof(Image));
         disconnectOverlay.transform.SetParent(parent, false);
 
         var rootRect = disconnectOverlay.GetComponent<RectTransform>();
@@ -750,7 +755,7 @@ public class ServerConnectionUI : MonoBehaviour
         overlay.color = new Color(0f, 0f, 0f, 0.7f);
         overlay.raycastTarget = true;
 
-        var panelObj = new GameObject("Panel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        var panelObj = new GameObject("Panel", typeof(CanvasRenderer), typeof(Image));
         panelObj.transform.SetParent(disconnectOverlay.transform, false);
 
         var panelRect = panelObj.GetComponent<RectTransform>();
@@ -822,7 +827,7 @@ public class ServerConnectionUI : MonoBehaviour
         var canvas = GetComponentInParent<Canvas>();
         Transform parent = canvas != null ? canvas.transform : transform;
 
-        validationBannerRoot = new GameObject("ValidationBanner", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        validationBannerRoot = new GameObject("ValidationBanner", typeof(CanvasRenderer), typeof(Image));
         validationBannerRoot.transform.SetParent(parent, false);
 
         var rootRect = validationBannerRoot.GetComponent<RectTransform>();
@@ -835,7 +840,7 @@ public class ServerConnectionUI : MonoBehaviour
         overlay.color = new Color(0f, 0f, 0f, 0.55f);
         overlay.raycastTarget = true;
 
-        var panelObj = new GameObject("Panel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        var panelObj = new GameObject("Panel", typeof(CanvasRenderer), typeof(Image));
         panelObj.transform.SetParent(validationBannerRoot.transform, false);
 
         var panelRect = panelObj.GetComponent<RectTransform>();
@@ -848,7 +853,7 @@ public class ServerConnectionUI : MonoBehaviour
         var panelImage = panelObj.GetComponent<Image>();
         panelImage.color = new Color(0.16f, 0.14f, 0.12f, 1f);
 
-        var messageObj = new GameObject("ValidationMessage", typeof(RectTransform), typeof(Text));
+        var messageObj = new GameObject("ValidationMessage", typeof(Text));
         messageObj.transform.SetParent(panelObj.transform, false);
 
         var messageRect = messageObj.GetComponent<RectTransform>();
@@ -864,7 +869,7 @@ public class ServerConnectionUI : MonoBehaviour
         validationMessageText.color = Color.white;
         validationMessageText.text = string.Empty;
 
-        var buttonObj = new GameObject("OkButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        var buttonObj = new GameObject("OkButton", typeof(CanvasRenderer), typeof(Image), typeof(Button));
         buttonObj.transform.SetParent(panelObj.transform, false);
 
         var buttonRect = buttonObj.GetComponent<RectTransform>();
@@ -881,7 +886,7 @@ public class ServerConnectionUI : MonoBehaviour
         validationDismissButton.targetGraphic = buttonImage;
         validationDismissButton.onClick.AddListener(HideValidationMessageNow);
 
-        var buttonTextObj = new GameObject("Label", typeof(RectTransform), typeof(Text));
+        var buttonTextObj = new GameObject("Label", typeof(Text));
         buttonTextObj.transform.SetParent(buttonObj.transform, false);
 
         var buttonTextRect = buttonTextObj.GetComponent<RectTransform>();
@@ -963,7 +968,7 @@ public class ServerConnectionUI : MonoBehaviour
     private Button CreateButton(Transform parent, string objName, string label,
         Vector2 pos, Vector2 size, Color bgColor)
     {
-        var go = new GameObject(objName, typeof(Image), typeof(Button), typeof(RectTransform));
+        var go = new GameObject(objName, typeof(Image), typeof(Button));
         go.transform.SetParent(parent, false);
         var rect = go.GetComponent<RectTransform>();
         rect.anchorMin = new Vector2(0.5f, 0.5f);

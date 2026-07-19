@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
@@ -43,6 +44,9 @@ public class WaveSpawnManager : MonoBehaviour
 
     void Start()
     {
+        if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
+            return;
+
         if (waves.Count == 0)
         {
             Debug.LogError("Chưa cấu hình danh sách Waves trong Inspector!");
@@ -58,6 +62,9 @@ public class WaveSpawnManager : MonoBehaviour
 
     void Update()
     {
+        if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
+            return;
+
         if (isWaveActive)
         {
             CheckWaveProgress();
@@ -117,13 +124,43 @@ public class WaveSpawnManager : MonoBehaviour
 
         List<Vector3> availablePositions = new List<Vector3>(validSpawnPositions);
         int spawnCount = Mathf.Min(config.itemsPerWave, availablePositions.Count);
+        bool multiplayer = GameSessionData.IsMultiplayer;
+        NetworkRunner runner = multiplayer ? GameLauncher.CurrentRunner : null;
 
         for (int i = 0; i < spawnCount; i++)
         {
             int randomIndex = Random.Range(0, availablePositions.Count);
             Vector3 spawnPos = availablePositions[randomIndex];
 
-            GameObject spawnedItem = Instantiate(config.itemPrefab, spawnPos, Quaternion.identity);
+            GameObject spawnedItem;
+            if (multiplayer)
+            {
+                if (runner == null || !runner.IsServer)
+                {
+                    Debug.LogError("[WaveSpawnManager] Multiplayer item spawn requires an active server runner.");
+                    return;
+                }
+
+                if (!config.itemPrefab.TryGetComponent<NetworkObject>(out var networkPrefab))
+                {
+                    Debug.LogError($"[WaveSpawnManager] Prefab '{config.itemPrefab.name}' needs NetworkObject for multiplayer spawn.");
+                    return;
+                }
+
+                NetworkSpawnOp spawnOp = runner.SpawnAsync(networkPrefab, spawnPos, Quaternion.identity);
+                spawnedItem = spawnOp.Object != null ? spawnOp.Object.gameObject : null;
+            }
+            else
+            {
+                spawnedItem = Instantiate(config.itemPrefab, spawnPos, Quaternion.identity);
+            }
+
+            if (spawnedItem == null)
+            {
+                Debug.LogError($"[WaveSpawnManager] Failed to spawn item prefab '{config.itemPrefab.name}'.");
+                continue;
+            }
+
             activeItems.Add(spawnedItem);
 
             availablePositions.RemoveAt(randomIndex);
@@ -135,6 +172,9 @@ public class WaveSpawnManager : MonoBehaviour
     private void StartFinalBossEncounter()
     {
         if (!spawnBossAfterFinalWave || bossEncounterStarted)
+            return;
+
+        if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
             return;
 
         if (bossSlimePrefab == null)
@@ -152,7 +192,40 @@ public class WaveSpawnManager : MonoBehaviour
         }
 
         Transform spawnTransform = bossSpawnPoint != null ? bossSpawnPoint : transform;
-        GameObject spawnedBoss = Instantiate(bossSlimePrefab, spawnTransform.position, spawnTransform.rotation);
+
+        GameObject spawnedBoss;
+        if (GameSessionData.IsMultiplayer)
+        {
+            NetworkRunner runner = GameLauncher.CurrentRunner;
+            if (runner == null || !runner.IsServer)
+            {
+                Debug.LogError("BossSlime spawn requires an active server runner in multiplayer.");
+                bossEncounterStarted = false;
+                return;
+            }
+
+            if (!bossSlimePrefab.TryGetComponent<NetworkObject>(out var networkPrefab))
+            {
+                Debug.LogError("BossSlime prefab must have a NetworkObject component for multiplayer spawn.");
+                bossEncounterStarted = false;
+                return;
+            }
+
+            NetworkSpawnOp spawnOp = runner.SpawnAsync(networkPrefab, spawnTransform.position, spawnTransform.rotation);
+            spawnedBoss = spawnOp.Object != null ? spawnOp.Object.gameObject : null;
+        }
+        else
+        {
+            spawnedBoss = Instantiate(bossSlimePrefab, spawnTransform.position, spawnTransform.rotation);
+        }
+
+        if (spawnedBoss == null)
+        {
+            Debug.LogError("Failed to spawn BossSlime.");
+            bossEncounterStarted = false;
+            return;
+        }
+
         spawnedBossHealth = spawnedBoss.GetComponent<EnemyHealth>();
 
         if (spawnedBossHealth == null)

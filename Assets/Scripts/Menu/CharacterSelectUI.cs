@@ -22,7 +22,12 @@ public class CharacterSelectUI : MonoBehaviour
     private void OnEnable()
     {
         RegisterButtonHandlers();
-        SelectCharacter(HasCharacters ? Mathf.Clamp(selectedIndex, 0, characterDataArray.Length - 1) : -1);
+        if (HasValidSelection)
+            UpdatePreview(characterDataArray[selectedIndex]);
+        else
+            UpdatePreview(null);
+
+        UpdateButtonStates();
     }
 
     private void OnDisable()
@@ -38,6 +43,12 @@ public class CharacterSelectUI : MonoBehaviour
             return;
         }
 
+        if (!HasValidSelection)
+        {
+            SelectCharacter(characterDataArray.Length - 1);
+            return;
+        }
+
         SelectCharacter(WrapIndex(selectedIndex - 1));
     }
 
@@ -46,6 +57,12 @@ public class CharacterSelectUI : MonoBehaviour
         if (!HasCharacters)
         {
             SelectCharacter(-1);
+            return;
+        }
+
+        if (!HasValidSelection)
+        {
+            SelectCharacter(0);
             return;
         }
 
@@ -83,15 +100,14 @@ public class CharacterSelectUI : MonoBehaviour
 
         if (GameSessionData.IsMultiplayer)
         {
-            var serverUi = FindFirstServerConnectionUI();
-            if (serverUi != null)
+            if (FlowController != null)
             {
-                Debug.Log("[CharacterSelectUI] Multiplayer mode — switching to lobby UI.");
-                serverUi.ShowLobbyAfterCharacterSelect();
+                Debug.Log("[CharacterSelectUI] Multiplayer mode — opening server scene after character selection.");
+                FlowController.OpenServerScene();
                 return;
             }
 
-            Debug.LogWarning("[CharacterSelectUI] ServerConnectionUI not found in multiplayer mode.");
+            Debug.LogWarning("[CharacterSelectUI] MenuFlowController not found in multiplayer mode.");
             return;
         }
 
@@ -102,12 +118,6 @@ public class CharacterSelectUI : MonoBehaviour
         }
 
         Debug.LogWarning("[CharacterSelectUI] No MenuFlowController and not multiplayer.");
-    }
-
-    private ServerConnectionUI FindFirstServerConnectionUI()
-    {
-        var serverUis = FindObjectsByType<ServerConnectionUI>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        return serverUis != null && serverUis.Length > 0 ? serverUis[0] : null;
     }
 
     private bool HasCharacters => characterDataArray != null && characterDataArray.Length > 0;
@@ -140,7 +150,6 @@ public class CharacterSelectUI : MonoBehaviour
 
     private void UpdateButtonStates()
     {
-        bool canPick = HasCharacters;
         bool canCycle = characterDataArray != null && characterDataArray.Length > 1;
 
         if (previousButton != null)
@@ -150,7 +159,7 @@ public class CharacterSelectUI : MonoBehaviour
             nextButton.interactable = canCycle;
 
         if (confirmButton != null)
-            confirmButton.interactable = canPick;
+            confirmButton.interactable = HasValidSelection;
     }
 
     private string GetDisplayName(CharacterData characterData)

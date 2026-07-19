@@ -18,12 +18,13 @@ public class NetworkPlayer : NetworkBehaviour
 
     private float attackCooldownTimer;
     private float attackHitPendingTimer;
+    private bool isMultiplayer;
 
-    // Networked position để sync vị trí tới remote clients.
+    // Networked state để sync vị trí và animation tới remote clients.
     [Networked] private Vector2 NetworkedPosition { get; set; }
-
-    // Networked animation params để remote clients render đúng animation.
     [Networked] private Vector2 NetworkedMoveInput { get; set; }
+    [Networked] private Vector2 NetworkedLastDirection { get; set; }
+    [Networked] private NetworkBool NetworkedSprintPressed { get; set; }
     [Networked] private NetworkBool NetworkedIsMoving { get; set; }
 
     // ── RPCs: Damage ──────────────────────────────────────────────────────────
@@ -31,10 +32,22 @@ public class NetworkPlayer : NetworkBehaviour
     /// <summary>
     /// Host gửi damage về đúng client sở hữu player.
     /// </summary>
-    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_TakeDamage(int damage)
     {
         playerHealth?.TakeDamage(damage);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_RequestRespawn(Vector2 respawnPosition)
+    {
+        if (rb != null)
+        {
+            rb.position = respawnPosition;
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        playerHealth?.Respawn();
     }
 
     // ── RPCs: Win (Boss chết) ─────────────────────────────────────────────────
@@ -72,7 +85,6 @@ public class NetworkPlayer : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_ShowLose()
     {
-        // Tìm PlayerHealth của local player để DeathScreenUI có thể dùng
         PlayerHealth localPlayerHealth = FindLocalPlayerHealth();
         DeathScreenUI screen = FindFirstObjectByType<DeathScreenUI>(FindObjectsInactive.Include);
         if (screen != null)
@@ -111,7 +123,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void Spawned()
     {
-        bool isNetworkedMultiplayer = Runner != null &&
+        isMultiplayer = Runner != null &&
             Runner.GameMode != GameMode.Single &&
             Runner.GameMode != GameMode.Shared;
 
@@ -120,13 +132,19 @@ public class NetworkPlayer : NetworkBehaviour
             nt.enabled = false;
 
         if (playerInput != null)
-            playerInput.enabled = !isNetworkedMultiplayer;
+            playerInput.enabled = !isMultiplayer;
 
         if (playerController != null)
-            playerController.IsControlledByNetwork = isNetworkedMultiplayer;
+            playerController.IsControlledByNetwork = isMultiplayer && Object.HasStateAuthority && !Object.HasInputAuthority;
 
         if (playerCombat != null)
-            playerCombat.UseNetworkInput = isNetworkedMultiplayer;
+            playerCombat.UseNetworkInput = isMultiplayer;
+
+        if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.linearVelocity = Vector2.zero;
+        }
 
         if (Object.HasInputAuthority)
         {
@@ -134,7 +152,7 @@ public class NetworkPlayer : NetworkBehaviour
 
             // Lắng nghe sự kiện chết của local player
             // Khi chết → gửi RPC lên Host → Host broadcast Lose cho tất cả
-            if (isNetworkedMultiplayer && playerHealth != null)
+            if (isMultiplayer && playerHealth != null)
                 playerHealth.Died += OnLocalPlayerDied;
         }
     }
@@ -192,94 +210,116 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        // Singleplayer / Shared: PlayerInput và Unity FixedUpdate tự xử lý
         if (Runner != null && (Runner.GameMode == GameMode.Single || Runner.GameMode == GameMode.Shared))
             return;
 
-        if (Object.HasInputAuthority)
+        if (!Object.HasInputAuthority)
+            return;
+
+        if (!GetInput<NetworkInputData>(out var input))
+            return;
+
+        // Áp input di chuyển
+        if (playerController != null)
         {
-            if (GetInput<NetworkInputData>(out var input))
+            playerController.MoveInput = input.movement;
+            playerController.SetSprintInput(input.IsSprintSet);
+
+            if (!playerController.IsDashing)
+                playerController.ApplyNetworkVelocity();
+        }
+
+        // Dodge
+        if (input.IsDodgeSet && playerDash != null)
+            playerDash.TryDash();
+
+        // Attack cooldown timers
+        if (attackCooldownTimer > 0f)
+            attackCooldownTimer -= Runner.DeltaTime;
+
+        // Delayed attack damage
+        if (attackHitPendingTimer > 0f)
+        {
+            attackHitPendingTimer -= Runner.DeltaTime;
+            if (attackHitPendingTimer <= 0f && playerCombat != null)
             {
-                if (playerController != null)
-                {
-                    playerController.MoveInput = input.movement;
-                    playerController.SetSprintInput(input.IsSprintSet);
-
-                    if (!playerController.IsDashing)
-                        playerController.ApplyNetworkVelocity();
-                }
-
-                if (input.IsDodgeSet && playerDash != null)
-                    playerDash.TryDash();
-
-                if (attackCooldownTimer > 0f)
-                    attackCooldownTimer -= Runner.DeltaTime;
-
-                if (attackHitPendingTimer > 0f)
-                {
-                    attackHitPendingTimer -= Runner.DeltaTime;
-                    if (attackHitPendingTimer <= 0f && playerCombat != null)
-                    {
-                        Debug.Log("[NetworkPlayer] TriggerAttackDamage trên InputAuthority");
-                        playerCombat.TriggerAttackDamage(isHostPlayer: Object.HasStateAuthority);
-                    }
-                }
-
-                if (input.IsAttackSet && attackCooldownTimer <= 0f)
-                {
-                    attackCooldownTimer = 0.5f;
-                    attackHitPendingTimer = 0.2f;
-                    if (playerCombat != null)
-                        playerCombat.SetAttackCooldown(0.5f);
-
-                    playerCombat.TriggerAttackAnimationOnly();
-
-                    if (Object.HasStateAuthority)
-                        RPC_PlayAttackAnimation();
-                    else
-                        RPC_RequestAttackBroadcast();
-                }
+                Debug.Log("[NetworkPlayer] TriggerAttackDamage trên InputAuthority");
+                playerCombat.TriggerAttackDamage(isHostPlayer: Object.HasStateAuthority);
             }
+        }
 
-            // Sync vị trí lên mạng
-            if (Object.HasStateAuthority && rb != null)
+        // Attack trigger
+        if (input.IsAttackSet && attackCooldownTimer <= 0f)
+        {
+            attackCooldownTimer = 0.5f;
+            attackHitPendingTimer = 0.2f;
+            if (playerCombat != null)
+                playerCombat.SetAttackCooldown(0.5f);
+
+            playerCombat.TriggerAttackAnimationOnly();
+
+            if (Object.HasStateAuthority)
+                RPC_PlayAttackAnimation();
+            else
+                RPC_RequestAttackBroadcast();
+        }
+
+        // Sync vị trí và animation state lên network
+        if (Object.HasStateAuthority && rb != null)
+        {
+            NetworkedPosition = rb.position;
+            if (playerController != null)
             {
-                NetworkedPosition = rb.position;
-                if (playerController != null)
-                {
-                    NetworkedMoveInput = playerController.MoveInput;
-                    NetworkedIsMoving = playerController.IsMoving;
-                }
+                NetworkedMoveInput = playerController.MoveInput;
+                NetworkedLastDirection = playerController.LastDirection;
+                NetworkedSprintPressed = playerController.IsSprinting;
+                NetworkedIsMoving = playerController.IsMoving;
             }
-            else if (!Object.HasStateAuthority && rb != null)
-            {
-                RPC_SyncPositionToHost(rb.position,
-                    playerController != null ? playerController.MoveInput : Vector2.zero,
-                    playerController != null && playerController.IsMoving);
-            }
+        }
+        else if (!Object.HasStateAuthority && rb != null)
+        {
+            RPC_SyncPositionToHost(rb.position,
+                playerController != null ? playerController.MoveInput : Vector2.zero,
+                playerController != null ? playerController.LastDirection : Vector2.zero,
+                playerController != null && playerController.IsSprinting,
+                playerController != null && playerController.IsMoving);
         }
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SyncPositionToHost(Vector2 position, Vector2 moveInput, NetworkBool isMoving)
+    private void RPC_SyncPositionToHost(Vector2 position, Vector2 moveInput, Vector2 lastDirection,
+        NetworkBool isSprinting, NetworkBool isMoving)
     {
         NetworkedPosition = position;
         NetworkedMoveInput = moveInput;
+        NetworkedLastDirection = lastDirection;
+        NetworkedSprintPressed = isSprinting;
         NetworkedIsMoving = isMoving;
     }
 
     public override void Render()
     {
-        if (!Object.HasInputAuthority && rb != null)
-        {
+        // Remote proxy: nhận state từ host để animation / hướng nhìn bám theo network state.
+        if (Object.HasInputAuthority)
+            return;
+
+        if (rb != null)
             rb.position = NetworkedPosition;
 
-            if (playerController != null)
-                playerController.MoveInput = NetworkedMoveInput;
+        if (playerController != null)
+        {
+            playerController.MoveInput = NetworkedMoveInput;
+            playerController.SetSprintInput(NetworkedSprintPressed);
+            playerController.SetLastDirection(NetworkedLastDirection);
         }
     }
 
     // ── Attack RPCs ───────────────────────────────────────────────────────────
 
+    /// <summary>
+    /// Client (InputAuthority) gửi lên Server để server broadcast animation tấn công cho tất cả.
+    /// </summary>
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void RPC_RequestAttackBroadcast()
     {
@@ -289,6 +329,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_PlayAttackAnimation()
     {
+        // Chỉ chạy animation cho remote clients, không chạy cho local InputAuthority
         if (!Object.HasInputAuthority && playerCombat != null)
             playerCombat.TriggerAttackAnimationOnly();
     }

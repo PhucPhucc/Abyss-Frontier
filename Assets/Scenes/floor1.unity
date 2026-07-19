@@ -232,6 +232,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6100000, guid: 848b97a604174e588a97f3cd25388127, type: 3}
+      propertyPath: m_Size.x
+      value: 0.83485913
+      objectReference: {fileID: 0}
+    - target: {fileID: 6100000, guid: 848b97a604174e588a97f3cd25388127, type: 3}
+      propertyPath: m_Size.y
+      value: 0.43028075
+      objectReference: {fileID: 0}
+    - target: {fileID: 6100000, guid: 848b97a604174e588a97f3cd25388127, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.1150375
+      objectReference: {fileID: 0}
+    - target: {fileID: 6100000, guid: 848b97a604174e588a97f3cd25388127, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.36472616
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 848b97a604174e588a97f3cd25388127, type: 3}
+      propertyPath: triggerVictoryOnDeath
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 848b97a604174e588a97f3cd25388127, type: 3}
       propertyPath: triggerVictoryOnDeath
       value: 1
@@ -35535,6 +35555,14 @@ PrefabInstance:
     - target: {fileID: 400000, guid: bffad672b1104541a1bfbb46df31e634, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6100000, guid: bffad672b1104541a1bfbb46df31e634, type: 3}
+      propertyPath: m_Size.y
+      value: 0.55177087
+      objectReference: {fileID: 0}
+    - target: {fileID: 6100000, guid: bffad672b1104541a1bfbb46df31e634, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.015260488
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

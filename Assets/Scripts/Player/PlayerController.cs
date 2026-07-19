@@ -46,11 +46,7 @@ public class PlayerController : CharacterMotor
 
     private void Start()
     {
-        if (playerStats != null)
-        {
-            MoveSpeed = playerStats.MoveSpeed;
-            sprintSpeed = MoveSpeed * 2f;
-        }
+        RefreshStats();
     }
 
     public void RefreshStats()
@@ -61,6 +57,9 @@ public class PlayerController : CharacterMotor
             sprintSpeed = MoveSpeed * 2f;
         }
     }
+
+    private float EffectiveMoveSpeed => playerStats != null ? playerStats.MoveSpeed : MoveSpeed;
+    private float EffectiveSprintSpeed => playerStats != null ? playerStats.MoveSpeed * 2f : sprintSpeed;
 
     /// <summary>
     /// Gọi bởi NetworkPlayer.FixedUpdateNetwork để áp dụng velocity ngay trong Fusion tick.
@@ -152,7 +151,7 @@ public class PlayerController : CharacterMotor
 
     protected override Vector2 GetVelocity()
     {
-        return MoveInput * (isSprinting ? sprintSpeed : MoveSpeed);
+        return MoveInput * (isSprinting ? EffectiveSprintSpeed : EffectiveMoveSpeed);
     }
 
     protected override void FixedUpdate()

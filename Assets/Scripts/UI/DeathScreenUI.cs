@@ -117,30 +117,51 @@ public class DeathScreenUI : MonoBehaviour
         else
         {
             // ── Singleplayer: respawn hoặc reload scene ───────────────────────
+
+            // Ưu tiên 1: hồi sinh tại Base_Camp nếu có trong scene
             Base_Camp baseCamp = FindFirstObjectByType<Base_Camp>();
-            if (baseCamp != null && playerHealth != null)
+            if (baseCamp != null)
             {
-                playerHealth.transform.position = (Vector2)baseCamp.transform.position + respawnOffset;
-                playerHealth.Respawn();
+                RespawnPlayer((Vector2)baseCamp.transform.position + respawnOffset);
                 return;
             }
 
+            // Ưu tiên 2: hồi sinh tại SpawnPoint nếu có
             if (playerHealth != null)
             {
-                GameObject sp = GameObject.FindGameObjectWithTag(spawnPointTag);
-                if (sp != null)
-                    playerHealth.transform.position = (Vector2)sp.transform.position + respawnOffset;
-                playerHealth.Respawn();
+                GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
+                Vector2 respawnPosition = spawnPoint != null
+                    ? (Vector2)spawnPoint.transform.position + respawnOffset
+                    : (Vector2)playerHealth.transform.position;
+                RespawnPlayer(respawnPosition);
                 return;
             }
 
-            // Fallback: reload scene
+            // Fallback: không tìm thấy player, reload scene
             var launcher = FindFirstObjectByType<GameLauncher>();
             if (launcher != null)
                 _ = launcher.LaunchAsSingleplayer(SceneManager.GetActiveScene().name);
             else
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
+
+    private void RespawnPlayer(Vector2 respawnPosition)
+    {
+        if (playerHealth == null)
+            return;
+
+        NetworkPlayer networkPlayer = playerHealth.GetComponent<NetworkPlayer>()
+            ?? playerHealth.GetComponentInParent<NetworkPlayer>();
+
+        if (GameSessionData.IsMultiplayer && networkPlayer != null)
+        {
+            networkPlayer.RPC_RequestRespawn(respawnPosition);
+            return;
+        }
+
+        playerHealth.transform.position = respawnPosition;
+        playerHealth.Respawn();
     }
 
     // ── Button: Close (về menu) ───────────────────────────────────────────────

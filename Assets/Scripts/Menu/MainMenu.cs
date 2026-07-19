@@ -305,7 +305,15 @@ public class MainMenu : MonoBehaviour
     public void ExitGame()
     {
         if (ConfirmPanel != null)
+        {
             ConfirmPanel.SetActive(true);
+            return;
+        }
+
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     public void ConfirmExitByYes()
