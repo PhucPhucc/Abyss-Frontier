@@ -24,7 +24,7 @@ public static class GameSessionData
         SelectedMapScene = "floor1";
         IsMultiplayer = false;
         IsHost = true;
-        SelectedCharacterIndex = 0;
+        SelectedCharacterIndex = -1;
         SelectedCharacterPrefab = null;
         SessionName = "AbyssFrontier";
     }

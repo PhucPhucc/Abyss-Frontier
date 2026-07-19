@@ -79,7 +79,8 @@ public class MenuFlowController : MonoBehaviour
         if (modeIndex == 1)
         {
             GameSessionData.IsMultiplayer = true;
-            LoadServerScene();
+            GameSessionData.IsHost = false;
+            OnPlayModeNextClicked();
         }
         else
         {
@@ -93,7 +94,8 @@ public class MenuFlowController : MonoBehaviour
         if (isMultiplayer)
         {
             GameSessionData.IsMultiplayer = true;
-            LoadServerScene();
+            GameSessionData.IsHost = false;
+            OnPlayModeNextClicked();
         }
         else
         {
@@ -102,7 +104,7 @@ public class MenuFlowController : MonoBehaviour
         }
     }
 
-    private void LoadServerScene()
+    public void OpenServerScene()
     {
         SceneManager.LoadScene("Scene-Server");
     }
@@ -144,6 +146,10 @@ public class MenuFlowController : MonoBehaviour
         {
             ShowOnlyPanel(characterSelectPanel);
         }
+        else if (GameSessionData.IsMultiplayer)
+        {
+            OpenServerScene();
+        }
         else
         {
             Debug.LogWarning("[MenuFlow] CharacterSelectPanel not assigned! Starting game...");
@@ -181,6 +187,12 @@ public class MenuFlowController : MonoBehaviour
     public void StartGame()
     {
         string scene = GameSessionData.SelectedMapScene;
+
+        if (GameSessionData.SelectedCharacterPrefab == null)
+        {
+            Debug.LogWarning("[MenuFlow] No character selected yet. Open Character Select and pick a character first.");
+            return;
+        }
 
         if (SaveManager.HasSaveForMap(scene))
         {

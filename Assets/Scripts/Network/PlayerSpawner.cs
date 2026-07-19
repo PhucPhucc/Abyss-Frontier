@@ -117,16 +117,35 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private NetworkObject ResolvePrefabForPlayer(PlayerRef player)
     {
-        if (playerPrefabs == null || playerPrefabs.Length == 0)
-            return null;
-
-        if (player != runner.LocalPlayer)
+        int characterIndex = ResolveCharacterIndexForPlayer(player);
+        if (characterIndex >= 0)
         {
-            int prefabIndex = player.PlayerId % playerPrefabs.Length;
-            return playerPrefabs[prefabIndex];
+            if (playerPrefabs != null && characterIndex < playerPrefabs.Length)
+                return playerPrefabs[characterIndex];
+
+            Debug.LogWarning($"[PlayerSpawner] Character index {characterIndex} is out of range for playerPrefabs.");
         }
 
-        return ResolveSelectedCharacterPrefab();
+        if (player == runner.LocalPlayer)
+            return ResolveSelectedCharacterPrefab();
+
+        if (playerPrefabs != null && playerPrefabs.Length > 0)
+            return playerPrefabs[Mathf.Clamp(player.PlayerId % playerPrefabs.Length, 0, playerPrefabs.Length - 1)];
+
+        return null;
+    }
+
+    private int ResolveCharacterIndexForPlayer(PlayerRef player)
+    {
+        var lobby = NetworkLobby.Instance != null ? NetworkLobby.Instance : FindFirstObjectByType<NetworkLobby>();
+        if (lobby == null)
+            return -1;
+
+        int playerIndex = lobby.GetPlayerIndex(player);
+        if (playerIndex < 0)
+            return -1;
+
+        return lobby.GetCharacter(playerIndex);
     }
 
     private NetworkObject ResolveSelectedCharacterPrefab()
