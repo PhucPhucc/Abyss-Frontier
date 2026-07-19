@@ -15,12 +15,6 @@ public class DeathScreenUI : MonoBehaviour
 
     private PlayerHealth playerHealth;
 
-    private void Awake()
-    {
-        if (losePanel != null)
-            losePanel.SetActive(false);
-    }
-
     public static void ShowDeath(PlayerHealth player)
     {
         if (player == null) return;

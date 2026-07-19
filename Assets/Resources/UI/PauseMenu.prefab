@@ -393,7 +393,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51890913894446668, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 153038373946844544, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchorMax.y
@@ -445,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1724005817255925291, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1768186902028197691, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -533,19 +533,19 @@ PrefabInstance:
       objectReference: {fileID: -3915807600838052794, guid: fb9189cef9d0be845b1876dc8643c401, type: 3}
     - target: {fileID: 7109509876898665889, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7109509876898665889, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7109509876898665889, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7109509876898665889, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 8114068829066059815, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_IsActive
@@ -553,19 +553,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8890574520283894480, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8890574520283894480, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8890574520283894480, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8890574520283894480, guid: acedab4941f67ad4a98d25f0a8b7c7ee, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -834,6 +834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeathScreenUI
   losePanel: {fileID: 7151049342704062351}
   menuSceneName: Scene_Menu
+  spawnPointTag: SpawnPoint
   respawnOffset: {x: 0, y: 0.35}
 --- !u!1 &7862084102213263166 stripped
 GameObject:
@@ -880,3 +881,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossVictoryUI
   winPanel: {fileID: 8388268593341149160}
   hubSceneName: Scene_Menu
+  spawnPointTag: SpawnPoint
+  respawnOffset: {x: 0, y: 0.35}

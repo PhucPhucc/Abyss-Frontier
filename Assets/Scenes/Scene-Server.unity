@@ -3469,7 +3469,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ServerConnectionUI
   runnerPrefab: {fileID: 0}
-  preferRuntimeLobbyUI: 1
 --- !u!1 &711937836
 GameObject:
   m_ObjectHideFlags: 0
@@ -8822,9 +8821,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterDataArray:
   - {fileID: 11400000, guid: f2ad1d1e3ee4411fb0981898d5c10059, type: 2}
+  - {fileID: 11400000, guid: d92d0cfb2f9f46e1ba15f1bf070ae445, type: 2}
   - {fileID: 11400000, guid: cd96baa7042c4a6dba3384a683c8e468, type: 2}
   - {fileID: 11400000, guid: 67ad5fc5985747c9ae33ca1e60a673dd, type: 2}
-  - {fileID: 11400000, guid: d92d0cfb2f9f46e1ba15f1bf070ae445, type: 2}
+  - {fileID: 11400000, guid: d4c4c564288b76041b534333bba85ad9, type: 2}
+  - {fileID: 11400000, guid: 42bede5a787da124a805bd4481e1d325, type: 2}
+  - {fileID: 11400000, guid: fb8aa6a588c794f2298f847919b70b24, type: 2}
+  - {fileID: 11400000, guid: df5d1120b840947c99a70d5c81d4ca8e, type: 2}
+  - {fileID: 11400000, guid: 08d816f2a25194bf4a181b4c21ca6bbc, type: 2}
+  - {fileID: 11400000, guid: 3c20fe9532b2949e386cb01bc9c0269d, type: 2}
+  - {fileID: 11400000, guid: f9774eb57d60047cea7e84219b241075, type: 2}
+  - {fileID: 11400000, guid: 14a856018de4144b995c5e65222d7002, type: 2}
   portraitImage: {fileID: 1986406791}
   nameText: {fileID: 807309051}
   counterText: {fileID: 1767159215}
@@ -10847,7 +10854,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 686420008}
   m_HandleRect: {fileID: 686420007}
   m_Direction: 2
-  m_Value: 0.9999992
+  m_Value: 1
   m_Size: 0.8805031
   m_NumberOfSteps: 0
   m_OnValueChanged:
