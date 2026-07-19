@@ -56,11 +56,7 @@ public class DeathScreenUI : MonoBehaviour
         Base_Camp baseCamp = FindFirstObjectByType<Base_Camp>();
         if (baseCamp != null)
         {
-            if (playerHealth != null)
-            {
-                playerHealth.transform.position = (Vector2)baseCamp.transform.position + respawnOffset;
-                playerHealth.Respawn();
-            }
+            RespawnPlayer((Vector2)baseCamp.transform.position + respawnOffset);
             return;
         }
 
@@ -68,10 +64,10 @@ public class DeathScreenUI : MonoBehaviour
         if (playerHealth != null)
         {
             GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
-            if (spawnPoint != null)
-                playerHealth.transform.position = (Vector2)spawnPoint.transform.position + respawnOffset;
-
-            playerHealth.Respawn();
+            Vector2 respawnPosition = spawnPoint != null
+                ? (Vector2)spawnPoint.transform.position + respawnOffset
+                : (Vector2)playerHealth.transform.position;
+            RespawnPlayer(respawnPosition);
             return;
         }
 
@@ -81,6 +77,24 @@ public class DeathScreenUI : MonoBehaviour
             _ = launcher.LaunchAsSingleplayer(SceneManager.GetActiveScene().name);
         else
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void RespawnPlayer(Vector2 respawnPosition)
+    {
+        if (playerHealth == null)
+            return;
+
+        NetworkPlayer networkPlayer = playerHealth.GetComponent<NetworkPlayer>()
+            ?? playerHealth.GetComponentInParent<NetworkPlayer>();
+
+        if (GameSessionData.IsMultiplayer && networkPlayer != null)
+        {
+            networkPlayer.RPC_RequestRespawn(respawnPosition);
+            return;
+        }
+
+        playerHealth.transform.position = respawnPosition;
+        playerHealth.Respawn();
     }
 
     /// <summary>

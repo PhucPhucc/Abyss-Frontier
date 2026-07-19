@@ -20,8 +20,6 @@ public class NetworkPlayer : NetworkBehaviour
     private float attackHitPendingTimer;
     private bool isMultiplayer;
 
-    // Networked position để sync vị trí tới remote clients.
-    [Networked] private Vector2 NetworkedPosition { get; set; }
     [Networked] private Vector2 NetworkedMoveInput { get; set; }
     [Networked] private Vector2 NetworkedLastDirection { get; set; }
     [Networked] private NetworkBool NetworkedSprintPressed { get; set; }
@@ -31,10 +29,22 @@ public class NetworkPlayer : NetworkBehaviour
     /// Trong multiplayer, EnemyAI chạy trên Host/Server — nó không thể gọi
     /// playerStats.TakeDamage() trực tiếp vì PlayerHealth chỉ tồn tại đầy đủ trên client owner.
     /// </summary>
-    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_TakeDamage(int damage)
     {
         playerHealth?.TakeDamage(damage);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_RequestRespawn(Vector2 respawnPosition)
+    {
+        if (rb != null)
+        {
+            rb.position = respawnPosition;
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        playerHealth?.Respawn();
     }
 
     private void Awake()
@@ -57,11 +67,6 @@ public class NetworkPlayer : NetworkBehaviour
         isMultiplayer = Runner != null &&
             Runner.GameMode != GameMode.Single &&
             Runner.GameMode != GameMode.Shared;
-
-        // Player local vẫn dùng physics cục bộ. Proxy của player từ máy khác
-        // để Fusion/Host điều khiển bằng state sync, tránh hai bên cùng kéo Rigidbody2D.
-        if (TryGetComponent<NetworkTransform>(out var nt))
-            nt.enabled = isMultiplayer && !Object.HasInputAuthority;
 
         if (playerInput != null)
             playerInput.enabled = !isMultiplayer;
@@ -125,11 +130,6 @@ public class NetworkPlayer : NetworkBehaviour
         if (Runner != null && (Runner.GameMode == GameMode.Single || Runner.GameMode == GameMode.Shared))
             return;
 
-        // Proxy của player từ máy khác không tự mô phỏng. Host sẽ nhận vị trí
-        // từ RPC sync của máy sở hữu input để giữ movement khớp với client.
-        if (!Object.HasInputAuthority)
-            return;
-
         if (GetInput<NetworkInputData>(out var input) == false)
             return;
 
@@ -139,7 +139,7 @@ public class NetworkPlayer : NetworkBehaviour
             playerController.SetSprintInput(input.IsSprintSet);
 
             // Áp dụng velocity ngay trong Fusion tick (chỉ cho local input authority).
-            // Remote peers sẽ nhận vị trí qua RPC sync ở dưới.
+            // State authority mô phỏng cùng input để tất cả client nhìn cùng một state.
             if (!playerController.IsDashing)
                 playerController.ApplyNetworkVelocity();
         }
@@ -147,21 +147,11 @@ public class NetworkPlayer : NetworkBehaviour
         if (input.IsDodgeSet && playerDash != null)
             playerDash.TryDash();
 
-        // State authority của object local host cập nhật trực tiếp.
-        // Client sở hữu input gửi vị trí lên host bằng RPC để host proxy
-        // không bị lệch hoặc chạy chậm theo mô phỏng sai.
-        if (rb != null)
+        if (Object.HasStateAuthority && playerController != null)
         {
-            if (Object.HasStateAuthority)
-            {
-                NetworkedPosition = rb.position;
-            }
-            else
-            {
-                RPC_SyncMovement(rb.position, playerController != null ? playerController.MoveInput : Vector2.zero,
-                    playerController != null && playerController.IsSprinting,
-                    playerController != null ? playerController.LastDirection : Vector2.down);
-            }
+            NetworkedMoveInput = playerController.MoveInput;
+            NetworkedSprintPressed = playerController.IsSprinting;
+            NetworkedLastDirection = playerController.LastDirection;
         }
 
         if (attackCooldownTimer > 0f)
@@ -203,8 +193,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void Render()
     {
-        // Proxy nhận state từ host để animator/logic cục bộ của từng máy
-        // cùng nhìn thấy hướng chạy và trạng thái sprint giống nhau.
+        // Proxy nhận state từ host để animation / hướng nhìn bám theo network state.
         if (Object.HasInputAuthority)
             return;
 
@@ -213,27 +202,6 @@ public class NetworkPlayer : NetworkBehaviour
             playerController.MoveInput = NetworkedMoveInput;
             playerController.SetSprintInput(NetworkedSprintPressed);
             playerController.SetLastDirection(NetworkedLastDirection);
-        }
-    }
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SyncMovement(Vector2 position, Vector2 moveInput, bool sprintPressed, Vector2 lastDirection)
-    {
-        if (rb == null)
-            return;
-
-        NetworkedPosition = position;
-        NetworkedMoveInput = moveInput;
-        NetworkedSprintPressed = sprintPressed;
-        NetworkedLastDirection = lastDirection;
-        rb.position = position;
-        rb.linearVelocity = Vector2.zero;
-
-        if (playerController != null)
-        {
-            playerController.MoveInput = moveInput;
-            playerController.SetSprintInput(sprintPressed);
-            playerController.SetLastDirection(lastDirection);
         }
     }
 

@@ -48,6 +48,7 @@ public class BossController : MonoBehaviour
     private Vector2 homePosition;
 
     protected bool IsDead => state == BossState.Dead;
+    private float targetRefreshTimer;
 
     protected virtual void Awake()
     {
@@ -61,6 +62,7 @@ public class BossController : MonoBehaviour
     protected virtual void Start()
     {
         FindPlayer();
+        targetRefreshTimer = 0f;
         if (health != null)
             health.Died += OnBossDied;
 
@@ -94,13 +96,40 @@ public class BossController : MonoBehaviour
 
     protected void FindPlayer()
     {
-        GameObject p = GameObject.FindGameObjectWithTag("Player");
-        if (p == null)
+        Transform bestTarget = null;
+        float bestDistance = float.MaxValue;
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+            if (p == null || !p.activeInHierarchy)
+                continue;
+
+            PlayerHealth playerHealth = p.GetComponent<PlayerHealth>() ?? p.GetComponentInParent<PlayerHealth>();
+            if (playerHealth != null && playerHealth.IsDead)
+                continue;
+
+            float distance = Vector2.Distance(transform.position, p.transform.position);
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestTarget = p.transform;
+            }
+        }
+
+        if (bestTarget == null)
         {
             PlayerController pc = FindFirstObjectByType<PlayerController>();
-            if (pc != null) p = pc.gameObject;
+            if (pc != null)
+            {
+                PlayerHealth playerHealth = pc.GetComponent<PlayerHealth>() ?? pc.GetComponentInParent<PlayerHealth>();
+                if (playerHealth == null || !playerHealth.IsDead)
+                    bestTarget = pc.transform;
+            }
         }
-        if (p != null) target = p.transform;
+
+        if (bestTarget != null)
+            target = bestTarget;
     }
 
     protected virtual IEnumerator IntroRoutine()
@@ -125,7 +154,16 @@ public class BossController : MonoBehaviour
         if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
             return;
 
-        if (target == null) FindPlayer();
+        if (targetRefreshTimer <= 0f)
+        {
+            FindPlayer();
+            targetRefreshTimer = 0.5f;
+        }
+        else
+        {
+            targetRefreshTimer -= Time.fixedDeltaTime;
+        }
+
         if (target == null || state == BossState.Intro || state == BossState.Dead || state == BossState.Attack)
             return;
 
@@ -293,12 +331,25 @@ public class BossController : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(hitCenter, attackAoERadius, playerLayer);
         foreach (Collider2D h in hits)
         {
-            PlayerStats ps = h.GetComponent<PlayerStats>() ?? h.GetComponentInParent<PlayerStats>();
-            if (ps != null)
+            if (GameSessionData.IsMultiplayer)
             {
-                ps.TakeDamage(attackDamage);
-                Debug.Log($"[BossController] {bossDisplayName} đánh trúng Player — {attackDamage} sát thương!");
-                break;
+                NetworkPlayer netPlayer = h.GetComponent<NetworkPlayer>() ?? h.GetComponentInParent<NetworkPlayer>();
+                if (netPlayer != null)
+                {
+                    netPlayer.RPC_TakeDamage(attackDamage);
+                    Debug.Log($"[BossController] {bossDisplayName} gọi RPC_TakeDamage({attackDamage})");
+                    break;
+                }
+            }
+            else
+            {
+                PlayerStats ps = h.GetComponent<PlayerStats>() ?? h.GetComponentInParent<PlayerStats>();
+                if (ps != null)
+                {
+                    ps.TakeDamage(attackDamage);
+                    Debug.Log($"[BossController] {bossDisplayName} đánh trúng Player — {attackDamage} sát thương!");
+                    break;
+                }
             }
         }
     }

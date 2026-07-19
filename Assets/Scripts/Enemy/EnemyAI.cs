@@ -56,6 +56,7 @@ public class EnemyAI : MonoBehaviour
     private float timer = 0f;                          // Bộ đếm thời gian đa năng (chờ waypoint, chuyển trạng thái)
     private bool isDead = false;                       // Cờ chết
     private Vector2 homePosition;
+    private float targetRefreshTimer;
 
     // Public properties để các component khác (Animator, EnemyHealth...) truy xuất
     public Vector2 MoveVelocity => moveVelocity;
@@ -93,6 +94,7 @@ public class EnemyAI : MonoBehaviour
         // Khởi tạo timer và tìm Player
         timer = 2f;
         FindTarget();
+        targetRefreshTimer = 0f;
     }
 
     /// <summary>
@@ -100,13 +102,40 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void FindTarget()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
+        Transform bestTarget = null;
+        float bestDistance = float.MaxValue;
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            if (player == null || !player.activeInHierarchy)
+                continue;
+
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>() ?? player.GetComponentInParent<PlayerHealth>();
+            if (playerHealth != null && playerHealth.IsDead)
+                continue;
+
+            float distance = Vector2.Distance(transform.position, player.transform.position);
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestTarget = player.transform;
+            }
+        }
+
+        if (bestTarget == null)
         {
             PlayerController pc = FindFirstObjectByType<PlayerController>();
-            if (pc != null) player = pc.gameObject;
+            if (pc != null)
+            {
+                PlayerHealth playerHealth = pc.GetComponent<PlayerHealth>() ?? pc.GetComponentInParent<PlayerHealth>();
+                if (playerHealth == null || !playerHealth.IsDead)
+                    bestTarget = pc.transform;
+            }
         }
-        if (player != null) target = player.transform;
+
+        if (bestTarget != null)
+            target = bestTarget;
     }
 
     private void FixedUpdate()
@@ -115,6 +144,16 @@ public class EnemyAI : MonoBehaviour
 
         if (GameSessionData.IsMultiplayer && !GameSessionData.IsHost)
             return;
+
+        if (targetRefreshTimer <= 0f)
+        {
+            FindTarget();
+            targetRefreshTimer = 0.5f;
+        }
+        else
+        {
+            targetRefreshTimer -= Time.fixedDeltaTime;
+        }
 
         // Nếu bị choáng (stun), ngừng di chuyển tự thân và logic AI
         if (knockback != null && knockback.IsStunned)

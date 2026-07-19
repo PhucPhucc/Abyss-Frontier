@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2101373121816445597}
   - component: {fileID: 2005842471938214464}
   - component: {fileID: 2207102756873434528}
+  - component: {fileID: 11400001}
   m_Layer: 0
   m_Name: Key
   m_TagString: Untagged
@@ -149,5 +150,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dc14907add5c854ea459269061ca3cb, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ItemCollect
+--- !u!114 &11400001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8948683793210689672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 1620006927
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2207102756873434528}
+  ForceRemoteRenderTimeframe: 0
