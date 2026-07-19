@@ -59,9 +59,9 @@ public class NetworkPlayer : NetworkBehaviour
             Runner.GameMode != GameMode.Shared;
 
         // Player local vẫn dùng physics cục bộ. Proxy của player từ máy khác
-        // để Fusion/Host điều khiển bằng state sync, tránh hai bên cùng kéo Rigidbody2D.
+        // chỉ nhận vị trí từ state sync, tránh hai bên cùng kéo Rigidbody2D.
         if (TryGetComponent<NetworkTransform>(out var nt))
-            nt.enabled = isMultiplayer && !Object.HasInputAuthority;
+            nt.enabled = false;
 
         if (playerInput != null)
             playerInput.enabled = !isMultiplayer;
@@ -203,10 +203,15 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void Render()
     {
-        // Proxy nhận state từ host để animator/logic cục bộ của từng máy
-        // cùng nhìn thấy hướng chạy và trạng thái sprint giống nhau.
+        // Proxy nhận vị trí/state từ host để cả hai phía nhìn thấy cùng một transform.
         if (Object.HasInputAuthority)
             return;
+
+        if (rb != null)
+        {
+            rb.position = NetworkedPosition;
+            rb.linearVelocity = Vector2.zero;
+        }
 
         if (playerController != null)
         {
