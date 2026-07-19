@@ -11,6 +11,7 @@ public static class GameSessionData
     public static int SelectedCharacterIndex = 0;
     public static GameObject SelectedCharacterPrefab { get; private set; }
     public static string SessionName = "AbyssFrontier";
+    public static bool OpenMapPanelNext = false;
 
     public static void SelectCharacter(int characterIndex, CharacterData characterData)
     {

@@ -83,20 +83,8 @@ public class BossVictoryUI : MonoBehaviour
     {
         if (winPanel != null) winPanel.SetActive(false);
         Time.timeScale = 1f;
-        string currentScene = SceneManager.GetActiveScene().name;
         
-        if (currentScene.StartsWith("floor"))
-        {
-            string numberPart = currentScene.Substring(5);
-            if (int.TryParse(numberPart, out int floorNumber))
-            {
-                int nextFloorNumber = floorNumber + 1;
-                string nextFloorScene = "floor" + nextFloorNumber;
-                SceneManager.LoadScene(nextFloorScene);
-                return;
-            }
-        }
-        
+        GameSessionData.OpenMapPanelNext = true;
         SceneManager.LoadScene("Scene_Menu");
     }
 
