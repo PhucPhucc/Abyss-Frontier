@@ -116,7 +116,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -204,11 +204,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 262d2a8427f8846848f479ce4c056396, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   enemyLevel: 1
   statsDefinition: {fileID: 11400000, guid: 8a9dbbd45d5f4135b298e10a9e50d986, type: 2}
-  saveId:
+  saveId: 
   maxHealth: 120
   currentHealth: 0
   destroyDelay: 2
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11110000222200003333000044440000, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   bossDisplayName: Slime Boss
   triggerVictoryOnDeath: 0
@@ -260,9 +260,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
-  SortKey: 1620006927
+  SortKey: 492340586
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkTransform
   _stateAuthorityChangeErrorCorrectionDelta: 0
   SyncScale: 0
@@ -297,5 +297,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4f270135a5572a858dce9e0aea50952, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkEnemy
+  _SyncHealth: 0
+  _SyncMaxHealth: 0
+  _SyncIsDead:
+    _value: 0
+  _SyncMoveVelocity: {x: 0, y: 0}
+  _SyncLastDirection: {x: 0, y: 0}
+  _SyncIsMoving:
+    _value: 0
+  _SyncMoveX: 0
+  _SyncMoveY: 0
+  _SyncLastMoveX: 0
+  _SyncLastMoveY: 0
