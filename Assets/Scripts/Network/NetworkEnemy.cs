@@ -68,8 +68,13 @@ public class NetworkEnemy : NetworkBehaviour
             if (bossController != null) bossController.enabled = false;
             if (knockbackHandler != null) knockbackHandler.enabled = false;
 
+            // QUAN TRỌNG: Dùng Kinematic thay vì simulated = false.
+            // rb.simulated = false sẽ VÔ HIỆU HÓA toàn bộ collider khỏi physics world,
+            // khiến Physics2D.OverlapCircleAll() không thể detect enemy trên client
+            // → Player không attack được Enemy.
+            // Kinematic giữ collider hoạt động (để hit detection) nhưng ngăn physics tự động.
             var rb = GetComponent<Rigidbody2D>();
-            if (rb != null) rb.simulated = false;
+            if (rb != null) rb.bodyType = RigidbodyType2D.Kinematic;
         }
     }
 

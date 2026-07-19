@@ -78,7 +78,7 @@ public class PlayerCombat : MonoBehaviour
         animHandler?.TriggerAttack();
     }
 
-    public void TriggerAttackDamage()
+    public void TriggerAttackDamage(bool isHostPlayer = false)
     {
         if (playerController == null) return;
 
@@ -90,29 +90,21 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (GameSessionData.IsMultiplayer)
-            {
-                NetworkEnemy netEnemy = enemy.GetComponent<NetworkEnemy>();
-                if (netEnemy != null)
-                {
-                    Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
-                    if (knockbackDir == Vector2.zero)
-                        knockbackDir = facingDirection;
+            Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
+            if (knockbackDir == Vector2.zero)
+                knockbackDir = facingDirection;
 
-                    netEnemy.RPC_RequestDamage(damage, knockbackDir);
-                }
-            }
-            else
+            if (isHostPlayer || !GameSessionData.IsMultiplayer)
             {
                 EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
                 if (enemyHealth != null)
-                {
-                    Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
-                    if (knockbackDir == Vector2.zero)
-                        knockbackDir = facingDirection;
-
                     enemyHealth.TakeDamage(damage, knockbackDir, source: transform);
-                }
+            }
+            else
+            {
+                NetworkEnemy netEnemy = enemy.GetComponent<NetworkEnemy>();
+                if (netEnemy != null)
+                    netEnemy.RPC_RequestDamage(damage, knockbackDir);
             }
         }
     }

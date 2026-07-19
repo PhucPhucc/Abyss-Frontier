@@ -373,18 +373,33 @@ public class EnemyAI : MonoBehaviour
 
         if (hit != null)
         {
-            // Tìm PlayerStats trên chính object hoặc object cha (phòng trường hợp Player dùng child collider)
-            PlayerStats playerStats = hit.GetComponent<PlayerStats>()
-                                   ?? hit.GetComponentInParent<PlayerStats>();
-
-            if (playerStats != null)
+            if (GameSessionData.IsMultiplayer)
             {
-                playerStats.TakeDamage(attackDamage);
-                Debug.Log($"[EnemyAI] {name} đánh trúng Player — {attackDamage} sát thương.");
+                // Trong multiplayer: gọi RPC để server gửi damage tới đúng client sở hữu player.
+                // Không thể gọi playerStats.TakeDamage() trực tiếp vì nó chỉ chạy trên server copy.
+                NetworkPlayer netPlayer = hit.GetComponent<NetworkPlayer>()
+                                      ?? hit.GetComponentInParent<NetworkPlayer>();
+                if (netPlayer != null)
+                {
+                    netPlayer.RPC_TakeDamage(attackDamage);
+                    Debug.Log($"[EnemyAI] {name} gọi RPC_TakeDamage({attackDamage}) → {hit.name}");
+                }
             }
             else
             {
-                Debug.LogWarning($"[EnemyAI] Hit {hit.name} nhưng không tìm thấy PlayerStats!");
+                // Singleplayer: gọi trực tiếp
+                PlayerStats playerStats = hit.GetComponent<PlayerStats>()
+                                       ?? hit.GetComponentInParent<PlayerStats>();
+
+                if (playerStats != null)
+                {
+                    playerStats.TakeDamage(attackDamage);
+                    Debug.Log($"[EnemyAI] {name} đánh trúng Player — {attackDamage} sát thương.");
+                }
+                else
+                {
+                    Debug.LogWarning($"[EnemyAI] Hit {hit.name} nhưng không tìm thấy PlayerStats!");
+                }
             }
         }
     }

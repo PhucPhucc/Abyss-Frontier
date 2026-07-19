@@ -23,6 +23,17 @@ public class NetworkPlayer : NetworkBehaviour
     // Dùng thay NetworkTransform vì NT conflict với Rigidbody2D interpolation.
     [Networked] private Vector2 NetworkedPosition { get; set; }
 
+    /// <summary>
+    /// Gọi bởi EnemyAI trên Server để gửi damage tới đúng client sở hữu player.
+    /// Trong multiplayer, EnemyAI chạy trên Host/Server — nó không thể gọi
+    /// playerStats.TakeDamage() trực tiếp vì PlayerHealth chỉ tồn tại đầy đủ trên client owner.
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    public void RPC_TakeDamage(int damage)
+    {
+        playerHealth?.TakeDamage(damage);
+    }
+
     private void Awake()
     {
         TryGetComponent(out playerController);
@@ -126,21 +137,37 @@ public class NetworkPlayer : NetworkBehaviour
         if (attackCooldownTimer > 0f)
             attackCooldownTimer -= Runner.DeltaTime;
 
-        if (attackHitPendingTimer > 0f && Object.HasStateAuthority)
+        // Timer chứ sau đó thực hiện sát thương — chạy trên InputAuthority (client tự hiểu thị).
+        // Client gọi TriggerAttackDamage() → tìm NetworkEnemy trong tầm → gọi RPC_RequestDamage lên Server.
+        if (attackHitPendingTimer > 0f && Object.HasInputAuthority)
         {
             attackHitPendingTimer -= Runner.DeltaTime;
             if (attackHitPendingTimer <= 0f && playerCombat != null)
-                playerCombat.TriggerAttackDamage();
+            {
+                Debug.Log($"[NetworkPlayer] TriggerAttackDamage trên InputAuthority");
+                playerCombat.TriggerAttackDamage(isHostPlayer: Object.HasStateAuthority);
+            }
         }
 
-        if (input.IsAttackSet && attackCooldownTimer <= 0f && Object.HasStateAuthority)
+        // Attack được trigger bởi InputAuthority — client tự chạy animation và đết cooldown.
+        // Sau đó broadcast animation qua RPC cho các client khác thấy.
+        if (input.IsAttackSet && attackCooldownTimer <= 0f && Object.HasInputAuthority)
         {
             attackCooldownTimer = 0.5f;
             attackHitPendingTimer = 0.2f;
             if (playerCombat != null)
                 playerCombat.SetAttackCooldown(0.5f);
 
-            RPC_PlayAttackAnimation();
+            Debug.Log($"[NetworkPlayer] Attack triggered trên InputAuthority");
+
+            // Animation local (thực hiện ngay cho local player)
+            playerCombat.TriggerAttackAnimationOnly();
+
+            // Broadcast animation cho remote clients và server thấy
+            if (Object.HasStateAuthority)
+                RPC_PlayAttackAnimation(); // Host: gọi trực tiếp RPC vì đã là state auth
+            else
+                RPC_RequestAttackBroadcast(); // Client: gửi request lên server để broadcast
         }
     }
 
@@ -154,10 +181,23 @@ public class NetworkPlayer : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Client (InputAuthority) g\u1eedi l\u00ean Server \u0111\u1ec3 server broadcast animation t\u1ea5n c\u00f4ng cho t\u1ea5t c\u1ea3.
+    /// Tuy\u1ebft \u0111\u1ed1i kh\u00f4ng ch\u1ea1y damage \u1edf \u0111\u00e2y \u2014 damage \u0111\u01b0\u1ee3c x\u1eed l\u00fd ri\u00eang b\u1edfi InputAuthority qua RPC_RequestDamage.
+    /// </summary>
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_RequestAttackBroadcast()
+    {
+        // Server nh\u1eadn request, broadcast animation cho t\u1ea5t c\u1ea3 remote peers
+        RPC_PlayAttackAnimation();
+    }
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_PlayAttackAnimation()
     {
-        if (playerCombat != null)
+        // Ch\u1ec9 ch\u1ea1y animation cho remote clients, kh\u00f4ng ch\u1ea1y cho local InputAuthority
+        // (v\u00ec InputAuthority \u0111\u00e3 t\u1ef1 ch\u1ea1y animation tr\u01b0\u1edbc \u0111\u00f3)
+        if (!Object.HasInputAuthority && playerCombat != null)
             playerCombat.TriggerAttackAnimationOnly();
     }
 }
