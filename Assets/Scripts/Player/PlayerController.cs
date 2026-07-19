@@ -29,6 +29,11 @@ public class PlayerController : CharacterMotor
     // Khi đó, CharacterMotor.FixedUpdate sẽ bỏ qua để tránh race condition.
     public bool IsControlledByNetwork { get; set; }
 
+    /// <summary>
+    /// Khi true, player không thể di chuyển (dùng trong cutscene, lever, v.v.).
+    /// </summary>
+    public bool InputLocked { get; set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -67,7 +72,7 @@ public class PlayerController : CharacterMotor
     /// </summary>
     public void ApplyNetworkVelocity()
     {
-        if (playerStats != null && playerStats.IsDead)
+        if (InputLocked || (playerStats != null && playerStats.IsDead))
         {
             Rb.linearVelocity = Vector2.zero;
             return;
@@ -161,7 +166,7 @@ public class PlayerController : CharacterMotor
         if (IsControlledByNetwork)
             return;
 
-        if (playerStats != null && playerStats.IsDead)
+        if (InputLocked || (playerStats != null && playerStats.IsDead))
         {
             Rb.linearVelocity = Vector2.zero;
             return;

@@ -35,7 +35,14 @@ public class PlayerInteractor : MonoBehaviour
     {
         Debug.Log($"[PlayerInteractor] OnInteract received. isPressed: {value.isPressed}, Count: {interactables.Count}");
         if (!value.isPressed) return;
+        TriggerInteract();
+    }
 
+    /// <summary>
+    /// Gọi trực tiếp từ code (ví dụ: NetworkPlayer trong Fusion tick) để kích hoạt interact.
+    /// </summary>
+    public void TriggerInteract()
+    {
         // Dọn dẹp các object bị null (do đã bị destroy)
         interactables.RemoveAll(i => i == null || (i is Object obj && obj == null));
 

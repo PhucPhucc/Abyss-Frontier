@@ -14,6 +14,7 @@ public class NetworkPlayer : NetworkBehaviour
     private PlayerHealth playerHealth;
     private PlayerDash playerDash;
     private PlayerInput playerInput;
+    private PlayerInteractor playerInteractor;
     private Rigidbody2D rb;
 
     private float attackCooldownTimer;
@@ -118,6 +119,7 @@ public class NetworkPlayer : NetworkBehaviour
         TryGetComponent(out playerHealth);
         TryGetComponent(out playerDash);
         TryGetComponent(out playerInput);
+        TryGetComponent(out playerInteractor);
         TryGetComponent(out rb);
     }
 
@@ -245,6 +247,13 @@ public class NetworkPlayer : NetworkBehaviour
         // Dodge
         if (input.IsDodgeSet && playerDash != null)
             playerDash.TryDash();
+
+        // Interact
+        if (input.IsInteractSet && playerInteractor != null)
+        {
+            Debug.Log("[NetworkPlayer] Interact input received — calling TriggerInteract");
+            playerInteractor.TriggerInteract();
+        }
 
         // Attack cooldown timers
         if (attackCooldownTimer > 0f)

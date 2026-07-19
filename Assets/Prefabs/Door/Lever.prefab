@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4511349570213882970}
   - component: {fileID: -6725238683020562213}
   - component: {fileID: -1910559551950142734}
+  - component: {fileID: -2298565437854918454}
   m_Layer: 0
   m_Name: Lever
   m_TagString: Untagged
@@ -84,7 +85,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1353514465
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3016148902443477174, guid: a158b1075d0e43847b97821ec9faca63, type: 3}
@@ -145,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb1d22b5e353cc94f94dc42b2c386f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableTrigger
+  promptUI: {fileID: 0}
 --- !u!61 &-6725238683020562213
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -206,6 +208,25 @@ MonoBehaviour:
   promptCanvas: {fileID: 5035679526017936306}
   bobAmplitude: 0.05
   bobSpeed: 2.2
+--- !u!114 &-2298565437854918454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892741765679912373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3524141156
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 8305390449266917461}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &5035679526017936306
 GameObject:
   m_ObjectHideFlags: 0
