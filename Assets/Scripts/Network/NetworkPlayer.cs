@@ -18,10 +18,13 @@ public class NetworkPlayer : NetworkBehaviour
 
     private float attackCooldownTimer;
     private float attackHitPendingTimer;
+    private bool isMultiplayer;
 
     // Networked position để sync vị trí tới remote clients.
-    // Dùng thay NetworkTransform vì NT conflict với Rigidbody2D interpolation.
     [Networked] private Vector2 NetworkedPosition { get; set; }
+    [Networked] private Vector2 NetworkedMoveInput { get; set; }
+    [Networked] private Vector2 NetworkedLastDirection { get; set; }
+    [Networked] private NetworkBool NetworkedSprintPressed { get; set; }
 
     /// <summary>
     /// Gọi bởi EnemyAI trên Server để gửi damage tới đúng client sở hữu player.
@@ -51,24 +54,33 @@ public class NetworkPlayer : NetworkBehaviour
         // Để OnMove(InputValue) hoạt động → smooth movement trực tiếp
         // Chỉ disable PlayerInput trong multiplayer thực (Host/Client) để
         // tránh conflict với Fusion network input
-        bool isNetworkedMultiplayer = Runner != null &&
+        isMultiplayer = Runner != null &&
             Runner.GameMode != GameMode.Single &&
             Runner.GameMode != GameMode.Shared;
 
-        // Luôn tắt NetworkTransform — nó ghi đè transform.position mỗi frame render
-        // (Render interpolation), gây xung đột với Rigidbody2D đang di chuyển trong FixedUpdate.
-        // Thay bằng sync vị trí thủ công qua [Networked] NetworkedPosition (bên dưới).
+        // Player local vẫn dùng physics cục bộ. Proxy của player từ máy khác
+        // để Fusion/Host điều khiển bằng state sync, tránh hai bên cùng kéo Rigidbody2D.
         if (TryGetComponent<NetworkTransform>(out var nt))
-            nt.enabled = false;
+            nt.enabled = isMultiplayer && !Object.HasInputAuthority;
 
         if (playerInput != null)
-            playerInput.enabled = !isNetworkedMultiplayer;
+            playerInput.enabled = !isMultiplayer;
 
         if (playerController != null)
-            playerController.IsControlledByNetwork = isNetworkedMultiplayer;
+            playerController.IsControlledByNetwork = isMultiplayer;
 
         if (playerCombat != null)
-            playerCombat.UseNetworkInput = isNetworkedMultiplayer;
+            playerCombat.UseNetworkInput = isMultiplayer;
+
+        if (rb != null && isMultiplayer && !Object.HasInputAuthority)
+        {
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.linearVelocity = Vector2.zero;
+        }
+        else if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+        }
 
         if (Object.HasInputAuthority)
             AssignCameraTarget();
@@ -113,6 +125,11 @@ public class NetworkPlayer : NetworkBehaviour
         if (Runner != null && (Runner.GameMode == GameMode.Single || Runner.GameMode == GameMode.Shared))
             return;
 
+        // Proxy của player từ máy khác không tự mô phỏng. Host sẽ nhận vị trí
+        // từ RPC sync của máy sở hữu input để giữ movement khớp với client.
+        if (!Object.HasInputAuthority)
+            return;
+
         if (GetInput<NetworkInputData>(out var input) == false)
             return;
 
@@ -122,17 +139,30 @@ public class NetworkPlayer : NetworkBehaviour
             playerController.SetSprintInput(input.IsSprintSet);
 
             // Áp dụng velocity ngay trong Fusion tick (chỉ cho local input authority).
-            // Remote clients sẽ nhận vị trí qua NetworkedPosition ở Render().
+            // Remote peers sẽ nhận vị trí qua RPC sync ở dưới.
             if (!playerController.IsDashing)
                 playerController.ApplyNetworkVelocity();
         }
 
-        // Sync vị trí lên mạng sau khi di chuyển (chỉ State Authority mới ghi được)
-        if (Object.HasStateAuthority && rb != null)
-            NetworkedPosition = rb.position;
-
         if (input.IsDodgeSet && playerDash != null)
             playerDash.TryDash();
+
+        // State authority của object local host cập nhật trực tiếp.
+        // Client sở hữu input gửi vị trí lên host bằng RPC để host proxy
+        // không bị lệch hoặc chạy chậm theo mô phỏng sai.
+        if (rb != null)
+        {
+            if (Object.HasStateAuthority)
+            {
+                NetworkedPosition = rb.position;
+            }
+            else
+            {
+                RPC_SyncMovement(rb.position, playerController != null ? playerController.MoveInput : Vector2.zero,
+                    playerController != null && playerController.IsSprinting,
+                    playerController != null ? playerController.LastDirection : Vector2.down);
+            }
+        }
 
         if (attackCooldownTimer > 0f)
             attackCooldownTimer -= Runner.DeltaTime;
@@ -173,11 +203,37 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void Render()
     {
-        // Chỉ áp dụng NetworkedPosition cho remote clients (không có input authority).
-        // Local player tự di chuyển qua Rigidbody2D, không cần override position.
-        if (!Object.HasInputAuthority && rb != null)
+        // Proxy nhận state từ host để animator/logic cục bộ của từng máy
+        // cùng nhìn thấy hướng chạy và trạng thái sprint giống nhau.
+        if (Object.HasInputAuthority)
+            return;
+
+        if (playerController != null)
         {
-            rb.position = NetworkedPosition;
+            playerController.MoveInput = NetworkedMoveInput;
+            playerController.SetSprintInput(NetworkedSprintPressed);
+            playerController.SetLastDirection(NetworkedLastDirection);
+        }
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_SyncMovement(Vector2 position, Vector2 moveInput, bool sprintPressed, Vector2 lastDirection)
+    {
+        if (rb == null)
+            return;
+
+        NetworkedPosition = position;
+        NetworkedMoveInput = moveInput;
+        NetworkedSprintPressed = sprintPressed;
+        NetworkedLastDirection = lastDirection;
+        rb.position = position;
+        rb.linearVelocity = Vector2.zero;
+
+        if (playerController != null)
+        {
+            playerController.MoveInput = moveInput;
+            playerController.SetSprintInput(sprintPressed);
+            playerController.SetLastDirection(lastDirection);
         }
     }
 
