@@ -248,6 +248,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.36472616
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 848b97a604174e588a97f3cd25388127, type: 3}
+      propertyPath: triggerVictoryOnDeath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 848b97a604174e588a97f3cd25388127, type: 3}
+      propertyPath: triggerVictoryOnDeath
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

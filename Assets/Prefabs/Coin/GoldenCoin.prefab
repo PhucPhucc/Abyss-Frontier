@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4471580738161822941}
   - component: {fileID: 5602715669053403450}
   - component: {fileID: 1446300894207538702}
+  - component: {fileID: 11400001}
   m_Layer: 0
   m_Name: GoldenCoin
   m_TagString: Untagged
@@ -164,3 +165,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc14907add5c854ea459269061ca3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemCollect
+--- !u!114 &11400001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039419657437716263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3302263263
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1446300894207538702}
+  ForceRemoteRenderTimeframe: 0

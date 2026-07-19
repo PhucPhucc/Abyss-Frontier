@@ -24,6 +24,9 @@ public class CharacterMotor : MonoBehaviour
         // Đảm bảo interpolation luôn được bật, kể cả khi spawn từ code
         // Không set trong code → visual giật vì FixedUpdate 50Hz vs render 60+Hz
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        // Player di chuyển qua NetworkTransform + physics nên cần continuous
+        // để tránh xuyên tường khi tốc độ cao hoặc khi snapshot bị lệch nhịp.
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
     protected virtual Vector2 GetVelocity()

@@ -7,7 +7,7 @@ public class NetworkLobby : NetworkBehaviour
     private string targetScene;
 
     private bool[] readyStates = new bool[4];
-    private int[] characterSelections = new int[4];
+    private int[] characterSelections = { -1, -1, -1, -1 };
 
     public static NetworkLobby Instance { get; private set; }
 
@@ -74,6 +74,16 @@ public class NetworkLobby : NetworkBehaviour
         }
     }
 
+    public bool AllCharactersSelected
+    {
+        get
+        {
+            for (int i = 0; i < PlayerCount; i++)
+                if (characterSelections[i] < 0) return false;
+            return true;
+        }
+    }
+
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_SetReady(PlayerRef player, NetworkBool ready)
     {
@@ -85,8 +95,28 @@ public class NetworkLobby : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_SetCharacter(PlayerRef player, int characterIndex)
     {
+        Debug.Log($"[NetworkLobby] RPC_SetCharacter called by Player {player.PlayerId} for Character {characterIndex}");
         int index = GetPlayerIndex(player);
         if (index >= 0) characterSelections[index] = characterIndex;
+        
+        if (Runner != null)
+        {
+            var spawner = Runner.GetComponent<PlayerSpawner>();
+            if (spawner != null)
+            {
+                spawner.SetPlayerCharacter(player, characterIndex);
+                Debug.Log($"[NetworkLobby] Successfully passed character {characterIndex} to PlayerSpawner for Player {player.PlayerId}");
+            }
+            else
+            {
+                Debug.LogWarning("[NetworkLobby] PlayerSpawner not found on Runner!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[NetworkLobby] Runner is null in RPC_SetCharacter!");
+        }
+
         BroadcastState();
     }
 
@@ -142,6 +172,13 @@ public class NetworkLobby : NetworkBehaviour
     public void TryStartGame()
     {
         if (!Object.HasStateAuthority) return;
+
+        if (!AllCharactersSelected)
+        {
+            Debug.LogWarning("[NetworkLobby] Cannot start game until all players select a character.");
+            RPC_NotifyNotAllReady();
+            return;
+        }
 
         if (!AllReady)
         {

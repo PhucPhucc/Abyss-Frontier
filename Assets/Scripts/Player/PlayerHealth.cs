@@ -6,6 +6,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int currentHealth;
 
     private PlayerStats playerStats;
+    private NetworkPlayer networkPlayer;
     private CharacterAnimationHandler animHandler;
     private bool isDead;
     private bool isInvulnerable;
@@ -25,6 +26,7 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
+        networkPlayer = GetComponent<NetworkPlayer>() ?? GetComponentInParent<NetworkPlayer>();
         animHandler = GetComponent<CharacterAnimationHandler>();
         ResetHealthState();
     }
@@ -80,14 +82,17 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator DeathSequenceRoutine()
     {
         animHandler?.TriggerDeath();
-        Died?.Invoke();
+
+        if (ShouldShowLocalDeathUI())
+            Died?.Invoke();
 
         if (animHandler != null)
             yield return animHandler.WaitForDeathAnimationRoutine();
         else
             yield return new WaitForSeconds(1f);
 
-        DeathScreenUI.ShowDeath(this);
+        if (ShouldShowLocalDeathUI())
+            DeathScreenUI.ShowDeath(this);
         deathSequenceRoutine = null;
     }
 
@@ -201,5 +206,13 @@ public class PlayerHealth : MonoBehaviour
     private void NotifyHealthChanged()
     {
         HealthChanged?.Invoke(currentHealth, MaxHealth);
+    }
+
+    private bool ShouldShowLocalDeathUI()
+    {
+        if (!GameSessionData.IsMultiplayer)
+            return true;
+
+        return networkPlayer == null || (networkPlayer.Object != null && networkPlayer.Object.HasInputAuthority);
     }
 }

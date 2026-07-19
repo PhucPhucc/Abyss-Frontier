@@ -1,4 +1,5 @@
 using System.Collections;
+using Fusion;
 using UnityEngine;
 
 /// <summary>
@@ -331,12 +332,25 @@ public class BossController : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(hitCenter, attackAoERadius, playerLayer);
         foreach (Collider2D h in hits)
         {
-            PlayerStats ps = h.GetComponent<PlayerStats>() ?? h.GetComponentInParent<PlayerStats>();
-            if (ps != null)
+            if (GameSessionData.IsMultiplayer)
             {
-                ps.TakeDamage(attackDamage);
-                Debug.Log($"[BossController] {bossDisplayName} đánh trúng Player — {attackDamage} sát thương!");
-                break;
+                NetworkPlayer netPlayer = h.GetComponent<NetworkPlayer>() ?? h.GetComponentInParent<NetworkPlayer>();
+                if (netPlayer != null)
+                {
+                    netPlayer.RPC_TakeDamage(attackDamage);
+                    Debug.Log($"[BossController] {bossDisplayName} gọi RPC_TakeDamage({attackDamage})");
+                    break;
+                }
+            }
+            else
+            {
+                PlayerStats ps = h.GetComponent<PlayerStats>() ?? h.GetComponentInParent<PlayerStats>();
+                if (ps != null)
+                {
+                    ps.TakeDamage(attackDamage);
+                    Debug.Log($"[BossController] {bossDisplayName} đánh trúng Player — {attackDamage} sát thương!");
+                    break;
+                }
             }
         }
     }
@@ -344,6 +358,21 @@ public class BossController : MonoBehaviour
     private void TriggerVictoryUI()
     {
         Debug.Log($"[BossController] {bossDisplayName} đã bị tiêu diệt! Kích hoạt Victory UI...");
+
+        if (GameSessionData.IsMultiplayer)
+        {
+            // Trong multiplayer, Boss chỉ chạy trên Host (StateAuthority).
+            // Dùng bất kỳ NetworkPlayer nào để broadcast RPC tới ALL clients.
+            NetworkPlayer[] players = FindObjectsByType<NetworkPlayer>(FindObjectsSortMode.None);
+            if (players.Length > 0)
+            {
+                // Chỉ cần gửi 1 lần từ object có StateAuthority (Host đang chạy code này)
+                players[0].RPC_ShowVictory();
+                return;
+            }
+        }
+
+        // Singleplayer: gọi trực tiếp
         BossVictoryUI vicUI = FindFirstObjectByType<BossVictoryUI>(FindObjectsInactive.Include);
         if (vicUI != null)
             vicUI.ShowVictory();
