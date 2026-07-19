@@ -12,12 +12,6 @@ public class BossVictoryUI : MonoBehaviour
     [SerializeField] private string spawnPointTag = "SpawnPoint";
     [SerializeField] private Vector2 respawnOffset = new Vector2(0f, 0.35f);
 
-    private void Awake()
-    {
-        if (winPanel != null)
-            winPanel.SetActive(false);
-    }
-
     /// <summary>
     /// Kích hoạt hiển thị màn hình chiến thắng và tạm dừng thời gian game.
     /// </summary>
