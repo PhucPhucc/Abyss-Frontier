@@ -25,11 +25,21 @@ public class WaveSpawnManager : MonoBehaviour
     [Header("Wave Configuration")]
     [SerializeField] private List<WaveSettings> waves = new List<WaveSettings>();
 
+    [Header("Final Boss")]
+    [Tooltip("Enable this only on floors that should end after all item waves are collected.")]
+    [SerializeField] private bool spawnBossAfterFinalWave;
+    [SerializeField] private GameObject bossSlimePrefab;
+    [Tooltip("Optional. Uses this manager's position when left empty.")]
+    [SerializeField] private Transform bossSpawnPoint;
+
     private List<Vector3> validSpawnPositions = new List<Vector3>();
     private List<GameObject> activeItems = new List<GameObject>();
 
     private int currentWaveIndex = 0; // Chỉ số mảng (bắt đầu từ 0)
-    private bool isWaveActive = false; 
+    private bool isWaveActive = false;
+    private EnemyHealth spawnedBossHealth;
+    private bool bossEncounterStarted;
+    private bool bossVictoryTriggered;
 
     void Start()
     {
@@ -76,6 +86,7 @@ public class WaveSpawnManager : MonoBehaviour
         // Kiểm tra xem đã hoàn thành tất cả các wave được cấu hình chưa
         if (waveIndex >= waves.Count)
         {
+            StartFinalBossEncounter();
             Debug.Log("Xin chúc mừng! Bạn đã hoàn thành tất cả các đợt wave.");
             return;
         }
@@ -119,6 +130,67 @@ public class WaveSpawnManager : MonoBehaviour
         }
 
         Debug.Log("Đã tạo ra thành công " + spawnCount + "/" + config.itemsPerWave + " vật phẩm [" + config.itemPrefab.name + "]");
+    }
+
+    private void StartFinalBossEncounter()
+    {
+        if (!spawnBossAfterFinalWave || bossEncounterStarted)
+            return;
+
+        if (bossSlimePrefab == null)
+        {
+            Debug.LogError("BossSlime prefab has not been assigned on WaveSpawnManager.");
+            return;
+        }
+
+        bossEncounterStarted = true;
+
+        EnemyHealth[] remainingEnemies = FindObjectsByType<EnemyHealth>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        foreach (EnemyHealth enemy in remainingEnemies)
+        {
+            RemoveEnemy(enemy.gameObject);
+        }
+
+        Transform spawnTransform = bossSpawnPoint != null ? bossSpawnPoint : transform;
+        GameObject spawnedBoss = Instantiate(bossSlimePrefab, spawnTransform.position, spawnTransform.rotation);
+        spawnedBossHealth = spawnedBoss.GetComponent<EnemyHealth>();
+
+        if (spawnedBossHealth == null)
+        {
+            Debug.LogError("The configured BossSlime prefab needs an EnemyHealth component.");
+            return;
+        }
+
+        spawnedBossHealth.Died += OnFinalBossDied;
+        Debug.Log("All item waves are complete. BossSlime has spawned.");
+    }
+
+    private static void RemoveEnemy(GameObject enemy)
+    {
+        if (Application.isPlaying)
+            Destroy(enemy);
+        else
+            DestroyImmediate(enemy);
+    }
+
+    private void OnFinalBossDied()
+    {
+        if (bossVictoryTriggered)
+            return;
+
+        bossVictoryTriggered = true;
+
+        BossVictoryUI victoryUI = FindFirstObjectByType<BossVictoryUI>(FindObjectsInactive.Include);
+        if (victoryUI != null)
+            victoryUI.ShowVictory();
+        else
+            Debug.LogWarning("BossSlime was defeated, but no BossVictoryUI was found in the scene.");
+    }
+
+    private void OnDestroy()
+    {
+        if (spawnedBossHealth != null)
+            spawnedBossHealth.Died -= OnFinalBossDied;
     }
 
     private void FindValidSpawnPositions()
