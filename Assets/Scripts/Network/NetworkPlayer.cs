@@ -77,14 +77,10 @@ public class NetworkPlayer : NetworkBehaviour
         if (playerCombat != null)
             playerCombat.UseNetworkInput = isMultiplayer;
 
-        if (rb != null && isMultiplayer && !Object.HasInputAuthority)
-        {
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            rb.linearVelocity = Vector2.zero;
-        }
-        else if (rb != null)
+        if (rb != null)
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.linearVelocity = Vector2.zero;
         }
 
         if (Object.HasInputAuthority)
