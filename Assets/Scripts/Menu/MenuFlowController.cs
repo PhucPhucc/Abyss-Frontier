@@ -19,7 +19,15 @@ public class MenuFlowController : MonoBehaviour
 
     private void Start()
     {
-        ShowOnlyPanel(mainMenuPanel);
+        if (GameSessionData.OpenMapPanelNext)
+        {
+            GameSessionData.OpenMapPanelNext = false;
+            ShowOnlyPanel(chooseMapPanel);
+        }
+        else
+        {
+            ShowOnlyPanel(mainMenuPanel);
+        }
 
         if (mapNextButton != null) mapNextButton.interactable = false;
         if (playModeNextButton != null) playModeNextButton.interactable = false;
