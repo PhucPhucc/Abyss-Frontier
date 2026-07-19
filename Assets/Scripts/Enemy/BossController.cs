@@ -331,12 +331,25 @@ public class BossController : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(hitCenter, attackAoERadius, playerLayer);
         foreach (Collider2D h in hits)
         {
-            PlayerStats ps = h.GetComponent<PlayerStats>() ?? h.GetComponentInParent<PlayerStats>();
-            if (ps != null)
+            if (GameSessionData.IsMultiplayer)
             {
-                ps.TakeDamage(attackDamage);
-                Debug.Log($"[BossController] {bossDisplayName} đánh trúng Player — {attackDamage} sát thương!");
-                break;
+                NetworkPlayer netPlayer = h.GetComponent<NetworkPlayer>() ?? h.GetComponentInParent<NetworkPlayer>();
+                if (netPlayer != null)
+                {
+                    netPlayer.RPC_TakeDamage(attackDamage);
+                    Debug.Log($"[BossController] {bossDisplayName} gọi RPC_TakeDamage({attackDamage})");
+                    break;
+                }
+            }
+            else
+            {
+                PlayerStats ps = h.GetComponent<PlayerStats>() ?? h.GetComponentInParent<PlayerStats>();
+                if (ps != null)
+                {
+                    ps.TakeDamage(attackDamage);
+                    Debug.Log($"[BossController] {bossDisplayName} đánh trúng Player — {attackDamage} sát thương!");
+                    break;
+                }
             }
         }
     }
