@@ -79,6 +79,14 @@ MonoBehaviour:
   - {fileID: 8209169786295263925, guid: eb830a45103d68105bded8750206c52e, type: 3}
   - {fileID: 2200000000000000004, guid: d637c00c5f2d751489252182da47611f, type: 3}
   - {fileID: 3300000000000000004, guid: faa0f142f930fba4caa6db91a571c992, type: 3}
+  - {fileID: 4202224350288137877, guid: bd6a6936ca0a66b4eb5d69254d3108e9, type: 3}
+  - {fileID: -8819011716138204099, guid: c061c4edbc8cea14eaf3be9cc521a52a, type: 3}
+  - {fileID: -8752665694732809103, guid: 4d2c4df83e90a48258f4b2594935cc1e, type: 3}
+  - {fileID: -3521678509611704148, guid: 27a5707b1e33441ddb1aa3eb610d50af, type: 3}
+  - {fileID: 1691427230219490115, guid: a70656c7bdec347b5adad2aa20d65e6a, type: 3}
+  - {fileID: -825720667020540691, guid: 1c4e9127ab7fc4c8db95fc13f6f44a0e, type: 3}
+  - {fileID: -312915399499869174, guid: e7ffe4bcc6d714aebb7bc28b7bfe2d7f, type: 3}
+  - {fileID: -1310946521868487759, guid: bd949b6f201164858bd893f21fe1386a, type: 3}
   spawnPointTag: SpawnPoint
 --- !u!114 &3902067582174227131
 MonoBehaviour:
