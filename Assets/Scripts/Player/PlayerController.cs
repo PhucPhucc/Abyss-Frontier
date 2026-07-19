@@ -25,6 +25,10 @@ public class PlayerController : CharacterMotor
     public float CurrentStamina => playerStats != null ? playerStats.CurrentStamina : currentStamina;
     public float MaxStamina => playerStats != null ? playerStats.MaxStamina : maxStamina;
 
+    // Flag: true khi Fusion (multiplayer) đang điều khiển di chuyển qua FixedUpdateNetwork.
+    // Khi đó, CharacterMotor.FixedUpdate sẽ bỏ qua để tránh race condition.
+    public bool IsControlledByNetwork { get; set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -56,6 +60,30 @@ public class PlayerController : CharacterMotor
             MoveSpeed = playerStats.MoveSpeed;
             sprintSpeed = MoveSpeed * 2f;
         }
+    }
+
+    /// <summary>
+    /// Gọi bởi NetworkPlayer.FixedUpdateNetwork để áp dụng velocity ngay trong Fusion tick.
+    /// Tránh race condition với Unity FixedUpdate trong multiplayer.
+    /// </summary>
+    public void ApplyNetworkVelocity()
+    {
+        if (playerStats != null && playerStats.IsDead)
+        {
+            Rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        if (cachedCombat != null && cachedCombat.IsAttacking)
+        {
+            Rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        if (IsMoving)
+            LastDirection = MoveInput.normalized;
+
+        Rb.linearVelocity = GetVelocity();
     }
 
     public void OnMove(InputValue value)
@@ -129,6 +157,11 @@ public class PlayerController : CharacterMotor
 
     protected override void FixedUpdate()
     {
+        // Khi được điều khiển bởi Fusion (multiplayer), bỏ qua FixedUpdate của Unity.
+        // Velocity đã được áp dụng trong ApplyNetworkVelocity() gọi từ FixedUpdateNetwork.
+        if (IsControlledByNetwork)
+            return;
+
         if (playerStats != null && playerStats.IsDead)
         {
             Rb.linearVelocity = Vector2.zero;

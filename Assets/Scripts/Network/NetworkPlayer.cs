@@ -14,9 +14,14 @@ public class NetworkPlayer : NetworkBehaviour
     private PlayerHealth playerHealth;
     private PlayerDash playerDash;
     private PlayerInput playerInput;
+    private Rigidbody2D rb;
 
     private float attackCooldownTimer;
     private float attackHitPendingTimer;
+
+    // Networked position để sync vị trí tới remote clients.
+    // Dùng thay NetworkTransform vì NT conflict với Rigidbody2D interpolation.
+    [Networked] private Vector2 NetworkedPosition { get; set; }
 
     private void Awake()
     {
@@ -26,6 +31,7 @@ public class NetworkPlayer : NetworkBehaviour
         TryGetComponent(out playerHealth);
         TryGetComponent(out playerDash);
         TryGetComponent(out playerInput);
+        TryGetComponent(out rb);
     }
 
     public override void Spawned()
@@ -38,19 +44,17 @@ public class NetworkPlayer : NetworkBehaviour
             Runner.GameMode != GameMode.Single &&
             Runner.GameMode != GameMode.Shared;
 
-        // Vô hiệu hóa NetworkTransform khi chơi Singleplayer.
-        // Nếu bật, NetworkTransform ghi đè transform.position mỗi frame render (Render interpolation),
-        // làm xung đột và kéo giật Rigidbody2D đang di chuyển trong FixedUpdate.
-        if (!isNetworkedMultiplayer)
-        {
-            if (TryGetComponent<NetworkTransform>(out var nt))
-            {
-                nt.enabled = false;
-            }
-        }
+        // Luôn tắt NetworkTransform — nó ghi đè transform.position mỗi frame render
+        // (Render interpolation), gây xung đột với Rigidbody2D đang di chuyển trong FixedUpdate.
+        // Thay bằng sync vị trí thủ công qua [Networked] NetworkedPosition (bên dưới).
+        if (TryGetComponent<NetworkTransform>(out var nt))
+            nt.enabled = false;
 
         if (playerInput != null)
             playerInput.enabled = !isNetworkedMultiplayer;
+
+        if (playerController != null)
+            playerController.IsControlledByNetwork = isNetworkedMultiplayer;
 
         if (playerCombat != null)
             playerCombat.UseNetworkInput = isNetworkedMultiplayer;
@@ -105,7 +109,16 @@ public class NetworkPlayer : NetworkBehaviour
         {
             playerController.MoveInput = input.movement;
             playerController.SetSprintInput(input.IsSprintSet);
+
+            // Áp dụng velocity ngay trong Fusion tick (chỉ cho local input authority).
+            // Remote clients sẽ nhận vị trí qua NetworkedPosition ở Render().
+            if (!playerController.IsDashing)
+                playerController.ApplyNetworkVelocity();
         }
+
+        // Sync vị trí lên mạng sau khi di chuyển (chỉ State Authority mới ghi được)
+        if (Object.HasStateAuthority && rb != null)
+            NetworkedPosition = rb.position;
 
         if (input.IsDodgeSet && playerDash != null)
             playerDash.TryDash();
@@ -128,6 +141,16 @@ public class NetworkPlayer : NetworkBehaviour
                 playerCombat.SetAttackCooldown(0.5f);
 
             RPC_PlayAttackAnimation();
+        }
+    }
+
+    public override void Render()
+    {
+        // Chỉ áp dụng NetworkedPosition cho remote clients (không có input authority).
+        // Local player tự di chuyển qua Rigidbody2D, không cần override position.
+        if (!Object.HasInputAuthority && rb != null)
+        {
+            rb.position = NetworkedPosition;
         }
     }
 
