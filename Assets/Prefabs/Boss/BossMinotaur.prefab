@@ -83,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 769353063
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -4753702385071775785, guid: 8018c8f9651298841bebeb42c95c00f6, type: 3}
@@ -180,7 +180,17 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.45}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.3125, y: 3.1875}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 0.8, y: 1.1}
+  m_EdgeRadius: 0
 --- !u!114 &11400001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,9 +205,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   enemyLevel: 1
   statsDefinition: {fileID: 11400000, guid: eeee5555ffff6666aaaa7777bbbb8888, type: 2}
-  maxHealth: 500
+  saveId: 
+  maxHealth: 10
   currentHealth: 0
-  destroyDelay: 2.0
+  destroyDelay: 2
   respawnOnDeath: 0
   respawnDelay: 5
   respawnAtInitialPosition: 1

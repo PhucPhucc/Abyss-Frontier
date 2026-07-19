@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;
 public class BossVictoryUI : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] private GameObject victoryPanel;
+    [SerializeField] private GameObject winPanel;
     [SerializeField] private string hubSceneName = "Scene_Menu";
 
     private void Awake()
     {
-        if (victoryPanel != null)
-            victoryPanel.SetActive(false);
+        if (winPanel != null)
+            winPanel.SetActive(false);
     }
 
     /// <summary>
@@ -22,9 +22,9 @@ public class BossVictoryUI : MonoBehaviour
     public void ShowVictory()
     {
         Debug.Log("[BossVictoryUI] HIỂN THỊ MÀN HÌNH CHIẾN THẮNG!");
-        if (victoryPanel != null)
+        if (winPanel != null)
         {
-            victoryPanel.SetActive(true);
+            winPanel.SetActive(true);
         }
         Time.timeScale = 0f; // Đóng băng trò chơi khi thắng
 
@@ -51,19 +51,45 @@ public class BossVictoryUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Gọi bởi nút bấm "Return to Hub" trên UI.
+    /// Gọi bởi nút bấm "Again" trên UI. (Chơi lại màn hiện tại)
     /// </summary>
-    public void OnReturnToHubClicked()
+    public void OnAgainClicked()
     {
+        if (winPanel != null) winPanel.SetActive(false);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(hubSceneName);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     /// <summary>
-    /// Gọi bởi nút bấm "Quit to Main Menu".
+    /// Gọi bởi nút bấm "Next" trên UI. (Chuyển sang map tiếp theo)
     /// </summary>
-    public void OnMainMenuClicked()
+    public void OnNextClicked()
     {
+        if (winPanel != null) winPanel.SetActive(false);
+        Time.timeScale = 1f;
+        string currentScene = SceneManager.GetActiveScene().name;
+        
+        if (currentScene.StartsWith("floor"))
+        {
+            string numberPart = currentScene.Substring(5);
+            if (int.TryParse(numberPart, out int floorNumber))
+            {
+                int nextFloorNumber = floorNumber + 1;
+                string nextFloorScene = "floor" + nextFloorNumber;
+                SceneManager.LoadScene(nextFloorScene);
+                return;
+            }
+        }
+        
+        SceneManager.LoadScene("Scene_Menu");
+    }
+
+    /// <summary>
+    /// Gọi bởi nút bấm "Close" trên UI. (Về Menu)
+    /// </summary>
+    public void OnCloseClicked()
+    {
+        if (winPanel != null) winPanel.SetActive(false);
         Time.timeScale = 1f;
         SceneManager.LoadScene("Scene_Menu");
     }

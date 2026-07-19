@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Minotaur
   enemyType: 7
-  baseHP: 500
+  baseHP: 10
   baseATK: 25
   baseDEF: 5
   baseSpeed: 1.5
