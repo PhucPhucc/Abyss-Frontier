@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 768021157929053688}
   - component: {fileID: 2883947638266074618}
   - component: {fileID: 3436869992040933551}
+  - component: {fileID: -4019028906712595837}
   m_Layer: 0
   m_Name: Door2
   m_TagString: Untagged
@@ -342,7 +343,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1353514465
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2350934369649428687, guid: a158b1075d0e43847b97821ec9faca63, type: 3}
@@ -487,3 +488,22 @@ MonoBehaviour:
   doorBottomRenderer: {fileID: 2974189321156772198}
   openTopSprite: {fileID: 2124555709, guid: 8dfe41a4407a17c48803d9d4bab7adf1, type: 3}
   openBottomSprite: {fileID: 1096667918, guid: 8dfe41a4407a17c48803d9d4bab7adf1, type: 3}
+--- !u!114 &-4019028906712595837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8186949981835775168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 833631141
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 3436869992040933551}
+  ForceRemoteRenderTimeframe: 0

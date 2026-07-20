@@ -309,7 +309,13 @@ public class BossController : MonoBehaviour
         if (anim != null)
         {
             anim.SetBool("isMoving", false);
-            anim.SetTrigger(GetAttackTrigger());
+            string trig = GetAttackTrigger();
+            anim.SetTrigger(trig);
+
+            if (GameSessionData.IsMultiplayer && TryGetComponent<NetworkEnemy>(out var netEnemy) && netEnemy.IsServerAuth)
+            {
+                netEnemy.RPC_PlayAnimTrigger(Animator.StringToHash(trig));
+            }
         }
 
         yield return new WaitForSeconds(attackHitDelay);

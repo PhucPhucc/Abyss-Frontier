@@ -381,6 +381,12 @@ public class EnemyAI : MonoBehaviour
     {
         AudioManager.Instance?.PlayEnemyAttack();
         if (anim != null) anim.SetTrigger("attack");
+
+        if (GameSessionData.IsMultiplayer && TryGetComponent<NetworkEnemy>(out var netEnemy) && netEnemy.IsServerAuth)
+        {
+            netEnemy.RPC_PlayAnimTrigger(Animator.StringToHash("attack"));
+        }
+
         StartCoroutine(AttackHitRoutine());
     }
 

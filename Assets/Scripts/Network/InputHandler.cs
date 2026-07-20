@@ -41,6 +41,9 @@ public class InputHandler : MonoBehaviour, INetworkRunnerCallbacks
 
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
                 data.buttons |= NetworkInputData.DODGE_BIT;
+
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+                data.buttons |= NetworkInputData.INTERACT_BIT;
         }
 
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)

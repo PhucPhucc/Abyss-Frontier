@@ -148,6 +148,15 @@ public class NetworkEnemy : NetworkBehaviour
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_PlayAnimTrigger(int triggerHash)
+    {
+        if (!Object.HasStateAuthority)
+        {
+            if (anim != null) anim.SetTrigger(triggerHash);
+        }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_BroadcastDie()
     {
         if (anim != null) anim.SetTrigger("die");
