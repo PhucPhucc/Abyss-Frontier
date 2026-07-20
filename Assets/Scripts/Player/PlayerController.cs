@@ -115,10 +115,17 @@ public class PlayerController : CharacterMotor
             return;
         }
 
-        if (isSprintInputPressed && IsMoving && CurrentStamina > 0f)
+        if (isSprintInputPressed)
         {
-            isSprinting = true;
-            SpendStamina(effectiveDrain * Time.deltaTime);
+            if (IsMoving && CurrentStamina > 0f)
+            {
+                isSprinting = true;
+                SpendStamina(effectiveDrain * Time.deltaTime);
+            }
+            else
+            {
+                isSprinting = false;
+            }
         }
         else
         {
