@@ -2,15 +2,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
+using Fusion;
 
 [RequireComponent(typeof(InteractableTrigger))]
-public class InteractableLever : MonoBehaviour, IInteractable
+public class InteractableLever : NetworkBehaviour, IInteractable
 {
     [Header("References")]
     [SerializeField] private DoorController linkedDoor;
     [SerializeField] private Animator leverAnimator;
 
-    private bool _isActivated = false;
+    [Networked] public bool IsActivated { get; set; }
+
     private InteractPromptUI promptUI;
 
     private void Awake()
@@ -20,20 +22,31 @@ public class InteractableLever : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        if (_isActivated) return;
+        if (IsActivated) return;
 
-        _isActivated = true;
+        if (Object.HasStateAuthority)
+        {
+            IsActivated = true;
+        }
+        else
+        {
+            RPC_RequestActivate();
+        }
 
-        // Ẩn prompt
         if (promptUI != null)
             promptUI.SetVisible(false);
 
         StartCoroutine(CutsceneRoutine(interactor));
     }
 
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_RequestActivate()
+    {
+        IsActivated = true;
+    }
+
     private IEnumerator CutsceneRoutine(GameObject player)
     {
-        // 1. Khóa input và BẬT BẤT TỬ cho Player
         PlayerInput playerInput = player.GetComponent<PlayerInput>();
         if (playerInput != null) playerInput.DeactivateInput();
 
@@ -46,54 +59,46 @@ public class InteractableLever : MonoBehaviour, IInteractable
         Animator playerAnim = player.GetComponentInChildren<Animator>();
         if (playerAnim != null) playerAnim.SetBool("isWalk", false);
 
-        // 2. ĐÓNG BĂNG QUÁI VẬT (Tương tự Pause)
-        EnemyAI[] enemies = Object.FindObjectsByType<EnemyAI>(FindObjectsSortMode.None);
+        EnemyAI[] enemies = UnityEngine.Object.FindObjectsByType<EnemyAI>(FindObjectsSortMode.None);
         foreach (var enemy in enemies)
         {
             if (enemy != null)
             {
-                enemy.enabled = false; // Tắt AI (không đuổi theo nữa)
-                enemy.StopAllCoroutines(); // Dừng các đòn chém dang dở
-                
+                enemy.enabled = false;
+                enemy.StopAllCoroutines();
+
                 Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
-                if (enemyRb != null) enemyRb.linearVelocity = Vector2.zero; // Dừng di chuyển
-                
+                if (enemyRb != null) enemyRb.linearVelocity = Vector2.zero;
+
                 Animator eAnim = enemy.GetComponentInChildren<Animator>();
-                if (eAnim != null) eAnim.speed = 0f; // Đóng băng hình ảnh quái
+                if (eAnim != null) eAnim.speed = 0f;
             }
         }
 
-        // 3. Gạt cần và Lia Camera
         leverAnimator?.SetTrigger("Pull");
 
-        // 2. Lia camera tới cánh cửa
-        CinemachineCamera cam = Object.FindFirstObjectByType<CinemachineCamera>();
+        CinemachineCamera cam = UnityEngine.Object.FindFirstObjectByType<CinemachineCamera>();
         Transform originalTarget = null;
-        
+
         if (cam != null && linkedDoor != null)
         {
             originalTarget = cam.Target.TrackingTarget;
             cam.Target.TrackingTarget = linkedDoor.transform;
-            
-            // Chờ camera di chuyển tới cửa
             yield return new WaitForSeconds(1f);
         }
 
-        // 3. Mở cửa và chờ animation mở cửa
         if (linkedDoor != null)
         {
             linkedDoor.OpenDoor();
-            yield return new WaitForSeconds(1.0f); // Thời gian mở cửa
+            yield return new WaitForSeconds(1.0f);
         }
 
-        // 4. Lia camera trở lại người chơi
         if (cam != null && originalTarget != null)
         {
             cam.Target.TrackingTarget = originalTarget;
-            yield return new WaitForSeconds(1f); // Chờ camera lia về
+            yield return new WaitForSeconds(1f);
         }
 
-        // 6. PHỤC HỒI LẠI TRẠNG THÁI GAME
         if (playerInput != null) playerInput.ActivateInput();
         if (pHealth != null) pHealth.SetInvulnerable(false);
 
@@ -101,17 +106,16 @@ public class InteractableLever : MonoBehaviour, IInteractable
         {
             if (enemy != null)
             {
-                enemy.enabled = true; // Bật lại AI
+                enemy.enabled = true;
                 Animator eAnim = enemy.GetComponentInChildren<Animator>();
-                if (eAnim != null) eAnim.speed = 1f; // Chạy lại animation
+                if (eAnim != null) eAnim.speed = 1f;
             }
         }
     }
 
     public void ShowPrompt(bool show)
     {
-        // Chỉ hiện nếu chưa bị gạt
         if (promptUI != null)
-            promptUI.SetVisible(show && !_isActivated);
+            promptUI.SetVisible(show && !IsActivated);
     }
 }

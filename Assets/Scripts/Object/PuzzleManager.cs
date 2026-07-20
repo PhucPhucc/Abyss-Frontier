@@ -3,8 +3,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Fusion;
 
-public class PuzzleManager : MonoBehaviour
+public class PuzzleManager : NetworkBehaviour
 {
     public static PuzzleManager Instance { get; private set; }
 
@@ -27,10 +28,6 @@ public class PuzzleManager : MonoBehaviour
         door = GameObject.FindGameObjectWithTag("Door");
     }
 
-    // ==========================================
-    // KHU VỰC TEST NHANH TRÊN INSPECTOR
-    // ==========================================
-
     [ContextMenu("Test: Giải ĐÚNG (Success)")]
     public void TestCorrectPuzzle()
     {
@@ -45,12 +42,10 @@ public class PuzzleManager : MonoBehaviour
         TriggerPuzzleFailure();
     }
 
-    // ==========================================
-    // LOGIC GAME CHÍNH
-    // ==========================================
-
     public void OnSwitchActivated(SwitchType type, PuzzleSwitch pressedSwitch)
     {
+        if (!Object.HasStateAuthority) return;
+
         if (currentInputSequence.Count >= correctSequence.Count) return;
 
         currentInputSequence.Add(type);
@@ -66,50 +61,36 @@ public class PuzzleManager : MonoBehaviour
     {
         bool isCorrect = currentInputSequence.SequenceEqual(correctSequence);
         if (isCorrect)
-        {
             TriggerPuzzleSuccess();
-        }
         else
-        {
             TriggerPuzzleFailure();
-        }
     }
 
-    // Hàm xử lý khi giải ĐÚNG (Tách ra để dùng chung cho cả Test lẫn Gameplay thực)
     private void TriggerPuzzleSuccess()
     {
         Debug.Log("<color=green>Giải đố thành công! Mở cửa phòng Boss!</color>");
-        
-        if (feedbackText != null) 
-            feedbackText.text = "Bingo! The door is open.";
-            
-        // Gọi hàm mở cửa tại đây
+
         if (door != null)
         {
             DoorController doorController = door.GetComponent<DoorController>();
             if (doorController != null)
-            {
                 doorController.OpenDoor();
-            }
             else
             {
-                Debug.LogWarning("[PuzzleManager] Không tìm thấy component DoorController trên GameObject tagged 'Door'. Đang tự động ẩn GameObject để giải phóng lối đi!");
+                Debug.LogWarning("[PuzzleManager] Không tìm thấy DoorController trên GameObject tagged 'Door'.");
                 door.SetActive(false);
             }
         }
+
+        RPC_BroadcastFeedback("Bingo! The door is open.");
     }
 
-    // Hàm xử lý khi giải SAI (Tách ra để dùng chung cho cả Test lẫn Gameplay thực)
     private void TriggerPuzzleFailure()
     {
         Debug.Log("<color=red>Sai mật mã! Chuẩn bị kích hoạt phạt spawn quái và reset.</color>");
-        
-        if (feedbackText != null) 
-            feedbackText.text = "Wrong! Enemies are approaching!";
 
         if (penaltySpawner != null)
         {
-            Debug.Log("[PuzzleManager] Đang gọi hàm SpawnEnemies() từ FixedPointsSpawner...");
             penaltySpawner.SpawnEnemies();
         }
         else
@@ -118,6 +99,15 @@ public class PuzzleManager : MonoBehaviour
         }
 
         ResetPuzzle();
+
+        RPC_BroadcastFeedback("Wrong! Enemies are approaching!");
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_BroadcastFeedback(string message)
+    {
+        if (feedbackText != null)
+            feedbackText.text = message;
     }
 
     private void ResetPuzzle()
