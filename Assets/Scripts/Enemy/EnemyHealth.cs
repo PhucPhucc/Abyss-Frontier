@@ -26,7 +26,9 @@ public class EnemyHealth : MonoBehaviour
     [Header("Respawn")]
     [Tooltip("If true, queue an inactive clone and revive it when the player rests at Base Camp. Bosses should leave this off.")]
     [SerializeField] private bool respawnOnDeath = true;
-    [Tooltip("Legacy field — hub-only respawn no longer uses a timed delay.")]
+    [Tooltip("If true, respawn inside the dungeon after Respawn Delay. Otherwise, revive when the player rests at Base Camp.")]
+    [SerializeField] private bool respawnInDungeonAfterDelay;
+    [Tooltip("Delay used only when dungeon timed respawn is enabled.")]
     [SerializeField, Min(0f)] private float respawnDelay = 5f;
     [SerializeField] private bool respawnAtInitialPosition = true;
 
@@ -275,6 +277,13 @@ public class EnemyHealth : MonoBehaviour
         PrepareRespawnClone(respawnClone);
         respawnClone.SetActive(false);
 
+        if (respawnInDungeonAfterDelay)
+        {
+            EnemyRespawnRunner.ScheduleTimedRespawn(respawnClone, respawnDelay);
+            Debug.Log($"[EnemyHealth] {name} will respawn in {respawnDelay:0.##} seconds.");
+            return;
+        }
+
         EnemyRespawnRunner.RegisterForHubRespawn(respawnClone);
         Debug.Log($"[EnemyHealth] {name} queued for hub respawn at Base Camp.");
     }
@@ -367,6 +376,26 @@ public sealed class EnemyRespawnRunner : MonoBehaviour
         }
 
         pendingHubRespawns.Clear();
+    }
+
+    public static void ScheduleTimedRespawn(GameObject enemyToRespawn, float delay)
+    {
+        if (enemyToRespawn == null)
+            return;
+
+        EnsureInstance();
+        instance.StartCoroutine(instance.RespawnAfterDelay(enemyToRespawn, Mathf.Max(0f, delay)));
+    }
+
+    private IEnumerator RespawnAfterDelay(GameObject enemyToRespawn, float delay)
+    {
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
+        else
+            yield return null;
+
+        if (enemyToRespawn != null)
+            enemyToRespawn.SetActive(true);
     }
 
     private static void EnsureInstance()
