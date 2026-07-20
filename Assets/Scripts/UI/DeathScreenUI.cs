@@ -1,9 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
 /// <summary>
-/// Màn hình thông báo khi Player chết. 
-/// Cần được gán sẵn vào Canvas và kéo tham chiếu LosePanel vào inspector.
+/// Màn hình thông báo khi Player chết.
+/// 
+/// Singleplayer:
+///   - Pause timeScale, chỉ người đang chơi thấy.
+///   - Again: respawn tại chỗ hoặc reload scene.
+///
+/// Multiplayer (1 người chết → TẤT CẢ cùng thua):
+///   - KHÔNG pause timeScale (Fusion cần chạy liên tục).
+///   - PlayerHealth.Died → RPC_NotifyPlayerDied → Host → RPC_ShowLose (All).
+///   - Again: restart toàn bộ session (giống Win/Again).
+///   - Close: ShutdownRunner rồi về menu.
 /// </summary>
 [DisallowMultipleComponent]
 public class DeathScreenUI : MonoBehaviour
@@ -14,23 +24,36 @@ public class DeathScreenUI : MonoBehaviour
     [SerializeField] private Vector2 respawnOffset = new Vector2(0f, 0.35f);
 
     private PlayerHealth playerHealth;
+    private bool isPaused = false;
 
+    // ── Static entry points ───────────────────────────────────────────────────
+
+    /// <summary>
+    /// Dùng cho Singleplayer — gọi từ PlayerHealth.DeathSequenceRoutine() cục bộ.
+    /// Trong Multiplayer, flow chạy qua RPC_ShowLose() → ShowMultiplayerLose().
+    /// </summary>
     public static void ShowDeath(PlayerHealth player)
     {
         if (player == null) return;
 
+        // Trong multiplayer, không dùng path này nữa — mọi thứ đi qua RPC.
+        // Giữ lại để singleplayer và fallback hoạt động.
+        if (GameSessionData.IsMultiplayer)
+            return;
+
         DeathScreenUI screen = FindFirstObjectByType<DeathScreenUI>(FindObjectsInactive.Include);
         if (screen != null)
-        {
-            screen.Show(player);
-        }
+            screen.ShowSingleplayer(player);
         else
-        {
-            Debug.LogError("Không tìm thấy DeathScreenUI trong Scene! Vui lòng đảm bảo bạn đã tạo GameObject và kéo script này vào.");
-        }
+            Debug.LogError("[DeathScreenUI] Không tìm thấy DeathScreenUI trong Scene!");
     }
 
-    public void Show(PlayerHealth player)
+    // ── Instance show methods ─────────────────────────────────────────────────
+
+    /// <summary>
+    /// Singleplayer: hiển thị màn hình thua và pause game.
+    /// </summary>
+    public void ShowSingleplayer(PlayerHealth player)
     {
         playerHealth = player;
 
@@ -38,45 +61,89 @@ public class DeathScreenUI : MonoBehaviour
             losePanel.SetActive(true);
 
         Time.timeScale = 0f;
+        isPaused = true;
     }
 
     /// <summary>
-    /// Gán hàm này vào sự kiện OnClick của nút "Again"
-    /// Respawn player tại SpawnPoint hoặc Base_Camp thay vì load lại scene,
-    /// tránh mất player do Fusion runner không re-spawn sau scene reload.
+    /// Multiplayer: được gọi từ RPC_ShowLose() trên tất cả client.
+    /// KHÔNG pause timeScale. Gán playerHealth cục bộ để UI có thể dùng nếu cần.
     /// </summary>
+    public void ShowMultiplayerLose(PlayerHealth localPlayer)
+    {
+        playerHealth = localPlayer;
+        isPaused = false;
+
+        if (losePanel != null)
+            losePanel.SetActive(true);
+    }
+
+    // ── Button: Again ─────────────────────────────────────────────────────────
+
     public void OnAgainClicked()
     {
-        Time.timeScale = 1f;
+        if (isPaused)
+        {
+            Time.timeScale = 1f;
+            isPaused = false;
+        }
 
         if (losePanel != null)
             losePanel.SetActive(false);
 
-        // Ưu tiên 1: hồi sinh tại Base_Camp nếu có trong scene
-        Base_Camp baseCamp = FindFirstObjectByType<Base_Camp>();
-        if (baseCamp != null)
+        if (GameSessionData.IsMultiplayer)
         {
-            RespawnPlayer((Vector2)baseCamp.transform.position + respawnOffset);
-            return;
+            // ── Multiplayer: restart toàn session (giống Win) ─────────────────
+            // Gửi RPC lên Host → Host relaunch → tất cả client kết nối lại.
+            NetworkPlayer localNetPlayer = FindLocalNetworkPlayer();
+            if (localNetPlayer != null)
+            {
+                localNetPlayer.RPC_RequestRestart();
+            }
+            else
+            {
+                // Fallback nếu không tìm được NetworkPlayer (Host tự restart)
+                string currentScene = SceneManager.GetActiveScene().name;
+                var launcher = FindFirstObjectByType<GameLauncher>();
+                if (launcher != null)
+                {
+                    launcher.ShutdownRunner();
+                    if (GameSessionData.IsHost)
+                        _ = launcher.LaunchAsHost(currentScene, GameSessionData.SessionName);
+                    else
+                        _ = launcher.LaunchAsClient(GameSessionData.SessionName);
+                }
+            }
         }
-
-        // Ưu tiên 2: hồi sinh tại SpawnPoint nếu có
-        if (playerHealth != null)
-        {
-            GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
-            Vector2 respawnPosition = spawnPoint != null
-                ? (Vector2)spawnPoint.transform.position + respawnOffset
-                : (Vector2)playerHealth.transform.position;
-            RespawnPlayer(respawnPosition);
-            return;
-        }
-
-        // Fallback: không tìm thấy player, đi qua GameLauncher để tránh mất spawn
-        var launcher = FindFirstObjectByType<GameLauncher>();
-        if (launcher != null)
-            _ = launcher.LaunchAsSingleplayer(SceneManager.GetActiveScene().name);
         else
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        {
+            // ── Singleplayer: respawn hoặc reload scene ───────────────────────
+
+            // Ưu tiên 1: hồi sinh tại Base_Camp nếu có trong scene
+            Base_Camp baseCamp = FindFirstObjectByType<Base_Camp>();
+            if (baseCamp != null)
+            {
+                RespawnPlayer((Vector2)baseCamp.transform.position + respawnOffset);
+                return;
+            }
+
+            // Ưu tiên 2: hồi sinh tại SpawnPoint nếu có
+            if (playerHealth != null)
+            {
+                GameObject spawnPoint = GameObject.FindGameObjectWithTag(spawnPointTag);
+                Vector2 respawnPosition = spawnPoint != null
+                    ? (Vector2)spawnPoint.transform.position + respawnOffset
+                    : (Vector2)playerHealth.transform.position;
+                RespawnPlayer(respawnPosition);
+                return;
+            }
+
+            // Fallback: không tìm thấy player, reload scene
+            var launcher = FindFirstObjectByType<GameLauncher>();
+            if (launcher != null)
+                _ = launcher.LaunchAsSingleplayer(SceneManager.GetActiveScene().name);
+            else
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void RespawnPlayer(Vector2 respawnPosition)
@@ -97,12 +164,35 @@ public class DeathScreenUI : MonoBehaviour
         playerHealth.Respawn();
     }
 
-    /// <summary>
-    /// Gán hàm này vào sự kiện OnClick của nút "Close"
-    /// </summary>
+    // ── Button: Close (về menu) ───────────────────────────────────────────────
+
     public void OnCloseClicked()
     {
-        Time.timeScale = 1f;
+        if (isPaused)
+        {
+            Time.timeScale = 1f;
+            isPaused = false;
+        }
+
+        if (GameSessionData.IsMultiplayer)
+        {
+            var launcher = FindFirstObjectByType<GameLauncher>();
+            launcher?.ShutdownRunner();
+        }
+
         SceneManager.LoadScene(menuSceneName);
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    private static NetworkPlayer FindLocalNetworkPlayer()
+    {
+        NetworkPlayer[] all = FindObjectsByType<NetworkPlayer>(FindObjectsSortMode.None);
+        foreach (var np in all)
+        {
+            if (np.Object != null && np.Object.HasInputAuthority)
+                return np;
+        }
+        return null;
     }
 }

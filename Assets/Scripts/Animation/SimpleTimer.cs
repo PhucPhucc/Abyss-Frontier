@@ -1,49 +1,100 @@
+using TMPro;
 using UnityEngine;
-using TMPro; // Thư viện dùng cho TextMeshPro
 
 public class SimpleTimer : MonoBehaviour
 {
-    [Header("Count down time (second)")]
-    public float maxTime = 300f;
+    [Header("Count down time (seconds)")]
+    [SerializeField] private float maxTime = 300f;
+
+    [Header("Countdown text")]
+    [SerializeField] private TextMeshProUGUI timeText;
+
     private float currentTime;
+    private bool hasExpired;
+    private PlayerHealth playerHealth;
 
-    [Header("CountdownText")]
-    public TextMeshProUGUI timeText;
-
-    void Start()
+    private void OnEnable()
     {
-        // Gán thời gian bắt đầu
-        currentTime = maxTime;
+        BindPlayer();
     }
 
-    void Update()
+    private void Start()
     {
-        if (currentTime > 0)
-        {
-            // Trừ dần thời gian thực
-            currentTime -= Time.deltaTime;
+        ResetTimer();
+    }
 
-            // Tính số phút và giây
-            int minutes = Mathf.FloorToInt(currentTime / 60);
-            int seconds = Mathf.FloorToInt(currentTime % 60);
+    private void Update()
+    {
+        BindPlayer();
 
-            // Cập nhật text hiển thị (định dạng 00:00)
-            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        }
-        else
-        {
-            // Ép về 0 khi hết giờ tránh hiển thị số âm
-            currentTime = 0;
-            timeText.text = "00:00";
+        if (hasExpired)
+            return;
 
-            // Gọi hàm xử lý hết giờ
+        currentTime = Mathf.Max(0f, currentTime - Time.deltaTime);
+        UpdateTimeDisplay();
+
+        if (currentTime <= 0f)
             TimeIsUp();
-        }
     }
 
-    void TimeIsUp()
+    private void OnDisable()
     {
-        Debug.Log("Hết giờ rồi!");
-        // Viết code xử lý game over hoặc đổi map ở đây
+        UnbindPlayer();
+    }
+
+    public void ResetTimer()
+    {
+        currentTime = Mathf.Max(0f, maxTime);
+        hasExpired = false;
+        UpdateTimeDisplay();
+    }
+
+    private void TimeIsUp()
+    {
+        currentTime = 0f;
+        UpdateTimeDisplay();
+
+        if (hasExpired)
+            return;
+
+        BindPlayer();
+        if (playerHealth == null)
+            return;
+
+        hasExpired = true;
+        Debug.Log("Timer expired. Triggering game over.");
+        playerHealth.TriggerGameOver();
+    }
+
+    private void BindPlayer()
+    {
+        PlayerHealth foundPlayer = FindFirstObjectByType<PlayerHealth>();
+        if (foundPlayer == playerHealth)
+            return;
+
+        UnbindPlayer();
+        playerHealth = foundPlayer;
+
+        if (playerHealth != null)
+            playerHealth.Respawned += ResetTimer;
+    }
+
+    private void UnbindPlayer()
+    {
+        if (playerHealth != null)
+            playerHealth.Respawned -= ResetTimer;
+
+        playerHealth = null;
+    }
+
+    private void UpdateTimeDisplay()
+    {
+        if (timeText == null)
+            return;
+
+        int totalSeconds = Mathf.CeilToInt(currentTime);
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        timeText.text = $"{minutes:00}:{seconds:00}";
     }
 }
