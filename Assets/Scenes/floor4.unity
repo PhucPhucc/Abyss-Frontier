@@ -127,6 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1305081307}
     m_Modifications:
+    - target: {fileID: 11410001, guid: e30c842ad7969494998585f6275f7914, type: 3}
+      propertyPath: SortKey
+      value: 3923887543
+      objectReference: {fileID: 0}
     - target: {fileID: 2205235732766913, guid: e30c842ad7969494998585f6275f7914, type: 3}
       propertyPath: m_Name
       value: Slime1
@@ -189,6 +193,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1305081307}
     m_Modifications:
+    - target: {fileID: 11410001, guid: 8a6620bc0e979cd49804f305d33192ec, type: 3}
+      propertyPath: SortKey
+      value: 565201926
+      objectReference: {fileID: 0}
     - target: {fileID: 4989799176808002008, guid: 8a6620bc0e979cd49804f305d33192ec, type: 3}
       propertyPath: m_Name
       value: Slime3 (1)
@@ -22041,6 +22049,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400003, guid: e207e145c13606d4c9684711f2d852b8, type: 3}
+      propertyPath: SortKey
+      value: 1833385667
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30306,6 +30318,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1305081307}
     m_Modifications:
+    - target: {fileID: 11410001, guid: 8a6620bc0e979cd49804f305d33192ec, type: 3}
+      propertyPath: SortKey
+      value: 61634236
+      objectReference: {fileID: 0}
     - target: {fileID: 4989799176808002008, guid: 8a6620bc0e979cd49804f305d33192ec, type: 3}
       propertyPath: m_Name
       value: Slime3
@@ -30411,6 +30427,10 @@ PrefabInstance:
     - target: {fileID: 8186949981835775168, guid: 49fa04eb014a8ff44b70ba1f5fe0977c, type: 3}
       propertyPath: m_Name
       value: Door2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8186949981835775168, guid: 49fa04eb014a8ff44b70ba1f5fe0977c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8186949981835775168, guid: 49fa04eb014a8ff44b70ba1f5fe0977c, type: 3}
       propertyPath: m_TagString
