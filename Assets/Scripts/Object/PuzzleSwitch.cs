@@ -1,12 +1,15 @@
 using UnityEngine;
+using Fusion;
 
 public enum SwitchType { Sun, Moon, Fire, Earth, Wind, Water }
 
 [RequireComponent(typeof(InteractableTrigger))]
-public class PuzzleSwitch : MonoBehaviour, IInteractable
+public class PuzzleSwitch : NetworkBehaviour, IInteractable
 {
     public SwitchType myType;
-    private bool isActivated = false;
+
+    [Networked] public bool IsActivated { get; set; }
+
     private Animator anim;
 
     private void Start()
@@ -14,19 +17,43 @@ public class PuzzleSwitch : MonoBehaviour, IInteractable
         anim = GetComponent<Animator>();
     }
 
+    public override void Spawned()
+    {
+        if (IsActivated && anim != null)
+            anim.SetBool("IsOn", true);
+    }
+
     public void Interact(GameObject interactor)
     {
-        // Nếu đã gạt rồi thì bỏ qua
-        if (isActivated) return;
+        if (IsActivated) return;
 
-        isActivated = true;
+        if (Object.HasStateAuthority)
+        {
+            ActivateSwitch();
+        }
+        else
+        {
+            RPC_RequestActivate();
+        }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_RequestActivate()
+    {
+        ActivateSwitch();
+    }
+
+    private void ActivateSwitch()
+    {
+        if (IsActivated) return;
+        IsActivated = true;
+
         if (anim != null)
         {
             Debug.Log("myType: " + myType);
-            anim.SetBool("IsOn", true); // Kích hoạt hoạt ảnh gạt xuống
+            anim.SetBool("IsOn", true);
         }
 
-        // Báo cho trọng tài biết nút này vừa được gạt
         if (PuzzleManager.Instance != null)
         {
             PuzzleManager.Instance.OnSwitchActivated(myType, this);
@@ -35,16 +62,19 @@ public class PuzzleSwitch : MonoBehaviour, IInteractable
 
     public void ShowPrompt(bool show)
     {
-        // Todo: Có thể gắn thêm UI hiển thị "[E] Gạt cần" ở đây giống như Torch
     }
 
-    // Hàm này để Manager gọi khi người chơi giải sai và cần gạt nảy lên lại
     public void ResetSwitch()
     {
-        isActivated = false;
+        if (!Object.HasStateAuthority) return;
+        IsActivated = false;
+        RPC_PlayResetAnimation();
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_PlayResetAnimation()
+    {
         if (anim != null)
-        {
-            anim.SetBool("IsOn", false); // Kích hoạt hoạt ảnh nảy lên
-        }
+            anim.SetBool("IsOn", false);
     }
 }
